@@ -12,8 +12,7 @@ internal class HyperVApi : IDisposable
     public void Dispose() => _powerShellInstance.Dispose();
 }
 
-[PsObjectMapper]
-public partial class GetVMResult
+public partial class GetVMResult : IPSObjectMapper
 {
     public string Name { get; set; } = string.Empty;
 }

@@ -10,10 +10,6 @@
     <PackageReference Include="Microsoft.PowerShell.SDK" Version="7.5.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference
-      Include="..\FluentHyperV.SourceGenerator\FluentHyperV.SourceGenerator.csproj"
-      OutputItemType="Analyzer"
-      ReferenceOutputAssembly="true"
-    />
+    <ProjectReference Include="..\FluentHyperV.SourceGenerator\FluentHyperV.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="False" />
   </ItemGroup>
 </Project>

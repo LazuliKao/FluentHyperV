@@ -1,4 +1,5 @@
-﻿using FluentHyperV.Powershell;
+﻿using FluentHyperV.Models;
+using FluentHyperV.Powershell;
 using Json.More;
 using Xunit.Abstractions;
 
@@ -10,11 +11,14 @@ public class PowershellTest(ITestOutputHelper testOutputHelper)
     public void TestInstance()
     {
         using var instance = new PowerShellInstance();
-        var result = instance.InvokeFunction("Get-Help");
+        var result = instance.InvokeFunction<HelpResult>(
+            "Get-Help",
+            onError: err =>
+            {
+                testOutputHelper.WriteLine(err.Message);
+            }
+        );
         Assert.NotNull(result);
-        foreach (var psPropertyInfo in result.Properties)
-        {
-            testOutputHelper.WriteLine(psPropertyInfo.Name);
-        }
+        testOutputHelper.WriteLine(result.ToJsonDocument().RootElement.ToJsonString());
     }
 }

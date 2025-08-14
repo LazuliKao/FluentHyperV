@@ -12,414 +12,259 @@ public class PsObjectMapperGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        // Find all classes marked with PSObjectMapperAttribute
-        var classDeclarations = context
-            .SyntaxProvider.CreateSyntaxProvider(
+        // 注册源输出
+        context.RegisterPostInitializationOutput(static context =>
+        {
+            context.AddSource("PSObject.g.cs", """
+                                               #nullable enable
+                                               using System.Management.Automation;
+
+                                               namespace FluentHyperV.SourceGenerator;
+
+                                               public interface IPSObjectMapper
+                                               {
+                                                   void LoadFrom(PSObject psObject, Action<Exception>? onError=null);
+                                               }
+                                               """);
+            context.AddSource("PsIgnoreAttribute.g.cs", """
+                                                          using System;
+
+                                                          namespace FluentHyperV.SourceGenerator;
+
+                                                          /// <summary>
+                                                          /// Attribute to mark properties that should be ignored during mapping
+                                                          /// </summary>
+                                                          [AttributeUsage(AttributeTargets.Property)]
+                                                          public class PsIgnoreAttribute : Attribute { }
+                                                          """);
+            context.AddSource("PsPropertyAttribute.g.cs", """
+                                                          using System;
+
+                                                          namespace FluentHyperV.SourceGenerator;
+
+                                                          /// <summary>
+                                                          /// Attribute to specify custom property name mapping
+                                                          /// </summary>
+                                                          [AttributeUsage(AttributeTargets.Property)]
+                                                          public class PsPropertyAttribute : Attribute
+                                                          {
+                                                              public string Name { get; }
+
+                                                              public PsPropertyAttribute(string name)
+                                                              {
+                                                                  Name = name;
+                                                              }
+                                                          }
+                                                          """);
+        });
+
+        // 创建增量提供器来查找实现 IPSObjectMapper 的类
+        var classDeclarations = context.SyntaxProvider
+            .CreateSyntaxProvider(
                 predicate: static (s, _) => IsSyntaxTargetForGeneration(s),
-                transform: static (ctx, _) => GetSemanticTargetForGeneration(ctx)
-            )
+                transform: static (ctx, _) => GetSemanticTargetForGeneration(ctx))
             .Where(static m => m is not null);
 
-        // Combine with compilation to get semantic information
-        var compilationAndClasses = context.CompilationProvider.Combine(
-            classDeclarations.Collect()
-        );
-
-        // Generate the source
-        context.RegisterSourceOutput(
-            compilationAndClasses,
-            static (spc, source) => Execute(source.Left, source.Right!, spc)
-        );
+        // 注册源输出生成器
+        context.RegisterSourceOutput(classDeclarations,
+            static (spc, source) => Execute(source!, spc));
     }
 
-    static bool IsSyntaxTargetForGeneration(SyntaxNode node)
+    private static bool IsSyntaxTargetForGeneration(SyntaxNode node)
     {
-        return node is ClassDeclarationSyntax { AttributeLists.Count: > 0 };
+        // 检查是否为类声明且实现了接口
+        return node is ClassDeclarationSyntax { BaseList.Types.Count: > 0 };
     }
 
-    static ClassDeclarationSyntax? GetSemanticTargetForGeneration(GeneratorSyntaxContext context)
+    private static ClassDeclarationSyntax? GetSemanticTargetForGeneration(GeneratorSyntaxContext context)
     {
-        var classDeclaration = (ClassDeclarationSyntax)context.Node;
+        var classDeclarationSyntax = (ClassDeclarationSyntax)context.Node;
 
-        // Check if the class has PSObjectMapperAttribute
-        foreach (var attributeListSyntax in classDeclaration.AttributeLists)
+        // 检查是否实现了 IPSObjectMapper 接口
+        foreach (var baseType in classDeclarationSyntax.BaseList?.Types ?? Enumerable.Empty<BaseTypeSyntax>())
         {
-            foreach (var attributeSyntax in attributeListSyntax.Attributes)
+            var typeInfo = context.SemanticModel.GetTypeInfo(baseType.Type);
+            if (typeInfo.Type?.Name == "IPSObjectMapper")
             {
-                if (
-                    context.SemanticModel.GetSymbolInfo(attributeSyntax).Symbol
-                    is IMethodSymbol attributeSymbol
-                )
-                {
-                    var attributeContainingTypeSymbol = attributeSymbol.ContainingType;
-                    var fullName = attributeContainingTypeSymbol.ToDisplayString();
-
-                    if (
-                        fullName
-                        == $"FluentHyperV.SourceGenerator.{nameof(PsObjectMapperAttribute)}"
-                    )
-                    {
-                        return classDeclaration;
-                    }
-                }
+                return classDeclarationSyntax;
             }
         }
 
         return null;
     }
 
-    static void Execute(
-        Compilation compilation,
-        ImmutableArray<ClassDeclarationSyntax> classes,
-        SourceProductionContext context
-    )
+    private static void Execute(ClassDeclarationSyntax classDeclaration, SourceProductionContext context)
     {
-        if (classes.IsDefaultOrEmpty)
-        {
+        if (classDeclaration is null)
             return;
-        }
 
-        var distinctClasses = classes.Distinct();
+        var namespaceName = GetNamespace(classDeclaration);
+        var className = classDeclaration.Identifier.ValueText;
 
-        foreach (var classDeclaration in distinctClasses)
-        {
-            var semanticModel = compilation.GetSemanticModel(classDeclaration.SyntaxTree);
-            var classSymbol = semanticModel.GetDeclaredSymbol(classDeclaration);
-
-            if (classSymbol is null)
-                continue;
-
-            var source = GenerateMapperMethods(classSymbol);
-            var fileName = $"{classSymbol.Name}.PSObjectMapper.g.cs";
-
-            context.AddSource(fileName, source);
-        }
-    }
-
-    static string GenerateMapperMethods(INamedTypeSymbol classSymbol)
-    {
-        var namespaceName = classSymbol.ContainingNamespace.IsGlobalNamespace
-            ? string.Empty
-            : classSymbol.ContainingNamespace.ToDisplayString();
-
-        var className = classSymbol.Name;
-
-        // Get attribute parameters
-        var mapperAttribute = classSymbol
-            .GetAttributes()
-            .FirstOrDefault(a =>
-                a.AttributeClass?.ToDisplayString()
-                == "FluentHyperV.SourceGenerator.PSObjectMapperAttribute"
-            );
-
-        var propertyPrefix =
-            GetAttributePropertyValue<string>(mapperAttribute, "PropertyPrefix") ?? "";
-        var ignoreCase = GetAttributePropertyValue<bool?>(mapperAttribute, "IgnoreCase") ?? true;
-        var stringComparison = ignoreCase
-            ? "StringComparison.OrdinalIgnoreCase"
-            : "StringComparison.Ordinal";
-
-        // Get all public properties
-        var properties = classSymbol
-            .GetMembers()
-            .OfType<IPropertySymbol>()
-            .Where(p => p.DeclaredAccessibility == Accessibility.Public && p.CanBeReferencedByName)
-            .Where(p => !HasIgnoreAttribute(p))
+        // 获取所有公共属性
+        var properties = classDeclaration.Members
+            .OfType<PropertyDeclarationSyntax>()
+            .Where(p => p.Modifiers.Any(SyntaxKind.PublicKeyword))
+            .Where(p => p.AccessorList?.Accessors.Any(a => a.IsKind(SyntaxKind.SetAccessorDeclaration)) == true)
             .ToList();
+
+        if (!properties.Any())
+            return;
 
         var sourceBuilder = new StringBuilder();
 
-        // File header
-        sourceBuilder.AppendLine("// <auto-generated/>");
+        // 添加 using 语句
         sourceBuilder.AppendLine("using System;");
         sourceBuilder.AppendLine("using System.Management.Automation;");
         sourceBuilder.AppendLine();
 
-        // Namespace
+        // 添加命名空间
         if (!string.IsNullOrEmpty(namespaceName))
         {
             sourceBuilder.AppendLine($"namespace {namespaceName}");
             sourceBuilder.AppendLine("{");
         }
 
-        // Class declaration
-        var indentLevel = string.IsNullOrEmpty(namespaceName) ? 0 : 1;
-        var indent = new string(' ', indentLevel * 4);
-
-        sourceBuilder.AppendLine($"{indent}public partial class {className}");
-        sourceBuilder.AppendLine($"{indent}{{");
-
-        // Generate FromPSObject static method
-        sourceBuilder.AppendLine($"{indent}    /// <summary>");
-        sourceBuilder.AppendLine(
-            $"{indent}    /// Creates a new instance of {className} from a PSObject"
-        );
-        sourceBuilder.AppendLine($"{indent}    /// </summary>");
-        sourceBuilder.AppendLine(
-            $"{indent}    /// <param name=\"psObject\">The PSObject to map from</param>"
-        );
-        sourceBuilder.AppendLine(
-            $"{indent}    /// <returns>A new instance of {className}</returns>"
-        );
-        sourceBuilder.AppendLine(
-            $"{indent}    public static {className} FromPSObject(PSObject psObject)"
-        );
-        sourceBuilder.AppendLine($"{indent}    {{");
-        sourceBuilder.AppendLine($"{indent}        if (psObject == null)");
-        sourceBuilder.AppendLine(
-            $"{indent}            throw new ArgumentNullException(nameof(psObject));"
-        );
-        sourceBuilder.AppendLine();
-        sourceBuilder.AppendLine($"{indent}        var result = new {className}();");
-        sourceBuilder.AppendLine($"{indent}        result.MapFromPSObject(psObject);");
-        sourceBuilder.AppendLine($"{indent}        return result;");
-        sourceBuilder.AppendLine($"{indent}    }}");
+        // 生成部分类
+        sourceBuilder.AppendLine($"    public partial class {className}");
+        sourceBuilder.AppendLine("    {");
+        sourceBuilder.AppendLine("        public void LoadFrom(PSObject psObject, Action<Exception?>? onError = null)");
+        sourceBuilder.AppendLine("        {");
+        sourceBuilder.AppendLine("            if (psObject == null)");
+        sourceBuilder.AppendLine("                return;");
         sourceBuilder.AppendLine();
 
-        // Generate MapFromPSObject instance method
-        sourceBuilder.AppendLine($"{indent}    /// <summary>");
-        sourceBuilder.AppendLine(
-            $"{indent}    /// Maps properties from a PSObject to this instance"
-        );
-        sourceBuilder.AppendLine($"{indent}    /// </summary>");
-        sourceBuilder.AppendLine(
-            $"{indent}    /// <param name=\"psObject\">The PSObject to map from</param>"
-        );
-        sourceBuilder.AppendLine($"{indent}    public void MapFromPSObject(PSObject psObject)");
-        sourceBuilder.AppendLine($"{indent}    {{");
-        sourceBuilder.AppendLine($"{indent}        if (psObject == null)");
-        sourceBuilder.AppendLine(
-            $"{indent}            throw new ArgumentNullException(nameof(psObject));"
-        );
-        sourceBuilder.AppendLine();
-
-        // Generate property mappings
+        // 为每个属性生成映射代码
         foreach (var property in properties)
         {
-            var propertyName = GetMappedPropertyName(property, propertyPrefix);
-            var targetPropertyName = property.Name;
+            var propertyName = property.Identifier.ValueText;
+            var propertyType = property.Type.ToString();
 
-            sourceBuilder.AppendLine(
-                $"{indent}        // Map {propertyName} -> {targetPropertyName}"
-            );
-            sourceBuilder.AppendLine(
-                $"{indent}        if (psObject.Properties[\"{propertyName}\"] != null)"
-            );
-            sourceBuilder.AppendLine($"{indent}        {{");
-            sourceBuilder.AppendLine(
-                $"{indent}            var value = psObject.Properties[\"{propertyName}\"].Value;"
-            );
-            sourceBuilder.AppendLine($"{indent}            if (value != null)");
-            sourceBuilder.AppendLine($"{indent}            {{");
+            // 检查是否有 PsIgnore 特性
+            if (HasPsIgnoreAttribute(property))
+                continue;
 
-            GeneratePropertyMapping(sourceBuilder, property, indent + "                ");
+            // 获取 PSObject 属性名（可能通过 PsProperty 特性自定义）
+            var psPropertyName = GetPsPropertyName(property);
 
-            sourceBuilder.AppendLine($"{indent}            }}");
-            sourceBuilder.AppendLine($"{indent}        }}");
+            sourceBuilder.AppendLine($"            // 映射属性: {propertyName}");
+            sourceBuilder.AppendLine($"            if (psObject.Properties[\"{psPropertyName}\"] != null)");
+            sourceBuilder.AppendLine("            {");
+            sourceBuilder.AppendLine($"                try");
+            sourceBuilder.AppendLine("                {");
+            sourceBuilder.AppendLine(
+                $"                    var value = psObject.Properties[\"{psPropertyName}\"].Value;");
+            sourceBuilder.AppendLine($"                    if (value != null)");
+            sourceBuilder.AppendLine("                    {");
+
+            // 根据属性类型生成不同的转换代码
+            GeneratePropertyAssignment(sourceBuilder, propertyName, propertyType);
+
+            sourceBuilder.AppendLine("                    }");
+            sourceBuilder.AppendLine($"                }}");
+            sourceBuilder.AppendLine($"                catch (Exception ex)");
+            sourceBuilder.AppendLine("                {");
+            sourceBuilder.AppendLine("                    onError?.Invoke(ex);");
+            sourceBuilder.AppendLine("                }");
+            sourceBuilder.AppendLine("            }");
             sourceBuilder.AppendLine();
         }
 
-        sourceBuilder.AppendLine($"{indent}    }}");
+        sourceBuilder.AppendLine("        }");
+        sourceBuilder.AppendLine("    }");
 
-        // Close class
-        sourceBuilder.AppendLine($"{indent}}}");
-
-        // Close namespace
         if (!string.IsNullOrEmpty(namespaceName))
         {
             sourceBuilder.AppendLine("}");
         }
 
-        return sourceBuilder.ToString();
+        context.AddSource($"{className}.LoadFrom.g.cs", sourceBuilder.ToString());
     }
 
-    static void GeneratePropertyMapping(
-        StringBuilder sourceBuilder,
-        IPropertySymbol property,
-        string indent
-    )
+    private static string GetNamespace(ClassDeclarationSyntax classDeclaration)
     {
-        var typeName = property.Type.ToDisplayString();
-        var propertyName = property.Name;
+        var namespaceSyntax = classDeclaration.Ancestors().OfType<NamespaceDeclarationSyntax>().FirstOrDefault();
+        if (namespaceSyntax != null)
+            return namespaceSyntax.Name.ToString();
 
-        // Handle different types
-        if (property.Type.SpecialType == SpecialType.System_String)
-        {
-            sourceBuilder.AppendLine($"{indent}this.{propertyName} = value.ToString();");
-        }
-        else if (property.Type.SpecialType == SpecialType.System_Int32)
-        {
-            sourceBuilder.AppendLine(
-                $"{indent}if (int.TryParse(value.ToString(), out var intValue))"
-            );
-            sourceBuilder.AppendLine($"{indent}    this.{propertyName} = intValue;");
-        }
-        else if (property.Type.SpecialType == SpecialType.System_Int64)
-        {
-            sourceBuilder.AppendLine(
-                $"{indent}if (long.TryParse(value.ToString(), out var longValue))"
-            );
-            sourceBuilder.AppendLine($"{indent}    this.{propertyName} = longValue;");
-        }
-        else if (property.Type.SpecialType == SpecialType.System_Boolean)
-        {
-            sourceBuilder.AppendLine(
-                $"{indent}if (bool.TryParse(value.ToString(), out var boolValue))"
-            );
-            sourceBuilder.AppendLine($"{indent}    this.{propertyName} = boolValue;");
-        }
-        else if (property.Type.SpecialType == SpecialType.System_DateTime)
-        {
-            sourceBuilder.AppendLine(
-                $"{indent}if (DateTime.TryParse(value.ToString(), out var dateTimeValue))"
-            );
-            sourceBuilder.AppendLine($"{indent}    this.{propertyName} = dateTimeValue;");
-        }
-        else if (property.Type.SpecialType == SpecialType.System_Double)
-        {
-            sourceBuilder.AppendLine(
-                $"{indent}if (double.TryParse(value.ToString(), out var doubleValue))"
-            );
-            sourceBuilder.AppendLine($"{indent}    this.{propertyName} = doubleValue;");
-        }
-        else if (property.Type.SpecialType == SpecialType.System_Single)
-        {
-            sourceBuilder.AppendLine(
-                $"{indent}if (float.TryParse(value.ToString(), out var floatValue))"
-            );
-            sourceBuilder.AppendLine($"{indent}    this.{propertyName} = floatValue;");
-        }
-        else if (IsNullableType(property.Type, out var underlyingType))
-        {
-            // Handle nullable types
-            GenerateNullableMapping(sourceBuilder, underlyingType, propertyName, indent);
-        }
-        else
-        {
-            // For other types, try direct assignment with casting
-            sourceBuilder.AppendLine($"{indent}try");
-            sourceBuilder.AppendLine($"{indent}{{");
-            sourceBuilder.AppendLine($"{indent}    this.{propertyName} = ({typeName})value;");
-            sourceBuilder.AppendLine($"{indent}}}");
-            sourceBuilder.AppendLine($"{indent}catch");
-            sourceBuilder.AppendLine($"{indent}{{");
-            sourceBuilder.AppendLine($"{indent}    // Type conversion failed, skip this property");
-            sourceBuilder.AppendLine($"{indent}}}");
-        }
+        var fileScopedNamespace =
+            classDeclaration.Ancestors().OfType<FileScopedNamespaceDeclarationSyntax>().FirstOrDefault();
+        return fileScopedNamespace?.Name.ToString() ?? "";
     }
 
-    static void GenerateNullableMapping(
-        StringBuilder sourceBuilder,
-        ITypeSymbol underlyingType,
-        string propertyName,
-        string indent
-    )
+    private static bool HasPsIgnoreAttribute(PropertyDeclarationSyntax property)
     {
-        if (underlyingType.SpecialType == SpecialType.System_Int32)
-        {
-            sourceBuilder.AppendLine(
-                $"{indent}if (int.TryParse(value.ToString(), out var intValue))"
-            );
-            sourceBuilder.AppendLine($"{indent}    this.{propertyName} = intValue;");
-        }
-        else if (underlyingType.SpecialType == SpecialType.System_Int64)
-        {
-            sourceBuilder.AppendLine(
-                $"{indent}if (long.TryParse(value.ToString(), out var longValue))"
-            );
-            sourceBuilder.AppendLine($"{indent}    this.{propertyName} = longValue;");
-        }
-        else if (underlyingType.SpecialType == SpecialType.System_Boolean)
-        {
-            sourceBuilder.AppendLine(
-                $"{indent}if (bool.TryParse(value.ToString(), out var boolValue))"
-            );
-            sourceBuilder.AppendLine($"{indent}    this.{propertyName} = boolValue;");
-        }
-        else if (underlyingType.SpecialType == SpecialType.System_DateTime)
-        {
-            sourceBuilder.AppendLine(
-                $"{indent}if (DateTime.TryParse(value.ToString(), out var dateTimeValue))"
-            );
-            sourceBuilder.AppendLine($"{indent}    this.{propertyName} = dateTimeValue;");
-        }
-        else if (underlyingType.SpecialType == SpecialType.System_Double)
-        {
-            sourceBuilder.AppendLine(
-                $"{indent}if (double.TryParse(value.ToString(), out var doubleValue))"
-            );
-            sourceBuilder.AppendLine($"{indent}    this.{propertyName} = doubleValue;");
-        }
-        else
-        {
-            var typeName = underlyingType.ToDisplayString();
-            sourceBuilder.AppendLine($"{indent}try");
-            sourceBuilder.AppendLine($"{indent}{{");
-            sourceBuilder.AppendLine($"{indent}    this.{propertyName} = ({typeName})value;");
-            sourceBuilder.AppendLine($"{indent}}}");
-            sourceBuilder.AppendLine($"{indent}catch");
-            sourceBuilder.AppendLine($"{indent}{{");
-            sourceBuilder.AppendLine($"{indent}    this.{propertyName} = null;");
-            sourceBuilder.AppendLine($"{indent}}}");
-        }
+        return property.AttributeLists
+            .SelectMany(al => al.Attributes)
+            .Any(attr => attr.Name.ToString().Contains("PsIgnore"));
     }
 
-    static bool IsNullableType(ITypeSymbol type, out ITypeSymbol underlyingType)
+    private static string GetPsPropertyName(PropertyDeclarationSyntax property)
     {
-        if (
-            type is INamedTypeSymbol namedType
-            && namedType.IsGenericType
-            && namedType.ConstructedFrom.SpecialType == SpecialType.System_Nullable_T
-        )
+        var psPropertyAttr = property.AttributeLists
+            .SelectMany(al => al.Attributes)
+            .FirstOrDefault(attr => attr.Name.ToString().Contains("PsProperty"));
+
+        if (psPropertyAttr?.ArgumentList?.Arguments.Count > 0)
         {
-            underlyingType = namedType.TypeArguments[0];
-            return true;
+            var firstArg = psPropertyAttr.ArgumentList.Arguments[0];
+            if (firstArg.Expression is LiteralExpressionSyntax literal)
+            {
+                return literal.Token.ValueText;
+            }
         }
 
-        underlyingType = type;
-        return false;
+        return property.Identifier.ValueText;
     }
 
-    static bool HasIgnoreAttribute(IPropertySymbol property)
+    private static void GeneratePropertyAssignment(StringBuilder sourceBuilder, string propertyName,
+        string propertyType)
     {
-        return property
-            .GetAttributes()
-            .Any(a =>
-                a.AttributeClass?.ToDisplayString()
-                == "FluentHyperV.SourceGenerator.PSIgnoreAttribute"
-            );
-    }
-
-    static string GetMappedPropertyName(IPropertySymbol property, string prefix)
-    {
-        // Check for PSPropertyAttribute
-        var psPropertyAttribute = property
-            .GetAttributes()
-            .FirstOrDefault(a =>
-                a.AttributeClass?.ToDisplayString()
-                == "FluentHyperV.SourceGenerator.PSPropertyAttribute"
-            );
-
-        if (psPropertyAttribute?.ConstructorArguments.Length > 0)
+        // 处理不同的数据类型
+        switch (propertyType.ToLower())
         {
-            var name = psPropertyAttribute.ConstructorArguments[0].Value?.ToString();
-            if (!string.IsNullOrEmpty(name))
-                return name;
+            case "string":
+                sourceBuilder.AppendLine($"                        {propertyName} = value.ToString();");
+                break;
+            case "int":
+            case "int32":
+                sourceBuilder.AppendLine($"                        {propertyName} = Convert.ToInt32(value);");
+                break;
+            case "long":
+            case "int64":
+                sourceBuilder.AppendLine($"                        {propertyName} = Convert.ToInt64(value);");
+                break;
+            case "double":
+                sourceBuilder.AppendLine($"                        {propertyName} = Convert.ToDouble(value);");
+                break;
+            case "float":
+                sourceBuilder.AppendLine($"                        {propertyName} = Convert.ToSingle(value);");
+                break;
+            case "bool":
+            case "boolean":
+                sourceBuilder.AppendLine($"                        {propertyName} = Convert.ToBoolean(value);");
+                break;
+            case "datetime":
+                sourceBuilder.AppendLine($"                        {propertyName} = Convert.ToDateTime(value);");
+                break;
+            case "guid":
+                sourceBuilder.AppendLine($"                        {propertyName} = Guid.Parse(value.ToString());");
+                break;
+            default:
+                // 对于可空类型和其他类型
+                if (propertyType.EndsWith("?"))
+                {
+                    var baseType = propertyType.TrimEnd('?');
+                    sourceBuilder.AppendLine(
+                        $"                        {propertyName} = ({propertyType})Convert.ChangeType(value, typeof({baseType}));");
+                }
+                else
+                {
+                    sourceBuilder.AppendLine(
+                        $"                        {propertyName} = ({propertyType})Convert.ChangeType(value, typeof({propertyType}));");
+                }
+
+                break;
         }
-
-        return prefix + property.Name;
-    }
-
-    static T? GetAttributePropertyValue<T>(AttributeData? attribute, string propertyName)
-    {
-        if (attribute == null)
-            return default;
-
-        var namedArg = attribute.NamedArguments.FirstOrDefault(kvp => kvp.Key == propertyName);
-
-        if (namedArg.Value.Value is T value)
-            return value;
-
-        return default;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Text.Json;
+using FluentHyperV.SourceGenerator;
 
 namespace FluentHyperV.Powershell;
 
@@ -31,10 +32,19 @@ public class PowerShellInstance : IDisposable
         _powerShell.Invoke();
     }
 
-    public T? InvokeFunction<T>(string name, Dictionary<string, object>? parameters = null)
+    public T? InvokeFunction<T>(
+        string name,
+        Dictionary<string, object>? parameters = null,
+        Action<Exception>? onError = null
+    )
+        where T : IPSObjectMapper, new()
     {
-        var result = InvokeFunctionToJson(name, parameters);
-        return result == null ? default : result.Deserialize<T>();
+        var result = InvokeFunction(name, parameters);
+        if (result is null)
+            return default;
+        var model = new T();
+        model.LoadFrom(result, onError);
+        return model;
     }
 
     public JsonDocument? InvokeFunctionToJson(
