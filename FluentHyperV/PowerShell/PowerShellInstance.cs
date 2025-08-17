@@ -3,33 +3,33 @@ using System.Management.Automation.Runspaces;
 using System.Text.Json;
 using FluentHyperV.SourceGenerator;
 
-namespace FluentHyperV.Powershell;
+namespace FluentHyperV.PowerShell;
 
-public class PowerShellInstance : IDisposable
+public class PowerShellInstance
 {
-    private readonly System.Management.Automation.PowerShell _powerShell;
+    private readonly Func<System.Management.Automation.PowerShell> _powerShell;
 
     public PowerShellInstance(string? setupScript = null)
     {
         var runspace = RunspaceFactory.CreateRunspace();
         runspace.Open();
         Runspace.DefaultRunspace = runspace;
-        _powerShell = System.Management.Automation.PowerShell.Create();
-        if (setupScript is not null)
+        _powerShell = () =>
         {
-            _powerShell.AddScript(setupScript);
-            _powerShell.Invoke();
-        }
+            var ps = System.Management.Automation.PowerShell.Create();
+            if (setupScript is not null)
+                ps.AddScript(setupScript);
+            return ps;
+        };
     }
-
-    public void Dispose() => _powerShell?.Dispose();
 
     #region PowerShell Execution
 
     public void ExecuteScript(string script)
     {
-        _powerShell.AddScript(script);
-        _powerShell.Invoke();
+        using var ps = _powerShell();
+        ps.AddScript(script);
+        ps.Invoke();
     }
 
     public T? InvokeFunction<T>(
@@ -47,27 +47,72 @@ public class PowerShellInstance : IDisposable
         return model;
     }
 
-    public JsonDocument? InvokeFunctionToJson(
+    public PSObject? InvokeFunction(string name, Dictionary<string, object>? parameters = null)
+    {
+        using var ps = _powerShell();
+        ps.AddCommand(name);
+        if (parameters is not null)
+            ps.AddParameters(parameters);
+        var results = ps.Invoke();
+        if (ps.HadErrors)
+        {
+            var error = ps.Streams.Error[0];
+            throw new InvalidOperationException(
+                $"Error invoking PowerShell command '{name}': {error}"
+            );
+        }
+
+        if (results.Count > 0)
+            return results[0];
+        return null;
+    }
+
+    public T? InvokeFunctionJson<T>(string name, Dictionary<string, object>? parameters = null)
+        where T : new()
+    {
+        var jsonDoc = InvokeFunctionJson(name, parameters);
+        if (jsonDoc is null)
+            return default;
+        return jsonDoc.Deserialize<T>();
+    }
+
+    public JsonDocument? InvokeFunctionJson(
         string name,
         Dictionary<string, object>? parameters = null
     )
     {
-        var result = InvokeFunction(name, parameters);
-        if (result == null)
-            return null;
-
-        throw new NotImplementedException();
-    }
-
-    public PSObject? InvokeFunction(string name, Dictionary<string, object>? parameters = null)
-    {
-        _powerShell.AddCommand(name);
+        using var ps = _powerShell();
+        ps.AddCommand(name);
         if (parameters is not null)
-            _powerShell.AddParameters(parameters);
-        var results = _powerShell.Invoke();
-        if (results.Count > 0)
-            return results[0];
-        return null;
+            ps.AddParameters(parameters);
+        ps.AddCommand("ConvertTo-Json");
+        ps.AddParameter("Depth", 10);
+        ps.AddParameter("Compress", true);
+        var results = ps.Invoke();
+        if (ps.HadErrors)
+        {
+            var error = ps.Streams.Error[0];
+            throw new InvalidOperationException(
+                $"Error invoking PowerShell command '{name}': {error}"
+            );
+        }
+
+        if (results.Count == 0)
+            return null;
+        var jsonString = results[0].ToString();
+        if (string.IsNullOrEmpty(jsonString))
+            return null;
+        try
+        {
+            return JsonDocument.Parse(jsonString);
+        }
+        catch (JsonException ex)
+        {
+            throw new InvalidOperationException(
+                $"Error parsing JSON from PowerShell command '{name}': {ex.Message}",
+                ex
+            );
+        }
     }
 
     #endregion

@@ -1,18 +1,16 @@
-﻿using FluentHyperV.Powershell;
+﻿using FluentHyperV.PowerShell;
 using FluentHyperV.SourceGenerator;
 
 namespace FluentHyperV.HyperV;
 
-internal class HyperVApi : IDisposable
+internal class HyperVApi
 {
-    private readonly PowerShellInstance _powerShellInstance = new("Import-Module Hyper-V");
+    private readonly Lazy<HyperVInstance> _powerShellInstance = new(() => new HyperVInstance());
 
-    public PowerShellInstance PowerShellInstance => _powerShellInstance;
-
-    public void Dispose() => _powerShellInstance.Dispose();
+    public HyperVInstance PowerShellInstance => _powerShellInstance.Value;
 }
-
-public partial class GetVMResult : IPSObjectMapper
-{
-    public string Name { get; set; } = string.Empty;
-}
+//
+// public partial class GetVMResult : IPSObjectMapper
+// {
+//     public string Name { get; set; } = string.Empty;
+// }

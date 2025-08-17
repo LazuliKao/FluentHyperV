@@ -1,5 +1,5 @@
-﻿using FluentHyperV.Powershell;
+﻿using FluentHyperV.PowerShell;
 
 namespace FluentHyperV.PowerShell;
 
-internal class HyperVInstance() : PowerShellInstance("Import-Module Hyper-V");
+public class HyperVInstance() : PowerShellInstance("Import-Module Hyper-V");
