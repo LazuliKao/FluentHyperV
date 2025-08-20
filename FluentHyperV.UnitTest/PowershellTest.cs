@@ -1,4 +1,5 @@
 ﻿using System.Management.Automation;
+using System.Text.Json.Serialization;
 using FluentHyperV.Models;
 using FluentHyperV.PowerShell;
 using Json.More;
@@ -34,10 +35,47 @@ public class PowershellTest(ITestOutputHelper testOutputHelper)
     }
 
     [Fact]
+    public void TestInstanceGetVM()
+    {
+        using var instance = new PowerShellInstance();
+        var resultRaw = instance.InvokeFunction("Get-VM", new());
+        foreach (var obj in resultRaw)
+        {
+            dynamic result = obj;
+            testOutputHelper.WriteLine(result.Name);
+        }
+    }
+
+    [Fact]
+    public void TestInstanceGetVMClass()
+    {
+        using var instance = new HyperVInstance();
+        var resultRaw = instance.InvokeFunction<Microsoft.HyperV.PowerShell.VirtualMachine>(
+            "Get-VM",
+            new()
+        );
+        foreach (var obj in resultRaw)
+        {
+            testOutputHelper.WriteLine(
+                obj.ToJsonDocument(new() { ReferenceHandler = ReferenceHandler.IgnoreCycles })
+                    .RootElement.ToJsonString()
+            );
+        }
+    }
+
+    [Fact]
+    public void TestInstanceGetVMJson()
+    {
+        using var instance = new PowerShellInstance();
+        var resultRaw = instance.InvokeFunctionJson("Get-VM", new(), 1);
+        testOutputHelper.WriteLine(resultRaw?.RootElement.ToJsonString());
+    }
+
+    [Fact]
     public void TestInstance()
     {
-        var instance = new PowerShellInstance();
-        var resultRaw = instance.InvokeFunction("Get-Help", new() { ["Name"] = "Get-Process" });
+        using var instance = new PowerShellInstance();
+        var resultRaw = instance.InvokeFunction("Get-Help", new() { ["Name"] = "Get-Process" })[0];
         var parameters = (PSObject)
             extractProperty(resultRaw, "returnValues").Properties["returnValue"].Value;
         // testOutputHelper.WriteLine(parameters.Members);

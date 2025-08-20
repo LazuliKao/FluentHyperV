@@ -2,6 +2,7 @@
 #r "nuget: System.Text.Json"
 #r "nuget: CSharpier.Core"
 
+open System
 open System.Collections.Generic
 open System.IO
 open System.Linq
@@ -76,6 +77,61 @@ type ArrayOrSingleConverter<'T>() =
     override this.Write(writer: Utf8JsonWriter, value: 'T array, options: JsonSerializerOptions) =
         JsonSerializer.Serialize(writer, value, options)
 
+type ArrayOrSingleConverterOption<'T>() =
+    inherit JsonConverter<'T array option>()
+
+    override this.Read(reader: byref<Utf8JsonReader>, typeToConvert: System.Type, options: JsonSerializerOptions) =
+        // Create options without this converter to avoid infinite recursion
+        let safeOptions = createSafeOptions<ArrayOrSingleConverter<_>> (options)
+
+        match reader.TokenType with
+        | JsonTokenType.String ->
+            // PowerShell ConvertTo-Json returns "" for empty arrays
+            let stringValue = reader.GetString()
+
+            if System.String.IsNullOrEmpty(stringValue) then
+                Some [||] // Return empty array for empty string
+            else
+                // Try to parse as single item if it's a valid string value
+                try
+                    let singleItem = JsonSerializer.Deserialize<'T>(stringValue, safeOptions)
+                    Some [| singleItem |]
+                with _ ->
+                    Some [||] // If parsing fails, return empty array
+        | JsonTokenType.StartArray ->
+            // Normal array case
+            Some(JsonSerializer.Deserialize<'T array>(&reader, safeOptions))
+        | JsonTokenType.StartObject ->
+            // Single object case - wrap in array
+            let singleItem = JsonSerializer.Deserialize<'T>(&reader, safeOptions)
+            Some [| singleItem |]
+        | JsonTokenType.Null ->
+            // Handle explicit null
+            Some [||]
+        | _ ->
+            // Handle other cases (like numbers, booleans, etc.)
+            Some [||]
+
+    override this.Write(writer: Utf8JsonWriter, value: 'T array option, options: JsonSerializerOptions) =
+        JsonSerializer.Serialize(writer, value, options)
+
+type StringBooleanConverter() =
+    inherit JsonConverter<bool>()
+
+    override this.Read(reader: byref<Utf8JsonReader>, typeToConvert: System.Type, options: JsonSerializerOptions) =
+        match reader.TokenType with
+        | JsonTokenType.String ->
+            let strValue = reader.GetString()
+
+            match strValue with
+            | "true" -> true
+            | "false" -> false
+            | _ -> failwithf "Invalid boolean string value: %s" strValue
+        | _ -> failwith "Expected a string token for boolean conversion"
+
+    override this.Write(writer: Utf8JsonWriter, value: bool, options: JsonSerializerOptions) =
+        writer.WriteStringValue(if value then "true" else "false")
+
 let eval (cmd: string) (parameters: IDictionary<string, obj>) (depth: int option) =
     use ps = System.Management.Automation.PowerShell.Create()
     ps.AddCommand cmd |> ignore
@@ -117,10 +173,11 @@ type Examples =
       example: Example array }
 
 type Parameter =
-    { [<JsonConverter(typeof<ArrayOrSingleConverter<Description>>)>]
-      description: Description array
+    { [<JsonConverter(typeof<ArrayOrSingleConverterOption<Description>>)>]
+      description: Description array option
       parameterValue: string
       name: string
+      [<JsonConverter(typeof<StringBooleanConverter>)>]
       required: bool
       variableLength: string
       globbing: string
@@ -168,24 +225,24 @@ type InputTypes =
       inputType: InputType array }
 
 type GetHelpResult =
-    { [<JsonConverter(typeof<ArrayOrSingleConverter<Description>>)>]
-      description: Description array
+    { [<JsonConverter(typeof<ArrayOrSingleConverterOption<Description>>)>]
+      description: Description array option
       [<JsonConverter(typeof<ObjectOrEmptyConverter<Details>>)>]
       details: Details
       [<JsonConverter(typeof<ObjectOrEmptyConverter<InputTypes>>)>]
       inputTypes: InputTypes
-      [<JsonConverter(typeof<ObjectOrEmptyConverter<Parameters>>)>]
-      parameters: Parameters
+      [<JsonConverter(typeof<ObjectOrEmptyConverter<Parameters option>>)>]
+      parameters: Parameters option
       [<JsonConverter(typeof<ObjectOrEmptyConverter<AlertSet>>)>]
       alertSet: AlertSet
       [<JsonConverter(typeof<ObjectOrEmptyConverter<Examples>>)>]
       examples: Examples
       [<JsonConverter(typeof<ObjectOrEmptyConverter<Syntax>>)>]
       syntax: Syntax
-      [<JsonConverter(typeof<ObjectOrEmptyConverter<ReturnValues>>)>]
-      returnValues: ReturnValues
-      [<JsonConverter(typeof<ObjectOrEmptyConverter<RelatedLinks>>)>]
-      relatedLinks: RelatedLinks
+      [<JsonConverter(typeof<ObjectOrEmptyConverter<ReturnValues option>>)>]
+      returnValues: ReturnValues option
+      [<JsonConverter(typeof<ObjectOrEmptyConverter<RelatedLinks option>>)>]
+      relatedLinks: RelatedLinks option
       Name: string
       Category: string
       Synopsis: string
@@ -216,14 +273,20 @@ let commandData =
         printfn "Loading cached commands from %s" cacheFile
         File.ReadAllText(cacheFile) |> JsonSerializer.Deserialize<GetHelpResult list>
     else
+        let allCommandNames =
+            commands.RootElement.EnumerateArray()
+            |> Seq.map _.GetProperty("Name").GetString()
+            |> Seq.toList
+            |> Seq.distinct
+
         let data =
-            [ for cmd in commands.RootElement.EnumerateArray() do
-                  let name = cmd.GetProperty("Name").GetString()
+            [ for name in allCommandNames do
                   let detailObject = eval "Get-Help" (dict [ ("Name", name) ]) (Some(99))
                   printfn "%s" (detailObject.RootElement.ToJsonString())
                   detailObject |> _.Deserialize<GetHelpResult>() ]
+            |> List.distinctBy _.Name
 
-        File.WriteAllText(cacheFile, JsonSerializer.Serialize(data))
+        File.WriteAllText(cacheFile, JsonSerializer.Serialize(data, JsonSerializerOptions(WriteIndented = true)))
         data
 
 let data = StringBuilder()
@@ -233,36 +296,133 @@ let (!+) (s: string) = data.AppendLine(s) |> ignore
 for cmd in commandData do
     printfn "Command: %s" cmd.Name
     printfn "Synopsis: %s" cmd.Synopsis
-    printfn "Description: %A" (cmd.description |> Seq.map (fun d -> d.Text) |> Seq.toList)
+
+    match cmd.description with
+    | Some desc -> printfn "Description: %A" (desc |> Seq.map (fun d -> d.Text) |> Seq.toList)
+    | None -> printfn "Description: None"
+
     printfn "------------------------"
     let funcName = cmd.Name.Replace("-", "_").Replace(" ", "_")
-    let parameters = cmd.parameters.parameter.ToArray()
 
-    if parameters.Any() then
+    let hasParameters =
+        cmd.parameters.IsSome && cmd.parameters.Value.parameter.Length > 0
+
+    if hasParameters then
+        let parameters = cmd.parameters.Value.parameter.ToArray()
         !+ $"public class {funcName}Arguments"
         !+ "{"
 
         for p in parameters do
-            !+ $"// Command: {cmd.Name}"
-            !+ $"""public {if p.required then "required " else ""}string {p.name} {{ get; set; }} // {p.description |> Seq.map (fun d -> d.Text) |> String.concat " "}"""
+            match p.description with
+            | Some desc ->
+                !+ "/**"
+
+                for d in desc do
+                    !+ $" * {d.Text}"
+
+                !+ " */"
+            | None -> ()
+
+            !+ $"""public {if p.required && p.name <> "ClusterObject" then
+                               "required "
+                           else
+                               ""}{match p.parameterValue with
+                                   | "VirtualMachine[]"
+                                   | "VMSnapshot[]"
+                                   | "SwitchParameter"
+                                   | "int" as p -> p
+                                   | "Int32" -> "int"
+                                   | "String" -> "string"
+                                   | "String[]" -> "string[]"
+                                   | "pscredential[]" -> "PSCredential[]"
+                                   | pt when String.IsNullOrEmpty(pt) -> "object"
+                                   | pt -> pt}? {p.name} {{ get; set; }}"""
 
         !+ "}"
-// printfn "Command: %s" detail.Name
-// printfn "Synopsis: %s" detail.Synopsis
-// // printfn "Description: %A" (detail.description |> Seq.map (fun d -> d.Text) |> Seq.toList)
-// printfn "------------------------"
-// let funcName= detail.Name.Replace("-", "_").Replace(" ", "_")
-// let parameters = detail.parameters.parameter.ToArray()
-// if parameters.Any() then
-//     !+ $"public class {funcName}Arguments"
-//
-//     for p in parameters do
-//
-// !+ $"// Command: {detail.Name}"
-// !+ $"public void {funcName}("
-//
-// printfn "------------------------"
 
+    let hasReturnValue =
+        cmd.returnValues.IsSome
+        && cmd.returnValues.Value.returnValue.Length > 0
+        && cmd.returnValues.Value.returnValue.First().``type``.name <> "None"
+
+    let typeName =
+        let mapper =
+            dict
+                [ ("Microsoft.HyperV.PowerShell.SystemSwitchExtension",
+                   "Microsoft.HyperV.PowerShell.VMSystemSwitchExtension")
+                  ("Microsoft.HyperV.PowerShell.VMNetworkAdapterFailoverSetting", "PSObject") ]
+
+        if hasReturnValue then
+            let name =
+                let name = cmd.returnValues.Value.returnValue.First().``type``.name
+                let contains, value = mapper.TryGetValue name
+                if contains then value else name
+
+            if name.StartsWith("Microsoft.HyperV.PowerShell.Commands", StringComparison.InvariantCultureIgnoreCase) then
+                name.Substring("Microsoft.HyperV.PowerShell.Commands.".Length)
+            elif name.StartsWith("Microsoft.HyperV.Powershell", StringComparison.InvariantCultureIgnoreCase) then
+                name.Substring("Microsoft.HyperV.Powershell.".Length)
+            else
+                name
+        else
+            "void"
+
+    !+ $"""
+/** <summary>{if cmd.relatedLinks.IsSome then
+                          let links = cmd.relatedLinks.Value
+
+                          if links.navigationLink |> isNull then
+                              ""
+                          else
+                              let fixLink link =
+                                  link.uri.Replace("&","&amp;")
+                              links.navigationLink
+                              |> Seq.map (fun link -> $"\n * <see href=\"{fixLink link}\">{link.linkText}</see>")
+                              |> fun x -> String.Join("\n * ", x)
+                      else
+                          ""}
+ * {cmd.Synopsis.Replace("\n", "\n * ")}
+ * </summary>
+ * <remarks>
+ * {if cmd.description.IsSome then
+        System.String.Join("\n", cmd.description.Value |> Seq.map _.Text)
+    else
+        "No description available."}
+ * </remarks>{if
+                  hasReturnValue
+                  && cmd.returnValues.Value.returnValue |> isNull |> not
+                  && cmd.returnValues.Value.returnValue.Any()
+                  && cmd.returnValues.Value.returnValue.First().description |> isNull |> not
+              then
+                  let returnValueDesc =
+                      cmd.returnValues.Value.returnValue.First().description
+                      |> Array.map _.Text
+                      |> fun v -> String.Join("\n * ", v)
+
+                  if String.IsNullOrWhiteSpace(returnValueDesc) then
+                      ""
+                  else
+                      "\n * <returns>" + returnValueDesc + "</returns>"
+              else
+                  ""}
+ */
+public {if hasReturnValue then $"{typeName}[]" else "void"} {funcName}({if hasParameters then $"{funcName}Arguments args" else ""})"""
+
+    !+ "{"
+    !+ $"    var parameters = new Dictionary<string, object>();"
+
+    if hasParameters then
+        for p in cmd.parameters.Value.parameter do
+            !+ $"    if(args.{p.name} is not null) parameters.Add(\"{p.name}\", args.{p.name});"
+
+    !+ $"""    using var instance = new HyperVInstance();
+    var result = instance.InvokeFunction{if hasReturnValue then $"<{typeName}>" else ""}("{cmd.Name}",
+    parameters);"""
+
+    if hasReturnValue then
+        !+ $"    return result;"
+
+    !+ "}"
 
 let outputFile =
     Path.Combine(Path.GetDirectoryName(__SOURCE_DIRECTORY__), "HyperVApi.g.cs")
@@ -271,17 +431,21 @@ let result =
     CSharpier.Core.CSharp.CSharpFormatter
         .Format(
             $$$"""
+using System.Management.Automation;
 using FluentHyperV.PowerShell;
 using FluentHyperV.SourceGenerator;
+using System.Text.Json;
+using Microsoft.HyperV.PowerShell;
+using Microsoft.HyperV.PowerShell.Commands;
+using Microsoft.Management.Infrastructure;
+using Microsoft.Vhd.PowerShell;
+using System.Collections;
+using System.Diagnostics;
 
 namespace FluentHyperV.HyperV;
 
-internal class HyperVApi
+public class HyperVApi
 {
-    private readonly Lazy<HyperVInstance> _powerShellInstance = new(() => new HyperVInstance());
-
-    public HyperVInstance PowerShellInstance => _powerShellInstance.Value;
-
     {{{data.ToString()}}}
 }                                                         
 """

@@ -1,4 +1,5 @@
-﻿using FluentHyperV.PowerShell;
+﻿using FluentHyperV.HyperV;
+using FluentHyperV.PowerShell;
 using Xunit.Abstractions;
 
 namespace FluentHyperV.UnitTest;
@@ -8,13 +9,12 @@ public class HyperVTest(ITestOutputHelper testOutputHelper)
     [Fact]
     public void TestInstance()
     {
-        var ps = new PowerShellInstance();
-        var resultRaw = ps.InvokeFunctionJson("Get-Help", new() { ["Name"] = "Get-VM" });
-        if (resultRaw is null)
+        var hyperV = new HyperVApi();
+        var results = hyperV.Get_VM(new HyperVApi.Get_VMArguments { });
+        testOutputHelper.WriteLine(results.Length.ToString());
+        foreach (var virtualMachine in results)
         {
-            throw new Exception("Failed to get help for Get-VM");
+            testOutputHelper.WriteLine(virtualMachine.Name);
         }
-        var result = resultRaw.RootElement;
-        testOutputHelper.WriteLine(result.GetRawText());
     }
 }
