@@ -1,3 +1,4 @@
+#nullable enable
 using System.Collections;
 using System.Diagnostics;
 using System.Management.Automation;
@@ -13,7 +14,7 @@ namespace FluentHyperV.HyperV;
 
 public class HyperVApi
 {
-    public class Export_VMSnapshotArguments
+    public class ExportVMSnapshotArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -93,7 +94,7 @@ public class HyperVApi
     Note: In Windows Server 2012 R2, virtual machine snapshots were renamed to virtual machine checkpoints. For clarity, this document will refer to virtual machine snapshots as checkpoints.
      * </remarks>
      */
-    public void Export_VMSnapshot(Export_VMSnapshotArguments args)
+    public void ExportVMSnapshot(ExportVMSnapshotArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -124,7 +125,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Export-VMSnapshot", parameters);
     }
 
-    public class Get_VMSnapshotArguments
+    public class GetVMSnapshotArguments
     {
         /**
          * Specifies the checkpoint whose child checkpoints are to be retrieved.
@@ -195,7 +196,7 @@ public class HyperVApi
     Note: In Windows Server 2012 R2, virtual machine snapshots were renamed to virtual machine checkpoints. For clarity, this document will refer to virtual machine snapshots as checkpoints.
      * </remarks>
      */
-    public VMSnapshot[] Get_VMSnapshot(Get_VMSnapshotArguments args)
+    public VMSnapshot[] GetVMSnapshot(GetVMSnapshotArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.ChildOf is not null)
@@ -223,7 +224,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Remove_VMSnapshotArguments
+    public class RemoveVMSnapshotArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -313,7 +314,7 @@ public class HyperVApi
     Note: In Windows Server 2012 R2, virtual machine snapshots were renamed to virtual machine checkpoints. For clarity, this document will refer to virtual machine snapshots as checkpoints.
      * </remarks>
      */
-    public void Remove_VMSnapshot(Remove_VMSnapshotArguments args)
+    public void RemoveVMSnapshot(RemoveVMSnapshotArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -344,7 +345,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMSnapshot", parameters);
     }
 
-    public class Rename_VMSnapshotArguments
+    public class RenameVMSnapshotArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -419,7 +420,7 @@ public class HyperVApi
     Note: In Windows Server 2012 R2, virtual machine snapshots were renamed to virtual machine checkpoints. For clarity, this document will refer to virtual machine snapshots as checkpoints.
      * </remarks>
      */
-    public void Rename_VMSnapshot(Rename_VMSnapshotArguments args)
+    public void RenameVMSnapshot(RenameVMSnapshotArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -448,7 +449,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Rename-VMSnapshot", parameters);
     }
 
-    public class Restore_VMSnapshotArguments
+    public class RestoreVMSnapshotArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -527,7 +528,7 @@ public class HyperVApi
     Note: In Windows Server 2012 R2, virtual machine snapshots were renamed to virtual machine checkpoints. For clarity, this document will refer to virtual machine snapshots as checkpoints.
      * </remarks>
      */
-    public void Restore_VMSnapshot(Restore_VMSnapshotArguments args)
+    public void RestoreVMSnapshot(RestoreVMSnapshotArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -556,7 +557,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Restore-VMSnapshot", parameters);
     }
 
-    public class Add_VMAssignableDeviceArguments
+    public class AddVMAssignableDeviceArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer. Enter a computer name or a session
@@ -638,7 +639,7 @@ public class HyperVApi
      * The `Add-VMAssignableDevice` cmdlet assigns a physical device to a specified virtual machine (VM). This is commonly used for tasks such as attaching GPUs or network adapters directly to a VM to enhance performance for specific applications or workloads. The device can be specified through its instance path, location path, or assignable device object.
      * </remarks>
      */
-    public VMAssignedDevice[] Add_VMAssignableDevice(Add_VMAssignableDeviceArguments args)
+    public VMAssignedDevice[] AddVMAssignableDevice(AddVMAssignableDeviceArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -673,7 +674,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Add_VMDvdDriveArguments
+    public class AddVMDvdDriveArguments
     {
         /**
          * Specifies that no error is to be thrown if the specified path is not verified as accessible by the cluster.
@@ -764,7 +765,7 @@ public class HyperVApi
      * The **Add-VMDvdDrive** cmdlet adds a DVD drive to a virtual machine.
      * </remarks>
      */
-    public DvdDrive[] Add_VMDvdDrive(Add_VMDvdDriveArguments args)
+    public DvdDrive[] AddVMDvdDrive(AddVMDvdDriveArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowUnverifiedPaths is not null)
@@ -800,7 +801,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Add_VMFibreChannelHbaArguments
+    public class AddVMFibreChannelHbaArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -890,7 +891,7 @@ public class HyperVApi
      * The **Add-VMFibreChannelHba** cmdlet adds a virtual Fibre Channel host bus adapter to a virtual machine.
      * </remarks>
      */
-    public void Add_VMFibreChannelHba(Add_VMFibreChannelHbaArguments args)
+    public void AddVMFibreChannelHba(AddVMFibreChannelHbaArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -925,7 +926,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Add-VMFibreChannelHba", parameters);
     }
 
-    public class Add_VMGpuPartitionAdapterArguments
+    public class AddVMGpuPartitionAdapterArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer. Enter a computer name or a session
@@ -1063,9 +1064,7 @@ public class HyperVApi
      * The `Add-VMGpuPartitionAdapter` cmdlet adds a GPU partition adapter to a virtual machine. With no parameter, it assigns a full partition from an assignable GPU to a VM.
      * </remarks>
      */
-    public VMGpuPartitionAdapter[] Add_VMGpuPartitionAdapter(
-        Add_VMGpuPartitionAdapterArguments args
-    )
+    public VMGpuPartitionAdapter[] AddVMGpuPartitionAdapter(AddVMGpuPartitionAdapterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -1118,7 +1117,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Add_VMGroupMemberArguments
+    public class AddVMGroupMemberArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -1200,7 +1199,7 @@ public class HyperVApi
      * </remarks>
      * <returns>This cmdlet returns a **VMGroup** object, if you specify the **Passthru** parameter.</returns>
      */
-    public VMGroup[] Add_VMGroupMember(Add_VMGroupMemberArguments args)
+    public VMGroup[] AddVMGroupMember(AddVMGroupMemberArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -1230,7 +1229,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Add_VMHardDiskDriveArguments
+    public class AddVMHardDiskDriveArguments
     {
         /**
          * Specifies that no error is to be thrown if the specified path is not verified as accessible by the cluster.
@@ -1367,7 +1366,7 @@ public class HyperVApi
      * The **Add-VMHardDiskDrive** cmdlet adds a hard disk drive to a virtual machine.
      * </remarks>
      */
-    public void Add_VMHardDiskDrive(Add_VMHardDiskDriveArguments args)
+    public void AddVMHardDiskDrive(AddVMHardDiskDriveArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowUnverifiedPaths is not null)
@@ -1418,7 +1417,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Add-VMHardDiskDrive", parameters);
     }
 
-    public class Add_VMHostAssignableDeviceArguments
+    public class AddVMHostAssignableDeviceArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer. Enter a computer name or a session
@@ -1483,7 +1482,7 @@ public class HyperVApi
      * The `Add-VMHostAssignableDevice` cmdlet assigns a hardware device to a virtual machine host. You can add devices to the VM host by providing either the instance or location path of the device, or by specifying an existing host-assignable device object.
      * </remarks>
      */
-    public System.Object[] Add_VMHostAssignableDevice(Add_VMHostAssignableDeviceArguments args)
+    public System.Object[] AddVMHostAssignableDevice(AddVMHostAssignableDeviceArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -1510,7 +1509,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Add_VMKeyStorageDriveArguments
+    public class AddVMKeyStorageDriveArguments
     {
         public CimSession[]? CimSession { get; set; }
         public string[]? ComputerName { get; set; }
@@ -1536,7 +1535,7 @@ public class HyperVApi
      * No description available.
      * </remarks>
      */
-    public KeyStorageDrive[] Add_VMKeyStorageDrive(Add_VMKeyStorageDriveArguments args)
+    public KeyStorageDrive[] AddVMKeyStorageDrive(AddVMKeyStorageDriveArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -1566,7 +1565,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Add_VMMigrationNetworkArguments
+    public class AddVMMigrationNetworkArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -1625,7 +1624,7 @@ public class HyperVApi
      * The **Add-VMMigrationNetwork** cmdlet adds a network for virtual machine migration on one or more virtual machine hosts.
      * </remarks>
      */
-    public void Add_VMMigrationNetwork(Add_VMMigrationNetworkArguments args)
+    public void AddVMMigrationNetwork(AddVMMigrationNetworkArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -1648,7 +1647,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Add-VMMigrationNetwork", parameters);
     }
 
-    public class Add_VMNetworkAdapterArguments
+    public class AddVMNetworkAdapterArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -1749,7 +1748,7 @@ public class HyperVApi
      * The **Add-VMNetworkAdapter** cmdlet adds a virtual network adapter to a virtual machine.
      * </remarks>
      */
-    public void Add_VMNetworkAdapter(Add_VMNetworkAdapterArguments args)
+    public void AddVMNetworkAdapter(AddVMNetworkAdapterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -1788,7 +1787,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Add-VMNetworkAdapter", parameters);
     }
 
-    public class Add_VMNetworkAdapterAclArguments
+    public class AddVMNetworkAdapterAclArguments
     {
         /**
          * Specifies the action for the ACL.
@@ -1913,7 +1912,7 @@ public class HyperVApi
      * The **Add-VMNetworkAdapterAcl** cmdlet creates an ACL to apply to the traffic through a virtual machine network adapter. When a virtual network adapter is created there is no ACL on it. Given a list of IP-based ACL entries to be applied to traffic in the same direction, the longest match rule decides which one of the entries is most appropriate to apply to a specific packet.
      * </remarks>
      */
-    public void Add_VMNetworkAdapterAcl(Add_VMNetworkAdapterAclArguments args)
+    public void AddVMNetworkAdapterAcl(AddVMNetworkAdapterAclArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.Action is not null)
@@ -1954,7 +1953,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Add-VMNetworkAdapterAcl", parameters);
     }
 
-    public class Add_VMNetworkAdapterExtendedAclArguments
+    public class AddVMNetworkAdapterExtendedAclArguments
     {
         /**
          * Specifies the action for the ACL.
@@ -2127,8 +2126,8 @@ public class HyperVApi
      * The **Add-VMNetworkAdapterExtendedAcl** cmdlet creates an extended access control list (ACL) for a virtual network adapter. The ACL allows or denies access to a virtual machine network adapter for network packets based on source IP address, destination IP address, protocol, source port, and destination port.
      * </remarks>
      */
-    public VMNetworkAdapterExtendedAclSetting[] Add_VMNetworkAdapterExtendedAcl(
-        Add_VMNetworkAdapterExtendedAclArguments args
+    public VMNetworkAdapterExtendedAclSetting[] AddVMNetworkAdapterExtendedAcl(
+        AddVMNetworkAdapterExtendedAclArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -2184,7 +2183,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Add_VMNetworkAdapterRoutingDomainMappingArguments
+    public class AddVMNetworkAdapterRoutingDomainMappingArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -2298,8 +2297,8 @@ public class HyperVApi
      * The **Add-VMNetworkAdapterRoutingDomainMapping** cmdlet adds a routing domain and virtual subnets to a virtual network adapter. The cmdlet adds the information about the routing domain and virtual subnets to connected multitenant virtual machines.
      * </remarks>
      */
-    public VMNetworkAdapterRoutingDomainSetting[] Add_VMNetworkAdapterRoutingDomainMapping(
-        Add_VMNetworkAdapterRoutingDomainMappingArguments args
+    public VMNetworkAdapterRoutingDomainSetting[] AddVMNetworkAdapterRoutingDomainMapping(
+        AddVMNetworkAdapterRoutingDomainMappingArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -2341,7 +2340,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Add_VMPmemControllerArguments
+    public class AddVMPmemControllerArguments
     {
         public CimSession[]? CimSession { get; set; }
         public string[]? ComputerName { get; set; }
@@ -2364,7 +2363,7 @@ public class HyperVApi
      * No description available.
      * </remarks>
      */
-    public VMPmemController[] Add_VMPmemController(Add_VMPmemControllerArguments args)
+    public VMPmemController[] AddVMPmemController(AddVMPmemControllerArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -2388,7 +2387,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Add_VMRemoteFx3dVideoAdapterArguments
+    public class AddVMRemoteFx3dVideoAdapterArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -2446,7 +2445,7 @@ public class HyperVApi
      * The **Add-VMRemoteFx3dVideoAdapter** cmdlet adds a RemoteFX video adapter in a virtual machine.
      * </remarks>
      */
-    public void Add_VMRemoteFx3dVideoAdapter(Add_VMRemoteFx3dVideoAdapterArguments args)
+    public void AddVMRemoteFx3dVideoAdapter(AddVMRemoteFx3dVideoAdapterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -2469,7 +2468,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Add-VMRemoteFx3dVideoAdapter", parameters);
     }
 
-    public class Add_VMScsiControllerArguments
+    public class AddVMScsiControllerArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -2527,7 +2526,7 @@ public class HyperVApi
      * The **Add-VMScsiController** cmdlet adds a SCSI controller in a virtual machine.
      * </remarks>
      */
-    public void Add_VMScsiController(Add_VMScsiControllerArguments args)
+    public void AddVMScsiController(AddVMScsiControllerArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -2550,7 +2549,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Add-VMScsiController", parameters);
     }
 
-    public class Add_VMStoragePathArguments
+    public class AddVMStoragePathArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -2614,7 +2613,7 @@ public class HyperVApi
      * The **Add-VMStoragePath** cmdlet adds a path to a storage resource pool.
      * </remarks>
      */
-    public void Add_VMStoragePath(Add_VMStoragePathArguments args)
+    public void AddVMStoragePath(AddVMStoragePathArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -2639,7 +2638,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Add-VMStoragePath", parameters);
     }
 
-    public class Add_VMSwitchArguments
+    public class AddVMSwitchArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -2684,7 +2683,7 @@ public class HyperVApi
      * The **Add-VMSwitch** cmdlet adds a virtual switch to an Ethernet resource pool.
      * </remarks>
      */
-    public void Add_VMSwitch(Add_VMSwitchArguments args)
+    public void AddVMSwitch(AddVMSwitchArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -2703,7 +2702,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Add-VMSwitch", parameters);
     }
 
-    public class Add_VMSwitchExtensionPortFeatureArguments
+    public class AddVMSwitchExtensionPortFeatureArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -2793,7 +2792,7 @@ public class HyperVApi
      * The **Add-VMSwitchExtensionPortFeature** cmdlet adds a feature supported by a virtual switch extension to a virtual machine network adapter. This cmdlet also configures built-in virtual switch features.
      * </remarks>
      */
-    public void Add_VMSwitchExtensionPortFeature(Add_VMSwitchExtensionPortFeatureArguments args)
+    public void AddVMSwitchExtensionPortFeature(AddVMSwitchExtensionPortFeatureArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -2828,7 +2827,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Add-VMSwitchExtensionPortFeature", parameters);
     }
 
-    public class Add_VMSwitchExtensionSwitchFeatureArguments
+    public class AddVMSwitchExtensionSwitchFeatureArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -2891,7 +2890,7 @@ public class HyperVApi
      * The **Add-VMSwitchExtensionSwitchFeature** cmdlet adds a feature supported by a virtual switch extension to a virtual switch.
      * </remarks>
      */
-    public void Add_VMSwitchExtensionSwitchFeature(Add_VMSwitchExtensionSwitchFeatureArguments args)
+    public void AddVMSwitchExtensionSwitchFeature(AddVMSwitchExtensionSwitchFeatureArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -2916,7 +2915,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Add-VMSwitchExtensionSwitchFeature", parameters);
     }
 
-    public class Add_VMSwitchTeamMemberArguments
+    public class AddVMSwitchTeamMemberArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -2990,7 +2989,7 @@ public class HyperVApi
      * </remarks>
      * <returns>This cmdlet returns a **VMSwitch** object, if you specify the **Passthru** parameter.</returns>
      */
-    public VMSwitch[] Add_VMSwitchTeamMember(Add_VMSwitchTeamMemberArguments args)
+    public VMSwitch[] AddVMSwitchTeamMember(AddVMSwitchTeamMemberArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -3018,7 +3017,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Checkpoint_VMArguments
+    public class CheckpointVMArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -3089,7 +3088,7 @@ public class HyperVApi
     Note: In Windows Server 2012 R2, virtual machine snapshots were renamed to virtual machine checkpoints. For clarity, this document will refer to virtual machine snapshots as checkpoints.
      * </remarks>
      */
-    public void Checkpoint_VM(Checkpoint_VMArguments args)
+    public void CheckpointVM(CheckpointVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -3116,7 +3115,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Checkpoint-VM", parameters);
     }
 
-    public class Compare_VMArguments
+    public class CompareVMArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -3269,7 +3268,7 @@ public class HyperVApi
      * The **Compare-VM** cmdlet compares a virtual machine and a virtual machine host for compatibility, returning a compatibility report. This is useful when trying to import or migrate a virtual machine that is incompatible with the target server that runs Hyper-V.
      * </remarks>
      */
-    public VMCompatibilityReport[] Compare_VM(Compare_VMArguments args)
+    public VMCompatibilityReport[] CompareVM(CompareVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -3329,7 +3328,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Complete_VMFailoverArguments
+    public class CompleteVMFailoverArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -3389,7 +3388,7 @@ public class HyperVApi
      * The **Complete-VMFailover** cmdlet completes a virtual machine's failover process on the Replica server. The recovery point, on which the virtual machine is failed over, is committed and all other recovery points are removed. Failover cannot be canceled after the recovery points are removed.
      * </remarks>
      */
-    public void Complete_VMFailover(Complete_VMFailoverArguments args)
+    public void CompleteVMFailover(CompleteVMFailoverArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -3412,7 +3411,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Complete-VMFailover", parameters);
     }
 
-    public class Connect_VMNetworkAdapterArguments
+    public class ConnectVMNetworkAdapterArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -3490,7 +3489,7 @@ public class HyperVApi
      * The **Connect-VMNetworkAdapter** cmdlet connects a virtual network adapter to a virtual switch.
      * </remarks>
      */
-    public void Connect_VMNetworkAdapter(Connect_VMNetworkAdapterArguments args)
+    public void ConnectVMNetworkAdapter(ConnectVMNetworkAdapterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -3521,7 +3520,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Connect-VMNetworkAdapter", parameters);
     }
 
-    public class Connect_VMSanArguments
+    public class ConnectVMSanArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -3589,7 +3588,7 @@ public class HyperVApi
      * The **Connect-VMSan** cmdlet associates a host bus adapter with a virtual storage area network (SAN).
      * </remarks>
      */
-    public void Connect_VMSan(Connect_VMSanArguments args)
+    public void ConnectVMSan(ConnectVMSanArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -3616,7 +3615,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Connect-VMSan", parameters);
     }
 
-    public class Convert_VHDArguments
+    public class ConvertVHDArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -3702,7 +3701,7 @@ public class HyperVApi
      * The **Convert-VHD** cmdlet converts a virtual hard disk file by copying the data from a source virtual hard disk file to a new virtual hard disk file of a specified format and version type. The format is determined by the file name extension of the specified files, either .vhdx or .vhd. Conversion is an offline operation; the virtual hard disk must not be attached when the operation is started.
      * </remarks>
      */
-    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] Convert_VHD(Convert_VHDArguments args)
+    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] ConvertVHD(ConvertVHDArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -3739,7 +3738,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Copy_VMFileArguments
+    public class CopyVMFileArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -3825,7 +3824,7 @@ public class HyperVApi
      * The **Copy-VMFile** cmdlet copies a file to a virtual machine.
      * </remarks>
      */
-    public void Copy_VMFile(Copy_VMFileArguments args)
+    public void CopyVMFile(CopyVMFileArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -3858,7 +3857,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Copy-VMFile", parameters);
     }
 
-    public class Debug_VMArguments
+    public class DebugVMArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -3934,7 +3933,7 @@ public class HyperVApi
      * The **Debug-VM** cmdlet debugs a virtual machine.
      * </remarks>
      */
-    public VirtualMachine[] Debug_VM(Debug_VMArguments args)
+    public VirtualMachine[] DebugVM(DebugVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -3964,7 +3963,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Disable_VMConsoleSupportArguments
+    public class DisableVMConsoleSupportArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -4028,7 +4027,7 @@ public class HyperVApi
      * </remarks>
      * <returns>This cmdlet returns a **VirtualMachine** object, if you specify the **Passthru** parameter.</returns>
      */
-    public VirtualMachine[] Disable_VMConsoleSupport(Disable_VMConsoleSupportArguments args)
+    public VirtualMachine[] DisableVMConsoleSupport(DisableVMConsoleSupportArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -4055,7 +4054,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Disable_VMEventingArguments
+    public class DisableVMEventingArguments
     {
         /**
          *
@@ -4101,7 +4100,7 @@ public class HyperVApi
      * The **Disable-VMEventing** cmdlet disables virtual machine eventing on a Hyper-V host or hosts. Virtual machine eventing keeps Hyper-V PowerShell objects updated without polling the virtual machine host. Virtual machine eventing is enabled by default.
      * </remarks>
      */
-    public void Disable_VMEventing(Disable_VMEventingArguments args)
+    public void DisableVMEventing(DisableVMEventingArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -4120,7 +4119,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Disable-VMEventing", parameters);
     }
 
-    public class Disable_VMIntegrationServiceArguments
+    public class DisableVMIntegrationServiceArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -4188,7 +4187,7 @@ public class HyperVApi
      * The **Disable-VMIntegrationService** cmdlet disables an integration service on a virtual machine.
      * </remarks>
      */
-    public void Disable_VMIntegrationService(Disable_VMIntegrationServiceArguments args)
+    public void DisableVMIntegrationService(DisableVMIntegrationServiceArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -4215,7 +4214,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Disable-VMIntegrationService", parameters);
     }
 
-    public class Disable_VMMigrationArguments
+    public class DisableVMMigrationArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -4264,7 +4263,7 @@ public class HyperVApi
      * The **Disable-VMMigration** cmdlet disables migration on one or more virtual machine hosts.
      * </remarks>
      */
-    public void Disable_VMMigration(Disable_VMMigrationArguments args)
+    public void DisableVMMigration(DisableVMMigrationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -4283,7 +4282,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Disable-VMMigration", parameters);
     }
 
-    public class Disable_VMRemoteFXPhysicalVideoAdapterArguments
+    public class DisableVMRemoteFXPhysicalVideoAdapterArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -4342,8 +4341,8 @@ public class HyperVApi
      * The **Disable-VMRemoteFXPhysicalVideoAdapter** cmdlet disables one or more RemoteFX physical video adapter from use with RemoteFX-enabled virtual machines.
      * </remarks>
      */
-    public void Disable_VMRemoteFXPhysicalVideoAdapter(
-        Disable_VMRemoteFXPhysicalVideoAdapterArguments args
+    public void DisableVMRemoteFXPhysicalVideoAdapter(
+        DisableVMRemoteFXPhysicalVideoAdapterArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -4367,7 +4366,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Disable-VMRemoteFXPhysicalVideoAdapter", parameters);
     }
 
-    public class Disable_VMResourceMeteringArguments
+    public class DisableVMResourceMeteringArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -4429,7 +4428,7 @@ public class HyperVApi
     After the call, Measure-VM and Measure-VMResourcePool are not usable.
      * </remarks>
      */
-    public void Disable_VMResourceMetering(Disable_VMResourceMeteringArguments args)
+    public void DisableVMResourceMetering(DisableVMResourceMeteringArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -4450,7 +4449,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Disable-VMResourceMetering", parameters);
     }
 
-    public class Disable_VMSwitchExtensionArguments
+    public class DisableVMSwitchExtensionArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -4502,7 +4501,7 @@ public class HyperVApi
      * The **Disable-VMSwitchExtension** cmdlet disables one or more extensions on one or more virtual switches. You can run Get-VMSystemSwitchExtension to enumerate the virtual switch extensions installed on the system.
      * </remarks>
      */
-    public VMSwitchExtension[] Disable_VMSwitchExtension(Disable_VMSwitchExtensionArguments args)
+    public VMSwitchExtension[] DisableVMSwitchExtension(DisableVMSwitchExtensionArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -4527,7 +4526,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Disable_VMTPMArguments
+    public class DisableVMTPMArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -4588,7 +4587,7 @@ public class HyperVApi
      * The **Disable-VMTPM** cmdlet disables Trusted Platform Module (TPM) functionality on a virtual machine.
      * </remarks>
      */
-    public VirtualMachine[] Disable_VMTPM(Disable_VMTPMArguments args)
+    public VirtualMachine[] DisableVMTPM(DisableVMTPMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -4612,7 +4611,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Disconnect_VMNetworkAdapterArguments
+    public class DisconnectVMNetworkAdapterArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -4675,7 +4674,7 @@ public class HyperVApi
      * The **Disconnect-VMNetworkAdapter** cmdlet disconnects a virtual network adapter from a virtual switch or Ethernet resource pool.
      * </remarks>
      */
-    public void Disconnect_VMNetworkAdapter(Disconnect_VMNetworkAdapterArguments args)
+    public void DisconnectVMNetworkAdapter(DisconnectVMNetworkAdapterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -4700,7 +4699,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Disconnect-VMNetworkAdapter", parameters);
     }
 
-    public class Disconnect_VMSanArguments
+    public class DisconnectVMSanArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -4768,7 +4767,7 @@ public class HyperVApi
      * The **Disconnect-VMSan** cmdlet removes a host bus adapter from a virtual storage area network (SAN).
      * </remarks>
      */
-    public void Disconnect_VMSan(Disconnect_VMSanArguments args)
+    public void DisconnectVMSan(DisconnectVMSanArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -4795,7 +4794,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Disconnect-VMSan", parameters);
     }
 
-    public class Dismount_VHDArguments
+    public class DismountVHDArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -4858,7 +4857,7 @@ public class HyperVApi
      * The **Dismount-VHD** cmdlet dismounts a virtual hard disk.
      * </remarks>
      */
-    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] Dismount_VHD(Dismount_VHDArguments args)
+    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] DismountVHD(DismountVHDArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -4887,7 +4886,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Dismount_VMHostAssignableDeviceArguments
+    public class DismountVMHostAssignableDeviceArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer. Enter a computer name or a session
@@ -4964,8 +4963,8 @@ public class HyperVApi
      * The `Dismount-VMHostAssignableDevice` cmdlet is used to dismount an assignable device from the virtual machine host. Use this cmdlet when you need to reassign a device or resolve conflicts between devices and virtual machines.
      * </remarks>
      */
-    public VMHostAssignableDevice[] Dismount_VMHostAssignableDevice(
-        Dismount_VMHostAssignableDeviceArguments args
+    public VMHostAssignableDevice[] DismountVMHostAssignableDevice(
+        DismountVMHostAssignableDeviceArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -4995,7 +4994,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Enable_VMConsoleSupportArguments
+    public class EnableVMConsoleSupportArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -5059,7 +5058,7 @@ public class HyperVApi
      * </remarks>
      * <returns>This cmdlet returns a **VirtualMachine** object, if you specify the **Passthru**.</returns>
      */
-    public VirtualMachine[] Enable_VMConsoleSupport(Enable_VMConsoleSupportArguments args)
+    public VirtualMachine[] EnableVMConsoleSupport(EnableVMConsoleSupportArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -5083,7 +5082,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Enable_VMEventingArguments
+    public class EnableVMEventingArguments
     {
         /**
          *
@@ -5129,7 +5128,7 @@ public class HyperVApi
      * The **Enable-VMEventing** cmdlet enables virtual machine eventing. Virtual machine eventing keeps Hyper-V PowerShell objects updated without polling the virtual machine host. Virtual machine eventing is enabled by default.
      * </remarks>
      */
-    public void Enable_VMEventing(Enable_VMEventingArguments args)
+    public void EnableVMEventing(EnableVMEventingArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -5148,7 +5147,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Enable-VMEventing", parameters);
     }
 
-    public class Enable_VMIntegrationServiceArguments
+    public class EnableVMIntegrationServiceArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -5216,7 +5215,7 @@ public class HyperVApi
      * The **Enable-VMIntegrationService** cmdlet enables an integration service on a virtual machine.
      * </remarks>
      */
-    public void Enable_VMIntegrationService(Enable_VMIntegrationServiceArguments args)
+    public void EnableVMIntegrationService(EnableVMIntegrationServiceArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -5243,7 +5242,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Enable-VMIntegrationService", parameters);
     }
 
-    public class Enable_VMMigrationArguments
+    public class EnableVMMigrationArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -5291,7 +5290,7 @@ public class HyperVApi
      * The **Enable-VMMigration** cmdlet enables migration on one or more virtual machine hosts.
      * </remarks>
      */
-    public void Enable_VMMigration(Enable_VMMigrationArguments args)
+    public void EnableVMMigration(EnableVMMigrationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -5310,7 +5309,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Enable-VMMigration", parameters);
     }
 
-    public class Enable_VMRemoteFXPhysicalVideoAdapterArguments
+    public class EnableVMRemoteFXPhysicalVideoAdapterArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer. Enter a computer name or a session
@@ -5370,8 +5369,8 @@ public class HyperVApi
      * The **Enable-VMRemoteFXPhysicalVideoAdapter** cmdlet enables one or more RemoteFX physical video adapters to be used with RemoteFX-enabled virtual machines.
      * </remarks>
      */
-    public void Enable_VMRemoteFXPhysicalVideoAdapter(
-        Enable_VMRemoteFXPhysicalVideoAdapterArguments args
+    public void EnableVMRemoteFXPhysicalVideoAdapter(
+        EnableVMRemoteFXPhysicalVideoAdapterArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -5395,7 +5394,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Enable-VMRemoteFXPhysicalVideoAdapter", parameters);
     }
 
-    public class Enable_VMReplicationArguments
+    public class EnableVMReplicationArguments
     {
         /**
          * When you use the AsReplica parameter to specify a virtual machine as a replica virtual machine, this parameter determines which primary servers can send replication to the replica virtual machine.
@@ -5584,7 +5583,7 @@ public class HyperVApi
      * The **Enable-VMReplication** cmdlet enables replication of a virtual machine to a specified Replica server.
      * </remarks>
      */
-    public void Enable_VMReplication(Enable_VMReplicationArguments args)
+    public void EnableVMReplication(EnableVMReplicationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowedPrimaryServer is not null)
@@ -5648,7 +5647,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Enable-VMReplication", parameters);
     }
 
-    public class Enable_VMResourceMeteringArguments
+    public class EnableVMResourceMeteringArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -5710,7 +5709,7 @@ public class HyperVApi
     If resource metering is enabled but no **NetworkAdapterAcls** are configured, Hyper-V configures them to measure total network traffic. To measure network traffic through an IP range, configure the **NetworkAdapterAcls** for the IP range before calling this cmdlet. (See Add-VMNetworkAdapterAcl for more information.)
      * </remarks>
      */
-    public void Enable_VMResourceMetering(Enable_VMResourceMeteringArguments args)
+    public void EnableVMResourceMetering(EnableVMResourceMeteringArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -5731,7 +5730,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Enable-VMResourceMetering", parameters);
     }
 
-    public class Enable_VMSwitchExtensionArguments
+    public class EnableVMSwitchExtensionArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -5783,7 +5782,7 @@ public class HyperVApi
      * The **Enable-VMSwitchExtension** cmdlet enables one or more extensions on one or more switches. You can use the **Get-VMSystemSwitchExtension** cmdlet to enumerate the virtual switch extensions installed on the system.
      * </remarks>
      */
-    public VMSwitchExtension[] Enable_VMSwitchExtension(Enable_VMSwitchExtensionArguments args)
+    public VMSwitchExtension[] EnableVMSwitchExtension(EnableVMSwitchExtensionArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -5808,7 +5807,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Enable_VMTPMArguments
+    public class EnableVMTPMArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -5869,7 +5868,7 @@ public class HyperVApi
      * The **Enable-VMTPM** cmdlet enables Trusted Platform Module (TPM) functionality on a virtual machine.
      * </remarks>
      */
-    public VirtualMachine[] Enable_VMTPM(Enable_VMTPMArguments args)
+    public VirtualMachine[] EnableVMTPM(EnableVMTPMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -5893,7 +5892,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Export_VMArguments
+    public class ExportVMArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -5974,7 +5973,7 @@ public class HyperVApi
      * The **Export-VM** cmdlet exports a virtual machine to disk. This cmdlet creates a folder at a specified location having three subfolders: Snapshots, Virtual Hard Disks, and Virtual Machines. Each of these folders contains the associated files. The Snapshots folder contains the associated Snapshots, and the Virtual Hard Disk folder contains the specified virtual machine's virtual disks. The Virtual Machines folder contains the configuration XML of the specified virtual machine.
      * </remarks>
      */
-    public void Export_VM(Export_VMArguments args)
+    public void ExportVM(ExportVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -6003,7 +6002,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Export-VM", parameters);
     }
 
-    public class Get_VHDArguments
+    public class GetVHDArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -6053,7 +6052,7 @@ public class HyperVApi
     > [!Note] > When the VHD is in use (for example by a VM or mounted in the OS) and it is on shared storage, the **Get-VHD** cmdlet can only access it from the host that is using it. Any other server trying to run the **Get-VHD** cmdlet will get an error that it is in use.
      * </remarks>
      */
-    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] Get_VHD(Get_VHDArguments args)
+    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] GetVHD(GetVHDArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -6076,7 +6075,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VHDSetArguments
+    public class GetVHDSetArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -6124,7 +6123,7 @@ public class HyperVApi
      * </remarks>
      * <returns>This cmdlet returns **VHDSetInfo** objects.</returns>
      */
-    public Microsoft.Vhd.PowerShell.VHDSetInfo[] Get_VHDSet(Get_VHDSetArguments args)
+    public Microsoft.Vhd.PowerShell.VHDSetInfo[] GetVHDSet(GetVHDSetArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -6145,7 +6144,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VHDSnapshotArguments
+    public class GetVHDSnapshotArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer. Enter a computer name or a session
@@ -6199,7 +6198,7 @@ public class HyperVApi
      * </remarks>
      * <returns>This cmdlet returns a **VHDSnapshotInfo** object.</returns>
      */
-    public Microsoft.Vhd.PowerShell.VHDSnapshotInfo[] Get_VHDSnapshot(Get_VHDSnapshotArguments args)
+    public Microsoft.Vhd.PowerShell.VHDSnapshotInfo[] GetVHDSnapshot(GetVHDSnapshotArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -6222,7 +6221,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMArguments
+    public class GetVMArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -6269,7 +6268,7 @@ public class HyperVApi
      * The **Get-VM** cmdlet gets the virtual machines from one or more Hyper-V hosts.
      * </remarks>
      */
-    public VirtualMachine[] Get_VM(Get_VMArguments args)
+    public VirtualMachine[] GetVM(GetVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -6289,7 +6288,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMAssignableDeviceArguments
+    public class GetVMAssignableDeviceArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer. Enter a computer name or a session
@@ -6345,7 +6344,7 @@ public class HyperVApi
      * The `Get-VMAssignableDevice` cmdlet retrieves information about the assignable devices that are associated with a specific virtual machine (VM). This cmdlet can be used to list all assignable devices that can be attached to a VM or to retrieve details about specific devices that are already assigned. The retrieved information can include the device's instance path, location path, and other relevant properties.
      * </remarks>
      */
-    public VMAssignedDevice[] Get_VMAssignableDevice(Get_VMAssignableDeviceArguments args)
+    public VMAssignedDevice[] GetVMAssignableDevice(GetVMAssignableDeviceArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -6370,7 +6369,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMBiosArguments
+    public class GetVMBiosArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -6417,7 +6416,7 @@ public class HyperVApi
      * The **Get-VMBios** cmdlet gets the BIOS of a virtual machine or snapshot. Note: This cmdlet does not operate with Generation 2 virtual machine. If attempted, the cmdlet throws an error.
      * </remarks>
      */
-    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] Get_VMBios(Get_VMBiosArguments args)
+    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] GetVMBios(GetVMBiosArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -6440,7 +6439,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMComPortArguments
+    public class GetVMComPortArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -6492,7 +6491,7 @@ public class HyperVApi
      * The **Get-VMComPort** cmdlet gets the COM ports of a virtual machine or snapshot.
      * </remarks>
      */
-    public VMComPort[] Get_VMComPort(Get_VMComPortArguments args)
+    public VMComPort[] GetVMComPort(GetVMComPortArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -6514,7 +6513,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMConnectAccessArguments
+    public class GetVMConnectAccessArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -6561,7 +6560,7 @@ public class HyperVApi
      * The **Get-VMConnectAccess** cmdlet gets entries showing users and the virtual machines to which they can connect on one or more Hyper-V hosts. This cmdlet is intended for use in providing other applications with the appropriate permissions required to initiate a session with the Virtual Machine Connection protocol. Examples of such applications are Virtual Machine Manager.
      * </remarks>
      */
-    public VMConnectAce[] Get_VMConnectAccess(Get_VMConnectAccessArguments args)
+    public VMConnectAce[] GetVMConnectAccess(GetVMConnectAccessArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -6581,7 +6580,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMDvdDriveArguments
+    public class GetVMDvdDriveArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -6643,7 +6642,7 @@ public class HyperVApi
      * The **Get-VMDvdDrive** cmdlet gets the DVD drives attached to a virtual machine or snapshot. This cmdlet has no ControllerType parameter, as the **Get-VMHardDiskDrive** cmdlet does, because virtual DVD drives can be attached only to the IDE controller.
      * </remarks>
      */
-    public DvdDrive[] Get_VMDvdDrive(Get_VMDvdDriveArguments args)
+    public DvdDrive[] GetVMDvdDrive(GetVMDvdDriveArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -6669,7 +6668,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMFibreChannelHbaArguments
+    public class GetVMFibreChannelHbaArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -6711,7 +6710,7 @@ public class HyperVApi
      * The **Get-VMFibreChannelHba** cmdlet lists all of the fibre channel objects for each virtual fibre channel controller that is connected to the specified virtual machine.
      * </remarks>
      */
-    public VMFibreChannelHba[] Get_VMFibreChannelHba(Get_VMFibreChannelHbaArguments args)
+    public VMFibreChannelHba[] GetVMFibreChannelHba(GetVMFibreChannelHbaArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -6732,7 +6731,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMFirmwareArguments
+    public class GetVMFirmwareArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -6782,7 +6781,7 @@ public class HyperVApi
      * The **Get-VMFirmware** cmdlet gets the firmware configuration of a virtual machine. Note: This cmdlet is supported only on Generation 2 virtual machines.
      * </remarks>
      */
-    public VMFirmware[] Get_VMFirmware(Get_VMFirmwareArguments args)
+    public VMFirmware[] GetVMFirmware(GetVMFirmwareArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -6802,7 +6801,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMFloppyDiskDriveArguments
+    public class GetVMFloppyDiskDriveArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -6849,7 +6848,7 @@ public class HyperVApi
      * The **Get-VMFloppyDiskDrive** cmdlet gets the floppy disk drives of a virtual machine or snapshot.
      * </remarks>
      */
-    public VMFloppyDiskDrive[] Get_VMFloppyDiskDrive(Get_VMFloppyDiskDriveArguments args)
+    public VMFloppyDiskDrive[] GetVMFloppyDiskDrive(GetVMFloppyDiskDriveArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -6872,7 +6871,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMGpuPartitionAdapterArguments
+    public class GetVMGpuPartitionAdapterArguments
     {
         /**
          * This is a VM's GPU partition identification number used to display the GPU information assigned to a
@@ -6928,9 +6927,7 @@ public class HyperVApi
      * The `Get-VMGpuPartitionAdapter` cmdlet gets the information of assigned graphic processing unit partitions to a virtual machine.
      * </remarks>
      */
-    public VMGpuPartitionAdapter[] Get_VMGpuPartitionAdapter(
-        Get_VMGpuPartitionAdapterArguments args
-    )
+    public VMGpuPartitionAdapter[] GetVMGpuPartitionAdapter(GetVMGpuPartitionAdapterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AdapterId is not null)
@@ -6953,7 +6950,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMGroupArguments
+    public class GetVMGroupArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -7001,7 +6998,7 @@ public class HyperVApi
      * The **Get-VMGroup** cmdlet gets virtual machine groups.
      * </remarks>
      */
-    public VMGroup[] Get_VMGroup(Get_VMGroupArguments args)
+    public VMGroup[] GetVMGroup(GetVMGroupArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -7019,7 +7016,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMHardDiskDriveArguments
+    public class GetVMHardDiskDriveArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -7089,7 +7086,7 @@ public class HyperVApi
      * The **Get-VMHardDiskDrive** cmdlet gets the virtual hard disk drives attached to one or more virtual machines.
      * </remarks>
      */
-    public HardDiskDrive[] Get_VMHardDiskDrive(Get_VMHardDiskDriveArguments args)
+    public HardDiskDrive[] GetVMHardDiskDrive(GetVMHardDiskDriveArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -7117,7 +7114,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMHostArguments
+    public class GetVMHostArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -7149,7 +7146,7 @@ public class HyperVApi
      * The **Get-VMHost** cmdlet gets a Hyper-V host.
      * </remarks>
      */
-    public VMHost[] Get_VMHost(Get_VMHostArguments args)
+    public VMHost[] GetVMHost(GetVMHostArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -7163,7 +7160,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMHostAssignableDeviceArguments
+    public class GetVMHostAssignableDeviceArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer. Enter a computer name or a session
@@ -7218,8 +7215,8 @@ public class HyperVApi
      * The `Get-VMHostAssignableDevice` cmdlet retrieves information about devices that can be assigned to a virtual machine host. This can include devices such as GPUs, network adapters, or storage controllers that are physically present on the host system. The cmdlet can filter devices by their instance path or location path.
      * </remarks>
      */
-    public VMHostAssignableDevice[] Get_VMHostAssignableDevice(
-        Get_VMHostAssignableDeviceArguments args
+    public VMHostAssignableDevice[] GetVMHostAssignableDevice(
+        GetVMHostAssignableDeviceArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -7243,7 +7240,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMHostClusterArguments
+    public class GetVMHostClusterArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -7275,7 +7272,7 @@ public class HyperVApi
      * </remarks>
      * <returns>This cmdlet returns a **VMHostCluster** object.</returns>
      */
-    public VMHostCluster[] Get_VMHostCluster(Get_VMHostClusterArguments args)
+    public VMHostCluster[] GetVMHostCluster(GetVMHostClusterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -7289,7 +7286,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMHostNumaNodeArguments
+    public class GetVMHostNumaNodeArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -7326,7 +7323,7 @@ public class HyperVApi
      * The **Get-VMHostNumaNode** cmdlet gets the NUMA topology of a Hyper-V host, returning a **VMHostNumaNode** object for each of the host's NUMA nodes.
      * </remarks>
      */
-    public VMHostNumaNode[] Get_VMHostNumaNode(Get_VMHostNumaNodeArguments args)
+    public VMHostNumaNode[] GetVMHostNumaNode(GetVMHostNumaNodeArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -7342,7 +7339,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMHostNumaNodeStatusArguments
+    public class GetVMHostNumaNodeStatusArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -7379,9 +7376,7 @@ public class HyperVApi
      * The **Get-VMHostNumaNodeStatus** cmdlet gets the status of the virtual machines on the non-uniform memory access (NUMA) nodes of a virtual machine host or hosts. If the virtual machine host enables NUMA spanning, this cmdlet returns an error.
      * </remarks>
      */
-    public GetVMHostNumaNodeStatus[] Get_VMHostNumaNodeStatus(
-        Get_VMHostNumaNodeStatusArguments args
-    )
+    public GetVMHostNumaNodeStatus[] GetVMHostNumaNodeStatus(GetVMHostNumaNodeStatusArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -7400,7 +7395,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMHostPartitionableGpuArguments
+    public class GetVMHostPartitionableGpuArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer. Enter a computer name or a session
@@ -7439,8 +7434,8 @@ public class HyperVApi
      * The `Get-VMHostPartitionableGpu` cmdlet gets the host machine’s partitionable graphic processing unit. This displays the information of the GPU as provided by the manufacturer's driver.
      * </remarks>
      */
-    public VMHostPartitionableGpu[] Get_VMHostPartitionableGpu(
-        Get_VMHostPartitionableGpuArguments args
+    public VMHostPartitionableGpu[] GetVMHostPartitionableGpu(
+        GetVMHostPartitionableGpuArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -7460,7 +7455,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMHostSupportedVersionArguments
+    public class GetVMHostSupportedVersionArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -7499,8 +7494,8 @@ public class HyperVApi
      * The **Get-VMHostSupportedVersion** cmdlet returns a list of virtual machine configuration versions that are supported on a host.
      * </remarks>
      */
-    public VMHostSupportedVersion[] Get_VMHostSupportedVersion(
-        Get_VMHostSupportedVersionArguments args
+    public VMHostSupportedVersion[] GetVMHostSupportedVersion(
+        GetVMHostSupportedVersionArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -7520,7 +7515,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMIdeControllerArguments
+    public class GetVMIdeControllerArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -7573,7 +7568,7 @@ public class HyperVApi
      * The **Get-VMIdeController** cmdlet gets the IDE controllers of a virtual machine or snapshot.
      * </remarks>
      */
-    public VMIdeController[] Get_VMIdeController(Get_VMIdeControllerArguments args)
+    public VMIdeController[] GetVMIdeController(GetVMIdeControllerArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -7595,7 +7590,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMIntegrationServiceArguments
+    public class GetVMIntegrationServiceArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -7647,7 +7642,7 @@ public class HyperVApi
      * The **Get-VMIntegrationService** cmdlet gets the integration services of a virtual machine or snapshot.
      * </remarks>
      */
-    public VMIntegrationComponent[] Get_VMIntegrationService(Get_VMIntegrationServiceArguments args)
+    public VMIntegrationComponent[] GetVMIntegrationService(GetVMIntegrationServiceArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -7672,7 +7667,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMKeyProtectorArguments
+    public class GetVMKeyProtectorArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -7727,7 +7722,7 @@ public class HyperVApi
      * The **Get-VMKeyProtector** cmdlet retrieves a key protector for a virtual machine.
      * </remarks>
      */
-    public void Get_VMKeyProtector(Get_VMKeyProtectorArguments args)
+    public void GetVMKeyProtector(GetVMKeyProtectorArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -7748,7 +7743,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Get-VMKeyProtector", parameters);
     }
 
-    public class Get_VMKeyStorageDriveArguments
+    public class GetVMKeyStorageDriveArguments
     {
         public CimSession[]? CimSession { get; set; }
         public string[]? ComputerName { get; set; }
@@ -7773,7 +7768,7 @@ public class HyperVApi
      * No description available.
      * </remarks>
      */
-    public KeyStorageDrive[] Get_VMKeyStorageDrive(Get_VMKeyStorageDriveArguments args)
+    public KeyStorageDrive[] GetVMKeyStorageDrive(GetVMKeyStorageDriveArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -7797,7 +7792,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMMemoryArguments
+    public class GetVMMemoryArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -7844,7 +7839,7 @@ public class HyperVApi
      * The **Get-VMMemory** cmdlet gets the memory of a virtual machine or snapshot.
      * </remarks>
      */
-    public VMMemory[] Get_VMMemory(Get_VMMemoryArguments args)
+    public VMMemory[] GetVMMemory(GetVMMemoryArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -7864,7 +7859,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMMigrationNetworkArguments
+    public class GetVMMigrationNetworkArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -7906,7 +7901,7 @@ public class HyperVApi
      * The **Get-VMMigrationNetwork** cmdlet gets the networks added for migration to one or more virtual machine hosts.
      * </remarks>
      */
-    public VMMigrationNetwork[] Get_VMMigrationNetwork(Get_VMMigrationNetworkArguments args)
+    public VMMigrationNetwork[] GetVMMigrationNetwork(GetVMMigrationNetworkArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -7927,7 +7922,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMNetworkAdapterArguments
+    public class GetVMNetworkAdapterArguments
     {
         /**
          * Specifies all virtual network adapters in the system, regardless of whether the virtual network adapter is in the management operating system or in a virtual machine.
@@ -8005,7 +8000,7 @@ public class HyperVApi
      * </remarks>
      * <returns>By default, **Microsoft.HyperV.PowerShell.VMNetworkAdapter** is output.</returns>
      */
-    public VMNetworkAdapter[] Get_VMNetworkAdapter(Get_VMNetworkAdapterArguments args)
+    public VMNetworkAdapter[] GetVMNetworkAdapter(GetVMNetworkAdapterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.All is not null)
@@ -8035,7 +8030,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMNetworkAdapterAclArguments
+    public class GetVMNetworkAdapterAclArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -8098,9 +8093,7 @@ public class HyperVApi
      * The **Get-VMNetworkAdapterAcl** cmdlet gets the ACLs configured for a virtual machine network adapter. If an ACL entry is created to be applied to both directions, it will appear under the list of entries for the inbound direction and under the list of entries for the outbound direction in the output from Get-VMNetworkAdapterAcl.
      * </remarks>
      */
-    public VMNetworkAdapterAclSetting[] Get_VMNetworkAdapterAcl(
-        Get_VMNetworkAdapterAclArguments args
-    )
+    public VMNetworkAdapterAclSetting[] GetVMNetworkAdapterAcl(GetVMNetworkAdapterAclArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -8129,7 +8122,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMNetworkAdapterExtendedAclArguments
+    public class GetVMNetworkAdapterExtendedAclArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -8208,8 +8201,8 @@ public class HyperVApi
      * The **Get-VMNetworkAdapterExtendedAcl** cmdlet gets the extended access control lists (ACLs) configured for a virtual network adapter. If an ACL applies to both inbound and outbound packets, it appears in both inbound and outbound lists.
      * </remarks>
      */
-    public VMNetworkAdapterExtendedAclSetting[] Get_VMNetworkAdapterExtendedAcl(
-        Get_VMNetworkAdapterExtendedAclArguments args
+    public VMNetworkAdapterExtendedAclSetting[] GetVMNetworkAdapterExtendedAcl(
+        GetVMNetworkAdapterExtendedAclArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -8239,7 +8232,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMNetworkAdapterFailoverConfigurationArguments
+    public class GetVMNetworkAdapterFailoverConfigurationArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -8291,8 +8284,8 @@ public class HyperVApi
      * The **Get-VMNetworkAdapterFailoverConfiguration** cmdlet gets the IP address configuration of a virtual network adapter configured to be used when a virtual machine fails over.
      * </remarks>
      */
-    public PSObject[] Get_VMNetworkAdapterFailoverConfiguration(
-        Get_VMNetworkAdapterFailoverConfigurationArguments args
+    public PSObject[] GetVMNetworkAdapterFailoverConfiguration(
+        GetVMNetworkAdapterFailoverConfigurationArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -8318,7 +8311,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMNetworkAdapterIsolationArguments
+    public class GetVMNetworkAdapterIsolationArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -8395,8 +8388,8 @@ public class HyperVApi
      * The **Get-VMNetworkAdapterIsolation** cmdlet gets isolation settings for a virtual network adapter. The cmdlet displays the isolation method, and other information, such as the multitenancy mode and the subnet ID for traffic bound for to the default compartment if multitenancy is enabled.
      * </remarks>
      */
-    public VMNetworkAdapterIsolationSetting[] Get_VMNetworkAdapterIsolation(
-        Get_VMNetworkAdapterIsolationArguments args
+    public VMNetworkAdapterIsolationSetting[] GetVMNetworkAdapterIsolation(
+        GetVMNetworkAdapterIsolationArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -8426,7 +8419,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMNetworkAdapterRdmaArguments
+    public class GetVMNetworkAdapterRdmaArguments
     {
         public CimSession[]? CimSession { get; set; }
         public string[]? ComputerName { get; set; }
@@ -8455,8 +8448,8 @@ public class HyperVApi
      * No description available.
      * </remarks>
      */
-    public VMNetworkAdapterRdmaSetting[] Get_VMNetworkAdapterRdma(
-        Get_VMNetworkAdapterRdmaArguments args
+    public VMNetworkAdapterRdmaSetting[] GetVMNetworkAdapterRdma(
+        GetVMNetworkAdapterRdmaArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -8488,7 +8481,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMNetworkAdapterRoutingDomainMappingArguments
+    public class GetVMNetworkAdapterRoutingDomainMappingArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -8575,8 +8568,8 @@ public class HyperVApi
      * The **Get-VmNetworkAdapterRoutingDomainMapping** cmdlet gets members of a routing domain.
      * </remarks>
      */
-    public VMNetworkAdapterRoutingDomainSetting[] Get_VMNetworkAdapterRoutingDomainMapping(
-        Get_VMNetworkAdapterRoutingDomainMappingArguments args
+    public VMNetworkAdapterRoutingDomainSetting[] GetVMNetworkAdapterRoutingDomainMapping(
+        GetVMNetworkAdapterRoutingDomainMappingArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -8610,7 +8603,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMNetworkAdapterTeamMappingArguments
+    public class GetVMNetworkAdapterTeamMappingArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -8682,7 +8675,7 @@ public class HyperVApi
      * The **Get-VMNetworkAdapterTeamMapping** cmdlet
      * </remarks>
      */
-    public void Get_VMNetworkAdapterTeamMapping(Get_VMNetworkAdapterTeamMappingArguments args)
+    public void GetVMNetworkAdapterTeamMapping(GetVMNetworkAdapterTeamMappingArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -8709,7 +8702,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Get-VMNetworkAdapterTeamMapping", parameters);
     }
 
-    public class Get_VMNetworkAdapterVlanArguments
+    public class GetVMNetworkAdapterVlanArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -8774,8 +8767,8 @@ public class HyperVApi
      * The **Get-VMNetworkAdapterVlan** cmdlet gets the virtual LAN settings configured on a virtual network adapter.
      * </remarks>
      */
-    public VMNetworkAdapterVlanSetting[] Get_VMNetworkAdapterVlan(
-        Get_VMNetworkAdapterVlanArguments args
+    public VMNetworkAdapterVlanSetting[] GetVMNetworkAdapterVlan(
+        GetVMNetworkAdapterVlanArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -8805,7 +8798,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMPartitionableGpuArguments
+    public class GetVMPartitionableGpuArguments
     {
         public required CimSession[]? CimSession { get; set; }
         public string[]? ComputerName { get; set; }
@@ -8824,7 +8817,7 @@ public class HyperVApi
      * No description available.
      * </remarks>
      */
-    public VMPartitionableGpu[] Get_VMPartitionableGpu(Get_VMPartitionableGpuArguments args)
+    public VMPartitionableGpu[] GetVMPartitionableGpu(GetVMPartitionableGpuArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -8843,7 +8836,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMPmemControllerArguments
+    public class GetVMPmemControllerArguments
     {
         public CimSession[]? CimSession { get; set; }
         public string[]? ComputerName { get; set; }
@@ -8867,7 +8860,7 @@ public class HyperVApi
      * No description available.
      * </remarks>
      */
-    public VMPmemController[] Get_VMPmemController(Get_VMPmemControllerArguments args)
+    public VMPmemController[] GetVMPmemController(GetVMPmemControllerArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -8889,7 +8882,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMProcessorArguments
+    public class GetVMProcessorArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -8936,7 +8929,7 @@ public class HyperVApi
      * The **Get-VMProcessor** cmdlet gets the processor of a virtual machine or snapshot.
      * </remarks>
      */
-    public VMProcessor[] Get_VMProcessor(Get_VMProcessorArguments args)
+    public VMProcessor[] GetVMProcessor(GetVMProcessorArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -8956,7 +8949,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMRemoteFx3dVideoAdapterArguments
+    public class GetVMRemoteFx3dVideoAdapterArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -9003,8 +8996,8 @@ public class HyperVApi
      * The **Get-VMRemoteFx3dVideoAdapter** cmdlet gets the RemoteFX video adapter of a virtual machine or snapshot.
      * </remarks>
      */
-    public VMRemoteFx3DVideoAdapter[] Get_VMRemoteFx3dVideoAdapter(
-        Get_VMRemoteFx3dVideoAdapterArguments args
+    public VMRemoteFx3DVideoAdapter[] GetVMRemoteFx3dVideoAdapter(
+        GetVMRemoteFx3dVideoAdapterArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -9028,7 +9021,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMRemoteFXPhysicalVideoAdapterArguments
+    public class GetVMRemoteFXPhysicalVideoAdapterArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -9065,8 +9058,8 @@ public class HyperVApi
      * The **Get-VMRemoteFXPhysicalVideoAdapter** cmdlet gets the RemoteFX physical graphics adapters on one or more Hyper-V hosts.
      * </remarks>
      */
-    public VMRemoteFXPhysicalVideoAdapter[] Get_VMRemoteFXPhysicalVideoAdapter(
-        Get_VMRemoteFXPhysicalVideoAdapterArguments args
+    public VMRemoteFXPhysicalVideoAdapter[] GetVMRemoteFXPhysicalVideoAdapter(
+        GetVMRemoteFXPhysicalVideoAdapterArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -9086,7 +9079,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMReplicationArguments
+    public class GetVMReplicationArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -9181,7 +9174,7 @@ public class HyperVApi
      * The **Get-VMReplication** cmdlet gets the replication settings for a virtual machine.
      * </remarks>
      */
-    public VMReplication[] Get_VMReplication(Get_VMReplicationArguments args)
+    public VMReplication[] GetVMReplication(GetVMReplicationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -9213,7 +9206,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMReplicationAuthorizationEntryArguments
+    public class GetVMReplicationAuthorizationEntryArguments
     {
         /**
          * Specifies the allowed primary server for which replication authorization entries are to be retrieved.
@@ -9260,8 +9253,8 @@ public class HyperVApi
      * The **Get-VMReplicationAuthorizationEntry** cmdlet gets the replication authorization entries specified for a Replica server.
      * </remarks>
      */
-    public VMReplicationAuthorizationEntry[] Get_VMReplicationAuthorizationEntry(
-        Get_VMReplicationAuthorizationEntryArguments args
+    public VMReplicationAuthorizationEntry[] GetVMReplicationAuthorizationEntry(
+        GetVMReplicationAuthorizationEntryArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -9285,7 +9278,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMReplicationServerArguments
+    public class GetVMReplicationServerArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -9317,7 +9310,7 @@ public class HyperVApi
      * The **Get-VMReplicationServer** cmdlet gets the replication and authentication settings of a Replica server.
      * </remarks>
      */
-    public VMReplicationServer[] Get_VMReplicationServer(Get_VMReplicationServerArguments args)
+    public VMReplicationServer[] GetVMReplicationServer(GetVMReplicationServerArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -9334,7 +9327,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMResourcePoolArguments
+    public class GetVMResourcePoolArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -9377,7 +9370,7 @@ public class HyperVApi
      * The **Get-VMResourcePool** cmdlet gets the resource pools on one or more virtual machine hosts.
      * </remarks>
      */
-    public VMResourcePool[] Get_VMResourcePool(Get_VMResourcePoolArguments args)
+    public VMResourcePool[] GetVMResourcePool(GetVMResourcePoolArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -9395,7 +9388,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMSanArguments
+    public class GetVMSanArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -9432,7 +9425,7 @@ public class HyperVApi
      * The **Get-VMSan** cmdlet gets the available virtual storage area networks (SANs) on one or more Hyper-V hosts.
      * </remarks>
      */
-    public VMSan[] Get_VMSan(Get_VMSanArguments args)
+    public VMSan[] GetVMSan(GetVMSanArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -9448,7 +9441,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMScsiControllerArguments
+    public class GetVMScsiControllerArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -9500,7 +9493,7 @@ public class HyperVApi
      * The **Get-VMScsiController** cmdlet gets the SCSI controllers of a virtual machine or snapshot.
      * </remarks>
      */
-    public VMScsiController[] Get_VMScsiController(Get_VMScsiControllerArguments args)
+    public VMScsiController[] GetVMScsiController(GetVMScsiControllerArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -9522,7 +9515,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMSecurityArguments
+    public class GetVMSecurityArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -9564,7 +9557,7 @@ public class HyperVApi
      * The **Get-VMSecurity** cmdlet gets security information about a virtual machine.
      * </remarks>
      */
-    public VMSecurity[] Get_VMSecurity(Get_VMSecurityArguments args)
+    public VMSecurity[] GetVMSecurity(GetVMSecurityArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -9582,7 +9575,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMStoragePathArguments
+    public class GetVMStoragePathArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -9639,7 +9632,7 @@ public class HyperVApi
      * The **Get-VMStoragePath** cmdlet gets the storage paths in a storage resource pool.
      * </remarks>
      */
-    public VMStorageResourcePool[] Get_VMStoragePath(Get_VMStoragePathArguments args)
+    public VMStorageResourcePool[] GetVMStoragePath(GetVMStoragePathArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -9662,7 +9655,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMStorageSettingsArguments
+    public class GetVMStorageSettingsArguments
     {
         public CimSession[]? CimSession { get; set; }
         public string[]? ComputerName { get; set; }
@@ -9682,7 +9675,7 @@ public class HyperVApi
      * No description available.
      * </remarks>
      */
-    public VMStorageSetting[] Get_VMStorageSettings(Get_VMStorageSettingsArguments args)
+    public VMStorageSetting[] GetVMStorageSettings(GetVMStorageSettingsArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -9700,7 +9693,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMSwitchArguments
+    public class GetVMSwitchArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -9753,7 +9746,7 @@ public class HyperVApi
      * The **Get-VMSwitch** cmdlet gets the virtual switches from a Hyper-V host. If you specify no parameters, this cmdlet returns all virtual switches from the local Hyper-V host.
      * </remarks>
      */
-    public VMSwitch[] Get_VMSwitch(Get_VMSwitchArguments args)
+    public VMSwitch[] GetVMSwitch(GetVMSwitchArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -9775,7 +9768,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMSwitchExtensionArguments
+    public class GetVMSwitchExtensionArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -9822,7 +9815,7 @@ public class HyperVApi
      * The **Get-VMSwitchExtension** cmdlet gets the extensions on one or more virtual switches. These extensions may be of different types, and may be either enabled or disabled. Output can be filtered by extension. The retrieved extension object does not contain embedded objects for features, or an array of feature IDs.
      * </remarks>
      */
-    public VMSwitchExtension[] Get_VMSwitchExtension(Get_VMSwitchExtensionArguments args)
+    public VMSwitchExtension[] GetVMSwitchExtension(GetVMSwitchExtensionArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -9845,7 +9838,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMSwitchExtensionPortDataArguments
+    public class GetVMSwitchExtensionPortDataArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -9935,8 +9928,8 @@ public class HyperVApi
      * The **Get-VMSwitchExtensionPortData** cmdlet retrieves the status of a virtual switch extension feature applied to a virtual network adapter. This port feature data surfaces runtime information and statistics on a per-port basis.
      * </remarks>
      */
-    public VMSwitchExtensionPortData[] Get_VMSwitchExtensionPortData(
-        Get_VMSwitchExtensionPortDataArguments args
+    public VMSwitchExtensionPortData[] GetVMSwitchExtensionPortData(
+        GetVMSwitchExtensionPortDataArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -9976,7 +9969,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMSwitchExtensionPortFeatureArguments
+    public class GetVMSwitchExtensionPortFeatureArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -10064,8 +10057,8 @@ public class HyperVApi
      * The **Get-VMSwitchExtensionPortFeature** cmdlet gets the features configured on a virtual network adapter.
      * </remarks>
      */
-    public VMSwitchExtensionPortFeature[] Get_VMSwitchExtensionPortFeature(
-        Get_VMSwitchExtensionPortFeatureArguments args
+    public VMSwitchExtensionPortFeature[] GetVMSwitchExtensionPortFeature(
+        GetVMSwitchExtensionPortFeatureArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -10105,7 +10098,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMSwitchExtensionSwitchDataArguments
+    public class GetVMSwitchExtensionSwitchDataArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -10178,7 +10171,7 @@ public class HyperVApi
      * The **Get-VMSwitchExtensionSwitchData** cmdlet gets the status of a virtual switch extension applied on a virtual switch. This switch feature data surfaces runtime information and statistics on a per-switch basis.
      * </remarks>
      */
-    public void Get_VMSwitchExtensionSwitchData(Get_VMSwitchExtensionSwitchDataArguments args)
+    public void GetVMSwitchExtensionSwitchData(GetVMSwitchExtensionSwitchDataArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -10207,7 +10200,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Get-VMSwitchExtensionSwitchData", parameters);
     }
 
-    public class Get_VMSwitchExtensionSwitchFeatureArguments
+    public class GetVMSwitchExtensionSwitchFeatureArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -10280,8 +10273,8 @@ public class HyperVApi
      * The **Get-VMSwitchExtensionSwitchFeature** cmdlet gets the features configured on a virtual switch. The object can be used to update the configuration of the switch using the Set-VmSwitchExtensionFeature command.
      * </remarks>
      */
-    public VMSwitchExtensionSwitchFeature[] Get_VMSwitchExtensionSwitchFeature(
-        Get_VMSwitchExtensionSwitchFeatureArguments args
+    public VMSwitchExtensionSwitchFeature[] GetVMSwitchExtensionSwitchFeature(
+        GetVMSwitchExtensionSwitchFeatureArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -10315,7 +10308,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMSwitchTeamArguments
+    public class GetVMSwitchTeamArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -10360,7 +10353,7 @@ public class HyperVApi
      * </remarks>
      * <returns>This cmdlet returns a **VMSwitchTeam** object.</returns>
      */
-    public VMSwitchTeam[] Get_VMSwitchTeam(Get_VMSwitchTeamArguments args)
+    public VMSwitchTeam[] GetVMSwitchTeam(GetVMSwitchTeamArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -10378,7 +10371,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMSystemSwitchExtensionArguments
+    public class GetVMSystemSwitchExtensionArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -10415,8 +10408,8 @@ public class HyperVApi
      * The **Get-VMSystemSwitchExtension** cmdlet gets the switch extensions installed on a virtual machine host. The returned switch extension does not contain embedded objects for features or an array of feature IDs.
      * </remarks>
      */
-    public VMSystemSwitchExtension[] Get_VMSystemSwitchExtension(
-        Get_VMSystemSwitchExtensionArguments args
+    public VMSystemSwitchExtension[] GetVMSystemSwitchExtension(
+        GetVMSystemSwitchExtensionArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -10436,7 +10429,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Get_VMSystemSwitchExtensionPortFeatureArguments
+    public class GetVMSystemSwitchExtensionPortFeatureArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -10488,8 +10481,8 @@ public class HyperVApi
      * The **Get-VMSystemSwitchExtensionPortFeature** cmdlet gets the port-level features supported by virtual switch extensions on one or more Hyper-V hosts. The returned feature object will contain default values for the feature. The object can be used to apply the configuration on specific ports using the Add-VmSwitchExtensionPortFeature command.
      * </remarks>
      */
-    public void Get_VMSystemSwitchExtensionPortFeature(
-        Get_VMSystemSwitchExtensionPortFeatureArguments args
+    public void GetVMSystemSwitchExtensionPortFeature(
+        GetVMSystemSwitchExtensionPortFeatureArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -10511,7 +10504,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Get-VMSystemSwitchExtensionPortFeature", parameters);
     }
 
-    public class Get_VMSystemSwitchExtensionSwitchFeatureArguments
+    public class GetVMSystemSwitchExtensionSwitchFeatureArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -10563,8 +10556,8 @@ public class HyperVApi
      * The **Get-VMSystemSwitchExtensionSwitchFeature** cmdlet gets the switch-level features supported by virtual switch extensions in an extension on one or more Hyper-V hosts. The returned feature object will contain default values for the feature. The object can be used to apply the configuration on specific ports using the **Add-VMSwitchExtensionFeature** cmdlet.
      * </remarks>
      */
-    public void Get_VMSystemSwitchExtensionSwitchFeature(
-        Get_VMSystemSwitchExtensionSwitchFeatureArguments args
+    public void GetVMSystemSwitchExtensionSwitchFeature(
+        GetVMSystemSwitchExtensionSwitchFeatureArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -10589,7 +10582,7 @@ public class HyperVApi
         );
     }
 
-    public class Get_VMVideoArguments
+    public class GetVMVideoArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -10647,7 +10640,7 @@ public class HyperVApi
      * </remarks>
      * <returns>This cmdlet returns a **VMVideo** object.</returns>
      */
-    public VMVideo[] Get_VMVideo(Get_VMVideoArguments args)
+    public VMVideo[] GetVMVideo(GetVMVideoArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -10667,7 +10660,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Grant_VMConnectAccessArguments
+    public class GrantVMConnectAccessArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -10731,7 +10724,7 @@ public class HyperVApi
      * The **Grant-VMConnectAccess** cmdlet grants access to a user or users to connect to a virtual machine or machines. The cmdlet is intended for use in providing other applications with the appropriate permissions required to initiate a session with Virtual Machine Connection. Examples of such applications are Virtual Machine Manager.
      * </remarks>
      */
-    public void Grant_VMConnectAccess(Grant_VMConnectAccessArguments args)
+    public void GrantVMConnectAccess(GrantVMConnectAccessArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -10756,7 +10749,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Grant-VMConnectAccess", parameters);
     }
 
-    public class Import_VMArguments
+    public class ImportVMArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -10856,7 +10849,7 @@ public class HyperVApi
      * The **Import-VM** cmdlet imports a virtual machine from a file.
      * </remarks>
      */
-    public VirtualMachine[] Import_VM(Import_VMArguments args)
+    public VirtualMachine[] ImportVM(ImportVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -10896,7 +10889,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Import_VMInitialReplicationArguments
+    public class ImportVMInitialReplicationArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -10970,7 +10963,7 @@ public class HyperVApi
      * The **Import-VMInitialReplication** cmdlet imports initial replication files on a Replica server. It completes the initial replication of a virtual machine when external is used as the source of the files for initial replication.
      * </remarks>
      */
-    public void Import_VMInitialReplication(Import_VMInitialReplicationArguments args)
+    public void ImportVMInitialReplication(ImportVMInitialReplicationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -10999,7 +10992,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Import-VMInitialReplication", parameters);
     }
 
-    public class Measure_VMArguments
+    public class MeasureVMArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -11109,7 +11102,7 @@ public class HyperVApi
     -- NetworkOutbound(M): Total outgoing network traffic, in megabytes, from the virtual machine.
      * </remarks>
      */
-    public VMMeteringReportForVirtualMachine[] Measure_VM(Measure_VMArguments args)
+    public VMMeteringReportForVirtualMachine[] MeasureVM(MeasureVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -11130,7 +11123,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Measure_VMReplicationArguments
+    public class MeasureVMReplicationArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -11226,7 +11219,7 @@ public class HyperVApi
      * The **Measure-VMReplication** cmdlet gets replication statistics and information associated with virtual machine. Replication statistics are calculated for a predetermined amount of time based on the monitoring interval specified through the **Set-VMReplicationServer** cmdlet.
      * </remarks>
      */
-    public VMReplicationHealth[] Measure_VMReplication(Measure_VMReplicationArguments args)
+    public VMReplicationHealth[] MeasureVMReplication(MeasureVMReplicationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -11261,7 +11254,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Measure_VMResourcePoolArguments
+    public class MeasureVMResourcePoolArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -11379,8 +11372,8 @@ public class HyperVApi
     -- NetworkOutbound(M): total outgoing network traffic, in megabytes, to the virtual machines under the specified resource pool.
      * </remarks>
      */
-    public VMMeteringReportForResourcePool[] Measure_VMResourcePool(
-        Measure_VMResourcePoolArguments args
+    public VMMeteringReportForResourcePool[] MeasureVMResourcePool(
+        MeasureVMResourcePoolArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -11402,7 +11395,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Merge_VHDArguments
+    public class MergeVHDArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -11473,7 +11466,7 @@ public class HyperVApi
     Merge is an offline operation; the virtual hard disk chain must not be attached when merge is initiated.
      * </remarks>
      */
-    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] Merge_VHD(Merge_VHDArguments args)
+    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] MergeVHD(MergeVHDArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -11504,7 +11497,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Mount_VHDArguments
+    public class MountVHDArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -11575,7 +11568,7 @@ public class HyperVApi
      * The **Mount-VHD** cmdlet mounts one or more virtual hard disks.
      * </remarks>
      */
-    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] Mount_VHD(Mount_VHDArguments args)
+    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] MountVHD(MountVHDArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -11606,7 +11599,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Mount_VMHostAssignableDeviceArguments
+    public class MountVMHostAssignableDeviceArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer. Enter a computer name or a session
@@ -11676,8 +11669,8 @@ public class HyperVApi
      * The `Mount-VMHostAssignableDevice` cmdlet mounts a device such as GPUs, network adapters, or storage controllers that are physically present on the virtual machine host.
      * </remarks>
      */
-    public VMHostAssignableDevice[] Mount_VMHostAssignableDevice(
-        Mount_VMHostAssignableDeviceArguments args
+    public VMHostAssignableDevice[] MountVMHostAssignableDevice(
+        MountVMHostAssignableDeviceArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -11707,7 +11700,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Move_VMArguments
+    public class MoveVMArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -11840,7 +11833,7 @@ public class HyperVApi
      * The **Move-VM** cmdlet moves a virtual machine to a new Hyper-V host.
      * </remarks>
      */
-    public void Move_VM(Move_VMArguments args)
+    public void MoveVM(MoveVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -11891,7 +11884,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Move-VM", parameters);
     }
 
-    public class Move_VMStorageArguments
+    public class MoveVMStorageArguments
     {
         /**
          * Allows the move operation to be attempted even if the paths specified for the destination computer cannot be verified prior to attempting the move operation.
@@ -11999,7 +11992,7 @@ public class HyperVApi
      * The **Move-VMStorage** cmdlet moves the storage of a virtual machine.
      * </remarks>
      */
-    public void Move_VMStorage(Move_VMStorageArguments args)
+    public void MoveVMStorage(MoveVMStorageArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowUnverifiedPaths is not null)
@@ -12040,7 +12033,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Move-VMStorage", parameters);
     }
 
-    public class New_VFDArguments
+    public class NewVFDArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer. Enter a computer name or a session
@@ -12089,7 +12082,7 @@ public class HyperVApi
      * The `New-VFD` cmdlet creates a new virtual floppy disk.
      * </remarks>
      */
-    public System.IO.FileInfo[] New_VFD(New_VFDArguments args)
+    public System.IO.FileInfo[] NewVFD(NewVFDArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -12109,7 +12102,7 @@ public class HyperVApi
         return result;
     }
 
-    public class New_VHDArguments
+    public class NewVHDArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -12210,7 +12203,7 @@ public class HyperVApi
      * The **New-VHD** cmdlet creates one or more new virtual hard disks in either VHD format or the newer VHDX format. The file name extension you specify determines the format.
      * </remarks>
      */
-    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] New_VHD(New_VHDArguments args)
+    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] NewVHD(NewVHDArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -12253,7 +12246,7 @@ public class HyperVApi
         return result;
     }
 
-    public class New_VMArguments
+    public class NewVMArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -12426,7 +12419,7 @@ public class HyperVApi
      * The `New-VM` cmdlet creates a new virtual machine.
      * </remarks>
      */
-    public VirtualMachine[] New_VM(New_VMArguments args)
+    public VirtualMachine[] NewVM(NewVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -12478,7 +12471,7 @@ public class HyperVApi
         return result;
     }
 
-    public class New_VMGroupArguments
+    public class NewVMGroupArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -12540,7 +12533,7 @@ public class HyperVApi
      * The **New-VMGroup** cmdlet creates a virtual machine group.
      * </remarks>
      */
-    public VMGroup[] New_VMGroup(New_VMGroupArguments args)
+    public VMGroup[] NewVMGroup(NewVMGroupArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -12560,7 +12553,7 @@ public class HyperVApi
         return result;
     }
 
-    public class New_VMReplicationAuthorizationEntryArguments
+    public class NewVMReplicationAuthorizationEntryArguments
     {
         /**
          * Specifies the server that is allowed to send replication data to the Replica server.
@@ -12624,8 +12617,8 @@ public class HyperVApi
      * The **New-VMReplicationAuthorizationEntry** cmdlet creates a new authorization entry that allows one or more primary servers to replicate data. To use this cmdlet, the value of the ReplicationAllowedFromAnyServer property of the Replica server must be false. You can use the **Get-VMReplicationServer** cmdlet to check the value of this property.
      * </remarks>
      */
-    public VMReplicationAuthorizationEntry[] New_VMReplicationAuthorizationEntry(
-        New_VMReplicationAuthorizationEntryArguments args
+    public VMReplicationAuthorizationEntry[] NewVMReplicationAuthorizationEntry(
+        NewVMReplicationAuthorizationEntryArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -12653,7 +12646,7 @@ public class HyperVApi
         return result;
     }
 
-    public class New_VMResourcePoolArguments
+    public class NewVMResourcePoolArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -12716,7 +12709,7 @@ public class HyperVApi
      * The **New-VMResourcePool** cmdlet creates a resource pool.
      * </remarks>
      */
-    public VMResourcePool[] New_VMResourcePool(New_VMResourcePoolArguments args)
+    public VMResourcePool[] NewVMResourcePool(NewVMResourcePoolArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -12742,7 +12735,7 @@ public class HyperVApi
         return result;
     }
 
-    public class New_VMSanArguments
+    public class NewVMSanArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -12811,7 +12804,7 @@ public class HyperVApi
      * The **New-VMSan** cmdlet creates a new virtual storage area network (SAN) on a Hyper-V host.
      * </remarks>
      */
-    public VMSan[] New_VMSan(New_VMSanArguments args)
+    public VMSan[] NewVMSan(NewVMSanArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -12839,7 +12832,7 @@ public class HyperVApi
         return result;
     }
 
-    public class New_VMSwitchArguments
+    public class NewVMSwitchArguments
     {
         /**
          * Specifies whether the parent partition (i.e.
@@ -12943,7 +12936,7 @@ public class HyperVApi
      * The **New-VMSwitch** cmdlet creates a new virtual switch on one or more virtual machine hosts.
      * </remarks>
      */
-    public VMSwitch[] New_VMSwitch(New_VMSwitchArguments args)
+    public VMSwitch[] NewVMSwitch(NewVMSwitchArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowManagementOS is not null)
@@ -12981,7 +12974,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Optimize_VHDArguments
+    public class OptimizeVHDArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -13057,7 +13050,7 @@ public class HyperVApi
     The compact operation can succeed without reducing the file size, if no optimization is possible.
      * </remarks>
      */
-    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] Optimize_VHD(Optimize_VHDArguments args)
+    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] OptimizeVHD(OptimizeVHDArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -13086,7 +13079,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Optimize_VHDSetArguments
+    public class OptimizeVHDSetArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -13147,7 +13140,7 @@ public class HyperVApi
      * </remarks>
      * <returns>This cmdlet returns a **VirtualHardDisk** object, if you specify the **Passthru** parameter.</returns>
      */
-    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] Optimize_VHDSet(Optimize_VHDSetArguments args)
+    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] OptimizeVHDSet(OptimizeVHDSetArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -13174,7 +13167,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Remove_VHDSnapshotArguments
+    public class RemoveVHDSnapshotArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -13247,8 +13240,8 @@ public class HyperVApi
     Checkpoint replaces the previous term, snapshot.
      * </remarks>
      */
-    public Microsoft.Vhd.PowerShell.VHDSnapshotInfo[] Remove_VHDSnapshot(
-        Remove_VHDSnapshotArguments args
+    public Microsoft.Vhd.PowerShell.VHDSnapshotInfo[] RemoveVHDSnapshot(
+        RemoveVHDSnapshotArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -13280,7 +13273,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Remove_VMArguments
+    public class RemoveVMArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -13348,7 +13341,7 @@ public class HyperVApi
      * The **Remove-VM** cmdlet deletes a virtual machine. Running this cmdlet deletes the virtual machine's configuration file, but does not delete any virtual hard drives. If the virtual machine has any snapshots, these are deleted and merged into the virtual hard disk files after the virtual machine is deleted.
      * </remarks>
      */
-    public void Remove_VM(Remove_VMArguments args)
+    public void RemoveVM(RemoveVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -13375,7 +13368,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VM", parameters);
     }
 
-    public class Remove_VMAssignableDeviceArguments
+    public class RemoveVMAssignableDeviceArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer. Enter a computer name or a session
@@ -13447,7 +13440,7 @@ public class HyperVApi
      * The `Remove-VMAssignableDevice` cmdlet removes an assignable device from a specified virtual machine (VM). This is often used in scenarios where a physical device, such as a GPU or network adapter, was previously assigned to a VM and needs to be unassigned.
      * </remarks>
      */
-    public VMAssignedDevice[] Remove_VMAssignableDevice(Remove_VMAssignableDeviceArguments args)
+    public VMAssignedDevice[] RemoveVMAssignableDevice(RemoveVMAssignableDeviceArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -13478,7 +13471,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Remove_VMDvdDriveArguments
+    public class RemoveVMDvdDriveArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -13548,7 +13541,7 @@ public class HyperVApi
      * The **Remove-VMDvdDrive** cmdlet deletes a DVD drive from a virtual machine.
      * </remarks>
      */
-    public void Remove_VMDvdDrive(Remove_VMDvdDriveArguments args)
+    public void RemoveVMDvdDrive(RemoveVMDvdDriveArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -13575,7 +13568,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMDvdDrive", parameters);
     }
 
-    public class Remove_VMFibreChannelHbaArguments
+    public class RemoveVMFibreChannelHbaArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -13653,7 +13646,7 @@ public class HyperVApi
      * The **Remove-VMFibreChannelHba** cmdlet removes a Fibre Channel host bus adapter from a virtual machine.
      * </remarks>
      */
-    public void Remove_VMFibreChannelHba(Remove_VMFibreChannelHbaArguments args)
+    public void RemoveVMFibreChannelHba(RemoveVMFibreChannelHbaArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -13684,7 +13677,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMFibreChannelHba", parameters);
     }
 
-    public class Remove_VMGpuPartitionAdapterArguments
+    public class RemoveVMGpuPartitionAdapterArguments
     {
         /**
          * This is a VM's GPU partition identification number used to remove a GPU from a VM.
@@ -13759,8 +13752,8 @@ public class HyperVApi
      * The `Remove-VMGpuPartitionAdapter` cmdlet removes an assigned graphic processing unit partition from a virtual machine and releases that partition back to the host GPU.
      * </remarks>
      */
-    public VMGpuPartitionAdapter[] Remove_VMGpuPartitionAdapter(
-        Remove_VMGpuPartitionAdapterArguments args
+    public VMGpuPartitionAdapter[] RemoveVMGpuPartitionAdapter(
+        RemoveVMGpuPartitionAdapterArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -13792,7 +13785,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Remove_VMGroupArguments
+    public class RemoveVMGroupArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -13851,7 +13844,7 @@ public class HyperVApi
      * The **Remove-VMGroup** cmdlet removes a virtual machine group. Before you can remove a group, it must be empty.
      * </remarks>
      */
-    public System.Object[] Remove_VMGroup(Remove_VMGroupArguments args)
+    public System.Object[] RemoveVMGroup(RemoveVMGroupArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -13873,7 +13866,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Remove_VMGroupMemberArguments
+    public class RemoveVMGroupMemberArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -13955,7 +13948,7 @@ public class HyperVApi
      * </remarks>
      * <returns>This cmdlet returns a **VMGroup** object, if you specify the **Passthru** parameter.</returns>
      */
-    public VMGroup[] Remove_VMGroupMember(Remove_VMGroupMemberArguments args)
+    public VMGroup[] RemoveVMGroupMember(RemoveVMGroupMemberArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -13985,7 +13978,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Remove_VMHardDiskDriveArguments
+    public class RemoveVMHardDiskDriveArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -14061,7 +14054,7 @@ public class HyperVApi
      * The **Remove-VMHardDiskDrive** cmdlet deletes a hard disk drive from a virtual machine.
      * </remarks>
      */
-    public void Remove_VMHardDiskDrive(Remove_VMHardDiskDriveArguments args)
+    public void RemoveVMHardDiskDrive(RemoveVMHardDiskDriveArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -14090,7 +14083,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMHardDiskDrive", parameters);
     }
 
-    public class Remove_VMHostAssignableDeviceArguments
+    public class RemoveVMHostAssignableDeviceArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer. Enter a computer name or a session
@@ -14166,9 +14159,7 @@ public class HyperVApi
      * The `Remove-VMHostAssignableDevice` cmdlet removes a device that is assigned to a virtual machine host. Depending on the parameters specified, you can remove devices by providing either the instance or location path of the device.
      * </remarks>
      */
-    public System.Object[] Remove_VMHostAssignableDevice(
-        Remove_VMHostAssignableDeviceArguments args
-    )
+    public System.Object[] RemoveVMHostAssignableDevice(RemoveVMHostAssignableDeviceArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -14199,7 +14190,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Remove_VMKeyStorageDriveArguments
+    public class RemoveVMKeyStorageDriveArguments
     {
         public CimSession[]? CimSession { get; set; }
         public string[]? ComputerName { get; set; }
@@ -14222,7 +14213,7 @@ public class HyperVApi
      * No description available.
      * </remarks>
      */
-    public KeyStorageDrive[] Remove_VMKeyStorageDrive(Remove_VMKeyStorageDriveArguments args)
+    public KeyStorageDrive[] RemoveVMKeyStorageDrive(RemoveVMKeyStorageDriveArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -14249,7 +14240,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Remove_VMMigrationNetworkArguments
+    public class RemoveVMMigrationNetworkArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -14302,7 +14293,7 @@ public class HyperVApi
      * The **Remove-VMMigrationNetwork** cmdlet removes a network from use with migration.
      * </remarks>
      */
-    public void Remove_VMMigrationNetwork(Remove_VMMigrationNetworkArguments args)
+    public void RemoveVMMigrationNetwork(RemoveVMMigrationNetworkArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -14323,7 +14314,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMMigrationNetwork", parameters);
     }
 
-    public class Remove_VMNetworkAdapterArguments
+    public class RemoveVMNetworkAdapterArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -14402,7 +14393,7 @@ public class HyperVApi
      * The **Remove-VMNetworkAdapter** cmdlet removes one or more virtual network adapters from a virtual machine.
      * </remarks>
      */
-    public void Remove_VMNetworkAdapter(Remove_VMNetworkAdapterArguments args)
+    public void RemoveVMNetworkAdapter(RemoveVMNetworkAdapterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -14433,7 +14424,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMNetworkAdapter", parameters);
     }
 
-    public class Remove_VMNetworkAdapterAclArguments
+    public class RemoveVMNetworkAdapterAclArguments
     {
         /**
          * Specifies the action of the ACL to be removed.
@@ -14555,7 +14546,7 @@ public class HyperVApi
      * The **Remove-VMNetworkAdapterAcl** cmdlet removes an ACL applied to the traffic through a virtual network adapter.
      * </remarks>
      */
-    public void Remove_VMNetworkAdapterAcl(Remove_VMNetworkAdapterAclArguments args)
+    public void RemoveVMNetworkAdapterAcl(RemoveVMNetworkAdapterAclArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.Action is not null)
@@ -14598,7 +14589,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMNetworkAdapterAcl", parameters);
     }
 
-    public class Remove_VMNetworkAdapterExtendedAclArguments
+    public class RemoveVMNetworkAdapterExtendedAclArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -14708,8 +14699,8 @@ public class HyperVApi
      * The **Remove-VMNetworkAdapterExtendedAcl** cmdlet removes an extended access control list (ACL) for a virtual network adapter.
      * </remarks>
      */
-    public VMNetworkAdapterExtendedAclSetting[] Remove_VMNetworkAdapterExtendedAcl(
-        Remove_VMNetworkAdapterExtendedAclArguments args
+    public VMNetworkAdapterExtendedAclSetting[] RemoveVMNetworkAdapterExtendedAcl(
+        RemoveVMNetworkAdapterExtendedAclArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -14749,7 +14740,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Remove_VMNetworkAdapterRoutingDomainMappingArguments
+    public class RemoveVMNetworkAdapterRoutingDomainMappingArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -14852,8 +14843,8 @@ public class HyperVApi
      * The **Remove-VmNetworkAdapterRoutingDomainMapping** cmdlet removes a routing domain from a virtual network adapter on a multitenant gateway virtual machine.
      * </remarks>
      */
-    public VMNetworkAdapterRoutingDomainSetting[] Remove_VMNetworkAdapterRoutingDomainMapping(
-        Remove_VMNetworkAdapterRoutingDomainMappingArguments args
+    public VMNetworkAdapterRoutingDomainSetting[] RemoveVMNetworkAdapterRoutingDomainMapping(
+        RemoveVMNetworkAdapterRoutingDomainMappingArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -14893,7 +14884,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Remove_VMNetworkAdapterTeamMappingArguments
+    public class RemoveVMNetworkAdapterTeamMappingArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -14976,8 +14967,8 @@ public class HyperVApi
      * The **Remove-VMNetworkAdapterTeamMapping** cmdlet
      * </remarks>
      */
-    public VMNetworkAdapterTeamMappingSetting[] Remove_VMNetworkAdapterTeamMapping(
-        Remove_VMNetworkAdapterTeamMappingArguments args
+    public VMNetworkAdapterTeamMappingSetting[] RemoveVMNetworkAdapterTeamMapping(
+        RemoveVMNetworkAdapterTeamMappingArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -15013,7 +15004,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Remove_VMPmemControllerArguments
+    public class RemoveVMPmemControllerArguments
     {
         public CimSession[]? CimSession { get; set; }
         public string[]? ComputerName { get; set; }
@@ -15036,7 +15027,7 @@ public class HyperVApi
      * No description available.
      * </remarks>
      */
-    public VMPmemController[] Remove_VMPmemController(Remove_VMPmemControllerArguments args)
+    public VMPmemController[] RemoveVMPmemController(RemoveVMPmemControllerArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -15063,7 +15054,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Remove_VMRemoteFx3dVideoAdapterArguments
+    public class RemoveVMRemoteFx3dVideoAdapterArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -15126,7 +15117,7 @@ public class HyperVApi
      * The **Remove-VMRemoteFx3dVideoAdapter** cmdlet removes a RemoteFX 3D video adapter from a virtual machine.
      * </remarks>
      */
-    public void Remove_VMRemoteFx3dVideoAdapter(Remove_VMRemoteFx3dVideoAdapterArguments args)
+    public void RemoveVMRemoteFx3dVideoAdapter(RemoveVMRemoteFx3dVideoAdapterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -15151,7 +15142,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMRemoteFx3dVideoAdapter", parameters);
     }
 
-    public class Remove_VMReplicationArguments
+    public class RemoveVMReplicationArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -15221,7 +15212,7 @@ public class HyperVApi
      * The **Remove-VMReplication** cmdlet removes the replication relationship of a virtual machine. Replication must be removed independently from both the primary and Replica virtual machines. Removing replication on a Replica virtual machine does not delete the Replica virtual machine.
      * </remarks>
      */
-    public void Remove_VMReplication(Remove_VMReplicationArguments args)
+    public void RemoveVMReplication(RemoveVMReplicationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -15248,7 +15239,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMReplication", parameters);
     }
 
-    public class Remove_VMReplicationAuthorizationEntryArguments
+    public class RemoveVMReplicationAuthorizationEntryArguments
     {
         /**
          * Specifies the allowed primary server for which the authorization entry is to be removed.
@@ -15311,8 +15302,8 @@ public class HyperVApi
      * The **Remove-VMReplicationAuthorizationEntry** cmdlet removes an authorization entry from a Replica server, which cancels authorization for the primary server associated with the entry. After the authorization entry is removed, the Replica server does not accept replication data from the corresponding primary server.
      * </remarks>
      */
-    public void Remove_VMReplicationAuthorizationEntry(
-        Remove_VMReplicationAuthorizationEntryArguments args
+    public void RemoveVMReplicationAuthorizationEntry(
+        RemoveVMReplicationAuthorizationEntryArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -15338,7 +15329,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMReplicationAuthorizationEntry", parameters);
     }
 
-    public class Remove_VMResourcePoolArguments
+    public class RemoveVMResourcePoolArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -15396,7 +15387,7 @@ public class HyperVApi
      * The **Remove-VMResourcePool** cmdlet deletes a resource pool from one or more virtual machine hosts.
      * </remarks>
      */
-    public void Remove_VMResourcePool(Remove_VMResourcePoolArguments args)
+    public void RemoveVMResourcePool(RemoveVMResourcePoolArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -15419,7 +15410,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMResourcePool", parameters);
     }
 
-    public class Remove_VMSanArguments
+    public class RemoveVMSanArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -15472,7 +15463,7 @@ public class HyperVApi
      * The **Remove-VMSan** cmdlet removes a virtual storage area network (SAN) from a Hyper-V host.
      * </remarks>
      */
-    public void Remove_VMSan(Remove_VMSanArguments args)
+    public void RemoveVMSan(RemoveVMSanArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -15493,7 +15484,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMSan", parameters);
     }
 
-    public class Remove_VMSavedStateArguments
+    public class RemoveVMSavedStateArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -15551,7 +15542,7 @@ public class HyperVApi
      * The **Remove-VMSavedState** cmdlet deletes the saved state of a saved virtual machine. Note: data contained in the memory of the virtual machine may be lost; data on its virtual hard disk drives are unaffected.
      * </remarks>
      */
-    public void Remove_VMSavedState(Remove_VMSavedStateArguments args)
+    public void RemoveVMSavedState(RemoveVMSavedStateArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -15574,7 +15565,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMSavedState", parameters);
     }
 
-    public class Remove_VMScsiControllerArguments
+    public class RemoveVMScsiControllerArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -15639,7 +15630,7 @@ public class HyperVApi
      * The **Remove-VMScsiController** cmdlet removes a SCSI controller from a virtual machine.
      * </remarks>
      */
-    public void Remove_VMScsiController(Remove_VMScsiControllerArguments args)
+    public void RemoveVMScsiController(RemoveVMScsiControllerArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -15664,7 +15655,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMScsiController", parameters);
     }
 
-    public class Remove_VMStoragePathArguments
+    public class RemoveVMStoragePathArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -15717,7 +15708,7 @@ public class HyperVApi
      * The **Remove-VMStoragePath** cmdlet removes a path from a storage resource pool.
      * </remarks>
      */
-    public void Remove_VMStoragePath(Remove_VMStoragePathArguments args)
+    public void RemoveVMStoragePath(RemoveVMStoragePathArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -15738,7 +15729,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMStoragePath", parameters);
     }
 
-    public class Remove_VMSwitchArguments
+    public class RemoveVMSwitchArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -15801,7 +15792,7 @@ public class HyperVApi
      * The **Remove-VMSwitch** cmdlet deletes a virtual switch.
      * </remarks>
      */
-    public void Remove_VMSwitch(Remove_VMSwitchArguments args)
+    public void RemoveVMSwitch(RemoveVMSwitchArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -15826,7 +15817,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMSwitch", parameters);
     }
 
-    public class Remove_VMSwitchExtensionPortFeatureArguments
+    public class RemoveVMSwitchExtensionPortFeatureArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -15915,9 +15906,7 @@ public class HyperVApi
      * The **Remove-VMSwitchExtensionPortFeature** cmdlet removes a feature from a virtual network adapter. The feature must have already been configured on the virtual network adapter.
      * </remarks>
      */
-    public void Remove_VMSwitchExtensionPortFeature(
-        Remove_VMSwitchExtensionPortFeatureArguments args
-    )
+    public void RemoveVMSwitchExtensionPortFeature(RemoveVMSwitchExtensionPortFeatureArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -15952,7 +15941,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMSwitchExtensionPortFeature", parameters);
     }
 
-    public class Remove_VMSwitchExtensionSwitchFeatureArguments
+    public class RemoveVMSwitchExtensionSwitchFeatureArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -16015,8 +16004,8 @@ public class HyperVApi
      * The **Remove-VMSwitchExtensionSwitchFeature** cmdlet removes a feature from a virtual switch. The feature already must have been configured on the virtual switch.
      * </remarks>
      */
-    public void Remove_VMSwitchExtensionSwitchFeature(
-        Remove_VMSwitchExtensionSwitchFeatureArguments args
+    public void RemoveVMSwitchExtensionSwitchFeature(
+        RemoveVMSwitchExtensionSwitchFeatureArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -16042,7 +16031,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMSwitchExtensionSwitchFeature", parameters);
     }
 
-    public class Remove_VMSwitchTeamMemberArguments
+    public class RemoveVMSwitchTeamMemberArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -16116,7 +16105,7 @@ public class HyperVApi
      * </remarks>
      * <returns>This cmdlet returns an array of **VMSwitch** objects, if you specify the **Passthru** parameter.</returns>
      */
-    public VMSwitch[] Remove_VMSwitchTeamMember(Remove_VMSwitchTeamMemberArguments args)
+    public VMSwitch[] RemoveVMSwitchTeamMember(RemoveVMSwitchTeamMemberArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -16144,7 +16133,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Rename_VMArguments
+    public class RenameVMArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -16207,7 +16196,7 @@ public class HyperVApi
      * The **Rename-VM** cmdlet renames a virtual machine.
      * </remarks>
      */
-    public void Rename_VM(Rename_VMArguments args)
+    public void RenameVM(RenameVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -16232,7 +16221,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Rename-VM", parameters);
     }
 
-    public class Rename_VMGroupArguments
+    public class RenameVMGroupArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -16308,7 +16297,7 @@ public class HyperVApi
      * </remarks>
      * <returns>This cmdlet returns a **Microsoft.HyperV.PowerShell.VMGroup** object, if you specify the **Passthru** parameter.</returns>
      */
-    public VMGroup[] Rename_VMGroup(Rename_VMGroupArguments args)
+    public VMGroup[] RenameVMGroup(RenameVMGroupArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -16336,7 +16325,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Rename_VMNetworkAdapterArguments
+    public class RenameVMNetworkAdapterArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -16415,7 +16404,7 @@ public class HyperVApi
      * The **Rename-VMNetworkAdapter** cmdlet renames a virtual network adapter on a virtual machine or on the management operating system.
      * </remarks>
      */
-    public void Rename_VMNetworkAdapter(Rename_VMNetworkAdapterArguments args)
+    public void RenameVMNetworkAdapter(RenameVMNetworkAdapterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -16446,7 +16435,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Rename-VMNetworkAdapter", parameters);
     }
 
-    public class Rename_VMResourcePoolArguments
+    public class RenameVMResourcePoolArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -16509,7 +16498,7 @@ public class HyperVApi
      * The **Rename-VMResourcePool** cmdlet renames a resource pool on one or more Hyper-V hosts.
      * </remarks>
      */
-    public void Rename_VMResourcePool(Rename_VMResourcePoolArguments args)
+    public void RenameVMResourcePool(RenameVMResourcePoolArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -16534,7 +16523,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Rename-VMResourcePool", parameters);
     }
 
-    public class Rename_VMSanArguments
+    public class RenameVMSanArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -16592,7 +16581,7 @@ public class HyperVApi
      * The **Rename-VMSan** cmdlet renames a virtual storage area network (SAN).
      * </remarks>
      */
-    public void Rename_VMSan(Rename_VMSanArguments args)
+    public void RenameVMSan(RenameVMSanArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -16615,7 +16604,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Rename-VMSan", parameters);
     }
 
-    public class Rename_VMSwitchArguments
+    public class RenameVMSwitchArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -16678,7 +16667,7 @@ public class HyperVApi
      * The **Rename-VMSwitch** cmdlet renames a virtual switch.
      * </remarks>
      */
-    public void Rename_VMSwitch(Rename_VMSwitchArguments args)
+    public void RenameVMSwitch(RenameVMSwitchArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -16703,7 +16692,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Rename-VMSwitch", parameters);
     }
 
-    public class Repair_VMArguments
+    public class RepairVMArguments
     {
         /**
          * Specifies a compatibility report which includes adjustments to be made during repair.
@@ -16745,7 +16734,7 @@ public class HyperVApi
      * The **Repair-VM** cmdlet corrects some issues that can impact the ability to import or move a virtual machine. If Compare-VM determines that an import or move operation would fail for a particular VM, it returns a collection of incompatibilities that need to be fixed before the operation can succeed. Most of these incompatibilities can be fixed by using Set-VM. However, Set-VM does not modify either the path where the VM configuration is stored or the path where the snapshot files are stored. Repair-VM handles these two particular issues in this one specific situation.
      * </remarks>
      */
-    public void Repair_VM(Repair_VMArguments args)
+    public void RepairVM(RepairVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CompatibilityReport is not null)
@@ -16764,7 +16753,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Repair-VM", parameters);
     }
 
-    public class Reset_VMReplicationStatisticsArguments
+    public class ResetVMReplicationStatisticsArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -16834,7 +16823,7 @@ public class HyperVApi
      * The **Reset-VMReplicationStatistics** cmdlet resets the replication statistics of a virtual machine. Statistics accumulated up to that time are deleted, and replication monitoring begins collecting a new set of statistics. If replication health was reported as "Warning", then this operation also changes the health to "Normal".
      * </remarks>
      */
-    public void Reset_VMReplicationStatistics(Reset_VMReplicationStatisticsArguments args)
+    public void ResetVMReplicationStatistics(ResetVMReplicationStatisticsArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -16861,7 +16850,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Reset-VMReplicationStatistics", parameters);
     }
 
-    public class Reset_VMResourceMeteringArguments
+    public class ResetVMResourceMeteringArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -16919,7 +16908,7 @@ public class HyperVApi
     When this cmdlet is called, the virtual machine or resource pool resource utilization data collected up to current point of time is deleted. Hyper-V continues to collect resource utilization data after reset.
      * </remarks>
      */
-    public void Reset_VMResourceMetering(Reset_VMResourceMeteringArguments args)
+    public void ResetVMResourceMetering(ResetVMResourceMeteringArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -16940,7 +16929,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Reset-VMResourceMetering", parameters);
     }
 
-    public class Resize_VHDArguments
+    public class ResizeVHDArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -17012,7 +17001,7 @@ public class HyperVApi
     > [!NOTE] > Resize-VHD does not remove empty blocks from a dynamically-expanding virtual hard disk file. Use Optimize-VHD instead.
      * </remarks>
      */
-    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] Resize_VHD(Resize_VHDArguments args)
+    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] ResizeVHD(ResizeVHDArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -17043,7 +17032,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Restart_VMArguments
+    public class RestartVMArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -17135,7 +17124,7 @@ public class HyperVApi
      * The **Restart-VM** cmdlet restarts a virtual machine. Running this cmdlet results in a "hard" restart, like powering the computer down, then back up again. This can result in data loss in the virtual machine.
      * </remarks>
      */
-    public void Restart_VM(Restart_VMArguments args)
+    public void RestartVM(RestartVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -17170,7 +17159,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Restart-VM", parameters);
     }
 
-    public class Resume_VMArguments
+    public class ResumeVMArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -17235,7 +17224,7 @@ public class HyperVApi
      * The **Resume-VM** cmdlet resumes a suspended (paused) virtual machine.
      * </remarks>
      */
-    public void Resume_VM(Resume_VMArguments args)
+    public void ResumeVM(ResumeVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -17260,7 +17249,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Resume-VM", parameters);
     }
 
-    public class Resume_VMReplicationArguments
+    public class ResumeVMReplicationArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -17355,7 +17344,7 @@ public class HyperVApi
      * The **Resume-VMReplication** cmdlet resumes replication of a virtual machine with a replication state of Paused, Error, Resynchronization Required, or Suspended.
      * </remarks>
      */
-    public void Resume_VMReplication(Resume_VMReplicationArguments args)
+    public void ResumeVMReplication(ResumeVMReplicationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -17390,7 +17379,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Resume-VMReplication", parameters);
     }
 
-    public class Revoke_VMConnectAccessArguments
+    public class RevokeVMConnectAccessArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -17453,7 +17442,7 @@ public class HyperVApi
      * The **Revoke-VMConnectAccess** cmdlet revokes access for one or more users to connect to one or more virtual machines. This cmdlet is intended for use in providing other applications with the appropriate permissions required to initiate a session with Virtual Machine Connection. Examples of such applications are Virtual Machine Manager.
      * </remarks>
      */
-    public void Revoke_VMConnectAccess(Revoke_VMConnectAccessArguments args)
+    public void RevokeVMConnectAccess(RevokeVMConnectAccessArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -17478,7 +17467,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Revoke-VMConnectAccess", parameters);
     }
 
-    public class Save_VMArguments
+    public class SaveVMArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -17542,7 +17531,7 @@ public class HyperVApi
      * The **Save-VM** cmdlet saves a virtual machine. This is similar to hibernating a physical computer.
      * </remarks>
      */
-    public VirtualMachine[] Save_VM(Save_VMArguments args)
+    public VirtualMachine[] SaveVM(SaveVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -17568,7 +17557,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Set_VHDArguments
+    public class SetVHDArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -17657,7 +17646,7 @@ public class HyperVApi
      * The **Set-VHD** cmdlet sets the ParentPath or PhysicalSectorSizeBytes properties of a virtual hard disk. The two properties must be set in separate operations.
      * </remarks>
      */
-    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] Set_VHD(Set_VHDArguments args)
+    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] SetVHD(SetVHDArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -17694,7 +17683,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Set_VMArguments
+    public class SetVMArguments
     {
         /**
          * Specifies that no error is to be thrown if the specified path is not verified as accessible by the cluster.
@@ -17882,7 +17871,7 @@ public class HyperVApi
      * The **Set-VM** cmdlet configures a virtual machine.
      * </remarks>
      */
-    public void Set_VM(Set_VMArguments args)
+    public void SetVM(SetVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowUnverifiedPaths is not null)
@@ -17952,7 +17941,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VM", parameters);
     }
 
-    public class Set_VMBiosArguments
+    public class SetVMBiosArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -18035,7 +18024,7 @@ public class HyperVApi
      * The **Set-VMBios** cmdlet configures the BIOS of a Generation 1 virtual machine. Note: This cmdlet does not operate with Generation 2 virtual machine. If attempted, the cmdlet throws an error.
      * </remarks>
      */
-    public void Set_VMBios(Set_VMBiosArguments args)
+    public void SetVMBios(SetVMBiosArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -18066,7 +18055,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMBios", parameters);
     }
 
-    public class Set_VMComPortArguments
+    public class SetVMComPortArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -18146,7 +18135,7 @@ public class HyperVApi
      * The **Set-VMComPort** cmdlet configures the COM port of a virtual machine.
      * </remarks>
      */
-    public void Set_VMComPort(Set_VMComPortArguments args)
+    public void SetVMComPort(SetVMComPortArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -18177,7 +18166,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMComPort", parameters);
     }
 
-    public class Set_VMDvdDriveArguments
+    public class SetVMDvdDriveArguments
     {
         /**
          * Specifies that no error is to be thrown if the specified path is not verified as accessible by the cluster.
@@ -18273,7 +18262,7 @@ public class HyperVApi
      * The **Set-VMDvdDrive** cmdlet configures the controller and location of a virtual DVD drive.
      * </remarks>
      */
-    public void Set_VMDvdDrive(Set_VMDvdDriveArguments args)
+    public void SetVMDvdDrive(SetVMDvdDriveArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowUnverifiedPaths is not null)
@@ -18310,7 +18299,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMDvdDrive", parameters);
     }
 
-    public class Set_VMFibreChannelHbaArguments
+    public class SetVMFibreChannelHbaArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -18419,7 +18408,7 @@ public class HyperVApi
      * The **Set-VMFibreChannelHba** cmdlet configures a Fibre Channel host bus adapter on a virtual machine.
      * </remarks>
      */
-    public VMFibreChannelHba[] Set_VMFibreChannelHba(Set_VMFibreChannelHbaArguments args)
+    public VMFibreChannelHba[] SetVMFibreChannelHba(SetVMFibreChannelHbaArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -18466,7 +18455,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Set_VMFirmwareArguments
+    public class SetVMFirmwareArguments
     {
         /**
          * Specifies an array of devices.
@@ -18604,7 +18593,7 @@ public class HyperVApi
      * The **Set-VMFirmware** cmdlet sets the firmware configuration of a Generation 2 virtual machine.
      * </remarks>
      */
-    public VMFirmware[] Set_VMFirmware(Set_VMFirmwareArguments args)
+    public VMFirmware[] SetVMFirmware(SetVMFirmwareArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.BootOrder is not null)
@@ -18646,7 +18635,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Set_VMFloppyDiskDriveArguments
+    public class SetVMFloppyDiskDriveArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -18720,7 +18709,7 @@ public class HyperVApi
      * The **Set-VMFloppyDiskDrive** cmdlet configures a virtual floppy disk drive.
      * </remarks>
      */
-    public VMFloppyDiskDrive[] Set_VMFloppyDiskDrive(Set_VMFloppyDiskDriveArguments args)
+    public VMFloppyDiskDrive[] SetVMFloppyDiskDrive(SetVMFloppyDiskDriveArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -18753,7 +18742,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Set_VMGpuPartitionAdapterArguments
+    public class SetVMGpuPartitionAdapterArguments
     {
         /**
          * A VM's GPU partition identification number used to display the GPU information assigned to a VM.
@@ -18897,9 +18886,7 @@ public class HyperVApi
      * The `Set-VMGpuPartitionAdapter` cmdlet assigns a partition of a GPU to a virtual machine. Running the command against a virtual machine assigns a full partition. Additional parameters exist to assign more specific options to a VM.
      * </remarks>
      */
-    public VMGpuPartitionAdapter[] Set_VMGpuPartitionAdapter(
-        Set_VMGpuPartitionAdapterArguments args
-    )
+    public VMGpuPartitionAdapter[] SetVMGpuPartitionAdapter(SetVMGpuPartitionAdapterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AdapterId is not null)
@@ -18954,7 +18941,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Set_VMHardDiskDriveArguments
+    public class SetVMHardDiskDriveArguments
     {
         /**
          * Specifies that no error is to be thrown if the specified path is not verified as accessible by the cluster.
@@ -19102,7 +19089,7 @@ public class HyperVApi
      * The **Set-VMHardDiskDrive** cmdlet configures a virtual hard disk.
      * </remarks>
      */
-    public HardDiskDrive[] Set_VMHardDiskDrive(Set_VMHardDiskDriveArguments args)
+    public HardDiskDrive[] SetVMHardDiskDrive(SetVMHardDiskDriveArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowUnverifiedPaths is not null)
@@ -19158,7 +19145,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Set_VMHostArguments
+    public class SetVMHostArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -19303,7 +19290,7 @@ public class HyperVApi
      * The **Set-VMHost** cmdlet configures a Hyper-V host.
      * </remarks>
      */
-    public void Set_VMHost(Set_VMHostArguments args)
+    public void SetVMHost(SetVMHostArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -19358,7 +19345,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMHost", parameters);
     }
 
-    public class Set_VMHostClusterArguments
+    public class SetVMHostClusterArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -19406,7 +19393,7 @@ public class HyperVApi
      * </remarks>
      * <returns>This cmdlet returns a **VMHostCluster** object, if you specify the **Passthru** parameter.</returns>
      */
-    public VMHostCluster[] Set_VMHostCluster(Set_VMHostClusterArguments args)
+    public VMHostCluster[] SetVMHostCluster(SetVMHostClusterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -19426,7 +19413,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Set_VMHostPartitionableGpuArguments
+    public class SetVMHostPartitionableGpuArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer. Enter a computer name or a session
@@ -19481,8 +19468,8 @@ public class HyperVApi
      * The `Set-VMHostPartitionableGpu` cmdlet configures the host partitionable GPU to the number of partitions supported by the manufacturer.
      * </remarks>
      */
-    public VMHostPartitionableGpu[] Set_VMHostPartitionableGpu(
-        Set_VMHostPartitionableGpuArguments args
+    public VMHostPartitionableGpu[] SetVMHostPartitionableGpu(
+        SetVMHostPartitionableGpuArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -19508,7 +19495,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Set_VMKeyProtectorArguments
+    public class SetVMKeyProtectorArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -19584,7 +19571,7 @@ public class HyperVApi
      * The **Set-VMKeyProtector** cmdlet configures a key protector for a virtual machine.
      * </remarks>
      */
-    public VirtualMachine[] Set_VMKeyProtector(Set_VMKeyProtectorArguments args)
+    public VirtualMachine[] SetVMKeyProtector(SetVMKeyProtectorArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -19617,7 +19604,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Set_VMKeyStorageDriveArguments
+    public class SetVMKeyStorageDriveArguments
     {
         public object? AllowUnverifiedPaths { get; set; }
         public CimSession[]? CimSession { get; set; }
@@ -19646,7 +19633,7 @@ public class HyperVApi
      * No description available.
      * </remarks>
      */
-    public KeyStorageDrive[] Set_VMKeyStorageDrive(Set_VMKeyStorageDriveArguments args)
+    public KeyStorageDrive[] SetVMKeyStorageDrive(SetVMKeyStorageDriveArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowUnverifiedPaths is not null)
@@ -19682,7 +19669,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Set_VMMemoryArguments
+    public class SetVMMemoryArguments
     {
         /**
          * Specifies the percentage of memory to reserve as a buffer in the virtual machine to be configured.
@@ -19787,7 +19774,7 @@ public class HyperVApi
      * The **Set-VMMemory** cmdlet configures the memory of a virtual machine.
      * </remarks>
      */
-    public void Set_VMMemory(Set_VMMemoryArguments args)
+    public void SetVMMemory(SetVMMemoryArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.Buffer is not null)
@@ -19828,7 +19815,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMMemory", parameters);
     }
 
-    public class Set_VMMigrationNetworkArguments
+    public class SetVMMigrationNetworkArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -19893,7 +19880,7 @@ public class HyperVApi
      * The **Set-VMMigrationNetwork** cmdlet sets the subnet, subnet mask, and/or priority of a migration network.
      * </remarks>
      */
-    public void Set_VMMigrationNetwork(Set_VMMigrationNetworkArguments args)
+    public void SetVMMigrationNetwork(SetVMMigrationNetworkArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -19918,7 +19905,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMMigrationNetwork", parameters);
     }
 
-    public class Set_VMNetworkAdapterArguments
+    public class SetVMNetworkAdapterArguments
     {
         /**
          * Specifies whether the virtual network adapter can be teamed with other network adapters connected to the same virtual switch.
@@ -20193,7 +20180,7 @@ public class HyperVApi
      * The **Set-VMNetworkAdapter** cmdlet configures features of the virtual network adapter in a virtual machine or the management operating system.
      * </remarks>
      */
-    public void Set_VMNetworkAdapter(Set_VMNetworkAdapterArguments args)
+    public void SetVMNetworkAdapter(SetVMNetworkAdapterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowTeaming is not null)
@@ -20289,7 +20276,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMNetworkAdapter", parameters);
     }
 
-    public class Set_VMNetworkAdapterFailoverConfigurationArguments
+    public class SetVMNetworkAdapterFailoverConfigurationArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -20423,8 +20410,8 @@ public class HyperVApi
      * The **Set-VMNetworkAdapterFailoverConfiguration** cmdlet sets the configuration of an IP address of a virtual network adapter  to be used when a virtual machine fails over.
      * </remarks>
      */
-    public void Set_VMNetworkAdapterFailoverConfiguration(
-        Set_VMNetworkAdapterFailoverConfigurationArguments args
+    public void SetVMNetworkAdapterFailoverConfiguration(
+        SetVMNetworkAdapterFailoverConfigurationArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -20479,7 +20466,7 @@ public class HyperVApi
         );
     }
 
-    public class Set_VMNetworkAdapterIsolationArguments
+    public class SetVMNetworkAdapterIsolationArguments
     {
         /**
          * Indicates whether the virtual machine sends and receives untagged traffic.
@@ -20607,8 +20594,8 @@ public class HyperVApi
      * The **Set-VMNetworkAdapterIsolation** cmdlet modifies isolation settings for a virtual network adapter. You can isolate a virtual machine adapter by using virtual local area network (VLAN), Hyper-V Network Virtualization or a third party virtualization solution. You can specify the isolation method and modify other settings, which include multitenancy settings. For more information about multitenancy, see the **Add-VMNetworkAdapterRoutingDomainMapping** cmdlet.
      * </remarks>
      */
-    public VMNetworkAdapterIsolationSetting[] Set_VMNetworkAdapterIsolation(
-        Set_VMNetworkAdapterIsolationArguments args
+    public VMNetworkAdapterIsolationSetting[] SetVMNetworkAdapterIsolation(
+        SetVMNetworkAdapterIsolationArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -20650,7 +20637,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Set_VMNetworkAdapterRdmaArguments
+    public class SetVMNetworkAdapterRdmaArguments
     {
         public CimSession[]? CimSession { get; set; }
         public string[]? ComputerName { get; set; }
@@ -20681,8 +20668,8 @@ public class HyperVApi
      * No description available.
      * </remarks>
      */
-    public VMNetworkAdapterRdmaSetting[] Set_VMNetworkAdapterRdma(
-        Set_VMNetworkAdapterRdmaArguments args
+    public VMNetworkAdapterRdmaSetting[] SetVMNetworkAdapterRdma(
+        SetVMNetworkAdapterRdmaArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -20718,7 +20705,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Set_VMNetworkAdapterRoutingDomainMappingArguments
+    public class SetVMNetworkAdapterRoutingDomainMappingArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -20842,8 +20829,8 @@ public class HyperVApi
      * The **Set-VMNetworkAdapterRoutingDomainMapping** cmdlet sets virtual subnets on a routing domain.
      * </remarks>
      */
-    public VMNetworkAdapterRoutingDomainSetting[] Set_VMNetworkAdapterRoutingDomainMapping(
-        Set_VMNetworkAdapterRoutingDomainMappingArguments args
+    public VMNetworkAdapterRoutingDomainSetting[] SetVMNetworkAdapterRoutingDomainMapping(
+        SetVMNetworkAdapterRoutingDomainMappingArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -20889,7 +20876,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Set_VMNetworkAdapterTeamMappingArguments
+    public class SetVMNetworkAdapterTeamMappingArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -20977,8 +20964,8 @@ public class HyperVApi
      * The **Set-VMNetworkAdapterTeamMapping** cmdlet
      * </remarks>
      */
-    public VMNetworkAdapterTeamMappingSetting[] Set_VMNetworkAdapterTeamMapping(
-        Set_VMNetworkAdapterTeamMappingArguments args
+    public VMNetworkAdapterTeamMappingSetting[] SetVMNetworkAdapterTeamMapping(
+        SetVMNetworkAdapterTeamMappingArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -21016,7 +21003,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Set_VMNetworkAdapterVlanArguments
+    public class SetVMNetworkAdapterVlanArguments
     {
         /**
          * Specifies **Access** mode for the virtual machine network adapter. This parameter configures an untagged virtual port with the VLANId (port based VLAN), so it must be specified together with **VlanId**.
@@ -21165,7 +21152,7 @@ public class HyperVApi
      * The **Set-VMNetworkAdapterVlan** cmdlet configures virtual LAN settings for the traffic through a virtual network adapter. Access, Trunk, Private VLAN (isolated, community, or promiscuous), and untagged are mutually exclusive.
      * </remarks>
      */
-    public void Set_VMNetworkAdapterVlan(Set_VMNetworkAdapterVlanArguments args)
+    public void SetVMNetworkAdapterVlan(SetVMNetworkAdapterVlanArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.Access is not null)
@@ -21218,7 +21205,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMNetworkAdapterVlan", parameters);
     }
 
-    public class Set_VMPartitionableGpuArguments
+    public class SetVMPartitionableGpuArguments
     {
         public required CimSession[]? CimSession { get; set; }
         public string[]? ComputerName { get; set; }
@@ -21244,7 +21231,7 @@ public class HyperVApi
      * No description available.
      * </remarks>
      */
-    public VMPartitionableGpu[] Set_VMPartitionableGpu(Set_VMPartitionableGpuArguments args)
+    public VMPartitionableGpu[] SetVMPartitionableGpu(SetVMPartitionableGpuArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -21269,7 +21256,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Set_VMProcessorArguments
+    public class SetVMProcessorArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -21402,7 +21389,7 @@ public class HyperVApi
      * The **Set-VMProcessor** cmdlet configures the virtual processors of a virtual machine.
      * </remarks>
      */
-    public void Set_VMProcessor(Set_VMProcessorArguments args)
+    public void SetVMProcessor(SetVMProcessorArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -21459,7 +21446,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMProcessor", parameters);
     }
 
-    public class Set_VMRemoteFx3dVideoAdapterArguments
+    public class SetVMRemoteFx3dVideoAdapterArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -21537,7 +21524,7 @@ public class HyperVApi
      * The **Set-VMRemoteFx3dVideoAdapter** cmdlet configures the RemoteFX 3D video adapter of a virtual machine.
      * </remarks>
      */
-    public void Set_VMRemoteFx3dVideoAdapter(Set_VMRemoteFx3dVideoAdapterArguments args)
+    public void SetVMRemoteFx3dVideoAdapter(SetVMRemoteFx3dVideoAdapterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -21568,7 +21555,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMRemoteFx3dVideoAdapter", parameters);
     }
 
-    public class Set_VMReplicationArguments
+    public class SetVMReplicationArguments
     {
         /**
          * When you use the AsReplica parameter to specify a virtual machine as a Replica virtual machine, this parameter determines which primary servers can send replication to the Replica virtual machine.
@@ -21786,7 +21773,7 @@ public class HyperVApi
      * The **Set-VMReplication** cmdlet modifies the replication settings of a virtual machine.
      * </remarks>
      */
-    public void Set_VMReplication(Set_VMReplicationArguments args)
+    public void SetVMReplication(SetVMReplicationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowedPrimaryServer is not null)
@@ -21860,7 +21847,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMReplication", parameters);
     }
 
-    public class Set_VMReplicationAuthorizationEntryArguments
+    public class SetVMReplicationAuthorizationEntryArguments
     {
         /**
          * Specifies the allowed primary server of the authorization entry to be modified.
@@ -21933,9 +21920,7 @@ public class HyperVApi
      * The **Set-VMReplicationAuthorizationEntry** cmdlet modifies an authorization entry on Replica server.
      * </remarks>
      */
-    public void Set_VMReplicationAuthorizationEntry(
-        Set_VMReplicationAuthorizationEntryArguments args
-    )
+    public void SetVMReplicationAuthorizationEntry(SetVMReplicationAuthorizationEntryArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowedPrimaryServer is not null)
@@ -21962,7 +21947,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMReplicationAuthorizationEntry", parameters);
     }
 
-    public class Set_VMReplicationServerArguments
+    public class SetVMReplicationServerArguments
     {
         /**
          * Specifies which authentication types the Replica server will use.
@@ -22102,7 +22087,7 @@ public class HyperVApi
     To restrict the replication traffic that the Replica server will accept by allowing it only from specific servers, use the **New-VMReplicationAuthorizationEntry** cmdlet.
      * </remarks>
      */
-    public void Set_VMReplicationServer(Set_VMReplicationServerArguments args)
+    public void SetVMReplicationServer(SetVMReplicationServerArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowedAuthenticationType is not null)
@@ -22151,7 +22136,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMReplicationServer", parameters);
     }
 
-    public class Set_VMResourcePoolArguments
+    public class SetVMResourcePoolArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -22214,7 +22199,7 @@ public class HyperVApi
      * The **Set-VMResourcePool** cmdlet sets a parent resource pool for a selected resource pool. (To remove a parent from a resource pool, set the primordial pool of the resource pool's type as its parent.)
      * </remarks>
      */
-    public void Set_VMResourcePool(Set_VMResourcePoolArguments args)
+    public void SetVMResourcePool(SetVMResourcePoolArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -22239,7 +22224,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMResourcePool", parameters);
     }
 
-    public class Set_VMSanArguments
+    public class SetVMSanArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -22313,7 +22298,7 @@ public class HyperVApi
      * The **Set-VMSan** cmdlet configures a virtual storage area network (SAN) on one or more Hyper-V hosts.
      * </remarks>
      */
-    public void Set_VMSan(Set_VMSanArguments args)
+    public void SetVMSan(SetVMSanArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -22342,7 +22327,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMSan", parameters);
     }
 
-    public class Set_VMSecurityArguments
+    public class SetVMSecurityArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -22418,7 +22403,7 @@ public class HyperVApi
      * The **Set-VMSecurity** cmdlet configures security settings for a virtual machine.
      * </remarks>
      */
-    public void Set_VMSecurity(Set_VMSecurityArguments args)
+    public void SetVMSecurity(SetVMSecurityArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -22451,7 +22436,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMSecurity", parameters);
     }
 
-    public class Set_VMSecurityPolicyArguments
+    public class SetVMSecurityPolicyArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -22518,7 +22503,7 @@ public class HyperVApi
      * The **Set-VMSecurityPolicy** cmdlet configures the security policy for a virtual machine.
      * </remarks>
      */
-    public void Set_VMSecurityPolicy(Set_VMSecurityPolicyArguments args)
+    public void SetVMSecurityPolicy(SetVMSecurityPolicyArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -22543,7 +22528,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMSecurityPolicy", parameters);
     }
 
-    public class Set_VMStorageSettingsArguments
+    public class SetVMStorageSettingsArguments
     {
         public CimSession[]? CimSession { get; set; }
         public string[]? ComputerName { get; set; }
@@ -22569,7 +22554,7 @@ public class HyperVApi
      * No description available.
      * </remarks>
      */
-    public VirtualMachine[] Set_VMStorageSettings(Set_VMStorageSettingsArguments args)
+    public VirtualMachine[] SetVMStorageSettings(SetVMStorageSettingsArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -22599,7 +22584,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Set_VMSwitchArguments
+    public class SetVMSwitchArguments
     {
         /**
          * Specifies whether the management operating system can use the physical network adapter that is bound to the virtual switch. Setting **AllowManagementOS** to `$true` creates management operating system virtual network adapters (VMNetworkAdapters) in the parent partition and connects it to the virtual switch. Setting **AllowManagementOS** to `$false` removes any VMNetworkAdapters connected to the virtual switch.
@@ -22728,7 +22713,7 @@ public class HyperVApi
      * The **Set-VMSwitch** cmdlet configures a virtual switch.
      * </remarks>
      */
-    public void Set_VMSwitch(Set_VMSwitchArguments args)
+    public void SetVMSwitch(SetVMSwitchArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowManagementOS is not null)
@@ -22779,7 +22764,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMSwitch", parameters);
     }
 
-    public class Set_VMSwitchExtensionPortFeatureArguments
+    public class SetVMSwitchExtensionPortFeatureArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -22868,7 +22853,7 @@ public class HyperVApi
      * The **Set-VMSwitchExtensionPortFeature** cmdlet configures a feature on a virtual network adapter. The feature must have been configured previously on the virtual network adapter.
      * </remarks>
      */
-    public void Set_VMSwitchExtensionPortFeature(Set_VMSwitchExtensionPortFeatureArguments args)
+    public void SetVMSwitchExtensionPortFeature(SetVMSwitchExtensionPortFeatureArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -22903,7 +22888,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMSwitchExtensionPortFeature", parameters);
     }
 
-    public class Set_VMSwitchExtensionSwitchFeatureArguments
+    public class SetVMSwitchExtensionSwitchFeatureArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -22966,7 +22951,7 @@ public class HyperVApi
      * The **Set-VMSwitchExtensionSwitchFeature** cmdlet configures a feature on a virtual switch. The feature must have already been configured on the virtual switch.
      * </remarks>
      */
-    public void Set_VMSwitchExtensionSwitchFeature(Set_VMSwitchExtensionSwitchFeatureArguments args)
+    public void SetVMSwitchExtensionSwitchFeature(SetVMSwitchExtensionSwitchFeatureArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -22991,7 +22976,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMSwitchExtensionSwitchFeature", parameters);
     }
 
-    public class Set_VMSwitchTeamArguments
+    public class SetVMSwitchTeamArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -23080,7 +23065,7 @@ public class HyperVApi
      * </remarks>
      * <returns>This cmdlet returns a **VMSwitch** object, if you specify the **Passthru** parameter.</returns>
      */
-    public VMSwitch[] Set_VMSwitchTeam(Set_VMSwitchTeamArguments args)
+    public VMSwitch[] SetVMSwitchTeam(SetVMSwitchTeamArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -23112,7 +23097,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Set_VMVideoArguments
+    public class SetVMVideoArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -23207,7 +23192,7 @@ public class HyperVApi
      * </remarks>
      * <returns>This cmdlet returns a **VirtualMachine** object, if you specify the **Passthru** parameter.</returns>
      */
-    public VMVideo[] Set_VMVideo(Set_VMVideoArguments args)
+    public VMVideo[] SetVMVideo(SetVMVideoArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -23239,7 +23224,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Start_VMArguments
+    public class StartVMArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -23302,7 +23287,7 @@ public class HyperVApi
      * The **Start-VM** cmdlet starts a virtual machine.
      * </remarks>
      */
-    public void Start_VM(Start_VMArguments args)
+    public void StartVM(StartVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -23327,7 +23312,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Start-VM", parameters);
     }
 
-    public class Start_VMFailoverArguments
+    public class StartVMFailoverArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -23413,7 +23398,7 @@ public class HyperVApi
     - Fail over a Replica virtual machine to a chosen recovery point. - Start a planned failover on a primary virtual machine. - Create a test virtual machine on a Replica virtual machine.
      * </remarks>
      */
-    public void Start_VMFailover(Start_VMFailoverArguments args)
+    public void StartVMFailover(StartVMFailoverArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -23444,7 +23429,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Start-VMFailover", parameters);
     }
 
-    public class Start_VMInitialReplicationArguments
+    public class StartVMInitialReplicationArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -23533,7 +23518,7 @@ public class HyperVApi
      * The **Start-VMInitialReplication** cmdlet starts replication of a virtual machine using the method you select. You also can schedule replication to start up to 7 days later.
      * </remarks>
      */
-    public void Start_VMInitialReplication(Start_VMInitialReplicationArguments args)
+    public void StartVMInitialReplication(StartVMInitialReplicationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -23566,7 +23551,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Start-VMInitialReplication", parameters);
     }
 
-    public class Start_VMTraceArguments
+    public class StartVMTraceArguments
     {
         /**
          * Specifies the level of tracing.
@@ -23601,7 +23586,7 @@ public class HyperVApi
      * The **Start-VMTrace** cmdlet starts tracing to a file. You can use this information for advanced debugging.
      * </remarks>
      */
-    public System.Object[] Start_VMTrace(Start_VMTraceArguments args)
+    public System.Object[] StartVMTrace(StartVMTraceArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.Level is not null)
@@ -23615,7 +23600,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Stop_VMArguments
+    public class StopVMArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -23695,7 +23680,7 @@ public class HyperVApi
      * The **Stop-VM** cmdlet shuts down, turns off, or saves a virtual machine.
      * </remarks>
      */
-    public void Stop_VM(Stop_VMArguments args)
+    public void StopVM(StopVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -23726,7 +23711,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Stop-VM", parameters);
     }
 
-    public class Stop_VMFailoverArguments
+    public class StopVMFailoverArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -23789,7 +23774,7 @@ public class HyperVApi
      * The **Stop-VMFailover** cmdlet stops failover of a virtual machine. If the virtual machine is running, this cmdlet turns the virtual machine off and cancels failover. For a test failover, this cmdlet stops the test failover and deletes the test virtual machine. For a planned failover that has been started on a primary virtual machine, this cmdlet cancels that action and restarts replication, which allows you to start the primary virtual machine.
      * </remarks>
      */
-    public void Stop_VMFailover(Stop_VMFailoverArguments args)
+    public void StopVMFailover(StopVMFailoverArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -23814,7 +23799,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Stop-VMFailover", parameters);
     }
 
-    public class Stop_VMInitialReplicationArguments
+    public class StopVMInitialReplicationArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -23877,7 +23862,7 @@ public class HyperVApi
      * The **Stop-VMInitialReplication** cmdlet stops an ongoing initial replication that uses either a virtual machine restored from backup or the network. It does not stop an initial replication that uses external media. For an initial replication that uses external media, you can use this cmdlet to stop the export, which returns the virtual machine to a pending state. After an export is finished, the initial replication cannot be stopped.
      * </remarks>
      */
-    public void Stop_VMInitialReplication(Stop_VMInitialReplicationArguments args)
+    public void StopVMInitialReplication(StopVMInitialReplicationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -23902,7 +23887,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Stop-VMInitialReplication", parameters);
     }
 
-    public class Stop_VMReplicationArguments
+    public class StopVMReplicationArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -23972,7 +23957,7 @@ public class HyperVApi
      * The **Stop-VMReplication** cmdlet cancels an ongoing virtual machine resynchronization.
      * </remarks>
      */
-    public void Stop_VMReplication(Stop_VMReplicationArguments args)
+    public void StopVMReplication(StopVMReplicationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -24009,7 +23994,7 @@ public class HyperVApi
      * The **Stop-VMTrace** cmdlet stops tracing to a file.
      * </remarks>
      */
-    public System.Object[] Stop_VMTrace()
+    public System.Object[] StopVMTrace()
     {
         var parameters = new Dictionary<string, object>();
         using var instance = new HyperVInstance();
@@ -24017,7 +24002,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Suspend_VMArguments
+    public class SuspendVMArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -24080,7 +24065,7 @@ public class HyperVApi
      * The **Suspend-VM** cmdlet suspends a virtual machine. To return a suspended virtual machine to a running state, use the **Resume-VM** cmdlet.
      * </remarks>
      */
-    public void Suspend_VM(Suspend_VMArguments args)
+    public void SuspendVM(SuspendVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -24105,7 +24090,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Suspend-VM", parameters);
     }
 
-    public class Suspend_VMReplicationArguments
+    public class SuspendVMReplicationArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -24175,7 +24160,7 @@ public class HyperVApi
      * The **Suspend-VMReplication** cmdlet suspends, or pauses, replication of a virtual machine. To resume replication, use the **Resume-VMReplication** cmdlet to resume replication. When replication is resumed, all changes made since replication was suspended will be replicated.
      * </remarks>
      */
-    public void Suspend_VMReplication(Suspend_VMReplicationArguments args)
+    public void SuspendVMReplication(SuspendVMReplicationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -24202,7 +24187,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Suspend-VMReplication", parameters);
     }
 
-    public class Test_VHDArguments
+    public class TestVHDArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -24246,7 +24231,7 @@ public class HyperVApi
      * The **Test-VHD** cmdlet tests a virtual hard disk for any problems that would make it unusable.
      * </remarks>
      */
-    public System.Boolean[] Test_VHD(Test_VHDArguments args)
+    public System.Boolean[] TestVHD(TestVHDArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -24264,7 +24249,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Test_VMNetworkAdapterArguments
+    public class TestVMNetworkAdapterArguments
     {
         /**
          * Runs the cmdlet in a remote session or on a remote computer.
@@ -24391,8 +24376,8 @@ public class HyperVApi
      * The **Test-VMNetworkAdapter** cmdlet tests connectivity between virtual machines by using Internet Control Message Protocol (ICMP) Ping packets. Ping verifies IP-level connectivity to another TCP/IP computer by sending ICMP Echo Request messages.
      * </remarks>
      */
-    public VMNetworkAdapterConnectionTestResult[] Test_VMNetworkAdapter(
-        Test_VMNetworkAdapterArguments args
+    public VMNetworkAdapterConnectionTestResult[] TestVMNetworkAdapter(
+        TestVMNetworkAdapterArguments args
     )
     {
         var parameters = new Dictionary<string, object>();
@@ -24440,7 +24425,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Test_VMReplicationConnectionArguments
+    public class TestVMReplicationConnectionArguments
     {
         /**
          * Specifies the authentication type to use to test the connection, either "Kerberos" or "Certificate".
@@ -24523,7 +24508,7 @@ public class HyperVApi
      * The **Test-VMReplicationConnection** cmdlet tests the connection between a primary server and a Replica server to determine whether replication can be enabled for virtual machines on the primary server to the specified Replica server.
      * </remarks>
      */
-    public void Test_VMReplicationConnection(Test_VMReplicationConnectionArguments args)
+    public void TestVMReplicationConnection(TestVMReplicationConnectionArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AuthenticationType is not null)
@@ -24546,7 +24531,7 @@ public class HyperVApi
         var result = instance.InvokeFunction("Test-VMReplicationConnection", parameters);
     }
 
-    public class Update_VMVersionArguments
+    public class UpdateVMVersionArguments
     {
         /**
          * Runs the cmdlet as a background job.
@@ -24618,7 +24603,7 @@ public class HyperVApi
      * </remarks>
      * <returns>This cmdlet returns a **VirtualMachine** object, if you specify the **Passthru** parameter.</returns>
      */
-    public VirtualMachine[] Update_VMVersion(Update_VMVersionArguments args)
+    public VirtualMachine[] UpdateVMVersion(UpdateVMVersionArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -24646,7 +24631,7 @@ public class HyperVApi
         return result;
     }
 
-    public class Wait_VMArguments
+    public class WaitVMArguments
     {
         public object? AsJob { get; set; }
         public CimSession[]? CimSession { get; set; }
@@ -24671,7 +24656,7 @@ public class HyperVApi
      * No description available.
      * </remarks>
      */
-    public VirtualMachine[] Wait_VM(Wait_VMArguments args)
+    public VirtualMachine[] WaitVM(WaitVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)

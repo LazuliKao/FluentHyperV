@@ -302,7 +302,7 @@ for cmd in commandData do
     | None -> printfn "Description: None"
 
     printfn "------------------------"
-    let funcName = cmd.Name.Replace("-", "_").Replace(" ", "_")
+    let funcName = cmd.Name.Replace("-", "").Replace(" ", "_")
 
     let hasParameters =
         cmd.parameters.IsSome && cmd.parameters.Value.parameter.Length > 0
@@ -431,6 +431,7 @@ let result =
     CSharpier.Core.CSharp.CSharpFormatter
         .Format(
             $$$"""
+#nullable enable
 using System.Management.Automation;
 using FluentHyperV.PowerShell;
 using FluentHyperV.SourceGenerator;
