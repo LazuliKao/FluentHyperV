@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace FluentHyperV.SourceGenerator;
 
-[Generator]
+[Generator(LanguageNames.CSharp)]
 public class PsObjectMapperGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
