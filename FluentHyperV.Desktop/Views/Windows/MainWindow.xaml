@@ -5,10 +5,11 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+  xmlns:windows="clr-namespace:FluentHyperV.Desktop.Views.Windows"
   Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
   Width="1100"
   Height="650"
-  d:DataContext="{d:DesignInstance local:MainWindow,
+  d:DataContext="{d:DesignInstance windows:MainWindow,
                                      IsDesignTimeCreatable=True}"
   d:DesignHeight="450"
   d:DesignWidth="800"
