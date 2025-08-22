@@ -1,6 +1,3 @@
-namespace FluentHyperVDesktop.Resources
-{
-    public partial class Translations
-    {
-    }
-}
+namespace FluentHyperVDesktop.Resources;
+
+public partial class Translations { }

@@ -1,9 +1,8 @@
 ﻿using System.Windows.Media;
 
-namespace FluentHyperVDesktop.Models
+namespace FluentHyperVDesktop.Models;
+
+public struct DataColor
 {
-    public struct DataColor
-    {
-        public Brush Color { get; set; }
-    }
+    public Brush Color { get; set; }
 }

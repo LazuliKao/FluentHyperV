@@ -1,18 +1,17 @@
 ﻿using FluentHyperVDesktop.ViewModels.Pages;
 using Wpf.Ui.Abstractions.Controls;
 
-namespace FluentHyperVDesktop.Views.Pages
+namespace FluentHyperVDesktop.Views.Pages;
+
+public partial class DashboardPage : INavigableView<DashboardViewModel>
 {
-    public partial class DashboardPage : INavigableView<DashboardViewModel>
+    public DashboardViewModel ViewModel { get; }
+
+    public DashboardPage(DashboardViewModel viewModel)
     {
-        public DashboardViewModel ViewModel { get; }
+        ViewModel = viewModel;
+        DataContext = this;
 
-        public DashboardPage(DashboardViewModel viewModel)
-        {
-            ViewModel = viewModel;
-            DataContext = this;
-
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

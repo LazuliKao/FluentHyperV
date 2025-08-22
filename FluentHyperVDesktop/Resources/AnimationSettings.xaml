@@ -1,0 +1,76 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:xf="clr-namespace:XamlFlair;assembly=XamlFlair.WPF"
+					xmlns:system="clr-namespace:System;assembly=System.Runtime">
+	<system:Double x:Key="PositiveOffset">50</system:Double>
+	<system:Double x:Key="NegativeOffset">-50</system:Double>
+	<system:Double x:Key="SmallScaleFactor">0.75</system:Double>
+	<system:Double x:Key="LargeScaleFactor">1.25</system:Double>
+
+
+	<xf:AnimationSettings x:Key="AnimationFadeIn"
+						  Kind="FadeFrom"
+						  Opacity="0" />
+
+	<xf:AnimationSettings x:Key="AnimationCompound"
+						  Kind="FadeFrom"
+						  Duration="1000"
+						  Opacity="0"
+						  />
+
+	<xf:AnimationSettings x:Key="AnimationFadeOut"
+					  Kind="FadeTo"
+					  Opacity="0" />
+	<xf:AnimationSettings x:Key="AnimationExpand"
+						  Kind="ScaleXTo,ScaleYTo"
+						  ScaleX="{StaticResource LargeScaleFactor}"
+						  ScaleY="{StaticResource LargeScaleFactor}" />
+	<xf:AnimationSettings x:Key="AnimationContract"
+						  Kind="ScaleXFrom,ScaleYFrom"
+						  ScaleX="{StaticResource LargeScaleFactor}"
+						  ScaleY="{StaticResource LargeScaleFactor}" />
+
+	<xf:AnimationSettings x:Key="AnimationFadeInAndSlideFromLeft"
+						  Kind="FadeFrom,TranslateXFrom"
+						  Opacity="0">
+		<xf:AnimationSettings.OffsetX>
+			<xf:Offset OffsetValue="{StaticResource NegativeOffset}"/>
+		</xf:AnimationSettings.OffsetX>
+	</xf:AnimationSettings>
+
+	<xf:AnimationSettings x:Key="AnimationFadeInAndSlideFromTop"
+						  Kind="FadeFrom,TranslateYFrom"
+						  Opacity="0"  >
+		<xf:AnimationSettings.OffsetY>
+			<xf:Offset OffsetValue="{StaticResource PositiveOffset}"/>
+		</xf:AnimationSettings.OffsetY>
+	</xf:AnimationSettings>
+
+
+	<xf:AnimationSettings x:Key="AnimationFadeInAndSlideFromBottom"
+						  Kind="FadeFrom,TranslateYFrom"
+						  Opacity="0"  >
+		<xf:AnimationSettings.OffsetY>
+			<xf:Offset OffsetValue="{StaticResource NegativeOffset}"/>
+		</xf:AnimationSettings.OffsetY>
+	</xf:AnimationSettings>
+
+	<xf:AnimationSettings x:Key="AnimationFadeInAndSlideFromRight"
+						  Kind="FadeFrom,TranslateXFrom"
+						  Opacity="0"  >
+		<xf:AnimationSettings.OffsetX>
+			<xf:Offset OffsetValue="{StaticResource PositiveOffset}"/>
+		</xf:AnimationSettings.OffsetX>
+	</xf:AnimationSettings>
+
+	<xf:AnimationSettings x:Key="AnimationFadeInAndGrow"
+						  Kind="FadeFrom,ScaleXFrom,ScaleXFrom"
+						  Opacity="0"
+						  ScaleX="{StaticResource SmallScaleFactor}"
+						  ScaleY="{StaticResource SmallScaleFactor}" />
+
+	<xf:AnimationSettings x:Key="AnimationFadeInAndGrowHorizontally"
+						  Kind="FadeFrom,ScaleXFrom"
+						  Opacity="0"
+						  ScaleX="{StaticResource SmallScaleFactor}" />
+</ResourceDictionary>
