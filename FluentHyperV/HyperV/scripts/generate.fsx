@@ -252,6 +252,38 @@ type GetHelpResult =
       PSSnapIn: string option
       ModuleName: string }
 
+// get-command
+type OutputType =
+    { Name: string
+      Type: string
+      TypeDefinitionAst: obj }
+
+type GetCommandParameter =
+    { Name: string
+      ParameterType: string
+      ParameterSets: string
+      IsDynamic: bool
+      Aliases: string
+      Attributes: string
+      SwitchParameter: bool }
+
+type GetCommandResult =
+    { Verb: string
+      Noun: string
+      HelpFile: string
+      DefaultParameterSet: string
+      OutputType: OutputType[]
+      Options: int64
+      Name: string
+      CommandType: int64
+      Source: string
+      Visibility: int64
+      ModuleName: string
+      RemotingCapability: int64
+      Parameters: Dictionary<string, GetCommandParameter>
+      HelpUri: Uri
+      Dll: string }
+
 
 printfn "Generating Hyper-V VM configuration..."
 printfn "All Commands"
@@ -271,7 +303,9 @@ let commandData =
 
     if File.Exists(cacheFile) then
         printfn "Loading cached commands from %s" cacheFile
-        File.ReadAllText(cacheFile) |> JsonSerializer.Deserialize<GetHelpResult list>
+
+        File.ReadAllText(cacheFile)
+        |> JsonSerializer.Deserialize<(GetHelpResult * GetCommandResult) list>
     else
         let allCommandNames =
             commands.RootElement.EnumerateArray()
@@ -283,8 +317,10 @@ let commandData =
             [ for name in allCommandNames do
                   let detailObject = eval "Get-Help" (dict [ ("Name", name) ]) (Some(99))
                   printfn "%s" (detailObject.RootElement.ToJsonString())
-                  detailObject |> _.Deserialize<GetHelpResult>() ]
-            |> List.distinctBy _.Name
+                  let detailCmdObject = eval "Get-Command" (dict [ ("Name", name) ]) (Some(2))
+                  printfn "%s" (detailCmdObject.RootElement.ToJsonString())
+                  detailObject |> _.Deserialize<GetHelpResult>(), detailCmdObject |> _.Deserialize<GetCommandResult>() ]
+            |> List.distinctBy (fun (v1, v2) -> v1.Name)
 
         File.WriteAllText(cacheFile, JsonSerializer.Serialize(data, JsonSerializerOptions(WriteIndented = true)))
         data
@@ -293,7 +329,7 @@ let data = StringBuilder()
 
 let (!+) (s: string) = data.AppendLine(s) |> ignore
 
-for cmd in commandData do
+for (cmd, details) in commandData do
     printfn "Command: %s" cmd.Name
     printfn "Synopsis: %s" cmd.Synopsis
 
@@ -340,32 +376,43 @@ for cmd in commandData do
 
         !+ "}"
 
-    let getFirstValidReturnType () =
+    let getFirstValidReturnTypeDesc () =
         cmd.returnValues.Value.returnValue
         |> Array.tryFind (fun rv -> rv.``type``.name <> "None")
-
-    let hasReturnValue =
+    
+    let hasReturnValueDesc =
         cmd.returnValues.IsSome
         && cmd.returnValues.Value.returnValue.Length > 0
-        && getFirstValidReturnType().IsSome
+        && getFirstValidReturnTypeDesc().IsSome
+    
+    // let hasNoneReturnType =
+    //     hasReturnValue
+    //     && cmd.returnValues.Value.returnValue
+    //        |> Array.exists (fun rv -> rv.``type``.name = "None")
+    let getFirstValidReturnType () =
+        details.OutputType |> Array.tryFind (fun rv -> rv.Type <> "None")
+
+    let hasReturnValue =
+        details.OutputType.Length > 0 && getFirstValidReturnType().IsSome
 
     let hasNoneReturnType =
         hasReturnValue
-        && cmd.returnValues.Value.returnValue
-           |> Array.exists (fun rv -> rv.``type``.name = "None")
+        && details.OutputType |> Array.exists (fun rv -> rv.Type = "None")
 
     let noneReturnType = if hasNoneReturnType then "?" else ""
 
     let typeName =
         let mapper =
             dict
-                [ ("Microsoft.HyperV.PowerShell.SystemSwitchExtension",
-                   "Microsoft.HyperV.PowerShell.VMSystemSwitchExtension")
-                  ("Microsoft.HyperV.PowerShell.VMNetworkAdapterFailoverSetting", "PSObject") ]
+                [ ("Microsoft.HyperV.PowerShell.SystemSwitchExtension", "VMSystemSwitchExtension")
+                  ("Microsoft.HyperV.PowerShell.VMNetworkAdapterFailoverSetting", "PSObject")
+                  ("Microsoft.HyperV.PowerShell.Snapshot", "VMSnapshot")
+                  ("Microsoft.HyperV.PowerShell.VMNetwork", "VMSwitch")
+                  ("Microsoft.HyperV.PowerShell.MigrationNetwork", "VMMigrationNetwork") ]
 
         if hasReturnValue then
             let name =
-                let name =  getFirstValidReturnType().Value.``type``.name
+                let name = getFirstValidReturnType().Value.Name
                 let contains, value = mapper.TryGetValue name
                 if contains then value else name
 
@@ -400,7 +447,7 @@ for cmd in commandData do
     else
         "No description available."}
  * </remarks>{if
-                  hasReturnValue
+                  hasReturnValueDesc
                   && cmd.returnValues.Value.returnValue |> isNull |> not
                   && cmd.returnValues.Value.returnValue.Any()
                   && cmd.returnValues.Value.returnValue.First().description |> isNull |> not
@@ -430,7 +477,10 @@ public {if hasReturnValue then
             !+ $"    if(args.{p.name} is not null) parameters.Add(\"{p.name}\", args.{p.name});"
 
     !+ $"""    using var instance = new HyperVInstance();
-    var result = instance.InvokeFunction{if hasReturnValue then $"<{typeName}>" else ""}("{cmd.Name}",
+    var result = instance.InvokeFunction{if hasReturnValue then
+                                             $"<{typeName}{noneReturnType}>"
+                                         else
+                                             ""}("{cmd.Name}",
     parameters);"""
 
     if hasReturnValue then
@@ -439,7 +489,10 @@ public {if hasReturnValue then
     !+ "}"
 
     !+ $"""
-public {if hasReturnValue then $"Task<{typeName}{noneReturnType}[]>" else "Task"} {funcName}Async({if hasParameters then $"{funcName}Arguments args" else ""})
+public {if hasReturnValue then
+            $"Task<{typeName}{noneReturnType}[]>"
+        else
+            "Task"} {funcName}Async({if hasParameters then $"{funcName}Arguments args" else ""})
 =>
      Task.Run(() => {funcName}({if hasParameters then "args" else ""}));
 """

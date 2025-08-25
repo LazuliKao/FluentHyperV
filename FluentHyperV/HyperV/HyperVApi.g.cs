@@ -93,8 +93,9 @@ public class HyperVApi
     
     Note: In Windows Server 2012 R2, virtual machine snapshots were renamed to virtual machine checkpoints. For clarity, this document will refer to virtual machine snapshots as checkpoints.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void ExportVMSnapshot(ExportVMSnapshotArguments args)
+    public VMSnapshot[] ExportVMSnapshot(ExportVMSnapshotArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -122,10 +123,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Export-VMSnapshot", parameters);
+        var result = instance.InvokeFunction<VMSnapshot>("Export-VMSnapshot", parameters);
+        return result;
     }
 
-    public Task ExportVMSnapshotAsync(ExportVMSnapshotArguments args) =>
+    public Task<VMSnapshot[]> ExportVMSnapshotAsync(ExportVMSnapshotArguments args) =>
         Task.Run(() => ExportVMSnapshot(args));
 
     public class GetVMSnapshotArguments
@@ -319,8 +321,9 @@ public class HyperVApi
     
     Note: In Windows Server 2012 R2, virtual machine snapshots were renamed to virtual machine checkpoints. For clarity, this document will refer to virtual machine snapshots as checkpoints.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RemoveVMSnapshot(RemoveVMSnapshotArguments args)
+    public VMSnapshot[] RemoveVMSnapshot(RemoveVMSnapshotArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -348,10 +351,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Remove-VMSnapshot", parameters);
+        var result = instance.InvokeFunction<VMSnapshot>("Remove-VMSnapshot", parameters);
+        return result;
     }
 
-    public Task RemoveVMSnapshotAsync(RemoveVMSnapshotArguments args) =>
+    public Task<VMSnapshot[]> RemoveVMSnapshotAsync(RemoveVMSnapshotArguments args) =>
         Task.Run(() => RemoveVMSnapshot(args));
 
     public class RenameVMSnapshotArguments
@@ -428,8 +432,9 @@ public class HyperVApi
     
     Note: In Windows Server 2012 R2, virtual machine snapshots were renamed to virtual machine checkpoints. For clarity, this document will refer to virtual machine snapshots as checkpoints.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RenameVMSnapshot(RenameVMSnapshotArguments args)
+    public VMSnapshot[] RenameVMSnapshot(RenameVMSnapshotArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -455,10 +460,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Rename-VMSnapshot", parameters);
+        var result = instance.InvokeFunction<VMSnapshot>("Rename-VMSnapshot", parameters);
+        return result;
     }
 
-    public Task RenameVMSnapshotAsync(RenameVMSnapshotArguments args) =>
+    public Task<VMSnapshot[]> RenameVMSnapshotAsync(RenameVMSnapshotArguments args) =>
         Task.Run(() => RenameVMSnapshot(args));
 
     public class RestoreVMSnapshotArguments
@@ -539,8 +545,9 @@ public class HyperVApi
     
     Note: In Windows Server 2012 R2, virtual machine snapshots were renamed to virtual machine checkpoints. For clarity, this document will refer to virtual machine snapshots as checkpoints.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RestoreVMSnapshot(RestoreVMSnapshotArguments args)
+    public VMSnapshot[] RestoreVMSnapshot(RestoreVMSnapshotArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -566,10 +573,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Restore-VMSnapshot", parameters);
+        var result = instance.InvokeFunction<VMSnapshot>("Restore-VMSnapshot", parameters);
+        return result;
     }
 
-    public Task RestoreVMSnapshotAsync(RestoreVMSnapshotArguments args) =>
+    public Task<VMSnapshot[]> RestoreVMSnapshotAsync(RestoreVMSnapshotArguments args) =>
         Task.Run(() => RestoreVMSnapshot(args));
 
     public class AddVMAssignableDeviceArguments
@@ -912,8 +920,9 @@ public class HyperVApi
      * <remarks>
      * The **Add-VMFibreChannelHba** cmdlet adds a virtual Fibre Channel host bus adapter to a virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void AddVMFibreChannelHba(AddVMFibreChannelHbaArguments args)
+    public VMFibreChannelHba[] AddVMFibreChannelHba(AddVMFibreChannelHbaArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -945,11 +954,16 @@ public class HyperVApi
         if (args.WorldWidePortNameSetB is not null)
             parameters.Add("WorldWidePortNameSetB", args.WorldWidePortNameSetB);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Add-VMFibreChannelHba", parameters);
+        var result = instance.InvokeFunction<VMFibreChannelHba>(
+            "Add-VMFibreChannelHba",
+            parameters
+        );
+        return result;
     }
 
-    public Task AddVMFibreChannelHbaAsync(AddVMFibreChannelHbaArguments args) =>
-        Task.Run(() => AddVMFibreChannelHba(args));
+    public Task<VMFibreChannelHba[]> AddVMFibreChannelHbaAsync(
+        AddVMFibreChannelHbaArguments args
+    ) => Task.Run(() => AddVMFibreChannelHba(args));
 
     public class AddVMGpuPartitionAdapterArguments
     {
@@ -1397,8 +1411,9 @@ public class HyperVApi
      * <remarks>
      * The **Add-VMHardDiskDrive** cmdlet adds a hard disk drive to a virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void AddVMHardDiskDrive(AddVMHardDiskDriveArguments args)
+    public HardDiskDrive[] AddVMHardDiskDrive(AddVMHardDiskDriveArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowUnverifiedPaths is not null)
@@ -1446,10 +1461,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Add-VMHardDiskDrive", parameters);
+        var result = instance.InvokeFunction<HardDiskDrive>("Add-VMHardDiskDrive", parameters);
+        return result;
     }
 
-    public Task AddVMHardDiskDriveAsync(AddVMHardDiskDriveArguments args) =>
+    public Task<HardDiskDrive[]> AddVMHardDiskDriveAsync(AddVMHardDiskDriveArguments args) =>
         Task.Run(() => AddVMHardDiskDrive(args));
 
     public class AddVMHostAssignableDeviceArguments
@@ -1517,7 +1533,7 @@ public class HyperVApi
      * The `Add-VMHostAssignableDevice` cmdlet assigns a hardware device to a virtual machine host. You can add devices to the VM host by providing either the instance or location path of the device, or by specifying an existing host-assignable device object.
      * </remarks>
      */
-    public System.Object[] AddVMHostAssignableDevice(AddVMHostAssignableDeviceArguments args)
+    public void AddVMHostAssignableDevice(AddVMHostAssignableDeviceArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -1537,16 +1553,11 @@ public class HyperVApi
         if (args.ResourcePoolName is not null)
             parameters.Add("ResourcePoolName", args.ResourcePoolName);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction<System.Object>(
-            "Add-VMHostAssignableDevice",
-            parameters
-        );
-        return result;
+        var result = instance.InvokeFunction("Add-VMHostAssignableDevice", parameters);
     }
 
-    public Task<System.Object[]> AddVMHostAssignableDeviceAsync(
-        AddVMHostAssignableDeviceArguments args
-    ) => Task.Run(() => AddVMHostAssignableDevice(args));
+    public Task AddVMHostAssignableDeviceAsync(AddVMHostAssignableDeviceArguments args) =>
+        Task.Run(() => AddVMHostAssignableDevice(args));
 
     public class AddVMKeyStorageDriveArguments
     {
@@ -1665,8 +1676,9 @@ public class HyperVApi
      * <remarks>
      * The **Add-VMMigrationNetwork** cmdlet adds a network for virtual machine migration on one or more virtual machine hosts.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void AddVMMigrationNetwork(AddVMMigrationNetworkArguments args)
+    public VMMigrationNetwork[] AddVMMigrationNetwork(AddVMMigrationNetworkArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -1686,11 +1698,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Add-VMMigrationNetwork", parameters);
+        var result = instance.InvokeFunction<VMMigrationNetwork>(
+            "Add-VMMigrationNetwork",
+            parameters
+        );
+        return result;
     }
 
-    public Task AddVMMigrationNetworkAsync(AddVMMigrationNetworkArguments args) =>
-        Task.Run(() => AddVMMigrationNetwork(args));
+    public Task<VMMigrationNetwork[]> AddVMMigrationNetworkAsync(
+        AddVMMigrationNetworkArguments args
+    ) => Task.Run(() => AddVMMigrationNetwork(args));
 
     public class AddVMNetworkAdapterArguments
     {
@@ -1792,8 +1809,9 @@ public class HyperVApi
      * <remarks>
      * The **Add-VMNetworkAdapter** cmdlet adds a virtual network adapter to a virtual machine.
      * </remarks>
+     * <returns>By default, this cmdlet doesn't return any output.</returns>
      */
-    public void AddVMNetworkAdapter(AddVMNetworkAdapterArguments args)
+    public VMNetworkAdapter[] AddVMNetworkAdapter(AddVMNetworkAdapterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -1829,10 +1847,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Add-VMNetworkAdapter", parameters);
+        var result = instance.InvokeFunction<VMNetworkAdapter>("Add-VMNetworkAdapter", parameters);
+        return result;
     }
 
-    public Task AddVMNetworkAdapterAsync(AddVMNetworkAdapterArguments args) =>
+    public Task<VMNetworkAdapter[]> AddVMNetworkAdapterAsync(AddVMNetworkAdapterArguments args) =>
         Task.Run(() => AddVMNetworkAdapter(args));
 
     public class AddVMNetworkAdapterAclArguments
@@ -1959,8 +1978,9 @@ public class HyperVApi
      * <remarks>
      * The **Add-VMNetworkAdapterAcl** cmdlet creates an ACL to apply to the traffic through a virtual machine network adapter. When a virtual network adapter is created there is no ACL on it. Given a list of IP-based ACL entries to be applied to traffic in the same direction, the longest match rule decides which one of the entries is most appropriate to apply to a specific packet.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void AddVMNetworkAdapterAcl(AddVMNetworkAdapterAclArguments args)
+    public VMNetworkAdapterAclSetting[] AddVMNetworkAdapterAcl(AddVMNetworkAdapterAclArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.Action is not null)
@@ -1998,11 +2018,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Add-VMNetworkAdapterAcl", parameters);
+        var result = instance.InvokeFunction<VMNetworkAdapterAclSetting>(
+            "Add-VMNetworkAdapterAcl",
+            parameters
+        );
+        return result;
     }
 
-    public Task AddVMNetworkAdapterAclAsync(AddVMNetworkAdapterAclArguments args) =>
-        Task.Run(() => AddVMNetworkAdapterAcl(args));
+    public Task<VMNetworkAdapterAclSetting[]> AddVMNetworkAdapterAclAsync(
+        AddVMNetworkAdapterAclArguments args
+    ) => Task.Run(() => AddVMNetworkAdapterAcl(args));
 
     public class AddVMNetworkAdapterExtendedAclArguments
     {
@@ -2506,8 +2531,11 @@ public class HyperVApi
      * <remarks>
      * The **Add-VMRemoteFx3dVideoAdapter** cmdlet adds a RemoteFX video adapter in a virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void AddVMRemoteFx3dVideoAdapter(AddVMRemoteFx3dVideoAdapterArguments args)
+    public VMRemoteFx3DVideoAdapter[] AddVMRemoteFx3dVideoAdapter(
+        AddVMRemoteFx3dVideoAdapterArguments args
+    )
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -2527,11 +2555,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Add-VMRemoteFx3dVideoAdapter", parameters);
+        var result = instance.InvokeFunction<VMRemoteFx3DVideoAdapter>(
+            "Add-VMRemoteFx3dVideoAdapter",
+            parameters
+        );
+        return result;
     }
 
-    public Task AddVMRemoteFx3dVideoAdapterAsync(AddVMRemoteFx3dVideoAdapterArguments args) =>
-        Task.Run(() => AddVMRemoteFx3dVideoAdapter(args));
+    public Task<VMRemoteFx3DVideoAdapter[]> AddVMRemoteFx3dVideoAdapterAsync(
+        AddVMRemoteFx3dVideoAdapterArguments args
+    ) => Task.Run(() => AddVMRemoteFx3dVideoAdapter(args));
 
     public class AddVMScsiControllerArguments
     {
@@ -2590,8 +2623,9 @@ public class HyperVApi
      * <remarks>
      * The **Add-VMScsiController** cmdlet adds a SCSI controller in a virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void AddVMScsiController(AddVMScsiControllerArguments args)
+    public VMScsiController[] AddVMScsiController(AddVMScsiControllerArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -2611,10 +2645,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Add-VMScsiController", parameters);
+        var result = instance.InvokeFunction<VMScsiController>("Add-VMScsiController", parameters);
+        return result;
     }
 
-    public Task AddVMScsiControllerAsync(AddVMScsiControllerArguments args) =>
+    public Task<VMScsiController[]> AddVMScsiControllerAsync(AddVMScsiControllerArguments args) =>
         Task.Run(() => AddVMScsiController(args));
 
     public class AddVMStoragePathArguments
@@ -2680,8 +2715,9 @@ public class HyperVApi
      * <remarks>
      * The **Add-VMStoragePath** cmdlet adds a path to a storage resource pool.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void AddVMStoragePath(AddVMStoragePathArguments args)
+    public VMStorageResourcePool[] AddVMStoragePath(AddVMStoragePathArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -2703,10 +2739,14 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Add-VMStoragePath", parameters);
+        var result = instance.InvokeFunction<VMStorageResourcePool>(
+            "Add-VMStoragePath",
+            parameters
+        );
+        return result;
     }
 
-    public Task AddVMStoragePathAsync(AddVMStoragePathArguments args) =>
+    public Task<VMStorageResourcePool[]> AddVMStoragePathAsync(AddVMStoragePathArguments args) =>
         Task.Run(() => AddVMStoragePath(args));
 
     public class AddVMSwitchArguments
@@ -2753,6 +2793,7 @@ public class HyperVApi
      * <remarks>
      * The **Add-VMSwitch** cmdlet adds a virtual switch to an Ethernet resource pool.
      * </remarks>
+     * <returns>By default, this cmdlet doesn't return any output.</returns>
      */
     public void AddVMSwitch(AddVMSwitchArguments args)
     {
@@ -2864,8 +2905,11 @@ public class HyperVApi
      * <remarks>
      * The **Add-VMSwitchExtensionPortFeature** cmdlet adds a feature supported by a virtual switch extension to a virtual machine network adapter. This cmdlet also configures built-in virtual switch features.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void AddVMSwitchExtensionPortFeature(AddVMSwitchExtensionPortFeatureArguments args)
+    public VMSwitchExtensionPortFeature[] AddVMSwitchExtensionPortFeature(
+        AddVMSwitchExtensionPortFeatureArguments args
+    )
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -2897,10 +2941,14 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Add-VMSwitchExtensionPortFeature", parameters);
+        var result = instance.InvokeFunction<VMSwitchExtensionPortFeature>(
+            "Add-VMSwitchExtensionPortFeature",
+            parameters
+        );
+        return result;
     }
 
-    public Task AddVMSwitchExtensionPortFeatureAsync(
+    public Task<VMSwitchExtensionPortFeature[]> AddVMSwitchExtensionPortFeatureAsync(
         AddVMSwitchExtensionPortFeatureArguments args
     ) => Task.Run(() => AddVMSwitchExtensionPortFeature(args));
 
@@ -2966,8 +3014,11 @@ public class HyperVApi
      * <remarks>
      * The **Add-VMSwitchExtensionSwitchFeature** cmdlet adds a feature supported by a virtual switch extension to a virtual switch.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void AddVMSwitchExtensionSwitchFeature(AddVMSwitchExtensionSwitchFeatureArguments args)
+    public VMSwitchExtensionSwitchFeature[] AddVMSwitchExtensionSwitchFeature(
+        AddVMSwitchExtensionSwitchFeatureArguments args
+    )
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -2989,10 +3040,14 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Add-VMSwitchExtensionSwitchFeature", parameters);
+        var result = instance.InvokeFunction<VMSwitchExtensionSwitchFeature>(
+            "Add-VMSwitchExtensionSwitchFeature",
+            parameters
+        );
+        return result;
     }
 
-    public Task AddVMSwitchExtensionSwitchFeatureAsync(
+    public Task<VMSwitchExtensionSwitchFeature[]> AddVMSwitchExtensionSwitchFeatureAsync(
         AddVMSwitchExtensionSwitchFeatureArguments args
     ) => Task.Run(() => AddVMSwitchExtensionSwitchFeature(args));
 
@@ -3171,8 +3226,9 @@ public class HyperVApi
     
     Note: In Windows Server 2012 R2, virtual machine snapshots were renamed to virtual machine checkpoints. For clarity, this document will refer to virtual machine snapshots as checkpoints.
      * </remarks>
+     * <returns>By default, this cmdlet doesn't return any output.</returns>
      */
-    public void CheckpointVM(CheckpointVMArguments args)
+    public VMSnapshot[] CheckpointVM(CheckpointVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -3196,10 +3252,12 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Checkpoint-VM", parameters);
+        var result = instance.InvokeFunction<VMSnapshot>("Checkpoint-VM", parameters);
+        return result;
     }
 
-    public Task CheckpointVMAsync(CheckpointVMArguments args) => Task.Run(() => CheckpointVM(args));
+    public Task<VMSnapshot[]> CheckpointVMAsync(CheckpointVMArguments args) =>
+        Task.Run(() => CheckpointVM(args));
 
     public class CompareVMArguments
     {
@@ -3476,8 +3534,9 @@ public class HyperVApi
      * <remarks>
      * The **Complete-VMFailover** cmdlet completes a virtual machine's failover process on the Replica server. The recovery point, on which the virtual machine is failed over, is committed and all other recovery points are removed. Failover cannot be canceled after the recovery points are removed.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void CompleteVMFailover(CompleteVMFailoverArguments args)
+    public VirtualMachine[] CompleteVMFailover(CompleteVMFailoverArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -3497,10 +3556,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Complete-VMFailover", parameters);
+        var result = instance.InvokeFunction<VirtualMachine>("Complete-VMFailover", parameters);
+        return result;
     }
 
-    public Task CompleteVMFailoverAsync(CompleteVMFailoverArguments args) =>
+    public Task<VirtualMachine[]> CompleteVMFailoverAsync(CompleteVMFailoverArguments args) =>
         Task.Run(() => CompleteVMFailover(args));
 
     public class ConnectVMNetworkAdapterArguments
@@ -3580,8 +3640,9 @@ public class HyperVApi
      * <remarks>
      * The **Connect-VMNetworkAdapter** cmdlet connects a virtual network adapter to a virtual switch.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void ConnectVMNetworkAdapter(ConnectVMNetworkAdapterArguments args)
+    public VMNetworkAdapter[] ConnectVMNetworkAdapter(ConnectVMNetworkAdapterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -3609,11 +3670,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Connect-VMNetworkAdapter", parameters);
+        var result = instance.InvokeFunction<VMNetworkAdapter>(
+            "Connect-VMNetworkAdapter",
+            parameters
+        );
+        return result;
     }
 
-    public Task ConnectVMNetworkAdapterAsync(ConnectVMNetworkAdapterArguments args) =>
-        Task.Run(() => ConnectVMNetworkAdapter(args));
+    public Task<VMNetworkAdapter[]> ConnectVMNetworkAdapterAsync(
+        ConnectVMNetworkAdapterArguments args
+    ) => Task.Run(() => ConnectVMNetworkAdapter(args));
 
     public class ConnectVMSanArguments
     {
@@ -3682,8 +3748,9 @@ public class HyperVApi
      * <remarks>
      * The **Connect-VMSan** cmdlet associates a host bus adapter with a virtual storage area network (SAN).
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void ConnectVMSan(ConnectVMSanArguments args)
+    public VMSan[] ConnectVMSan(ConnectVMSanArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -3707,10 +3774,12 @@ public class HyperVApi
         if (args.WorldWidePortName is not null)
             parameters.Add("WorldWidePortName", args.WorldWidePortName);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Connect-VMSan", parameters);
+        var result = instance.InvokeFunction<VMSan>("Connect-VMSan", parameters);
+        return result;
     }
 
-    public Task ConnectVMSanAsync(ConnectVMSanArguments args) => Task.Run(() => ConnectVMSan(args));
+    public Task<VMSan[]> ConnectVMSanAsync(ConnectVMSanArguments args) =>
+        Task.Run(() => ConnectVMSan(args));
 
     public class ConvertVHDArguments
     {
@@ -4299,8 +4368,11 @@ public class HyperVApi
      * <remarks>
      * The **Disable-VMIntegrationService** cmdlet disables an integration service on a virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void DisableVMIntegrationService(DisableVMIntegrationServiceArguments args)
+    public VMIntegrationComponent[] DisableVMIntegrationService(
+        DisableVMIntegrationServiceArguments args
+    )
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -4324,11 +4396,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Disable-VMIntegrationService", parameters);
+        var result = instance.InvokeFunction<VMIntegrationComponent>(
+            "Disable-VMIntegrationService",
+            parameters
+        );
+        return result;
     }
 
-    public Task DisableVMIntegrationServiceAsync(DisableVMIntegrationServiceArguments args) =>
-        Task.Run(() => DisableVMIntegrationService(args));
+    public Task<VMIntegrationComponent[]> DisableVMIntegrationServiceAsync(
+        DisableVMIntegrationServiceArguments args
+    ) => Task.Run(() => DisableVMIntegrationService(args));
 
     public class DisableVMMigrationArguments
     {
@@ -4378,8 +4455,9 @@ public class HyperVApi
      * <remarks>
      * The **Disable-VMMigration** cmdlet disables migration on one or more virtual machine hosts.
      * </remarks>
+     * <returns>By default, this cmdlet doesn't return any output.</returns>
      */
-    public void DisableVMMigration(DisableVMMigrationArguments args)
+    public VMHost[] DisableVMMigration(DisableVMMigrationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -4395,10 +4473,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Disable-VMMigration", parameters);
+        var result = instance.InvokeFunction<VMHost>("Disable-VMMigration", parameters);
+        return result;
     }
 
-    public Task DisableVMMigrationAsync(DisableVMMigrationArguments args) =>
+    public Task<VMHost[]> DisableVMMigrationAsync(DisableVMMigrationArguments args) =>
         Task.Run(() => DisableVMMigration(args));
 
     public class DisableVMRemoteFXPhysicalVideoAdapterArguments
@@ -4459,8 +4538,9 @@ public class HyperVApi
      * <remarks>
      * The **Disable-VMRemoteFXPhysicalVideoAdapter** cmdlet disables one or more RemoteFX physical video adapter from use with RemoteFX-enabled virtual machines.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void DisableVMRemoteFXPhysicalVideoAdapter(
+    public VMRemoteFXPhysicalVideoAdapter[] DisableVMRemoteFXPhysicalVideoAdapter(
         DisableVMRemoteFXPhysicalVideoAdapterArguments args
     )
     {
@@ -4482,10 +4562,14 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Disable-VMRemoteFXPhysicalVideoAdapter", parameters);
+        var result = instance.InvokeFunction<VMRemoteFXPhysicalVideoAdapter>(
+            "Disable-VMRemoteFXPhysicalVideoAdapter",
+            parameters
+        );
+        return result;
     }
 
-    public Task DisableVMRemoteFXPhysicalVideoAdapterAsync(
+    public Task<VMRemoteFXPhysicalVideoAdapter[]> DisableVMRemoteFXPhysicalVideoAdapterAsync(
         DisableVMRemoteFXPhysicalVideoAdapterArguments args
     ) => Task.Run(() => DisableVMRemoteFXPhysicalVideoAdapter(args));
 
@@ -4806,8 +4890,9 @@ public class HyperVApi
      * <remarks>
      * The **Disconnect-VMNetworkAdapter** cmdlet disconnects a virtual network adapter from a virtual switch or Ethernet resource pool.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void DisconnectVMNetworkAdapter(DisconnectVMNetworkAdapterArguments args)
+    public VMNetworkAdapter[] DisconnectVMNetworkAdapter(DisconnectVMNetworkAdapterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -4829,11 +4914,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Disconnect-VMNetworkAdapter", parameters);
+        var result = instance.InvokeFunction<VMNetworkAdapter>(
+            "Disconnect-VMNetworkAdapter",
+            parameters
+        );
+        return result;
     }
 
-    public Task DisconnectVMNetworkAdapterAsync(DisconnectVMNetworkAdapterArguments args) =>
-        Task.Run(() => DisconnectVMNetworkAdapter(args));
+    public Task<VMNetworkAdapter[]> DisconnectVMNetworkAdapterAsync(
+        DisconnectVMNetworkAdapterArguments args
+    ) => Task.Run(() => DisconnectVMNetworkAdapter(args));
 
     public class DisconnectVMSanArguments
     {
@@ -4902,8 +4992,9 @@ public class HyperVApi
      * <remarks>
      * The **Disconnect-VMSan** cmdlet removes a host bus adapter from a virtual storage area network (SAN).
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void DisconnectVMSan(DisconnectVMSanArguments args)
+    public VMSan[] DisconnectVMSan(DisconnectVMSanArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -4927,10 +5018,11 @@ public class HyperVApi
         if (args.WorldWidePortName is not null)
             parameters.Add("WorldWidePortName", args.WorldWidePortName);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Disconnect-VMSan", parameters);
+        var result = instance.InvokeFunction<VMSan>("Disconnect-VMSan", parameters);
+        return result;
     }
 
-    public Task DisconnectVMSanAsync(DisconnectVMSanArguments args) =>
+    public Task<VMSan[]> DisconnectVMSanAsync(DisconnectVMSanArguments args) =>
         Task.Run(() => DisconnectVMSan(args));
 
     public class DismountVHDArguments
@@ -5368,8 +5460,11 @@ public class HyperVApi
      * <remarks>
      * The **Enable-VMIntegrationService** cmdlet enables an integration service on a virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void EnableVMIntegrationService(EnableVMIntegrationServiceArguments args)
+    public VMIntegrationComponent[] EnableVMIntegrationService(
+        EnableVMIntegrationServiceArguments args
+    )
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -5393,11 +5488,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Enable-VMIntegrationService", parameters);
+        var result = instance.InvokeFunction<VMIntegrationComponent>(
+            "Enable-VMIntegrationService",
+            parameters
+        );
+        return result;
     }
 
-    public Task EnableVMIntegrationServiceAsync(EnableVMIntegrationServiceArguments args) =>
-        Task.Run(() => EnableVMIntegrationService(args));
+    public Task<VMIntegrationComponent[]> EnableVMIntegrationServiceAsync(
+        EnableVMIntegrationServiceArguments args
+    ) => Task.Run(() => EnableVMIntegrationService(args));
 
     public class EnableVMMigrationArguments
     {
@@ -5446,8 +5546,9 @@ public class HyperVApi
      * <remarks>
      * The **Enable-VMMigration** cmdlet enables migration on one or more virtual machine hosts.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void EnableVMMigration(EnableVMMigrationArguments args)
+    public VMHost[] EnableVMMigration(EnableVMMigrationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -5463,10 +5564,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Enable-VMMigration", parameters);
+        var result = instance.InvokeFunction<VMHost>("Enable-VMMigration", parameters);
+        return result;
     }
 
-    public Task EnableVMMigrationAsync(EnableVMMigrationArguments args) =>
+    public Task<VMHost[]> EnableVMMigrationAsync(EnableVMMigrationArguments args) =>
         Task.Run(() => EnableVMMigration(args));
 
     public class EnableVMRemoteFXPhysicalVideoAdapterArguments
@@ -5528,8 +5630,9 @@ public class HyperVApi
      * <remarks>
      * The **Enable-VMRemoteFXPhysicalVideoAdapter** cmdlet enables one or more RemoteFX physical video adapters to be used with RemoteFX-enabled virtual machines.
      * </remarks>
+     * <returns>By default, this cmdlet doesn't return any output.</returns>
      */
-    public void EnableVMRemoteFXPhysicalVideoAdapter(
+    public VMRemoteFXPhysicalVideoAdapter[] EnableVMRemoteFXPhysicalVideoAdapter(
         EnableVMRemoteFXPhysicalVideoAdapterArguments args
     )
     {
@@ -5551,10 +5654,14 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Enable-VMRemoteFXPhysicalVideoAdapter", parameters);
+        var result = instance.InvokeFunction<VMRemoteFXPhysicalVideoAdapter>(
+            "Enable-VMRemoteFXPhysicalVideoAdapter",
+            parameters
+        );
+        return result;
     }
 
-    public Task EnableVMRemoteFXPhysicalVideoAdapterAsync(
+    public Task<VMRemoteFXPhysicalVideoAdapter[]> EnableVMRemoteFXPhysicalVideoAdapterAsync(
         EnableVMRemoteFXPhysicalVideoAdapterArguments args
     ) => Task.Run(() => EnableVMRemoteFXPhysicalVideoAdapter(args));
 
@@ -5747,7 +5854,7 @@ public class HyperVApi
      * The **Enable-VMReplication** cmdlet enables replication of a virtual machine to a specified Replica server.
      * </remarks>
      */
-    public void EnableVMReplication(EnableVMReplicationArguments args)
+    public VMReplication[] EnableVMReplication(EnableVMReplicationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowedPrimaryServer is not null)
@@ -5808,10 +5915,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Enable-VMReplication", parameters);
+        var result = instance.InvokeFunction<VMReplication>("Enable-VMReplication", parameters);
+        return result;
     }
 
-    public Task EnableVMReplicationAsync(EnableVMReplicationArguments args) =>
+    public Task<VMReplication[]> EnableVMReplicationAsync(EnableVMReplicationArguments args) =>
         Task.Run(() => EnableVMReplication(args));
 
     public class EnableVMResourceMeteringArguments
@@ -6149,8 +6257,9 @@ public class HyperVApi
      * <remarks>
      * The **Export-VM** cmdlet exports a virtual machine to disk. This cmdlet creates a folder at a specified location having three subfolders: Snapshots, Virtual Hard Disks, and Virtual Machines. Each of these folders contains the associated files. The Snapshots folder contains the associated Snapshots, and the Virtual Hard Disk folder contains the specified virtual machine's virtual disks. The Virtual Machines folder contains the configuration XML of the specified virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void ExportVM(ExportVMArguments args)
+    public VirtualMachine[] ExportVM(ExportVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -6176,10 +6285,12 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Export-VM", parameters);
+        var result = instance.InvokeFunction<VirtualMachine>("Export-VM", parameters);
+        return result;
     }
 
-    public Task ExportVMAsync(ExportVMArguments args) => Task.Run(() => ExportVM(args));
+    public Task<VirtualMachine[]> ExportVMAsync(ExportVMArguments args) =>
+        Task.Run(() => ExportVM(args));
 
     public class GetVHDArguments
     {
@@ -6611,7 +6722,7 @@ public class HyperVApi
      * The **Get-VMBios** cmdlet gets the BIOS of a virtual machine or snapshot. Note: This cmdlet does not operate with Generation 2 virtual machine. If attempted, the cmdlet throws an error.
      * </remarks>
      */
-    public Microsoft.Vhd.PowerShell.VirtualHardDisk[] GetVMBios(GetVMBiosArguments args)
+    public VMBios[] GetVMBios(GetVMBiosArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -6627,16 +6738,12 @@ public class HyperVApi
         if (args.VMSnapshot is not null)
             parameters.Add("VMSnapshot", args.VMSnapshot);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction<Microsoft.Vhd.PowerShell.VirtualHardDisk>(
-            "Get-VMBios",
-            parameters
-        );
+        var result = instance.InvokeFunction<VMBios>("Get-VMBios", parameters);
         return result;
     }
 
-    public Task<Microsoft.Vhd.PowerShell.VirtualHardDisk[]> GetVMBiosAsync(
-        GetVMBiosArguments args
-    ) => Task.Run(() => GetVMBios(args));
+    public Task<VMBios[]> GetVMBiosAsync(GetVMBiosArguments args) =>
+        Task.Run(() => GetVMBios(args));
 
     public class GetVMComPortArguments
     {
@@ -7983,7 +8090,7 @@ public class HyperVApi
      * The **Get-VMKeyProtector** cmdlet retrieves a key protector for a virtual machine.
      * </remarks>
      */
-    public void GetVMKeyProtector(GetVMKeyProtectorArguments args)
+    public VirtualMachine[] GetVMKeyProtector(GetVMKeyProtectorArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -8001,10 +8108,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Get-VMKeyProtector", parameters);
+        var result = instance.InvokeFunction<VirtualMachine>("Get-VMKeyProtector", parameters);
+        return result;
     }
 
-    public Task GetVMKeyProtectorAsync(GetVMKeyProtectorArguments args) =>
+    public Task<VirtualMachine[]> GetVMKeyProtectorAsync(GetVMKeyProtectorArguments args) =>
         Task.Run(() => GetVMKeyProtector(args));
 
     public class GetVMKeyStorageDriveArguments
@@ -8274,7 +8382,7 @@ public class HyperVApi
      * </remarks>
      * <returns>By default, **Microsoft.HyperV.PowerShell.VMNetworkAdapter** is output.</returns>
      */
-    public VMNetworkAdapter[] GetVMNetworkAdapter(GetVMNetworkAdapterArguments args)
+    public VMNetworkAdapterBase[] GetVMNetworkAdapter(GetVMNetworkAdapterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.All is not null)
@@ -8300,12 +8408,16 @@ public class HyperVApi
         if (args.VMSnapshot is not null)
             parameters.Add("VMSnapshot", args.VMSnapshot);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction<VMNetworkAdapter>("Get-VMNetworkAdapter", parameters);
+        var result = instance.InvokeFunction<VMNetworkAdapterBase>(
+            "Get-VMNetworkAdapter",
+            parameters
+        );
         return result;
     }
 
-    public Task<VMNetworkAdapter[]> GetVMNetworkAdapterAsync(GetVMNetworkAdapterArguments args) =>
-        Task.Run(() => GetVMNetworkAdapter(args));
+    public Task<VMNetworkAdapterBase[]> GetVMNetworkAdapterAsync(
+        GetVMNetworkAdapterArguments args
+    ) => Task.Run(() => GetVMNetworkAdapter(args));
 
     public class GetVMNetworkAdapterAclArguments
     {
@@ -8976,7 +9088,9 @@ public class HyperVApi
      * The **Get-VMNetworkAdapterTeamMapping** cmdlet
      * </remarks>
      */
-    public void GetVMNetworkAdapterTeamMapping(GetVMNetworkAdapterTeamMappingArguments args)
+    public VMNetworkAdapterTeamMappingSetting[] GetVMNetworkAdapterTeamMapping(
+        GetVMNetworkAdapterTeamMappingArguments args
+    )
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -9000,11 +9114,16 @@ public class HyperVApi
         if (args.VMNetworkAdapter is not null)
             parameters.Add("VMNetworkAdapter", args.VMNetworkAdapter);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Get-VMNetworkAdapterTeamMapping", parameters);
+        var result = instance.InvokeFunction<VMNetworkAdapterTeamMappingSetting>(
+            "Get-VMNetworkAdapterTeamMapping",
+            parameters
+        );
+        return result;
     }
 
-    public Task GetVMNetworkAdapterTeamMappingAsync(GetVMNetworkAdapterTeamMappingArguments args) =>
-        Task.Run(() => GetVMNetworkAdapterTeamMapping(args));
+    public Task<VMNetworkAdapterTeamMappingSetting[]> GetVMNetworkAdapterTeamMappingAsync(
+        GetVMNetworkAdapterTeamMappingArguments args
+    ) => Task.Run(() => GetVMNetworkAdapterTeamMapping(args));
 
     public class GetVMNetworkAdapterVlanArguments
     {
@@ -10540,7 +10659,9 @@ public class HyperVApi
      * The **Get-VMSwitchExtensionSwitchData** cmdlet gets the status of a virtual switch extension applied on a virtual switch. This switch feature data surfaces runtime information and statistics on a per-switch basis.
      * </remarks>
      */
-    public void GetVMSwitchExtensionSwitchData(GetVMSwitchExtensionSwitchDataArguments args)
+    public VMSwitchExtensionSwitchData[] GetVMSwitchExtensionSwitchData(
+        GetVMSwitchExtensionSwitchDataArguments args
+    )
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -10566,11 +10687,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Get-VMSwitchExtensionSwitchData", parameters);
+        var result = instance.InvokeFunction<VMSwitchExtensionSwitchData>(
+            "Get-VMSwitchExtensionSwitchData",
+            parameters
+        );
+        return result;
     }
 
-    public Task GetVMSwitchExtensionSwitchDataAsync(GetVMSwitchExtensionSwitchDataArguments args) =>
-        Task.Run(() => GetVMSwitchExtensionSwitchData(args));
+    public Task<VMSwitchExtensionSwitchData[]> GetVMSwitchExtensionSwitchDataAsync(
+        GetVMSwitchExtensionSwitchDataArguments args
+    ) => Task.Run(() => GetVMSwitchExtensionSwitchData(args));
 
     public class GetVMSwitchExtensionSwitchFeatureArguments
     {
@@ -10864,7 +10990,7 @@ public class HyperVApi
      * The **Get-VMSystemSwitchExtensionPortFeature** cmdlet gets the port-level features supported by virtual switch extensions on one or more Hyper-V hosts. The returned feature object will contain default values for the feature. The object can be used to apply the configuration on specific ports using the Add-VmSwitchExtensionPortFeature command.
      * </remarks>
      */
-    public void GetVMSystemSwitchExtensionPortFeature(
+    public VMSwitchExtensionPortFeature[] GetVMSystemSwitchExtensionPortFeature(
         GetVMSystemSwitchExtensionPortFeatureArguments args
     )
     {
@@ -10884,10 +11010,14 @@ public class HyperVApi
         if (args.SystemSwitchExtension is not null)
             parameters.Add("SystemSwitchExtension", args.SystemSwitchExtension);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Get-VMSystemSwitchExtensionPortFeature", parameters);
+        var result = instance.InvokeFunction<VMSwitchExtensionPortFeature>(
+            "Get-VMSystemSwitchExtensionPortFeature",
+            parameters
+        );
+        return result;
     }
 
-    public Task GetVMSystemSwitchExtensionPortFeatureAsync(
+    public Task<VMSwitchExtensionPortFeature[]> GetVMSystemSwitchExtensionPortFeatureAsync(
         GetVMSystemSwitchExtensionPortFeatureArguments args
     ) => Task.Run(() => GetVMSystemSwitchExtensionPortFeature(args));
 
@@ -10943,7 +11073,7 @@ public class HyperVApi
      * The **Get-VMSystemSwitchExtensionSwitchFeature** cmdlet gets the switch-level features supported by virtual switch extensions in an extension on one or more Hyper-V hosts. The returned feature object will contain default values for the feature. The object can be used to apply the configuration on specific ports using the **Add-VMSwitchExtensionFeature** cmdlet.
      * </remarks>
      */
-    public void GetVMSystemSwitchExtensionSwitchFeature(
+    public VMSwitchExtensionSwitchFeature[] GetVMSystemSwitchExtensionSwitchFeature(
         GetVMSystemSwitchExtensionSwitchFeatureArguments args
     )
     {
@@ -10963,13 +11093,14 @@ public class HyperVApi
         if (args.SystemSwitchExtension is not null)
             parameters.Add("SystemSwitchExtension", args.SystemSwitchExtension);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction(
+        var result = instance.InvokeFunction<VMSwitchExtensionSwitchFeature>(
             "Get-VMSystemSwitchExtensionSwitchFeature",
             parameters
         );
+        return result;
     }
 
-    public Task GetVMSystemSwitchExtensionSwitchFeatureAsync(
+    public Task<VMSwitchExtensionSwitchFeature[]> GetVMSystemSwitchExtensionSwitchFeatureAsync(
         GetVMSystemSwitchExtensionSwitchFeatureArguments args
     ) => Task.Run(() => GetVMSystemSwitchExtensionSwitchFeature(args));
 
@@ -11117,8 +11248,9 @@ public class HyperVApi
      * <remarks>
      * The **Grant-VMConnectAccess** cmdlet grants access to a user or users to connect to a virtual machine or machines. The cmdlet is intended for use in providing other applications with the appropriate permissions required to initiate a session with Virtual Machine Connection. Examples of such applications are Virtual Machine Manager.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void GrantVMConnectAccess(GrantVMConnectAccessArguments args)
+    public VMConnectAce[] GrantVMConnectAccess(GrantVMConnectAccessArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -11140,10 +11272,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Grant-VMConnectAccess", parameters);
+        var result = instance.InvokeFunction<VMConnectAce>("Grant-VMConnectAccess", parameters);
+        return result;
     }
 
-    public Task GrantVMConnectAccessAsync(GrantVMConnectAccessArguments args) =>
+    public Task<VMConnectAce[]> GrantVMConnectAccessAsync(GrantVMConnectAccessArguments args) =>
         Task.Run(() => GrantVMConnectAccess(args));
 
     public class ImportVMArguments
@@ -11362,8 +11495,9 @@ public class HyperVApi
      * <remarks>
      * The **Import-VMInitialReplication** cmdlet imports initial replication files on a Replica server. It completes the initial replication of a virtual machine when external is used as the source of the files for initial replication.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void ImportVMInitialReplication(ImportVMInitialReplicationArguments args)
+    public VMReplication[] ImportVMInitialReplication(ImportVMInitialReplicationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -11389,11 +11523,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Import-VMInitialReplication", parameters);
+        var result = instance.InvokeFunction<VMReplication>(
+            "Import-VMInitialReplication",
+            parameters
+        );
+        return result;
     }
 
-    public Task ImportVMInitialReplicationAsync(ImportVMInitialReplicationArguments args) =>
-        Task.Run(() => ImportVMInitialReplication(args));
+    public Task<VMReplication[]> ImportVMInitialReplicationAsync(
+        ImportVMInitialReplicationArguments args
+    ) => Task.Run(() => ImportVMInitialReplication(args));
 
     public class MeasureVMArguments
     {
@@ -12256,8 +12395,9 @@ public class HyperVApi
      * <remarks>
      * The **Move-VM** cmdlet moves a virtual machine to a new Hyper-V host.
      * </remarks>
+     * <returns>By default, this cmdlet doesn't return any output.</returns>
      */
-    public void MoveVM(MoveVMArguments args)
+    public VirtualMachine[] MoveVM(MoveVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -12305,10 +12445,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Move-VM", parameters);
+        var result = instance.InvokeFunction<VirtualMachine>("Move-VM", parameters);
+        return result;
     }
 
-    public Task MoveVMAsync(MoveVMArguments args) => Task.Run(() => MoveVM(args));
+    public Task<VirtualMachine[]> MoveVMAsync(MoveVMArguments args) => Task.Run(() => MoveVM(args));
 
     public class MoveVMStorageArguments
     {
@@ -13700,9 +13841,7 @@ public class HyperVApi
     Checkpoint replaces the previous term, snapshot.
      * </remarks>
      */
-    public Microsoft.Vhd.PowerShell.VHDSnapshotInfo[] RemoveVHDSnapshot(
-        RemoveVHDSnapshotArguments args
-    )
+    public void RemoveVHDSnapshot(RemoveVHDSnapshotArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -13726,16 +13865,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction<Microsoft.Vhd.PowerShell.VHDSnapshotInfo>(
-            "Remove-VHDSnapshot",
-            parameters
-        );
-        return result;
+        var result = instance.InvokeFunction("Remove-VHDSnapshot", parameters);
     }
 
-    public Task<Microsoft.Vhd.PowerShell.VHDSnapshotInfo[]> RemoveVHDSnapshotAsync(
-        RemoveVHDSnapshotArguments args
-    ) => Task.Run(() => RemoveVHDSnapshot(args));
+    public Task RemoveVHDSnapshotAsync(RemoveVHDSnapshotArguments args) =>
+        Task.Run(() => RemoveVHDSnapshot(args));
 
     public class RemoveVMArguments
     {
@@ -13804,8 +13938,9 @@ public class HyperVApi
      * <remarks>
      * The **Remove-VM** cmdlet deletes a virtual machine. Running this cmdlet deletes the virtual machine's configuration file, but does not delete any virtual hard drives. If the virtual machine has any snapshots, these are deleted and merged into the virtual hard disk files after the virtual machine is deleted.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RemoveVM(RemoveVMArguments args)
+    public VirtualMachine[] RemoveVM(RemoveVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -13829,10 +13964,12 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Remove-VM", parameters);
+        var result = instance.InvokeFunction<VirtualMachine>("Remove-VM", parameters);
+        return result;
     }
 
-    public Task RemoveVMAsync(RemoveVMArguments args) => Task.Run(() => RemoveVM(args));
+    public Task<VirtualMachine[]> RemoveVMAsync(RemoveVMArguments args) =>
+        Task.Run(() => RemoveVM(args));
 
     public class RemoveVMAssignableDeviceArguments
     {
@@ -14010,8 +14147,9 @@ public class HyperVApi
      * <remarks>
      * The **Remove-VMDvdDrive** cmdlet deletes a DVD drive from a virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RemoveVMDvdDrive(RemoveVMDvdDriveArguments args)
+    public DvdDrive[] RemoveVMDvdDrive(RemoveVMDvdDriveArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -14035,10 +14173,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Remove-VMDvdDrive", parameters);
+        var result = instance.InvokeFunction<DvdDrive>("Remove-VMDvdDrive", parameters);
+        return result;
     }
 
-    public Task RemoveVMDvdDriveAsync(RemoveVMDvdDriveArguments args) =>
+    public Task<DvdDrive[]> RemoveVMDvdDriveAsync(RemoveVMDvdDriveArguments args) =>
         Task.Run(() => RemoveVMDvdDrive(args));
 
     public class RemoveVMFibreChannelHbaArguments
@@ -14118,8 +14257,9 @@ public class HyperVApi
      * <remarks>
      * The **Remove-VMFibreChannelHba** cmdlet removes a Fibre Channel host bus adapter from a virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RemoveVMFibreChannelHba(RemoveVMFibreChannelHbaArguments args)
+    public VMFibreChannelHba[] RemoveVMFibreChannelHba(RemoveVMFibreChannelHbaArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -14147,11 +14287,16 @@ public class HyperVApi
         if (args.WorldWidePortNameSetB is not null)
             parameters.Add("WorldWidePortNameSetB", args.WorldWidePortNameSetB);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Remove-VMFibreChannelHba", parameters);
+        var result = instance.InvokeFunction<VMFibreChannelHba>(
+            "Remove-VMFibreChannelHba",
+            parameters
+        );
+        return result;
     }
 
-    public Task RemoveVMFibreChannelHbaAsync(RemoveVMFibreChannelHbaArguments args) =>
-        Task.Run(() => RemoveVMFibreChannelHba(args));
+    public Task<VMFibreChannelHba[]> RemoveVMFibreChannelHbaAsync(
+        RemoveVMFibreChannelHbaArguments args
+    ) => Task.Run(() => RemoveVMFibreChannelHba(args));
 
     public class RemoveVMGpuPartitionAdapterArguments
     {
@@ -14324,7 +14469,7 @@ public class HyperVApi
      * The **Remove-VMGroup** cmdlet removes a virtual machine group. Before you can remove a group, it must be empty.
      * </remarks>
      */
-    public System.Object[] RemoveVMGroup(RemoveVMGroupArguments args)
+    public void RemoveVMGroup(RemoveVMGroupArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -14342,11 +14487,10 @@ public class HyperVApi
         if (args.VMGroup is not null)
             parameters.Add("VMGroup", args.VMGroup);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction<System.Object>("Remove-VMGroup", parameters);
-        return result;
+        var result = instance.InvokeFunction("Remove-VMGroup", parameters);
     }
 
-    public Task<System.Object[]> RemoveVMGroupAsync(RemoveVMGroupArguments args) =>
+    public Task RemoveVMGroupAsync(RemoveVMGroupArguments args) =>
         Task.Run(() => RemoveVMGroup(args));
 
     public class RemoveVMGroupMemberArguments
@@ -14539,8 +14683,9 @@ public class HyperVApi
      * <remarks>
      * The **Remove-VMHardDiskDrive** cmdlet deletes a hard disk drive from a virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RemoveVMHardDiskDrive(RemoveVMHardDiskDriveArguments args)
+    public HardDiskDrive[] RemoveVMHardDiskDrive(RemoveVMHardDiskDriveArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -14566,10 +14711,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Remove-VMHardDiskDrive", parameters);
+        var result = instance.InvokeFunction<HardDiskDrive>("Remove-VMHardDiskDrive", parameters);
+        return result;
     }
 
-    public Task RemoveVMHardDiskDriveAsync(RemoveVMHardDiskDriveArguments args) =>
+    public Task<HardDiskDrive[]> RemoveVMHardDiskDriveAsync(RemoveVMHardDiskDriveArguments args) =>
         Task.Run(() => RemoveVMHardDiskDrive(args));
 
     public class RemoveVMHostAssignableDeviceArguments
@@ -14648,7 +14794,7 @@ public class HyperVApi
      * The `Remove-VMHostAssignableDevice` cmdlet removes a device that is assigned to a virtual machine host. Depending on the parameters specified, you can remove devices by providing either the instance or location path of the device.
      * </remarks>
      */
-    public System.Object[] RemoveVMHostAssignableDevice(RemoveVMHostAssignableDeviceArguments args)
+    public void RemoveVMHostAssignableDevice(RemoveVMHostAssignableDeviceArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -14672,16 +14818,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction<System.Object>(
-            "Remove-VMHostAssignableDevice",
-            parameters
-        );
-        return result;
+        var result = instance.InvokeFunction("Remove-VMHostAssignableDevice", parameters);
     }
 
-    public Task<System.Object[]> RemoveVMHostAssignableDeviceAsync(
-        RemoveVMHostAssignableDeviceArguments args
-    ) => Task.Run(() => RemoveVMHostAssignableDevice(args));
+    public Task RemoveVMHostAssignableDeviceAsync(RemoveVMHostAssignableDeviceArguments args) =>
+        Task.Run(() => RemoveVMHostAssignableDevice(args));
 
     public class RemoveVMKeyStorageDriveArguments
     {
@@ -14789,8 +14930,9 @@ public class HyperVApi
      * <remarks>
      * The **Remove-VMMigrationNetwork** cmdlet removes a network from use with migration.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RemoveVMMigrationNetwork(RemoveVMMigrationNetworkArguments args)
+    public VMMigrationNetwork[] RemoveVMMigrationNetwork(RemoveVMMigrationNetworkArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -14808,11 +14950,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Remove-VMMigrationNetwork", parameters);
+        var result = instance.InvokeFunction<VMMigrationNetwork>(
+            "Remove-VMMigrationNetwork",
+            parameters
+        );
+        return result;
     }
 
-    public Task RemoveVMMigrationNetworkAsync(RemoveVMMigrationNetworkArguments args) =>
-        Task.Run(() => RemoveVMMigrationNetwork(args));
+    public Task<VMMigrationNetwork[]> RemoveVMMigrationNetworkAsync(
+        RemoveVMMigrationNetworkArguments args
+    ) => Task.Run(() => RemoveVMMigrationNetwork(args));
 
     public class RemoveVMNetworkAdapterArguments
     {
@@ -14892,8 +15039,9 @@ public class HyperVApi
      * <remarks>
      * The **Remove-VMNetworkAdapter** cmdlet removes one or more virtual network adapters from a virtual machine.
      * </remarks>
+     * <returns>By default, this cmdlet doesn't return any output.</returns>
      */
-    public void RemoveVMNetworkAdapter(RemoveVMNetworkAdapterArguments args)
+    public VMNetworkAdapterBase[] RemoveVMNetworkAdapter(RemoveVMNetworkAdapterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -14921,11 +15069,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Remove-VMNetworkAdapter", parameters);
+        var result = instance.InvokeFunction<VMNetworkAdapterBase>(
+            "Remove-VMNetworkAdapter",
+            parameters
+        );
+        return result;
     }
 
-    public Task RemoveVMNetworkAdapterAsync(RemoveVMNetworkAdapterArguments args) =>
-        Task.Run(() => RemoveVMNetworkAdapter(args));
+    public Task<VMNetworkAdapterBase[]> RemoveVMNetworkAdapterAsync(
+        RemoveVMNetworkAdapterArguments args
+    ) => Task.Run(() => RemoveVMNetworkAdapter(args));
 
     public class RemoveVMNetworkAdapterAclArguments
     {
@@ -15048,8 +15201,11 @@ public class HyperVApi
      * <remarks>
      * The **Remove-VMNetworkAdapterAcl** cmdlet removes an ACL applied to the traffic through a virtual network adapter.
      * </remarks>
+     * <returns>By default, this cmdlet doesn't return any output.</returns>
      */
-    public void RemoveVMNetworkAdapterAcl(RemoveVMNetworkAdapterAclArguments args)
+    public VMNetworkAdapterAclSetting[] RemoveVMNetworkAdapterAcl(
+        RemoveVMNetworkAdapterAclArguments args
+    )
     {
         var parameters = new Dictionary<string, object>();
         if (args.Action is not null)
@@ -15089,11 +15245,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Remove-VMNetworkAdapterAcl", parameters);
+        var result = instance.InvokeFunction<VMNetworkAdapterAclSetting>(
+            "Remove-VMNetworkAdapterAcl",
+            parameters
+        );
+        return result;
     }
 
-    public Task RemoveVMNetworkAdapterAclAsync(RemoveVMNetworkAdapterAclArguments args) =>
-        Task.Run(() => RemoveVMNetworkAdapterAcl(args));
+    public Task<VMNetworkAdapterAclSetting[]> RemoveVMNetworkAdapterAclAsync(
+        RemoveVMNetworkAdapterAclArguments args
+    ) => Task.Run(() => RemoveVMNetworkAdapterAcl(args));
 
     public class RemoveVMNetworkAdapterExtendedAclArguments
     {
@@ -15638,8 +15799,11 @@ public class HyperVApi
      * <remarks>
      * The **Remove-VMRemoteFx3dVideoAdapter** cmdlet removes a RemoteFX 3D video adapter from a virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RemoveVMRemoteFx3dVideoAdapter(RemoveVMRemoteFx3dVideoAdapterArguments args)
+    public VMRemoteFx3DVideoAdapter[] RemoveVMRemoteFx3dVideoAdapter(
+        RemoveVMRemoteFx3dVideoAdapterArguments args
+    )
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -15661,11 +15825,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Remove-VMRemoteFx3dVideoAdapter", parameters);
+        var result = instance.InvokeFunction<VMRemoteFx3DVideoAdapter>(
+            "Remove-VMRemoteFx3dVideoAdapter",
+            parameters
+        );
+        return result;
     }
 
-    public Task RemoveVMRemoteFx3dVideoAdapterAsync(RemoveVMRemoteFx3dVideoAdapterArguments args) =>
-        Task.Run(() => RemoveVMRemoteFx3dVideoAdapter(args));
+    public Task<VMRemoteFx3DVideoAdapter[]> RemoveVMRemoteFx3dVideoAdapterAsync(
+        RemoveVMRemoteFx3dVideoAdapterArguments args
+    ) => Task.Run(() => RemoveVMRemoteFx3dVideoAdapter(args));
 
     public class RemoveVMReplicationArguments
     {
@@ -15736,8 +15905,9 @@ public class HyperVApi
      * <remarks>
      * The **Remove-VMReplication** cmdlet removes the replication relationship of a virtual machine. Replication must be removed independently from both the primary and Replica virtual machines. Removing replication on a Replica virtual machine does not delete the Replica virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RemoveVMReplication(RemoveVMReplicationArguments args)
+    public VMReplication[] RemoveVMReplication(RemoveVMReplicationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -15761,10 +15931,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Remove-VMReplication", parameters);
+        var result = instance.InvokeFunction<VMReplication>("Remove-VMReplication", parameters);
+        return result;
     }
 
-    public Task RemoveVMReplicationAsync(RemoveVMReplicationArguments args) =>
+    public Task<VMReplication[]> RemoveVMReplicationAsync(RemoveVMReplicationArguments args) =>
         Task.Run(() => RemoveVMReplication(args));
 
     public class RemoveVMReplicationAuthorizationEntryArguments
@@ -15829,8 +16000,9 @@ public class HyperVApi
      * <remarks>
      * The **Remove-VMReplicationAuthorizationEntry** cmdlet removes an authorization entry from a Replica server, which cancels authorization for the primary server associated with the entry. After the authorization entry is removed, the Replica server does not accept replication data from the corresponding primary server.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RemoveVMReplicationAuthorizationEntry(
+    public VMReplicationAuthorizationEntry[] RemoveVMReplicationAuthorizationEntry(
         RemoveVMReplicationAuthorizationEntryArguments args
     )
     {
@@ -15854,10 +16026,14 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Remove-VMReplicationAuthorizationEntry", parameters);
+        var result = instance.InvokeFunction<VMReplicationAuthorizationEntry>(
+            "Remove-VMReplicationAuthorizationEntry",
+            parameters
+        );
+        return result;
     }
 
-    public Task RemoveVMReplicationAuthorizationEntryAsync(
+    public Task<VMReplicationAuthorizationEntry[]> RemoveVMReplicationAuthorizationEntryAsync(
         RemoveVMReplicationAuthorizationEntryArguments args
     ) => Task.Run(() => RemoveVMReplicationAuthorizationEntry(args));
 
@@ -15918,8 +16094,9 @@ public class HyperVApi
      * <remarks>
      * The **Remove-VMResourcePool** cmdlet deletes a resource pool from one or more virtual machine hosts.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RemoveVMResourcePool(RemoveVMResourcePoolArguments args)
+    public VMResourcePool[] RemoveVMResourcePool(RemoveVMResourcePoolArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -15939,10 +16116,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Remove-VMResourcePool", parameters);
+        var result = instance.InvokeFunction<VMResourcePool>("Remove-VMResourcePool", parameters);
+        return result;
     }
 
-    public Task RemoveVMResourcePoolAsync(RemoveVMResourcePoolArguments args) =>
+    public Task<VMResourcePool[]> RemoveVMResourcePoolAsync(RemoveVMResourcePoolArguments args) =>
         Task.Run(() => RemoveVMResourcePool(args));
 
     public class RemoveVMSanArguments
@@ -15997,8 +16175,9 @@ public class HyperVApi
      * <remarks>
      * The **Remove-VMSan** cmdlet removes a virtual storage area network (SAN) from a Hyper-V host.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RemoveVMSan(RemoveVMSanArguments args)
+    public VMSan[] RemoveVMSan(RemoveVMSanArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -16016,10 +16195,12 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Remove-VMSan", parameters);
+        var result = instance.InvokeFunction<VMSan>("Remove-VMSan", parameters);
+        return result;
     }
 
-    public Task RemoveVMSanAsync(RemoveVMSanArguments args) => Task.Run(() => RemoveVMSan(args));
+    public Task<VMSan[]> RemoveVMSanAsync(RemoveVMSanArguments args) =>
+        Task.Run(() => RemoveVMSan(args));
 
     public class RemoveVMSavedStateArguments
     {
@@ -16169,8 +16350,9 @@ public class HyperVApi
      * <remarks>
      * The **Remove-VMScsiController** cmdlet removes a SCSI controller from a virtual machine.
      * </remarks>
+     * <returns>By default, this cmdlet doesn't return any output.</returns>
      */
-    public void RemoveVMScsiController(RemoveVMScsiControllerArguments args)
+    public VMScsiController[] RemoveVMScsiController(RemoveVMScsiControllerArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -16192,11 +16374,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Remove-VMScsiController", parameters);
+        var result = instance.InvokeFunction<VMScsiController>(
+            "Remove-VMScsiController",
+            parameters
+        );
+        return result;
     }
 
-    public Task RemoveVMScsiControllerAsync(RemoveVMScsiControllerArguments args) =>
-        Task.Run(() => RemoveVMScsiController(args));
+    public Task<VMScsiController[]> RemoveVMScsiControllerAsync(
+        RemoveVMScsiControllerArguments args
+    ) => Task.Run(() => RemoveVMScsiController(args));
 
     public class RemoveVMStoragePathArguments
     {
@@ -16250,8 +16437,9 @@ public class HyperVApi
      * <remarks>
      * The **Remove-VMStoragePath** cmdlet removes a path from a storage resource pool.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RemoveVMStoragePath(RemoveVMStoragePathArguments args)
+    public VMStorageResourcePool[] RemoveVMStoragePath(RemoveVMStoragePathArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -16269,11 +16457,16 @@ public class HyperVApi
         if (args.ResourcePoolType is not null)
             parameters.Add("ResourcePoolType", args.ResourcePoolType);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Remove-VMStoragePath", parameters);
+        var result = instance.InvokeFunction<VMStorageResourcePool>(
+            "Remove-VMStoragePath",
+            parameters
+        );
+        return result;
     }
 
-    public Task RemoveVMStoragePathAsync(RemoveVMStoragePathArguments args) =>
-        Task.Run(() => RemoveVMStoragePath(args));
+    public Task<VMStorageResourcePool[]> RemoveVMStoragePathAsync(
+        RemoveVMStoragePathArguments args
+    ) => Task.Run(() => RemoveVMStoragePath(args));
 
     public class RemoveVMSwitchArguments
     {
@@ -16454,8 +16647,11 @@ public class HyperVApi
      * <remarks>
      * The **Remove-VMSwitchExtensionPortFeature** cmdlet removes a feature from a virtual network adapter. The feature must have already been configured on the virtual network adapter.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RemoveVMSwitchExtensionPortFeature(RemoveVMSwitchExtensionPortFeatureArguments args)
+    public VMSwitchExtensionPortFeature[] RemoveVMSwitchExtensionPortFeature(
+        RemoveVMSwitchExtensionPortFeatureArguments args
+    )
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -16487,10 +16683,14 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Remove-VMSwitchExtensionPortFeature", parameters);
+        var result = instance.InvokeFunction<VMSwitchExtensionPortFeature>(
+            "Remove-VMSwitchExtensionPortFeature",
+            parameters
+        );
+        return result;
     }
 
-    public Task RemoveVMSwitchExtensionPortFeatureAsync(
+    public Task<VMSwitchExtensionPortFeature[]> RemoveVMSwitchExtensionPortFeatureAsync(
         RemoveVMSwitchExtensionPortFeatureArguments args
     ) => Task.Run(() => RemoveVMSwitchExtensionPortFeature(args));
 
@@ -16556,8 +16756,9 @@ public class HyperVApi
      * <remarks>
      * The **Remove-VMSwitchExtensionSwitchFeature** cmdlet removes a feature from a virtual switch. The feature already must have been configured on the virtual switch.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RemoveVMSwitchExtensionSwitchFeature(
+    public VMSwitchExtensionSwitchFeature[] RemoveVMSwitchExtensionSwitchFeature(
         RemoveVMSwitchExtensionSwitchFeatureArguments args
     )
     {
@@ -16581,10 +16782,14 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Remove-VMSwitchExtensionSwitchFeature", parameters);
+        var result = instance.InvokeFunction<VMSwitchExtensionSwitchFeature>(
+            "Remove-VMSwitchExtensionSwitchFeature",
+            parameters
+        );
+        return result;
     }
 
-    public Task RemoveVMSwitchExtensionSwitchFeatureAsync(
+    public Task<VMSwitchExtensionSwitchFeature[]> RemoveVMSwitchExtensionSwitchFeatureAsync(
         RemoveVMSwitchExtensionSwitchFeatureArguments args
     ) => Task.Run(() => RemoveVMSwitchExtensionSwitchFeature(args));
 
@@ -16755,8 +16960,9 @@ public class HyperVApi
      * <remarks>
      * The **Rename-VM** cmdlet renames a virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RenameVM(RenameVMArguments args)
+    public VirtualMachine[] RenameVM(RenameVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -16778,10 +16984,12 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Rename-VM", parameters);
+        var result = instance.InvokeFunction<VirtualMachine>("Rename-VM", parameters);
+        return result;
     }
 
-    public Task RenameVMAsync(RenameVMArguments args) => Task.Run(() => RenameVM(args));
+    public Task<VirtualMachine[]> RenameVMAsync(RenameVMArguments args) =>
+        Task.Run(() => RenameVM(args));
 
     public class RenameVMGroupArguments
     {
@@ -16968,8 +17176,9 @@ public class HyperVApi
      * <remarks>
      * The **Rename-VMNetworkAdapter** cmdlet renames a virtual network adapter on a virtual machine or on the management operating system.
      * </remarks>
+     * <returns>By default, this cmdlet doesn't return any output.</returns>
      */
-    public void RenameVMNetworkAdapter(RenameVMNetworkAdapterArguments args)
+    public VMNetworkAdapterBase[] RenameVMNetworkAdapter(RenameVMNetworkAdapterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -16997,11 +17206,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Rename-VMNetworkAdapter", parameters);
+        var result = instance.InvokeFunction<VMNetworkAdapterBase>(
+            "Rename-VMNetworkAdapter",
+            parameters
+        );
+        return result;
     }
 
-    public Task RenameVMNetworkAdapterAsync(RenameVMNetworkAdapterArguments args) =>
-        Task.Run(() => RenameVMNetworkAdapter(args));
+    public Task<VMNetworkAdapterBase[]> RenameVMNetworkAdapterAsync(
+        RenameVMNetworkAdapterArguments args
+    ) => Task.Run(() => RenameVMNetworkAdapter(args));
 
     public class RenameVMResourcePoolArguments
     {
@@ -17065,8 +17279,9 @@ public class HyperVApi
      * <remarks>
      * The **Rename-VMResourcePool** cmdlet renames a resource pool on one or more Hyper-V hosts.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RenameVMResourcePool(RenameVMResourcePoolArguments args)
+    public VMResourcePool[] RenameVMResourcePool(RenameVMResourcePoolArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -17088,10 +17303,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Rename-VMResourcePool", parameters);
+        var result = instance.InvokeFunction<VMResourcePool>("Rename-VMResourcePool", parameters);
+        return result;
     }
 
-    public Task RenameVMResourcePoolAsync(RenameVMResourcePoolArguments args) =>
+    public Task<VMResourcePool[]> RenameVMResourcePoolAsync(RenameVMResourcePoolArguments args) =>
         Task.Run(() => RenameVMResourcePool(args));
 
     public class RenameVMSanArguments
@@ -17151,8 +17367,9 @@ public class HyperVApi
      * <remarks>
      * The **Rename-VMSan** cmdlet renames a virtual storage area network (SAN).
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RenameVMSan(RenameVMSanArguments args)
+    public VMSan[] RenameVMSan(RenameVMSanArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -17172,10 +17389,12 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Rename-VMSan", parameters);
+        var result = instance.InvokeFunction<VMSan>("Rename-VMSan", parameters);
+        return result;
     }
 
-    public Task RenameVMSanAsync(RenameVMSanArguments args) => Task.Run(() => RenameVMSan(args));
+    public Task<VMSan[]> RenameVMSanAsync(RenameVMSanArguments args) =>
+        Task.Run(() => RenameVMSan(args));
 
     public class RenameVMSwitchArguments
     {
@@ -17239,8 +17458,9 @@ public class HyperVApi
      * <remarks>
      * The **Rename-VMSwitch** cmdlet renames a virtual switch.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RenameVMSwitch(RenameVMSwitchArguments args)
+    public VMSwitch[] RenameVMSwitch(RenameVMSwitchArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -17262,10 +17482,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Rename-VMSwitch", parameters);
+        var result = instance.InvokeFunction<VMSwitch>("Rename-VMSwitch", parameters);
+        return result;
     }
 
-    public Task RenameVMSwitchAsync(RenameVMSwitchArguments args) =>
+    public Task<VMSwitch[]> RenameVMSwitchAsync(RenameVMSwitchArguments args) =>
         Task.Run(() => RenameVMSwitch(args));
 
     public class RepairVMArguments
@@ -17309,8 +17530,9 @@ public class HyperVApi
      * <remarks>
      * The **Repair-VM** cmdlet corrects some issues that can impact the ability to import or move a virtual machine. If Compare-VM determines that an import or move operation would fail for a particular VM, it returns a collection of incompatibilities that need to be fixed before the operation can succeed. Most of these incompatibilities can be fixed by using Set-VM. However, Set-VM does not modify either the path where the VM configuration is stored or the path where the snapshot files are stored. Repair-VM handles these two particular issues in this one specific situation.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RepairVM(RepairVMArguments args)
+    public VMCompatibilityReport[] RepairVM(RepairVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CompatibilityReport is not null)
@@ -17326,10 +17548,12 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Repair-VM", parameters);
+        var result = instance.InvokeFunction<VMCompatibilityReport>("Repair-VM", parameters);
+        return result;
     }
 
-    public Task RepairVMAsync(RepairVMArguments args) => Task.Run(() => RepairVM(args));
+    public Task<VMCompatibilityReport[]> RepairVMAsync(RepairVMArguments args) =>
+        Task.Run(() => RepairVM(args));
 
     public class ResetVMReplicationStatisticsArguments
     {
@@ -17400,8 +17624,9 @@ public class HyperVApi
      * <remarks>
      * The **Reset-VMReplicationStatistics** cmdlet resets the replication statistics of a virtual machine. Statistics accumulated up to that time are deleted, and replication monitoring begins collecting a new set of statistics. If replication health was reported as "Warning", then this operation also changes the health to "Normal".
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void ResetVMReplicationStatistics(ResetVMReplicationStatisticsArguments args)
+    public VMReplication[] ResetVMReplicationStatistics(ResetVMReplicationStatisticsArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -17425,11 +17650,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Reset-VMReplicationStatistics", parameters);
+        var result = instance.InvokeFunction<VMReplication>(
+            "Reset-VMReplicationStatistics",
+            parameters
+        );
+        return result;
     }
 
-    public Task ResetVMReplicationStatisticsAsync(ResetVMReplicationStatisticsArguments args) =>
-        Task.Run(() => ResetVMReplicationStatistics(args));
+    public Task<VMReplication[]> ResetVMReplicationStatisticsAsync(
+        ResetVMReplicationStatisticsArguments args
+    ) => Task.Run(() => ResetVMReplicationStatistics(args));
 
     public class ResetVMResourceMeteringArguments
     {
@@ -17711,8 +17941,9 @@ public class HyperVApi
      * <remarks>
      * The **Restart-VM** cmdlet restarts a virtual machine. Running this cmdlet results in a "hard" restart, like powering the computer down, then back up again. This can result in data loss in the virtual machine.
      * </remarks>
+     * <returns>By default, this cmdlet doesn't return any output.</returns>
      */
-    public void RestartVM(RestartVMArguments args)
+    public VirtualMachine[] RestartVM(RestartVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -17744,10 +17975,12 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Restart-VM", parameters);
+        var result = instance.InvokeFunction<VirtualMachine>("Restart-VM", parameters);
+        return result;
     }
 
-    public Task RestartVMAsync(RestartVMArguments args) => Task.Run(() => RestartVM(args));
+    public Task<VirtualMachine[]> RestartVMAsync(RestartVMArguments args) =>
+        Task.Run(() => RestartVM(args));
 
     public class ResumeVMArguments
     {
@@ -17813,8 +18046,9 @@ public class HyperVApi
      * <remarks>
      * The **Resume-VM** cmdlet resumes a suspended (paused) virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void ResumeVM(ResumeVMArguments args)
+    public VirtualMachine[] ResumeVM(ResumeVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -17836,10 +18070,12 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Resume-VM", parameters);
+        var result = instance.InvokeFunction<VirtualMachine>("Resume-VM", parameters);
+        return result;
     }
 
-    public Task ResumeVMAsync(ResumeVMArguments args) => Task.Run(() => ResumeVM(args));
+    public Task<VirtualMachine[]> ResumeVMAsync(ResumeVMArguments args) =>
+        Task.Run(() => ResumeVM(args));
 
     public class ResumeVMReplicationArguments
     {
@@ -17935,8 +18171,9 @@ public class HyperVApi
      * <remarks>
      * The **Resume-VMReplication** cmdlet resumes replication of a virtual machine with a replication state of Paused, Error, Resynchronization Required, or Suspended.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void ResumeVMReplication(ResumeVMReplicationArguments args)
+    public VMReplication[] ResumeVMReplication(ResumeVMReplicationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -17968,10 +18205,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Resume-VMReplication", parameters);
+        var result = instance.InvokeFunction<VMReplication>("Resume-VMReplication", parameters);
+        return result;
     }
 
-    public Task ResumeVMReplicationAsync(ResumeVMReplicationArguments args) =>
+    public Task<VMReplication[]> ResumeVMReplicationAsync(ResumeVMReplicationArguments args) =>
         Task.Run(() => ResumeVMReplication(args));
 
     public class RevokeVMConnectAccessArguments
@@ -18036,8 +18274,9 @@ public class HyperVApi
      * <remarks>
      * The **Revoke-VMConnectAccess** cmdlet revokes access for one or more users to connect to one or more virtual machines. This cmdlet is intended for use in providing other applications with the appropriate permissions required to initiate a session with Virtual Machine Connection. Examples of such applications are Virtual Machine Manager.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void RevokeVMConnectAccess(RevokeVMConnectAccessArguments args)
+    public VMConnectAce[] RevokeVMConnectAccess(RevokeVMConnectAccessArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -18059,10 +18298,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Revoke-VMConnectAccess", parameters);
+        var result = instance.InvokeFunction<VMConnectAce>("Revoke-VMConnectAccess", parameters);
+        return result;
     }
 
-    public Task RevokeVMConnectAccessAsync(RevokeVMConnectAccessArguments args) =>
+    public Task<VMConnectAce[]> RevokeVMConnectAccessAsync(RevokeVMConnectAccessArguments args) =>
         Task.Run(() => RevokeVMConnectAccess(args));
 
     public class SaveVMArguments
@@ -18473,8 +18713,9 @@ public class HyperVApi
      * <remarks>
      * The **Set-VM** cmdlet configures a virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void SetVM(SetVMArguments args)
+    public VirtualMachine[] SetVM(SetVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowUnverifiedPaths is not null)
@@ -18541,10 +18782,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VM", parameters);
+        var result = instance.InvokeFunction<VirtualMachine>("Set-VM", parameters);
+        return result;
     }
 
-    public Task SetVMAsync(SetVMArguments args) => Task.Run(() => SetVM(args));
+    public Task<VirtualMachine[]> SetVMAsync(SetVMArguments args) => Task.Run(() => SetVM(args));
 
     public class SetVMBiosArguments
     {
@@ -18628,8 +18870,9 @@ public class HyperVApi
      * <remarks>
      * The **Set-VMBios** cmdlet configures the BIOS of a Generation 1 virtual machine. Note: This cmdlet does not operate with Generation 2 virtual machine. If attempted, the cmdlet throws an error.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void SetVMBios(SetVMBiosArguments args)
+    public VMBios[] SetVMBios(SetVMBiosArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -18657,10 +18900,12 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VMBios", parameters);
+        var result = instance.InvokeFunction<VMBios>("Set-VMBios", parameters);
+        return result;
     }
 
-    public Task SetVMBiosAsync(SetVMBiosArguments args) => Task.Run(() => SetVMBios(args));
+    public Task<VMBios[]> SetVMBiosAsync(SetVMBiosArguments args) =>
+        Task.Run(() => SetVMBios(args));
 
     public class SetVMComPortArguments
     {
@@ -18741,8 +18986,9 @@ public class HyperVApi
      * <remarks>
      * The **Set-VMComPort** cmdlet configures the COM port of a virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void SetVMComPort(SetVMComPortArguments args)
+    public VMComPort[] SetVMComPort(SetVMComPortArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -18770,10 +19016,12 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VMComPort", parameters);
+        var result = instance.InvokeFunction<VMComPort>("Set-VMComPort", parameters);
+        return result;
     }
 
-    public Task SetVMComPortAsync(SetVMComPortArguments args) => Task.Run(() => SetVMComPort(args));
+    public Task<VMComPort[]> SetVMComPortAsync(SetVMComPortArguments args) =>
+        Task.Run(() => SetVMComPort(args));
 
     public class SetVMDvdDriveArguments
     {
@@ -18870,8 +19118,9 @@ public class HyperVApi
      * <remarks>
      * The **Set-VMDvdDrive** cmdlet configures the controller and location of a virtual DVD drive.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void SetVMDvdDrive(SetVMDvdDriveArguments args)
+    public DvdDrive[] SetVMDvdDrive(SetVMDvdDriveArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowUnverifiedPaths is not null)
@@ -18905,10 +19154,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VMDvdDrive", parameters);
+        var result = instance.InvokeFunction<DvdDrive>("Set-VMDvdDrive", parameters);
+        return result;
     }
 
-    public Task SetVMDvdDriveAsync(SetVMDvdDriveArguments args) =>
+    public Task<DvdDrive[]> SetVMDvdDriveAsync(SetVMDvdDriveArguments args) =>
         Task.Run(() => SetVMDvdDrive(args));
 
     public class SetVMFibreChannelHbaArguments
@@ -19919,8 +20169,9 @@ public class HyperVApi
      * <remarks>
      * The **Set-VMHost** cmdlet configures a Hyper-V host.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void SetVMHost(SetVMHostArguments args)
+    public VMHost[] SetVMHost(SetVMHostArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -19972,10 +20223,12 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VMHost", parameters);
+        var result = instance.InvokeFunction<VMHost>("Set-VMHost", parameters);
+        return result;
     }
 
-    public Task SetVMHostAsync(SetVMHostArguments args) => Task.Run(() => SetVMHost(args));
+    public Task<VMHost[]> SetVMHostAsync(SetVMHostArguments args) =>
+        Task.Run(() => SetVMHost(args));
 
     public class SetVMHostClusterArguments
     {
@@ -20418,8 +20671,9 @@ public class HyperVApi
      * <remarks>
      * The **Set-VMMemory** cmdlet configures the memory of a virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void SetVMMemory(SetVMMemoryArguments args)
+    public VMMemory[] SetVMMemory(SetVMMemoryArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.Buffer is not null)
@@ -20457,10 +20711,12 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VMMemory", parameters);
+        var result = instance.InvokeFunction<VMMemory>("Set-VMMemory", parameters);
+        return result;
     }
 
-    public Task SetVMMemoryAsync(SetVMMemoryArguments args) => Task.Run(() => SetVMMemory(args));
+    public Task<VMMemory[]> SetVMMemoryAsync(SetVMMemoryArguments args) =>
+        Task.Run(() => SetVMMemory(args));
 
     public class SetVMMigrationNetworkArguments
     {
@@ -20526,8 +20782,9 @@ public class HyperVApi
      * <remarks>
      * The **Set-VMMigrationNetwork** cmdlet sets the subnet, subnet mask, and/or priority of a migration network.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void SetVMMigrationNetwork(SetVMMigrationNetworkArguments args)
+    public VMMigrationNetwork[] SetVMMigrationNetwork(SetVMMigrationNetworkArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -20549,11 +20806,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VMMigrationNetwork", parameters);
+        var result = instance.InvokeFunction<VMMigrationNetwork>(
+            "Set-VMMigrationNetwork",
+            parameters
+        );
+        return result;
     }
 
-    public Task SetVMMigrationNetworkAsync(SetVMMigrationNetworkArguments args) =>
-        Task.Run(() => SetVMMigrationNetwork(args));
+    public Task<VMMigrationNetwork[]> SetVMMigrationNetworkAsync(
+        SetVMMigrationNetworkArguments args
+    ) => Task.Run(() => SetVMMigrationNetwork(args));
 
     public class SetVMNetworkAdapterArguments
     {
@@ -20829,8 +21091,9 @@ public class HyperVApi
      * <remarks>
      * The **Set-VMNetworkAdapter** cmdlet configures features of the virtual network adapter in a virtual machine or the management operating system.
      * </remarks>
+     * <returns>By default, this cmdlet doesn't return any output.</returns>
      */
-    public void SetVMNetworkAdapter(SetVMNetworkAdapterArguments args)
+    public VMNetworkAdapterBase[] SetVMNetworkAdapter(SetVMNetworkAdapterArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowTeaming is not null)
@@ -20923,11 +21186,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VMNetworkAdapter", parameters);
+        var result = instance.InvokeFunction<VMNetworkAdapterBase>(
+            "Set-VMNetworkAdapter",
+            parameters
+        );
+        return result;
     }
 
-    public Task SetVMNetworkAdapterAsync(SetVMNetworkAdapterArguments args) =>
-        Task.Run(() => SetVMNetworkAdapter(args));
+    public Task<VMNetworkAdapterBase[]> SetVMNetworkAdapterAsync(
+        SetVMNetworkAdapterArguments args
+    ) => Task.Run(() => SetVMNetworkAdapter(args));
 
     public class SetVMNetworkAdapterFailoverConfigurationArguments
     {
@@ -21062,8 +21330,9 @@ public class HyperVApi
      * <remarks>
      * The **Set-VMNetworkAdapterFailoverConfiguration** cmdlet sets the configuration of an IP address of a virtual network adapter  to be used when a virtual machine fails over.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void SetVMNetworkAdapterFailoverConfiguration(
+    public PSObject[] SetVMNetworkAdapterFailoverConfiguration(
         SetVMNetworkAdapterFailoverConfigurationArguments args
     )
     {
@@ -21113,13 +21382,14 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction(
+        var result = instance.InvokeFunction<PSObject>(
             "Set-VMNetworkAdapterFailoverConfiguration",
             parameters
         );
+        return result;
     }
 
-    public Task SetVMNetworkAdapterFailoverConfigurationAsync(
+    public Task<PSObject[]> SetVMNetworkAdapterFailoverConfigurationAsync(
         SetVMNetworkAdapterFailoverConfigurationArguments args
     ) => Task.Run(() => SetVMNetworkAdapterFailoverConfiguration(args));
 
@@ -21824,8 +22094,11 @@ public class HyperVApi
      * <remarks>
      * The **Set-VMNetworkAdapterVlan** cmdlet configures virtual LAN settings for the traffic through a virtual network adapter. Access, Trunk, Private VLAN (isolated, community, or promiscuous), and untagged are mutually exclusive.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void SetVMNetworkAdapterVlan(SetVMNetworkAdapterVlanArguments args)
+    public VMNetworkAdapterVlanSetting[] SetVMNetworkAdapterVlan(
+        SetVMNetworkAdapterVlanArguments args
+    )
     {
         var parameters = new Dictionary<string, object>();
         if (args.Access is not null)
@@ -21875,11 +22148,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VMNetworkAdapterVlan", parameters);
+        var result = instance.InvokeFunction<VMNetworkAdapterVlanSetting>(
+            "Set-VMNetworkAdapterVlan",
+            parameters
+        );
+        return result;
     }
 
-    public Task SetVMNetworkAdapterVlanAsync(SetVMNetworkAdapterVlanArguments args) =>
-        Task.Run(() => SetVMNetworkAdapterVlan(args));
+    public Task<VMNetworkAdapterVlanSetting[]> SetVMNetworkAdapterVlanAsync(
+        SetVMNetworkAdapterVlanArguments args
+    ) => Task.Run(() => SetVMNetworkAdapterVlan(args));
 
     public class SetVMPartitionableGpuArguments
     {
@@ -22068,8 +22346,9 @@ public class HyperVApi
      * <remarks>
      * The **Set-VMProcessor** cmdlet configures the virtual processors of a virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void SetVMProcessor(SetVMProcessorArguments args)
+    public VMProcessor[] SetVMProcessor(SetVMProcessorArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -22123,10 +22402,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VMProcessor", parameters);
+        var result = instance.InvokeFunction<VMProcessor>("Set-VMProcessor", parameters);
+        return result;
     }
 
-    public Task SetVMProcessorAsync(SetVMProcessorArguments args) =>
+    public Task<VMProcessor[]> SetVMProcessorAsync(SetVMProcessorArguments args) =>
         Task.Run(() => SetVMProcessor(args));
 
     public class SetVMRemoteFx3dVideoAdapterArguments
@@ -22206,8 +22486,11 @@ public class HyperVApi
      * <remarks>
      * The **Set-VMRemoteFx3dVideoAdapter** cmdlet configures the RemoteFX 3D video adapter of a virtual machine.
      * </remarks>
+     * <returns>By default, this cmdlet doesn't return any output.</returns>
      */
-    public void SetVMRemoteFx3dVideoAdapter(SetVMRemoteFx3dVideoAdapterArguments args)
+    public VMRemoteFx3DVideoAdapter[] SetVMRemoteFx3dVideoAdapter(
+        SetVMRemoteFx3dVideoAdapterArguments args
+    )
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -22235,11 +22518,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VMRemoteFx3dVideoAdapter", parameters);
+        var result = instance.InvokeFunction<VMRemoteFx3DVideoAdapter>(
+            "Set-VMRemoteFx3dVideoAdapter",
+            parameters
+        );
+        return result;
     }
 
-    public Task SetVMRemoteFx3dVideoAdapterAsync(SetVMRemoteFx3dVideoAdapterArguments args) =>
-        Task.Run(() => SetVMRemoteFx3dVideoAdapter(args));
+    public Task<VMRemoteFx3DVideoAdapter[]> SetVMRemoteFx3dVideoAdapterAsync(
+        SetVMRemoteFx3dVideoAdapterArguments args
+    ) => Task.Run(() => SetVMRemoteFx3dVideoAdapter(args));
 
     public class SetVMReplicationArguments
     {
@@ -22458,8 +22746,9 @@ public class HyperVApi
      * <remarks>
      * The **Set-VMReplication** cmdlet modifies the replication settings of a virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void SetVMReplication(SetVMReplicationArguments args)
+    public VMReplication[] SetVMReplication(SetVMReplicationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowedPrimaryServer is not null)
@@ -22530,10 +22819,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VMReplication", parameters);
+        var result = instance.InvokeFunction<VMReplication>("Set-VMReplication", parameters);
+        return result;
     }
 
-    public Task SetVMReplicationAsync(SetVMReplicationArguments args) =>
+    public Task<VMReplication[]> SetVMReplicationAsync(SetVMReplicationArguments args) =>
         Task.Run(() => SetVMReplication(args));
 
     public class SetVMReplicationAuthorizationEntryArguments
@@ -22608,8 +22898,11 @@ public class HyperVApi
      * <remarks>
      * The **Set-VMReplicationAuthorizationEntry** cmdlet modifies an authorization entry on Replica server.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void SetVMReplicationAuthorizationEntry(SetVMReplicationAuthorizationEntryArguments args)
+    public VMReplicationAuthorizationEntry[] SetVMReplicationAuthorizationEntry(
+        SetVMReplicationAuthorizationEntryArguments args
+    )
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowedPrimaryServer is not null)
@@ -22633,10 +22926,14 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VMReplicationAuthorizationEntry", parameters);
+        var result = instance.InvokeFunction<VMReplicationAuthorizationEntry>(
+            "Set-VMReplicationAuthorizationEntry",
+            parameters
+        );
+        return result;
     }
 
-    public Task SetVMReplicationAuthorizationEntryAsync(
+    public Task<VMReplicationAuthorizationEntry[]> SetVMReplicationAuthorizationEntryAsync(
         SetVMReplicationAuthorizationEntryArguments args
     ) => Task.Run(() => SetVMReplicationAuthorizationEntry(args));
 
@@ -22779,8 +23076,9 @@ public class HyperVApi
     
     To restrict the replication traffic that the Replica server will accept by allowing it only from specific servers, use the **New-VMReplicationAuthorizationEntry** cmdlet.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void SetVMReplicationServer(SetVMReplicationServerArguments args)
+    public VMReplicationServer[] SetVMReplicationServer(SetVMReplicationServerArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowedAuthenticationType is not null)
@@ -22826,11 +23124,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VMReplicationServer", parameters);
+        var result = instance.InvokeFunction<VMReplicationServer>(
+            "Set-VMReplicationServer",
+            parameters
+        );
+        return result;
     }
 
-    public Task SetVMReplicationServerAsync(SetVMReplicationServerArguments args) =>
-        Task.Run(() => SetVMReplicationServer(args));
+    public Task<VMReplicationServer[]> SetVMReplicationServerAsync(
+        SetVMReplicationServerArguments args
+    ) => Task.Run(() => SetVMReplicationServer(args));
 
     public class SetVMResourcePoolArguments
     {
@@ -22894,8 +23197,9 @@ public class HyperVApi
      * <remarks>
      * The **Set-VMResourcePool** cmdlet sets a parent resource pool for a selected resource pool. (To remove a parent from a resource pool, set the primordial pool of the resource pool's type as its parent.)
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void SetVMResourcePool(SetVMResourcePoolArguments args)
+    public VMResourcePool[] SetVMResourcePool(SetVMResourcePoolArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -22917,10 +23221,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VMResourcePool", parameters);
+        var result = instance.InvokeFunction<VMResourcePool>("Set-VMResourcePool", parameters);
+        return result;
     }
 
-    public Task SetVMResourcePoolAsync(SetVMResourcePoolArguments args) =>
+    public Task<VMResourcePool[]> SetVMResourcePoolAsync(SetVMResourcePoolArguments args) =>
         Task.Run(() => SetVMResourcePool(args));
 
     public class SetVMSanArguments
@@ -22996,8 +23301,9 @@ public class HyperVApi
      * <remarks>
      * The **Set-VMSan** cmdlet configures a virtual storage area network (SAN) on one or more Hyper-V hosts.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void SetVMSan(SetVMSanArguments args)
+    public VMSan[] SetVMSan(SetVMSanArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -23023,10 +23329,11 @@ public class HyperVApi
         if (args.WorldWidePortName is not null)
             parameters.Add("WorldWidePortName", args.WorldWidePortName);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VMSan", parameters);
+        var result = instance.InvokeFunction<VMSan>("Set-VMSan", parameters);
+        return result;
     }
 
-    public Task SetVMSanAsync(SetVMSanArguments args) => Task.Run(() => SetVMSan(args));
+    public Task<VMSan[]> SetVMSanAsync(SetVMSanArguments args) => Task.Run(() => SetVMSan(args));
 
     public class SetVMSecurityArguments
     {
@@ -23104,7 +23411,7 @@ public class HyperVApi
      * The **Set-VMSecurity** cmdlet configures security settings for a virtual machine.
      * </remarks>
      */
-    public void SetVMSecurity(SetVMSecurityArguments args)
+    public VirtualMachine[] SetVMSecurity(SetVMSecurityArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -23134,10 +23441,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VMSecurity", parameters);
+        var result = instance.InvokeFunction<VirtualMachine>("Set-VMSecurity", parameters);
+        return result;
     }
 
-    public Task SetVMSecurityAsync(SetVMSecurityArguments args) =>
+    public Task<VirtualMachine[]> SetVMSecurityAsync(SetVMSecurityArguments args) =>
         Task.Run(() => SetVMSecurity(args));
 
     public class SetVMSecurityPolicyArguments
@@ -23207,7 +23515,7 @@ public class HyperVApi
      * The **Set-VMSecurityPolicy** cmdlet configures the security policy for a virtual machine.
      * </remarks>
      */
-    public void SetVMSecurityPolicy(SetVMSecurityPolicyArguments args)
+    public VirtualMachine[] SetVMSecurityPolicy(SetVMSecurityPolicyArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -23229,10 +23537,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VMSecurityPolicy", parameters);
+        var result = instance.InvokeFunction<VirtualMachine>("Set-VMSecurityPolicy", parameters);
+        return result;
     }
 
-    public Task SetVMSecurityPolicyAsync(SetVMSecurityPolicyArguments args) =>
+    public Task<VirtualMachine[]> SetVMSecurityPolicyAsync(SetVMSecurityPolicyArguments args) =>
         Task.Run(() => SetVMSecurityPolicy(args));
 
     public class SetVMStorageSettingsArguments
@@ -23422,8 +23731,9 @@ public class HyperVApi
      * <remarks>
      * The **Set-VMSwitch** cmdlet configures a virtual switch.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void SetVMSwitch(SetVMSwitchArguments args)
+    public VMSwitch[] SetVMSwitch(SetVMSwitchArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AllowManagementOS is not null)
@@ -23471,10 +23781,12 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VMSwitch", parameters);
+        var result = instance.InvokeFunction<VMSwitch>("Set-VMSwitch", parameters);
+        return result;
     }
 
-    public Task SetVMSwitchAsync(SetVMSwitchArguments args) => Task.Run(() => SetVMSwitch(args));
+    public Task<VMSwitch[]> SetVMSwitchAsync(SetVMSwitchArguments args) =>
+        Task.Run(() => SetVMSwitch(args));
 
     public class SetVMSwitchExtensionPortFeatureArguments
     {
@@ -23564,8 +23876,11 @@ public class HyperVApi
      * <remarks>
      * The **Set-VMSwitchExtensionPortFeature** cmdlet configures a feature on a virtual network adapter. The feature must have been configured previously on the virtual network adapter.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void SetVMSwitchExtensionPortFeature(SetVMSwitchExtensionPortFeatureArguments args)
+    public VMSwitchExtensionPortFeature[] SetVMSwitchExtensionPortFeature(
+        SetVMSwitchExtensionPortFeatureArguments args
+    )
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -23597,10 +23912,14 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VMSwitchExtensionPortFeature", parameters);
+        var result = instance.InvokeFunction<VMSwitchExtensionPortFeature>(
+            "Set-VMSwitchExtensionPortFeature",
+            parameters
+        );
+        return result;
     }
 
-    public Task SetVMSwitchExtensionPortFeatureAsync(
+    public Task<VMSwitchExtensionPortFeature[]> SetVMSwitchExtensionPortFeatureAsync(
         SetVMSwitchExtensionPortFeatureArguments args
     ) => Task.Run(() => SetVMSwitchExtensionPortFeature(args));
 
@@ -23666,8 +23985,11 @@ public class HyperVApi
      * <remarks>
      * The **Set-VMSwitchExtensionSwitchFeature** cmdlet configures a feature on a virtual switch. The feature must have already been configured on the virtual switch.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void SetVMSwitchExtensionSwitchFeature(SetVMSwitchExtensionSwitchFeatureArguments args)
+    public VMSwitchExtensionSwitchFeature[] SetVMSwitchExtensionSwitchFeature(
+        SetVMSwitchExtensionSwitchFeatureArguments args
+    )
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -23689,10 +24011,14 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Set-VMSwitchExtensionSwitchFeature", parameters);
+        var result = instance.InvokeFunction<VMSwitchExtensionSwitchFeature>(
+            "Set-VMSwitchExtensionSwitchFeature",
+            parameters
+        );
+        return result;
     }
 
-    public Task SetVMSwitchExtensionSwitchFeatureAsync(
+    public Task<VMSwitchExtensionSwitchFeature[]> SetVMSwitchExtensionSwitchFeatureAsync(
         SetVMSwitchExtensionSwitchFeatureArguments args
     ) => Task.Run(() => SetVMSwitchExtensionSwitchFeature(args));
 
@@ -24012,8 +24338,9 @@ public class HyperVApi
      * <remarks>
      * The **Start-VM** cmdlet starts a virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void StartVM(StartVMArguments args)
+    public VirtualMachine[] StartVM(StartVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -24035,10 +24362,12 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Start-VM", parameters);
+        var result = instance.InvokeFunction<VirtualMachine>("Start-VM", parameters);
+        return result;
     }
 
-    public Task StartVMAsync(StartVMArguments args) => Task.Run(() => StartVM(args));
+    public Task<VirtualMachine[]> StartVMAsync(StartVMArguments args) =>
+        Task.Run(() => StartVM(args));
 
     public class StartVMFailoverArguments
     {
@@ -24125,8 +24454,9 @@ public class HyperVApi
     
     - Fail over a Replica virtual machine to a chosen recovery point. - Start a planned failover on a primary virtual machine. - Create a test virtual machine on a Replica virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void StartVMFailover(StartVMFailoverArguments args)
+    public VirtualMachine[] StartVMFailover(StartVMFailoverArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -24154,10 +24484,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Start-VMFailover", parameters);
+        var result = instance.InvokeFunction<VirtualMachine>("Start-VMFailover", parameters);
+        return result;
     }
 
-    public Task StartVMFailoverAsync(StartVMFailoverArguments args) =>
+    public Task<VirtualMachine[]> StartVMFailoverAsync(StartVMFailoverArguments args) =>
         Task.Run(() => StartVMFailover(args));
 
     public class StartVMInitialReplicationArguments
@@ -24248,8 +24579,9 @@ public class HyperVApi
      * <remarks>
      * The **Start-VMInitialReplication** cmdlet starts replication of a virtual machine using the method you select. You also can schedule replication to start up to 7 days later.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void StartVMInitialReplication(StartVMInitialReplicationArguments args)
+    public VMReplication[] StartVMInitialReplication(StartVMInitialReplicationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -24279,11 +24611,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Start-VMInitialReplication", parameters);
+        var result = instance.InvokeFunction<VMReplication>(
+            "Start-VMInitialReplication",
+            parameters
+        );
+        return result;
     }
 
-    public Task StartVMInitialReplicationAsync(StartVMInitialReplicationArguments args) =>
-        Task.Run(() => StartVMInitialReplication(args));
+    public Task<VMReplication[]> StartVMInitialReplicationAsync(
+        StartVMInitialReplicationArguments args
+    ) => Task.Run(() => StartVMInitialReplication(args));
 
     public class StartVMTraceArguments
     {
@@ -24320,7 +24657,7 @@ public class HyperVApi
      * The **Start-VMTrace** cmdlet starts tracing to a file. You can use this information for advanced debugging.
      * </remarks>
      */
-    public System.Object[] StartVMTrace(StartVMTraceArguments args)
+    public void StartVMTrace(StartVMTraceArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.Level is not null)
@@ -24330,12 +24667,10 @@ public class HyperVApi
         if (args.TraceVerboseObjects is not null)
             parameters.Add("TraceVerboseObjects", args.TraceVerboseObjects);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction<System.Object>("Start-VMTrace", parameters);
-        return result;
+        var result = instance.InvokeFunction("Start-VMTrace", parameters);
     }
 
-    public Task<System.Object[]> StartVMTraceAsync(StartVMTraceArguments args) =>
-        Task.Run(() => StartVMTrace(args));
+    public Task StartVMTraceAsync(StartVMTraceArguments args) => Task.Run(() => StartVMTrace(args));
 
     public class StopVMArguments
     {
@@ -24416,8 +24751,9 @@ public class HyperVApi
      * <remarks>
      * The **Stop-VM** cmdlet shuts down, turns off, or saves a virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void StopVM(StopVMArguments args)
+    public VirtualMachine[] StopVM(StopVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -24445,10 +24781,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Stop-VM", parameters);
+        var result = instance.InvokeFunction<VirtualMachine>("Stop-VM", parameters);
+        return result;
     }
 
-    public Task StopVMAsync(StopVMArguments args) => Task.Run(() => StopVM(args));
+    public Task<VirtualMachine[]> StopVMAsync(StopVMArguments args) => Task.Run(() => StopVM(args));
 
     public class StopVMFailoverArguments
     {
@@ -24512,8 +24849,9 @@ public class HyperVApi
      * <remarks>
      * The **Stop-VMFailover** cmdlet stops failover of a virtual machine. If the virtual machine is running, this cmdlet turns the virtual machine off and cancels failover. For a test failover, this cmdlet stops the test failover and deletes the test virtual machine. For a planned failover that has been started on a primary virtual machine, this cmdlet cancels that action and restarts replication, which allows you to start the primary virtual machine.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void StopVMFailover(StopVMFailoverArguments args)
+    public VirtualMachine[] StopVMFailover(StopVMFailoverArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -24535,10 +24873,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Stop-VMFailover", parameters);
+        var result = instance.InvokeFunction<VirtualMachine>("Stop-VMFailover", parameters);
+        return result;
     }
 
-    public Task StopVMFailoverAsync(StopVMFailoverArguments args) =>
+    public Task<VirtualMachine[]> StopVMFailoverAsync(StopVMFailoverArguments args) =>
         Task.Run(() => StopVMFailover(args));
 
     public class StopVMInitialReplicationArguments
@@ -24603,8 +24942,9 @@ public class HyperVApi
      * <remarks>
      * The **Stop-VMInitialReplication** cmdlet stops an ongoing initial replication that uses either a virtual machine restored from backup or the network. It does not stop an initial replication that uses external media. For an initial replication that uses external media, you can use this cmdlet to stop the export, which returns the virtual machine to a pending state. After an export is finished, the initial replication cannot be stopped.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void StopVMInitialReplication(StopVMInitialReplicationArguments args)
+    public VMReplication[] StopVMInitialReplication(StopVMInitialReplicationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -24626,11 +24966,16 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Stop-VMInitialReplication", parameters);
+        var result = instance.InvokeFunction<VMReplication>(
+            "Stop-VMInitialReplication",
+            parameters
+        );
+        return result;
     }
 
-    public Task StopVMInitialReplicationAsync(StopVMInitialReplicationArguments args) =>
-        Task.Run(() => StopVMInitialReplication(args));
+    public Task<VMReplication[]> StopVMInitialReplicationAsync(
+        StopVMInitialReplicationArguments args
+    ) => Task.Run(() => StopVMInitialReplication(args));
 
     public class StopVMReplicationArguments
     {
@@ -24701,8 +25046,9 @@ public class HyperVApi
      * <remarks>
      * The **Stop-VMReplication** cmdlet cancels an ongoing virtual machine resynchronization.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void StopVMReplication(StopVMReplicationArguments args)
+    public VMReplication[] StopVMReplication(StopVMReplicationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -24726,10 +25072,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Stop-VMReplication", parameters);
+        var result = instance.InvokeFunction<VMReplication>("Stop-VMReplication", parameters);
+        return result;
     }
 
-    public Task StopVMReplicationAsync(StopVMReplicationArguments args) =>
+    public Task<VMReplication[]> StopVMReplicationAsync(StopVMReplicationArguments args) =>
         Task.Run(() => StopVMReplication(args));
 
     /** <summary>
@@ -24742,15 +25089,14 @@ public class HyperVApi
      * The **Stop-VMTrace** cmdlet stops tracing to a file.
      * </remarks>
      */
-    public System.Object[] StopVMTrace()
+    public void StopVMTrace()
     {
         var parameters = new Dictionary<string, object>();
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction<System.Object>("Stop-VMTrace", parameters);
-        return result;
+        var result = instance.InvokeFunction("Stop-VMTrace", parameters);
     }
 
-    public Task<System.Object[]> StopVMTraceAsync() => Task.Run(() => StopVMTrace());
+    public Task StopVMTraceAsync() => Task.Run(() => StopVMTrace());
 
     public class SuspendVMArguments
     {
@@ -24814,8 +25160,9 @@ public class HyperVApi
      * <remarks>
      * The **Suspend-VM** cmdlet suspends a virtual machine. To return a suspended virtual machine to a running state, use the **Resume-VM** cmdlet.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void SuspendVM(SuspendVMArguments args)
+    public VirtualMachine[] SuspendVM(SuspendVMArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AsJob is not null)
@@ -24837,10 +25184,12 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Suspend-VM", parameters);
+        var result = instance.InvokeFunction<VirtualMachine>("Suspend-VM", parameters);
+        return result;
     }
 
-    public Task SuspendVMAsync(SuspendVMArguments args) => Task.Run(() => SuspendVM(args));
+    public Task<VirtualMachine[]> SuspendVMAsync(SuspendVMArguments args) =>
+        Task.Run(() => SuspendVM(args));
 
     public class SuspendVMReplicationArguments
     {
@@ -24911,8 +25260,9 @@ public class HyperVApi
      * <remarks>
      * The **Suspend-VMReplication** cmdlet suspends, or pauses, replication of a virtual machine. To resume replication, use the **Resume-VMReplication** cmdlet to resume replication. When replication is resumed, all changes made since replication was suspended will be replicated.
      * </remarks>
+     * <returns>Default</returns>
      */
-    public void SuspendVMReplication(SuspendVMReplicationArguments args)
+    public VMReplication[] SuspendVMReplication(SuspendVMReplicationArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.CimSession is not null)
@@ -24936,10 +25286,11 @@ public class HyperVApi
         if (args.WhatIf is not null)
             parameters.Add("WhatIf", args.WhatIf);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Suspend-VMReplication", parameters);
+        var result = instance.InvokeFunction<VMReplication>("Suspend-VMReplication", parameters);
+        return result;
     }
 
-    public Task SuspendVMReplicationAsync(SuspendVMReplicationArguments args) =>
+    public Task<VMReplication[]> SuspendVMReplicationAsync(SuspendVMReplicationArguments args) =>
         Task.Run(() => SuspendVMReplication(args));
 
     public class TestVHDArguments
@@ -25270,7 +25621,7 @@ public class HyperVApi
      * The **Test-VMReplicationConnection** cmdlet tests the connection between a primary server and a Replica server to determine whether replication can be enabled for virtual machines on the primary server to the specified Replica server.
      * </remarks>
      */
-    public void TestVMReplicationConnection(TestVMReplicationConnectionArguments args)
+    public System.String[] TestVMReplicationConnection(TestVMReplicationConnectionArguments args)
     {
         var parameters = new Dictionary<string, object>();
         if (args.AuthenticationType is not null)
@@ -25290,11 +25641,16 @@ public class HyperVApi
         if (args.ReplicaServerPort is not null)
             parameters.Add("ReplicaServerPort", args.ReplicaServerPort);
         using var instance = new HyperVInstance();
-        var result = instance.InvokeFunction("Test-VMReplicationConnection", parameters);
+        var result = instance.InvokeFunction<System.String>(
+            "Test-VMReplicationConnection",
+            parameters
+        );
+        return result;
     }
 
-    public Task TestVMReplicationConnectionAsync(TestVMReplicationConnectionArguments args) =>
-        Task.Run(() => TestVMReplicationConnection(args));
+    public Task<System.String[]> TestVMReplicationConnectionAsync(
+        TestVMReplicationConnectionArguments args
+    ) => Task.Run(() => TestVMReplicationConnection(args));
 
     public class UpdateVMVersionArguments
     {

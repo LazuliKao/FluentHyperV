@@ -10,6 +10,7 @@ public class VirtualMachinesViewModel : ObservableObject, INavigationAware
     {
         var api = new HyperV.HyperVApi();
         var vm = await api.GetVMAsync(new());
+
         if (!_isInitialized)
         {
             // InitializeViewModel();
