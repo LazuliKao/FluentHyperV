@@ -89,7 +89,121 @@
         SelectionMode="Single"
         AlternatingRowBackground="{DynamicResource ControlFillColorSecondaryBrush}"
         Background="Transparent"
-        BorderThickness="0">
+        BorderThickness="0"
+        MouseDoubleClick="VirtualMachinesDataGrid_MouseDoubleClick">
+        
+        <!-- 右键上下文菜单 -->
+        <DataGrid.ContextMenu>
+          <ContextMenu>
+            <MenuItem 
+              Header="启动虚拟机" 
+              Icon="{ui:SymbolIcon Play24}"
+              Command="{Binding ViewModel.StartVirtualMachineCommand}"
+              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}">
+              <MenuItem.ToolTip>
+                <ToolTip Content="启动选中的虚拟机"/>
+              </MenuItem.ToolTip>
+            </MenuItem>
+            
+            <MenuItem 
+              Header="停止虚拟机" 
+              Icon="{ui:SymbolIcon Stop24}"
+              Command="{Binding ViewModel.StopVirtualMachineCommand}"
+              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}">
+              <MenuItem.ToolTip>
+                <ToolTip Content="停止选中的虚拟机"/>
+              </MenuItem.ToolTip>
+            </MenuItem>
+            
+            <MenuItem 
+              Header="重启虚拟机" 
+              Icon="{ui:SymbolIcon ArrowCounterclockwise24}"
+              Command="{Binding ViewModel.RestartVirtualMachineCommand}"
+              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}">
+              <MenuItem.ToolTip>
+                <ToolTip Content="重新启动选中的虚拟机"/>
+              </MenuItem.ToolTip>
+            </MenuItem>
+            
+            <Separator/>
+            
+            <MenuItem 
+              Header="暂停虚拟机" 
+              Icon="{ui:SymbolIcon Pause24}"
+              Command="{Binding ViewModel.PauseVirtualMachineCommand}"
+              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}">
+              <MenuItem.ToolTip>
+                <ToolTip Content="暂停选中的虚拟机"/>
+              </MenuItem.ToolTip>
+            </MenuItem>
+            
+            <MenuItem 
+              Header="恢复虚拟机" 
+              Icon="{ui:SymbolIcon PlayCircle24}"
+              Command="{Binding ViewModel.ResumeVirtualMachineCommand}"
+              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}">
+              <MenuItem.ToolTip>
+                <ToolTip Content="恢复暂停的虚拟机"/>
+              </MenuItem.ToolTip>
+            </MenuItem>
+            
+            <Separator/>
+            
+            <MenuItem 
+              Header="创建检查点" 
+              Icon="{ui:SymbolIcon Save24}"
+              Command="{Binding ViewModel.CreateCheckpointCommand}"
+              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}">
+              <MenuItem.ToolTip>
+                <ToolTip Content="为选中的虚拟机创建检查点"/>
+              </MenuItem.ToolTip>
+            </MenuItem>
+            
+            <MenuItem 
+              Header="连接到虚拟机" 
+              Icon="{ui:SymbolIcon Desktop24}"
+              Command="{Binding ViewModel.ConnectToVirtualMachineCommand}"
+              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}">
+              <MenuItem.ToolTip>
+                <ToolTip Content="使用Hyper-V管理器连接到虚拟机"/>
+              </MenuItem.ToolTip>
+            </MenuItem>
+            
+            <Separator/>
+            
+            <MenuItem 
+              Header="设置" 
+              Icon="{ui:SymbolIcon Settings24}"
+              Command="{Binding ViewModel.ShowVirtualMachineSettingsCommand}"
+              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}">
+              <MenuItem.ToolTip>
+                <ToolTip Content="打开虚拟机设置"/>
+              </MenuItem.ToolTip>
+            </MenuItem>
+            
+            <MenuItem 
+              Header="删除虚拟机" 
+              Icon="{ui:SymbolIcon Delete24}"
+              Command="{Binding ViewModel.DeleteVirtualMachineCommand}"
+              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}"
+              Foreground="Red">
+              <MenuItem.ToolTip>
+                <ToolTip Content="删除选中的虚拟机（不可恢复）"/>
+              </MenuItem.ToolTip>
+            </MenuItem>
+            
+            <Separator/>
+            
+            <MenuItem 
+              Header="刷新列表" 
+              Icon="{ui:SymbolIcon ArrowClockwise24}"
+              Command="{Binding ViewModel.RefreshCommand}">
+              <MenuItem.ToolTip>
+                <ToolTip Content="刷新虚拟机列表"/>
+              </MenuItem.ToolTip>
+            </MenuItem>
+          </ContextMenu>
+        </DataGrid.ContextMenu>
         
         <DataGrid.Columns>
           <!-- 名称 -->

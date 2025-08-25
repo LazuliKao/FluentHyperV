@@ -1,0 +1,408 @@
+<Page
+  x:Class="FluentHyperV.Desktop.Views.Pages.CreateVirtualMachinePage"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="clr-namespace:FluentHyperV.Desktop.Views.Pages"
+  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+  xmlns:converters="clr-namespace:FluentHyperV.Desktop.Converters"
+  mc:Ignorable="d"
+  d:DesignHeight="900"
+  d:DesignWidth="1200"
+  Title="创建虚拟机"
+  d:DataContext="{d:DesignInstance local:CreateVirtualMachinePage,
+                                     IsDesignTimeCreatable=False}"
+>
+  <Page.Resources>
+    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <converters:BoolToInvertedBoolConverter x:Key="BoolToInvertedBoolConverter"/>
+    <converters:GenerationToIndexConverter x:Key="GenerationToIndexConverter"/>
+    <converters:GenerationToBoolConverter x:Key="GenerationToBoolConverter"/>
+    <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+  </Page.Resources>
+
+  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <Grid Margin="20">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+
+      <!-- 标题栏 -->
+      <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+        <ui:SymbolIcon Symbol="Add24" FontSize="24" Margin="0,0,10,0"/>
+        <TextBlock Text="创建新虚拟机" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
+      </StackPanel>
+
+      <!-- 主要配置区域 -->
+      <Grid Grid.Row="1">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- 左侧配置 -->
+        <StackPanel Grid.Column="0" Margin="0,0,20,0">
+          
+          <!-- 基本设置 -->
+          <ui:CardExpander Header="基本设置" IsExpanded="True" Margin="0,0,0,15">
+            <ui:CardExpander.Icon>
+              <ui:SymbolIcon Symbol="Settings24"/>
+            </ui:CardExpander.Icon>
+            <StackPanel>
+              <!-- 虚拟机名称 -->
+              <Grid Margin="0,0,0,15">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="虚拟机名称 *" FontWeight="Medium" Margin="0,0,0,5"/>
+                <ui:TextBox 
+                  Grid.Row="1"
+                  Text="{Binding ViewModel.VirtualMachineName, UpdateSourceTrigger=PropertyChanged}"
+                  PlaceholderText="输入虚拟机名称"
+                  Icon="{ui:SymbolIcon Desktop24}"/>
+              </Grid>
+
+              <!-- 代数选择 -->
+              <Grid Margin="0,0,0,15">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="虚拟机代数" FontWeight="Medium" Margin="0,0,0,5"/>
+                <ComboBox 
+                  Grid.Row="1"
+                  SelectedIndex="{Binding ViewModel.Generation, Converter={StaticResource GenerationToIndexConverter}, Mode=TwoWay}"
+                  ItemsSource="{Binding ViewModel.GenerationOptions}"/>
+              </Grid>
+
+              <!-- 虚拟机路径 -->
+              <Grid Margin="0,0,0,15">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="存储路径" FontWeight="Medium" Margin="0,0,0,5"/>
+                <Grid Grid.Row="1">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                  </Grid.ColumnDefinitions>
+                  <ui:TextBox 
+                    Grid.Column="0"
+                    Text="{Binding ViewModel.VmPath}"
+                    PlaceholderText="选择虚拟机存储路径"
+                    IsReadOnly="True"
+                    Icon="{ui:SymbolIcon Folder24}"/>
+                  <ui:Button 
+                    Grid.Column="1"
+                    Content="浏览"
+                    Icon="{ui:SymbolIcon FolderOpen24}"
+                    Command="{Binding ViewModel.BrowseVMPathCommand}"
+                    Margin="5,0,0,0"/>
+                </Grid>
+              </Grid>
+            </StackPanel>
+          </ui:CardExpander>
+
+          <!-- 内存配置 -->
+          <ui:CardExpander Header="内存配置" IsExpanded="True" Margin="0,0,0,15">
+            <ui:CardExpander.Icon>
+              <ui:SymbolIcon Symbol="HardDrive24"/>
+            </ui:CardExpander.Icon>
+            <StackPanel>
+              <!-- 启动内存 -->
+              <Grid Margin="0,0,0,15">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="启动内存 (MB)" FontWeight="Medium" Margin="0,0,0,5"/>
+                <ui:NumberBox 
+                  Grid.Row="1"
+                  Value="{Binding ViewModel.MemoryStartupMB}"
+                  Minimum="32"
+                  Maximum="1048576"
+                  Icon="{ui:SymbolIcon HardDrive24}"/>
+              </Grid>
+
+              <!-- 动态内存 -->
+              <ui:ToggleSwitch 
+                Content="启用动态内存" 
+                IsChecked="{Binding ViewModel.DynamicMemoryEnabled}"
+                Margin="0,0,0,15"/>
+
+              <!-- 动态内存设置 -->
+              <StackPanel Visibility="{Binding ViewModel.DynamicMemoryEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <!-- 最小内存 -->
+                <Grid Margin="0,0,0,10">
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                  </Grid.RowDefinitions>
+                  <TextBlock Grid.Row="0" Text="最小内存 (MB)" FontWeight="Medium" Margin="0,0,0,5"/>
+                  <ui:NumberBox 
+                    Grid.Row="1"
+                    Value="{Binding ViewModel.MinimumMemoryMB}"
+                    Minimum="32"
+                    Maximum="1048576"/>
+                </Grid>
+
+                <!-- 最大内存 -->
+                <Grid Margin="0,0,0,15">
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                  </Grid.RowDefinitions>
+                  <TextBlock Grid.Row="0" Text="最大内存 (MB)" FontWeight="Medium" Margin="0,0,0,5"/>
+                  <ui:NumberBox 
+                    Grid.Row="1"
+                    Value="{Binding ViewModel.MaximumMemoryMB}"
+                    Minimum="32"
+                    Maximum="1048576"/>
+                </Grid>
+              </StackPanel>
+            </StackPanel>
+          </ui:CardExpander>
+
+          <!-- 处理器配置 -->
+          <ui:CardExpander Header="处理器配置" IsExpanded="True">
+            <ui:CardExpander.Icon>
+              <ui:SymbolIcon Symbol="Settings24"/>
+            </ui:CardExpander.Icon>
+            <StackPanel>
+              <!-- 处理器数量 -->
+              <Grid Margin="0,0,0,15">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="虚拟处理器数量" FontWeight="Medium" Margin="0,0,0,5"/>
+                <ui:NumberBox 
+                  Grid.Row="1"
+                  Value="{Binding ViewModel.ProcessorCount}"
+                  Minimum="1"
+                  Maximum="64"
+                  Icon="{ui:SymbolIcon Settings24}"/>
+              </Grid>
+            </StackPanel>
+          </ui:CardExpander>
+        </StackPanel>
+
+        <!-- 右侧配置 -->
+        <StackPanel Grid.Column="1">
+          
+          <!-- 虚拟硬盘配置 -->
+          <ui:CardExpander Header="虚拟硬盘配置" IsExpanded="True" Margin="0,0,0,15">
+            <ui:CardExpander.Icon>
+              <ui:SymbolIcon Symbol="Storage24"/>
+            </ui:CardExpander.Icon>
+            <StackPanel>
+              <!-- 硬盘选项 -->
+              <RadioButton 
+                Content="创建新的虚拟硬盘" 
+                IsChecked="{Binding ViewModel.CreateVirtualHardDisk}"
+                GroupName="VHDOptions"
+                Margin="0,0,0,10"/>
+              
+              <RadioButton 
+                Content="使用现有虚拟硬盘" 
+                IsChecked="{Binding ViewModel.UseExistingVhd}"
+                GroupName="VHDOptions"
+                Margin="0,0,0,10"/>
+              
+              <RadioButton 
+                Content="稍后添加虚拟硬盘" 
+                IsChecked="{Binding ViewModel.CreateVirtualHardDisk, Converter={StaticResource BoolToInvertedBoolConverter}}"
+                GroupName="VHDOptions"
+                Margin="0,0,0,15"/>
+
+              <!-- 新建虚拟硬盘设置 -->
+              <StackPanel Visibility="{Binding ViewModel.CreateVirtualHardDisk, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <!-- 虚拟硬盘路径 -->
+                <Grid Margin="0,0,0,10">
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                  </Grid.RowDefinitions>
+                  <TextBlock Grid.Row="0" Text="虚拟硬盘路径" FontWeight="Medium" Margin="0,0,0,5"/>
+                  <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*"/>
+                      <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ui:TextBox 
+                      Grid.Column="0"
+                      Text="{Binding ViewModel.VirtualHardDiskPath}"
+                      PlaceholderText="选择虚拟硬盘保存路径"
+                      Icon="{ui:SymbolIcon Storage24}"/>
+                    <ui:Button 
+                      Grid.Column="1"
+                      Content="浏览"
+                      Icon="{ui:SymbolIcon FolderOpen24}"
+                      Command="{Binding ViewModel.BrowseVHDPathCommand}"
+                      Margin="5,0,0,0"/>
+                  </Grid>
+                </Grid>
+
+                <!-- 虚拟硬盘大小 -->
+                <Grid Margin="0,0,0,15">
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                  </Grid.RowDefinitions>
+                  <TextBlock Grid.Row="0" Text="虚拟硬盘大小 (GB)" FontWeight="Medium" Margin="0,0,0,5"/>
+                  <ui:NumberBox 
+                    Grid.Row="1"
+                    Value="{Binding ViewModel.VirtualHardDiskSizeGB}"
+                    Minimum="1"
+                    Maximum="2048"/>
+                </Grid>
+              </StackPanel>
+
+              <!-- 现有虚拟硬盘设置 -->
+              <StackPanel Visibility="{Binding ViewModel.UseExistingVhd, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid Margin="0,0,0,15">
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                  </Grid.RowDefinitions>
+                  <TextBlock Grid.Row="0" Text="现有虚拟硬盘文件" FontWeight="Medium" Margin="0,0,0,5"/>
+                  <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*"/>
+                      <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ui:TextBox 
+                      Grid.Column="0"
+                      Text="{Binding ViewModel.ExistingVhdPath}"
+                      PlaceholderText="选择现有的虚拟硬盘文件"
+                      IsReadOnly="True"
+                      Icon="{ui:SymbolIcon Storage24}"/>
+                    <ui:Button 
+                      Grid.Column="1"
+                      Content="浏览"
+                      Icon="{ui:SymbolIcon FolderOpen24}"
+                      Command="{Binding ViewModel.BrowseExistingVHDCommand}"
+                      Margin="5,0,0,0"/>
+                  </Grid>
+                </Grid>
+              </StackPanel>
+            </StackPanel>
+          </ui:CardExpander>
+
+          <!-- 网络配置 -->
+          <ui:CardExpander Header="网络配置" IsExpanded="True" Margin="0,0,0,15">
+            <ui:CardExpander.Icon>
+              <ui:SymbolIcon Symbol="Wifi124"/>
+            </ui:CardExpander.Icon>
+            <StackPanel>
+              <!-- 连接网络 -->
+              <ui:ToggleSwitch 
+                Content="连接到网络" 
+                IsChecked="{Binding ViewModel.ConnectToNetwork}"
+                Margin="0,0,0,15"/>
+
+              <!-- 网络适配器选择 -->
+              <StackPanel Visibility="{Binding ViewModel.ConnectToNetwork, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid Margin="0,0,0,10">
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                  </Grid.RowDefinitions>
+                  <TextBlock Grid.Row="0" Text="虚拟交换机" FontWeight="Medium" Margin="0,0,0,5"/>
+                  <ComboBox 
+                    Grid.Row="1"
+                    ItemsSource="{Binding ViewModel.AvailableSwitches}"
+                    SelectedItem="{Binding ViewModel.SelectedSwitch}"
+                    DisplayMemberPath="Name"
+                    SelectedValuePath="Name"/>
+                </Grid>
+
+                <ui:Button 
+                  Content="刷新交换机列表"
+                  Icon="{ui:SymbolIcon ArrowClockwise24}"
+                  Command="{Binding ViewModel.LoadVMSwitchesCommand}"
+                  Margin="0,0,0,15"/>
+              </StackPanel>
+            </StackPanel>
+          </ui:CardExpander>
+
+          <!-- 高级设置 -->
+          <ui:CardExpander Header="高级设置" IsExpanded="False">
+            <ui:CardExpander.Icon>
+              <ui:SymbolIcon Symbol="Settings24"/>
+            </ui:CardExpander.Icon>
+            <StackPanel>
+              <!-- 安全启动 (仅第二代) -->
+              <ui:ToggleSwitch 
+                Content="启用安全启动" 
+                IsChecked="{Binding ViewModel.EnableSecureBoot}"
+                IsEnabled="{Binding ViewModel.Generation, Converter={StaticResource GenerationToBoolConverter}}"
+                Margin="0,0,0,15"/>
+
+              <!-- 启动设备 -->
+              <Grid Margin="0,0,0,15">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="启动设备" FontWeight="Medium" Margin="0,0,0,5"/>
+                <ComboBox 
+                  Grid.Row="1"
+                  ItemsSource="{Binding ViewModel.BootDeviceOptions}"
+                  SelectedItem="{Binding ViewModel.BootDevice}"/>
+              </Grid>
+            </StackPanel>
+          </ui:CardExpander>
+        </StackPanel>
+      </Grid>
+
+      <!-- 状态信息 -->
+      <ui:InfoBar 
+        Grid.Row="2"
+        Title="状态"
+        Message="{Binding ViewModel.StatusMessage}"
+        IsOpen="{Binding ViewModel.StatusMessage, Converter={StaticResource StringToVisibilityConverter}}"
+        Margin="0,20,0,0"/>
+
+      <!-- 操作按钮 -->
+      <Grid Grid.Row="3" Margin="0,20,0,0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- 创建进度 -->
+        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center"
+                    Visibility="{Binding ViewModel.IsCreating, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <ui:ProgressRing IsIndeterminate="True" Width="20" Height="20" Margin="0,0,10,0"/>
+          <TextBlock Text="正在创建虚拟机..." VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- 操作按钮 -->
+        <ui:Button 
+          Grid.Column="1"
+          Content="重置"
+          Icon="{ui:SymbolIcon ArrowReset24}"
+          Command="{Binding ViewModel.ResetFormCommand}"
+          IsEnabled="{Binding ViewModel.IsCreating, Converter={StaticResource BoolToInvertedBoolConverter}}"
+          Appearance="Secondary"
+          Margin="0,0,10,0"/>
+
+        <ui:Button 
+          Grid.Column="2"
+          Content="创建虚拟机"
+          Icon="{ui:SymbolIcon Add24}"
+          Command="{Binding ViewModel.CreateVirtualMachineCommand}"
+          IsEnabled="{Binding ViewModel.IsCreating, Converter={StaticResource BoolToInvertedBoolConverter}}"
+          Appearance="Primary"/>
+      </Grid>
+    </Grid>
+  </ScrollViewer>
+</Page>

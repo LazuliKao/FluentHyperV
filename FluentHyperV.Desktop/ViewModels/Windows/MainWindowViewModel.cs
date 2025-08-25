@@ -13,15 +13,21 @@ public partial class MainWindowViewModel : ObservableObject
     {
         new NavigationViewItem
         {
-            Content = "Home",
+            Content = "仪表板",
             Icon = new SymbolIcon { Symbol = SymbolRegular.Home24 },
             TargetPageType = typeof(Views.Pages.DashboardPage),
         },
         new NavigationViewItem
         {
-            Content = "VM",
-            Icon = new SymbolIcon { Symbol = SymbolRegular.Home24 },
+            Content = "虚拟机管理",
+            Icon = new SymbolIcon { Symbol = SymbolRegular.Server24 },
             TargetPageType = typeof(Views.Pages.VirtualMachinesPage),
+        },
+        new NavigationViewItem
+        {
+            Content = "创建虚拟机",
+            Icon = new SymbolIcon { Symbol = SymbolRegular.Add24 },
+            TargetPageType = typeof(Views.Pages.CreateVirtualMachinePage),
         },
     };
 
