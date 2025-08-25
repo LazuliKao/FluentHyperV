@@ -340,10 +340,21 @@ for cmd in commandData do
 
         !+ "}"
 
+    let getFirstValidReturnType () =
+        cmd.returnValues.Value.returnValue
+        |> Array.tryFind (fun rv -> rv.``type``.name <> "None")
+
     let hasReturnValue =
         cmd.returnValues.IsSome
         && cmd.returnValues.Value.returnValue.Length > 0
-        && cmd.returnValues.Value.returnValue.First().``type``.name <> "None"
+        && getFirstValidReturnType().IsSome
+
+    let hasNoneReturnType =
+        hasReturnValue
+        && cmd.returnValues.Value.returnValue
+           |> Array.exists (fun rv -> rv.``type``.name = "None")
+
+    let noneReturnType = if hasNoneReturnType then "?" else ""
 
     let typeName =
         let mapper =
@@ -354,7 +365,7 @@ for cmd in commandData do
 
         if hasReturnValue then
             let name =
-                let name = cmd.returnValues.Value.returnValue.First().``type``.name
+                let name =  getFirstValidReturnType().Value.``type``.name
                 let contains, value = mapper.TryGetValue name
                 if contains then value else name
 
@@ -369,18 +380,18 @@ for cmd in commandData do
 
     !+ $"""
 /** <summary>{if cmd.relatedLinks.IsSome then
-                          let links = cmd.relatedLinks.Value
+                  let links = cmd.relatedLinks.Value
 
-                          if links.navigationLink |> isNull then
-                              ""
-                          else
-                              let fixLink link =
-                                  link.uri.Replace("&","&amp;")
-                              links.navigationLink
-                              |> Seq.map (fun link -> $"\n * <see href=\"{fixLink link}\">{link.linkText}</see>")
-                              |> fun x -> String.Join("\n * ", x)
-                      else
-                          ""}
+                  if links.navigationLink |> isNull then
+                      ""
+                  else
+                      let fixLink link = link.uri.Replace("&", "&amp;")
+
+                      links.navigationLink
+                      |> Seq.map (fun link -> $"\n * <see href=\"{fixLink link}\">{link.linkText}</see>")
+                      |> fun x -> String.Join("\n * ", x)
+              else
+                  ""}
  * {cmd.Synopsis.Replace("\n", "\n * ")}
  * </summary>
  * <remarks>
@@ -406,7 +417,10 @@ for cmd in commandData do
               else
                   ""}
  */
-public {if hasReturnValue then $"{typeName}[]" else "void"} {funcName}({if hasParameters then $"{funcName}Arguments args" else ""})"""
+public {if hasReturnValue then
+            $"{typeName}{noneReturnType}[]"
+        else
+            "void"} {funcName}({if hasParameters then $"{funcName}Arguments args" else ""})"""
 
     !+ "{"
     !+ $"    var parameters = new Dictionary<string, object>();"
@@ -423,6 +437,12 @@ public {if hasReturnValue then $"{typeName}[]" else "void"} {funcName}({if hasPa
         !+ $"    return result;"
 
     !+ "}"
+
+    !+ $"""
+public {if hasReturnValue then $"Task<{typeName}{noneReturnType}[]>" else "Task"} {funcName}Async({if hasParameters then $"{funcName}Arguments args" else ""})
+=>
+     Task.Run(() => {funcName}({if hasParameters then "args" else ""}));
+"""
 
 let outputFile =
     Path.Combine(Path.GetDirectoryName(__SOURCE_DIRECTORY__), "HyperVApi.g.cs")

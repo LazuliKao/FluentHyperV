@@ -125,6 +125,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Export-VMSnapshot", parameters);
     }
 
+    public Task ExportVMSnapshotAsync(ExportVMSnapshotArguments args) =>
+        Task.Run(() => ExportVMSnapshot(args));
+
     public class GetVMSnapshotArguments
     {
         /**
@@ -223,6 +226,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMSnapshot>("Get-VMSnapshot", parameters);
         return result;
     }
+
+    public Task<VMSnapshot[]> GetVMSnapshotAsync(GetVMSnapshotArguments args) =>
+        Task.Run(() => GetVMSnapshot(args));
 
     public class RemoveVMSnapshotArguments
     {
@@ -345,6 +351,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMSnapshot", parameters);
     }
 
+    public Task RemoveVMSnapshotAsync(RemoveVMSnapshotArguments args) =>
+        Task.Run(() => RemoveVMSnapshot(args));
+
     public class RenameVMSnapshotArguments
     {
         /**
@@ -448,6 +457,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Rename-VMSnapshot", parameters);
     }
+
+    public Task RenameVMSnapshotAsync(RenameVMSnapshotArguments args) =>
+        Task.Run(() => RenameVMSnapshot(args));
 
     public class RestoreVMSnapshotArguments
     {
@@ -556,6 +568,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Restore-VMSnapshot", parameters);
     }
+
+    public Task RestoreVMSnapshotAsync(RestoreVMSnapshotArguments args) =>
+        Task.Run(() => RestoreVMSnapshot(args));
 
     public class AddVMAssignableDeviceArguments
     {
@@ -673,6 +688,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMAssignedDevice[]> AddVMAssignableDeviceAsync(
+        AddVMAssignableDeviceArguments args
+    ) => Task.Run(() => AddVMAssignableDevice(args));
 
     public class AddVMDvdDriveArguments
     {
@@ -801,6 +820,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<DvdDrive[]> AddVMDvdDriveAsync(AddVMDvdDriveArguments args) =>
+        Task.Run(() => AddVMDvdDrive(args));
+
     public class AddVMFibreChannelHbaArguments
     {
         /**
@@ -925,6 +947,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Add-VMFibreChannelHba", parameters);
     }
+
+    public Task AddVMFibreChannelHbaAsync(AddVMFibreChannelHbaArguments args) =>
+        Task.Run(() => AddVMFibreChannelHba(args));
 
     public class AddVMGpuPartitionAdapterArguments
     {
@@ -1117,6 +1142,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMGpuPartitionAdapter[]> AddVMGpuPartitionAdapterAsync(
+        AddVMGpuPartitionAdapterArguments args
+    ) => Task.Run(() => AddVMGpuPartitionAdapter(args));
+
     public class AddVMGroupMemberArguments
     {
         /**
@@ -1228,6 +1257,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMGroup>("Add-VMGroupMember", parameters);
         return result;
     }
+
+    public Task<VMGroup[]> AddVMGroupMemberAsync(AddVMGroupMemberArguments args) =>
+        Task.Run(() => AddVMGroupMember(args));
 
     public class AddVMHardDiskDriveArguments
     {
@@ -1417,6 +1449,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Add-VMHardDiskDrive", parameters);
     }
 
+    public Task AddVMHardDiskDriveAsync(AddVMHardDiskDriveArguments args) =>
+        Task.Run(() => AddVMHardDiskDrive(args));
+
     public class AddVMHostAssignableDeviceArguments
     {
         /**
@@ -1509,6 +1544,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<System.Object[]> AddVMHostAssignableDeviceAsync(
+        AddVMHostAssignableDeviceArguments args
+    ) => Task.Run(() => AddVMHostAssignableDevice(args));
+
     public class AddVMKeyStorageDriveArguments
     {
         public CimSession[]? CimSession { get; set; }
@@ -1564,6 +1603,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<KeyStorageDrive>("Add-VMKeyStorageDrive", parameters);
         return result;
     }
+
+    public Task<KeyStorageDrive[]> AddVMKeyStorageDriveAsync(AddVMKeyStorageDriveArguments args) =>
+        Task.Run(() => AddVMKeyStorageDrive(args));
 
     public class AddVMMigrationNetworkArguments
     {
@@ -1646,6 +1688,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Add-VMMigrationNetwork", parameters);
     }
+
+    public Task AddVMMigrationNetworkAsync(AddVMMigrationNetworkArguments args) =>
+        Task.Run(() => AddVMMigrationNetwork(args));
 
     public class AddVMNetworkAdapterArguments
     {
@@ -1786,6 +1831,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Add-VMNetworkAdapter", parameters);
     }
+
+    public Task AddVMNetworkAdapterAsync(AddVMNetworkAdapterArguments args) =>
+        Task.Run(() => AddVMNetworkAdapter(args));
 
     public class AddVMNetworkAdapterAclArguments
     {
@@ -1952,6 +2000,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Add-VMNetworkAdapterAcl", parameters);
     }
+
+    public Task AddVMNetworkAdapterAclAsync(AddVMNetworkAdapterAclArguments args) =>
+        Task.Run(() => AddVMNetworkAdapterAcl(args));
 
     public class AddVMNetworkAdapterExtendedAclArguments
     {
@@ -2183,6 +2234,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMNetworkAdapterExtendedAclSetting[]> AddVMNetworkAdapterExtendedAclAsync(
+        AddVMNetworkAdapterExtendedAclArguments args
+    ) => Task.Run(() => AddVMNetworkAdapterExtendedAcl(args));
+
     public class AddVMNetworkAdapterRoutingDomainMappingArguments
     {
         /**
@@ -2340,6 +2395,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMNetworkAdapterRoutingDomainSetting[]> AddVMNetworkAdapterRoutingDomainMappingAsync(
+        AddVMNetworkAdapterRoutingDomainMappingArguments args
+    ) => Task.Run(() => AddVMNetworkAdapterRoutingDomainMapping(args));
+
     public class AddVMPmemControllerArguments
     {
         public CimSession[]? CimSession { get; set; }
@@ -2386,6 +2445,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMPmemController>("Add-VMPmemController", parameters);
         return result;
     }
+
+    public Task<VMPmemController[]> AddVMPmemControllerAsync(AddVMPmemControllerArguments args) =>
+        Task.Run(() => AddVMPmemController(args));
 
     public class AddVMRemoteFx3dVideoAdapterArguments
     {
@@ -2468,6 +2530,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Add-VMRemoteFx3dVideoAdapter", parameters);
     }
 
+    public Task AddVMRemoteFx3dVideoAdapterAsync(AddVMRemoteFx3dVideoAdapterArguments args) =>
+        Task.Run(() => AddVMRemoteFx3dVideoAdapter(args));
+
     public class AddVMScsiControllerArguments
     {
         /**
@@ -2548,6 +2613,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Add-VMScsiController", parameters);
     }
+
+    public Task AddVMScsiControllerAsync(AddVMScsiControllerArguments args) =>
+        Task.Run(() => AddVMScsiController(args));
 
     public class AddVMStoragePathArguments
     {
@@ -2638,6 +2706,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Add-VMStoragePath", parameters);
     }
 
+    public Task AddVMStoragePathAsync(AddVMStoragePathArguments args) =>
+        Task.Run(() => AddVMStoragePath(args));
+
     public class AddVMSwitchArguments
     {
         /**
@@ -2701,6 +2772,8 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Add-VMSwitch", parameters);
     }
+
+    public Task AddVMSwitchAsync(AddVMSwitchArguments args) => Task.Run(() => AddVMSwitch(args));
 
     public class AddVMSwitchExtensionPortFeatureArguments
     {
@@ -2827,6 +2900,10 @@ public class HyperVApi
         var result = instance.InvokeFunction("Add-VMSwitchExtensionPortFeature", parameters);
     }
 
+    public Task AddVMSwitchExtensionPortFeatureAsync(
+        AddVMSwitchExtensionPortFeatureArguments args
+    ) => Task.Run(() => AddVMSwitchExtensionPortFeature(args));
+
     public class AddVMSwitchExtensionSwitchFeatureArguments
     {
         /**
@@ -2914,6 +2991,10 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Add-VMSwitchExtensionSwitchFeature", parameters);
     }
+
+    public Task AddVMSwitchExtensionSwitchFeatureAsync(
+        AddVMSwitchExtensionSwitchFeatureArguments args
+    ) => Task.Run(() => AddVMSwitchExtensionSwitchFeature(args));
 
     public class AddVMSwitchTeamMemberArguments
     {
@@ -3017,6 +3098,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMSwitch[]> AddVMSwitchTeamMemberAsync(AddVMSwitchTeamMemberArguments args) =>
+        Task.Run(() => AddVMSwitchTeamMember(args));
+
     public class CheckpointVMArguments
     {
         /**
@@ -3114,6 +3198,8 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Checkpoint-VM", parameters);
     }
+
+    public Task CheckpointVMAsync(CheckpointVMArguments args) => Task.Run(() => CheckpointVM(args));
 
     public class CompareVMArguments
     {
@@ -3328,6 +3414,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMCompatibilityReport[]> CompareVMAsync(CompareVMArguments args) =>
+        Task.Run(() => CompareVM(args));
+
     public class CompleteVMFailoverArguments
     {
         /**
@@ -3410,6 +3499,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Complete-VMFailover", parameters);
     }
+
+    public Task CompleteVMFailoverAsync(CompleteVMFailoverArguments args) =>
+        Task.Run(() => CompleteVMFailover(args));
 
     public class ConnectVMNetworkAdapterArguments
     {
@@ -3520,6 +3612,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Connect-VMNetworkAdapter", parameters);
     }
 
+    public Task ConnectVMNetworkAdapterAsync(ConnectVMNetworkAdapterArguments args) =>
+        Task.Run(() => ConnectVMNetworkAdapter(args));
+
     public class ConnectVMSanArguments
     {
         /**
@@ -3614,6 +3709,8 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Connect-VMSan", parameters);
     }
+
+    public Task ConnectVMSanAsync(ConnectVMSanArguments args) => Task.Run(() => ConnectVMSan(args));
 
     public class ConvertVHDArguments
     {
@@ -3738,6 +3835,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<Microsoft.Vhd.PowerShell.VirtualHardDisk[]> ConvertVHDAsync(
+        ConvertVHDArguments args
+    ) => Task.Run(() => ConvertVHD(args));
+
     public class CopyVMFileArguments
     {
         /**
@@ -3857,6 +3958,8 @@ public class HyperVApi
         var result = instance.InvokeFunction("Copy-VMFile", parameters);
     }
 
+    public Task CopyVMFileAsync(CopyVMFileArguments args) => Task.Run(() => CopyVMFile(args));
+
     public class DebugVMArguments
     {
         /**
@@ -3963,6 +4066,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VirtualMachine[]> DebugVMAsync(DebugVMArguments args) =>
+        Task.Run(() => DebugVM(args));
+
     public class DisableVMConsoleSupportArguments
     {
         /**
@@ -4054,6 +4160,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VirtualMachine[]> DisableVMConsoleSupportAsync(
+        DisableVMConsoleSupportArguments args
+    ) => Task.Run(() => DisableVMConsoleSupport(args));
+
     public class DisableVMEventingArguments
     {
         /**
@@ -4118,6 +4228,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Disable-VMEventing", parameters);
     }
+
+    public Task DisableVMEventingAsync(DisableVMEventingArguments args) =>
+        Task.Run(() => DisableVMEventing(args));
 
     public class DisableVMIntegrationServiceArguments
     {
@@ -4214,6 +4327,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Disable-VMIntegrationService", parameters);
     }
 
+    public Task DisableVMIntegrationServiceAsync(DisableVMIntegrationServiceArguments args) =>
+        Task.Run(() => DisableVMIntegrationService(args));
+
     public class DisableVMMigrationArguments
     {
         /**
@@ -4281,6 +4397,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Disable-VMMigration", parameters);
     }
+
+    public Task DisableVMMigrationAsync(DisableVMMigrationArguments args) =>
+        Task.Run(() => DisableVMMigration(args));
 
     public class DisableVMRemoteFXPhysicalVideoAdapterArguments
     {
@@ -4366,6 +4485,10 @@ public class HyperVApi
         var result = instance.InvokeFunction("Disable-VMRemoteFXPhysicalVideoAdapter", parameters);
     }
 
+    public Task DisableVMRemoteFXPhysicalVideoAdapterAsync(
+        DisableVMRemoteFXPhysicalVideoAdapterArguments args
+    ) => Task.Run(() => DisableVMRemoteFXPhysicalVideoAdapter(args));
+
     public class DisableVMResourceMeteringArguments
     {
         /**
@@ -4449,6 +4572,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Disable-VMResourceMetering", parameters);
     }
 
+    public Task DisableVMResourceMeteringAsync(DisableVMResourceMeteringArguments args) =>
+        Task.Run(() => DisableVMResourceMetering(args));
+
     public class DisableVMSwitchExtensionArguments
     {
         /**
@@ -4525,6 +4651,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMSwitchExtension[]> DisableVMSwitchExtensionAsync(
+        DisableVMSwitchExtensionArguments args
+    ) => Task.Run(() => DisableVMSwitchExtension(args));
 
     public class DisableVMTPMArguments
     {
@@ -4610,6 +4740,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VirtualMachine>("Disable-VMTPM", parameters);
         return result;
     }
+
+    public Task<VirtualMachine[]> DisableVMTPMAsync(DisableVMTPMArguments args) =>
+        Task.Run(() => DisableVMTPM(args));
 
     public class DisconnectVMNetworkAdapterArguments
     {
@@ -4698,6 +4831,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Disconnect-VMNetworkAdapter", parameters);
     }
+
+    public Task DisconnectVMNetworkAdapterAsync(DisconnectVMNetworkAdapterArguments args) =>
+        Task.Run(() => DisconnectVMNetworkAdapter(args));
 
     public class DisconnectVMSanArguments
     {
@@ -4794,6 +4930,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Disconnect-VMSan", parameters);
     }
 
+    public Task DisconnectVMSanAsync(DisconnectVMSanArguments args) =>
+        Task.Run(() => DisconnectVMSan(args));
+
     public class DismountVHDArguments
     {
         /**
@@ -4885,6 +5024,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<Microsoft.Vhd.PowerShell.VirtualHardDisk[]> DismountVHDAsync(
+        DismountVHDArguments args
+    ) => Task.Run(() => DismountVHD(args));
 
     public class DismountVMHostAssignableDeviceArguments
     {
@@ -4994,6 +5137,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMHostAssignableDevice[]> DismountVMHostAssignableDeviceAsync(
+        DismountVMHostAssignableDeviceArguments args
+    ) => Task.Run(() => DismountVMHostAssignableDevice(args));
+
     public class EnableVMConsoleSupportArguments
     {
         /**
@@ -5082,6 +5229,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VirtualMachine[]> EnableVMConsoleSupportAsync(
+        EnableVMConsoleSupportArguments args
+    ) => Task.Run(() => EnableVMConsoleSupport(args));
+
     public class EnableVMEventingArguments
     {
         /**
@@ -5146,6 +5297,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Enable-VMEventing", parameters);
     }
+
+    public Task EnableVMEventingAsync(EnableVMEventingArguments args) =>
+        Task.Run(() => EnableVMEventing(args));
 
     public class EnableVMIntegrationServiceArguments
     {
@@ -5242,6 +5396,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Enable-VMIntegrationService", parameters);
     }
 
+    public Task EnableVMIntegrationServiceAsync(EnableVMIntegrationServiceArguments args) =>
+        Task.Run(() => EnableVMIntegrationService(args));
+
     public class EnableVMMigrationArguments
     {
         /**
@@ -5308,6 +5465,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Enable-VMMigration", parameters);
     }
+
+    public Task EnableVMMigrationAsync(EnableVMMigrationArguments args) =>
+        Task.Run(() => EnableVMMigration(args));
 
     public class EnableVMRemoteFXPhysicalVideoAdapterArguments
     {
@@ -5393,6 +5553,10 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Enable-VMRemoteFXPhysicalVideoAdapter", parameters);
     }
+
+    public Task EnableVMRemoteFXPhysicalVideoAdapterAsync(
+        EnableVMRemoteFXPhysicalVideoAdapterArguments args
+    ) => Task.Run(() => EnableVMRemoteFXPhysicalVideoAdapter(args));
 
     public class EnableVMReplicationArguments
     {
@@ -5647,6 +5811,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Enable-VMReplication", parameters);
     }
 
+    public Task EnableVMReplicationAsync(EnableVMReplicationArguments args) =>
+        Task.Run(() => EnableVMReplication(args));
+
     public class EnableVMResourceMeteringArguments
     {
         /**
@@ -5730,6 +5897,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Enable-VMResourceMetering", parameters);
     }
 
+    public Task EnableVMResourceMeteringAsync(EnableVMResourceMeteringArguments args) =>
+        Task.Run(() => EnableVMResourceMetering(args));
+
     public class EnableVMSwitchExtensionArguments
     {
         /**
@@ -5806,6 +5976,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMSwitchExtension[]> EnableVMSwitchExtensionAsync(
+        EnableVMSwitchExtensionArguments args
+    ) => Task.Run(() => EnableVMSwitchExtension(args));
 
     public class EnableVMTPMArguments
     {
@@ -5891,6 +6065,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VirtualMachine>("Enable-VMTPM", parameters);
         return result;
     }
+
+    public Task<VirtualMachine[]> EnableVMTPMAsync(EnableVMTPMArguments args) =>
+        Task.Run(() => EnableVMTPM(args));
 
     public class ExportVMArguments
     {
@@ -6002,6 +6179,8 @@ public class HyperVApi
         var result = instance.InvokeFunction("Export-VM", parameters);
     }
 
+    public Task ExportVMAsync(ExportVMArguments args) => Task.Run(() => ExportVM(args));
+
     public class GetVHDArguments
     {
         /**
@@ -6075,6 +6254,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<Microsoft.Vhd.PowerShell.VirtualHardDisk[]> GetVHDAsync(GetVHDArguments args) =>
+        Task.Run(() => GetVHD(args));
+
     public class GetVHDSetArguments
     {
         /**
@@ -6143,6 +6325,9 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<Microsoft.Vhd.PowerShell.VHDSetInfo[]> GetVHDSetAsync(GetVHDSetArguments args) =>
+        Task.Run(() => GetVHDSet(args));
 
     public class GetVHDSnapshotArguments
     {
@@ -6221,6 +6406,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<Microsoft.Vhd.PowerShell.VHDSnapshotInfo[]> GetVHDSnapshotAsync(
+        GetVHDSnapshotArguments args
+    ) => Task.Run(() => GetVHDSnapshot(args));
+
     public class GetVMArguments
     {
         /**
@@ -6287,6 +6476,8 @@ public class HyperVApi
         var result = instance.InvokeFunction<VirtualMachine>("Get-VM", parameters);
         return result;
     }
+
+    public Task<VirtualMachine[]> GetVMAsync(GetVMArguments args) => Task.Run(() => GetVM(args));
 
     public class GetVMAssignableDeviceArguments
     {
@@ -6369,6 +6560,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMAssignedDevice[]> GetVMAssignableDeviceAsync(
+        GetVMAssignableDeviceArguments args
+    ) => Task.Run(() => GetVMAssignableDevice(args));
+
     public class GetVMBiosArguments
     {
         /**
@@ -6438,6 +6633,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<Microsoft.Vhd.PowerShell.VirtualHardDisk[]> GetVMBiosAsync(
+        GetVMBiosArguments args
+    ) => Task.Run(() => GetVMBios(args));
 
     public class GetVMComPortArguments
     {
@@ -6513,6 +6712,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMComPort[]> GetVMComPortAsync(GetVMComPortArguments args) =>
+        Task.Run(() => GetVMComPort(args));
+
     public class GetVMConnectAccessArguments
     {
         /**
@@ -6579,6 +6781,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMConnectAce>("Get-VMConnectAccess", parameters);
         return result;
     }
+
+    public Task<VMConnectAce[]> GetVMConnectAccessAsync(GetVMConnectAccessArguments args) =>
+        Task.Run(() => GetVMConnectAccess(args));
 
     public class GetVMDvdDriveArguments
     {
@@ -6668,6 +6873,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<DvdDrive[]> GetVMDvdDriveAsync(GetVMDvdDriveArguments args) =>
+        Task.Run(() => GetVMDvdDrive(args));
+
     public class GetVMFibreChannelHbaArguments
     {
         /**
@@ -6730,6 +6938,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMFibreChannelHba[]> GetVMFibreChannelHbaAsync(
+        GetVMFibreChannelHbaArguments args
+    ) => Task.Run(() => GetVMFibreChannelHba(args));
 
     public class GetVMFirmwareArguments
     {
@@ -6801,6 +7013,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMFirmware[]> GetVMFirmwareAsync(GetVMFirmwareArguments args) =>
+        Task.Run(() => GetVMFirmware(args));
+
     public class GetVMFloppyDiskDriveArguments
     {
         /**
@@ -6870,6 +7085,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMFloppyDiskDrive[]> GetVMFloppyDiskDriveAsync(
+        GetVMFloppyDiskDriveArguments args
+    ) => Task.Run(() => GetVMFloppyDiskDrive(args));
 
     public class GetVMGpuPartitionAdapterArguments
     {
@@ -6950,6 +7169,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMGpuPartitionAdapter[]> GetVMGpuPartitionAdapterAsync(
+        GetVMGpuPartitionAdapterArguments args
+    ) => Task.Run(() => GetVMGpuPartitionAdapter(args));
+
     public class GetVMGroupArguments
     {
         /**
@@ -7015,6 +7238,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMGroup>("Get-VMGroup", parameters);
         return result;
     }
+
+    public Task<VMGroup[]> GetVMGroupAsync(GetVMGroupArguments args) =>
+        Task.Run(() => GetVMGroup(args));
 
     public class GetVMHardDiskDriveArguments
     {
@@ -7114,6 +7340,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<HardDiskDrive[]> GetVMHardDiskDriveAsync(GetVMHardDiskDriveArguments args) =>
+        Task.Run(() => GetVMHardDiskDrive(args));
+
     public class GetVMHostArguments
     {
         /**
@@ -7159,6 +7388,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMHost>("Get-VMHost", parameters);
         return result;
     }
+
+    public Task<VMHost[]> GetVMHostAsync(GetVMHostArguments args) =>
+        Task.Run(() => GetVMHost(args));
 
     public class GetVMHostAssignableDeviceArguments
     {
@@ -7240,6 +7472,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMHostAssignableDevice[]> GetVMHostAssignableDeviceAsync(
+        GetVMHostAssignableDeviceArguments args
+    ) => Task.Run(() => GetVMHostAssignableDevice(args));
+
     public class GetVMHostClusterArguments
     {
         /**
@@ -7285,6 +7521,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMHostCluster>("Get-VMHostCluster", parameters);
         return result;
     }
+
+    public Task<VMHostCluster[]> GetVMHostClusterAsync(GetVMHostClusterArguments args) =>
+        Task.Run(() => GetVMHostCluster(args));
 
     public class GetVMHostNumaNodeArguments
     {
@@ -7338,6 +7577,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMHostNumaNode>("Get-VMHostNumaNode", parameters);
         return result;
     }
+
+    public Task<VMHostNumaNode[]> GetVMHostNumaNodeAsync(GetVMHostNumaNodeArguments args) =>
+        Task.Run(() => GetVMHostNumaNode(args));
 
     public class GetVMHostNumaNodeStatusArguments
     {
@@ -7394,6 +7636,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<GetVMHostNumaNodeStatus[]> GetVMHostNumaNodeStatusAsync(
+        GetVMHostNumaNodeStatusArguments args
+    ) => Task.Run(() => GetVMHostNumaNodeStatus(args));
 
     public class GetVMHostPartitionableGpuArguments
     {
@@ -7455,6 +7701,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMHostPartitionableGpu[]> GetVMHostPartitionableGpuAsync(
+        GetVMHostPartitionableGpuArguments args
+    ) => Task.Run(() => GetVMHostPartitionableGpu(args));
+
     public class GetVMHostSupportedVersionArguments
     {
         /**
@@ -7514,6 +7764,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMHostSupportedVersion[]> GetVMHostSupportedVersionAsync(
+        GetVMHostSupportedVersionArguments args
+    ) => Task.Run(() => GetVMHostSupportedVersion(args));
 
     public class GetVMIdeControllerArguments
     {
@@ -7589,6 +7843,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMIdeController>("Get-VMIdeController", parameters);
         return result;
     }
+
+    public Task<VMIdeController[]> GetVMIdeControllerAsync(GetVMIdeControllerArguments args) =>
+        Task.Run(() => GetVMIdeController(args));
 
     public class GetVMIntegrationServiceArguments
     {
@@ -7667,6 +7924,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMIntegrationComponent[]> GetVMIntegrationServiceAsync(
+        GetVMIntegrationServiceArguments args
+    ) => Task.Run(() => GetVMIntegrationService(args));
+
     public class GetVMKeyProtectorArguments
     {
         /**
@@ -7743,6 +8004,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Get-VMKeyProtector", parameters);
     }
 
+    public Task GetVMKeyProtectorAsync(GetVMKeyProtectorArguments args) =>
+        Task.Run(() => GetVMKeyProtector(args));
+
     public class GetVMKeyStorageDriveArguments
     {
         public CimSession[]? CimSession { get; set; }
@@ -7791,6 +8055,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<KeyStorageDrive>("Get-VMKeyStorageDrive", parameters);
         return result;
     }
+
+    public Task<KeyStorageDrive[]> GetVMKeyStorageDriveAsync(GetVMKeyStorageDriveArguments args) =>
+        Task.Run(() => GetVMKeyStorageDrive(args));
 
     public class GetVMMemoryArguments
     {
@@ -7859,6 +8126,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMMemory[]> GetVMMemoryAsync(GetVMMemoryArguments args) =>
+        Task.Run(() => GetVMMemory(args));
+
     public class GetVMMigrationNetworkArguments
     {
         /**
@@ -7921,6 +8191,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMMigrationNetwork[]> GetVMMigrationNetworkAsync(
+        GetVMMigrationNetworkArguments args
+    ) => Task.Run(() => GetVMMigrationNetwork(args));
 
     public class GetVMNetworkAdapterArguments
     {
@@ -8030,6 +8304,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMNetworkAdapter[]> GetVMNetworkAdapterAsync(GetVMNetworkAdapterArguments args) =>
+        Task.Run(() => GetVMNetworkAdapter(args));
+
     public class GetVMNetworkAdapterAclArguments
     {
         /**
@@ -8121,6 +8398,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMNetworkAdapterAclSetting[]> GetVMNetworkAdapterAclAsync(
+        GetVMNetworkAdapterAclArguments args
+    ) => Task.Run(() => GetVMNetworkAdapterAcl(args));
 
     public class GetVMNetworkAdapterExtendedAclArguments
     {
@@ -8232,6 +8513,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMNetworkAdapterExtendedAclSetting[]> GetVMNetworkAdapterExtendedAclAsync(
+        GetVMNetworkAdapterExtendedAclArguments args
+    ) => Task.Run(() => GetVMNetworkAdapterExtendedAcl(args));
+
     public class GetVMNetworkAdapterFailoverConfigurationArguments
     {
         /**
@@ -8310,6 +8595,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<PSObject[]> GetVMNetworkAdapterFailoverConfigurationAsync(
+        GetVMNetworkAdapterFailoverConfigurationArguments args
+    ) => Task.Run(() => GetVMNetworkAdapterFailoverConfiguration(args));
 
     public class GetVMNetworkAdapterIsolationArguments
     {
@@ -8419,6 +8708,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMNetworkAdapterIsolationSetting[]> GetVMNetworkAdapterIsolationAsync(
+        GetVMNetworkAdapterIsolationArguments args
+    ) => Task.Run(() => GetVMNetworkAdapterIsolation(args));
+
     public class GetVMNetworkAdapterRdmaArguments
     {
         public CimSession[]? CimSession { get; set; }
@@ -8480,6 +8773,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMNetworkAdapterRdmaSetting[]> GetVMNetworkAdapterRdmaAsync(
+        GetVMNetworkAdapterRdmaArguments args
+    ) => Task.Run(() => GetVMNetworkAdapterRdma(args));
 
     public class GetVMNetworkAdapterRoutingDomainMappingArguments
     {
@@ -8603,6 +8900,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMNetworkAdapterRoutingDomainSetting[]> GetVMNetworkAdapterRoutingDomainMappingAsync(
+        GetVMNetworkAdapterRoutingDomainMappingArguments args
+    ) => Task.Run(() => GetVMNetworkAdapterRoutingDomainMapping(args));
+
     public class GetVMNetworkAdapterTeamMappingArguments
     {
         /**
@@ -8702,6 +9003,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Get-VMNetworkAdapterTeamMapping", parameters);
     }
 
+    public Task GetVMNetworkAdapterTeamMappingAsync(GetVMNetworkAdapterTeamMappingArguments args) =>
+        Task.Run(() => GetVMNetworkAdapterTeamMapping(args));
+
     public class GetVMNetworkAdapterVlanArguments
     {
         /**
@@ -8798,6 +9102,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMNetworkAdapterVlanSetting[]> GetVMNetworkAdapterVlanAsync(
+        GetVMNetworkAdapterVlanArguments args
+    ) => Task.Run(() => GetVMNetworkAdapterVlan(args));
+
     public class GetVMPartitionableGpuArguments
     {
         public required CimSession[]? CimSession { get; set; }
@@ -8835,6 +9143,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMPartitionableGpu[]> GetVMPartitionableGpuAsync(
+        GetVMPartitionableGpuArguments args
+    ) => Task.Run(() => GetVMPartitionableGpu(args));
 
     public class GetVMPmemControllerArguments
     {
@@ -8881,6 +9193,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMPmemController>("Get-VMPmemController", parameters);
         return result;
     }
+
+    public Task<VMPmemController[]> GetVMPmemControllerAsync(GetVMPmemControllerArguments args) =>
+        Task.Run(() => GetVMPmemController(args));
 
     public class GetVMProcessorArguments
     {
@@ -8948,6 +9263,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMProcessor>("Get-VMProcessor", parameters);
         return result;
     }
+
+    public Task<VMProcessor[]> GetVMProcessorAsync(GetVMProcessorArguments args) =>
+        Task.Run(() => GetVMProcessor(args));
 
     public class GetVMRemoteFx3dVideoAdapterArguments
     {
@@ -9021,6 +9339,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMRemoteFx3DVideoAdapter[]> GetVMRemoteFx3dVideoAdapterAsync(
+        GetVMRemoteFx3dVideoAdapterArguments args
+    ) => Task.Run(() => GetVMRemoteFx3dVideoAdapter(args));
+
     public class GetVMRemoteFXPhysicalVideoAdapterArguments
     {
         /**
@@ -9078,6 +9400,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMRemoteFXPhysicalVideoAdapter[]> GetVMRemoteFXPhysicalVideoAdapterAsync(
+        GetVMRemoteFXPhysicalVideoAdapterArguments args
+    ) => Task.Run(() => GetVMRemoteFXPhysicalVideoAdapter(args));
 
     public class GetVMReplicationArguments
     {
@@ -9206,6 +9532,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMReplication[]> GetVMReplicationAsync(GetVMReplicationArguments args) =>
+        Task.Run(() => GetVMReplication(args));
+
     public class GetVMReplicationAuthorizationEntryArguments
     {
         /**
@@ -9278,6 +9607,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMReplicationAuthorizationEntry[]> GetVMReplicationAuthorizationEntryAsync(
+        GetVMReplicationAuthorizationEntryArguments args
+    ) => Task.Run(() => GetVMReplicationAuthorizationEntry(args));
+
     public class GetVMReplicationServerArguments
     {
         /**
@@ -9326,6 +9659,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMReplicationServer[]> GetVMReplicationServerAsync(
+        GetVMReplicationServerArguments args
+    ) => Task.Run(() => GetVMReplicationServer(args));
 
     public class GetVMResourcePoolArguments
     {
@@ -9388,6 +9725,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMResourcePool[]> GetVMResourcePoolAsync(GetVMResourcePoolArguments args) =>
+        Task.Run(() => GetVMResourcePool(args));
+
     public class GetVMSanArguments
     {
         /**
@@ -9440,6 +9780,8 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMSan>("Get-VMSan", parameters);
         return result;
     }
+
+    public Task<VMSan[]> GetVMSanAsync(GetVMSanArguments args) => Task.Run(() => GetVMSan(args));
 
     public class GetVMScsiControllerArguments
     {
@@ -9515,6 +9857,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMScsiController[]> GetVMScsiControllerAsync(GetVMScsiControllerArguments args) =>
+        Task.Run(() => GetVMScsiController(args));
+
     public class GetVMSecurityArguments
     {
         /**
@@ -9574,6 +9919,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMSecurity>("Get-VMSecurity", parameters);
         return result;
     }
+
+    public Task<VMSecurity[]> GetVMSecurityAsync(GetVMSecurityArguments args) =>
+        Task.Run(() => GetVMSecurity(args));
 
     public class GetVMStoragePathArguments
     {
@@ -9655,6 +10003,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMStorageResourcePool[]> GetVMStoragePathAsync(GetVMStoragePathArguments args) =>
+        Task.Run(() => GetVMStoragePath(args));
+
     public class GetVMStorageSettingsArguments
     {
         public CimSession[]? CimSession { get; set; }
@@ -9692,6 +10043,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMStorageSetting>("Get-VMStorageSettings", parameters);
         return result;
     }
+
+    public Task<VMStorageSetting[]> GetVMStorageSettingsAsync(GetVMStorageSettingsArguments args) =>
+        Task.Run(() => GetVMStorageSettings(args));
 
     public class GetVMSwitchArguments
     {
@@ -9768,6 +10122,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMSwitch[]> GetVMSwitchAsync(GetVMSwitchArguments args) =>
+        Task.Run(() => GetVMSwitch(args));
+
     public class GetVMSwitchExtensionArguments
     {
         /**
@@ -9837,6 +10194,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMSwitchExtension[]> GetVMSwitchExtensionAsync(
+        GetVMSwitchExtensionArguments args
+    ) => Task.Run(() => GetVMSwitchExtension(args));
 
     public class GetVMSwitchExtensionPortDataArguments
     {
@@ -9969,6 +10330,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMSwitchExtensionPortData[]> GetVMSwitchExtensionPortDataAsync(
+        GetVMSwitchExtensionPortDataArguments args
+    ) => Task.Run(() => GetVMSwitchExtensionPortData(args));
+
     public class GetVMSwitchExtensionPortFeatureArguments
     {
         /**
@@ -10098,6 +10463,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMSwitchExtensionPortFeature[]> GetVMSwitchExtensionPortFeatureAsync(
+        GetVMSwitchExtensionPortFeatureArguments args
+    ) => Task.Run(() => GetVMSwitchExtensionPortFeature(args));
+
     public class GetVMSwitchExtensionSwitchDataArguments
     {
         /**
@@ -10199,6 +10568,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Get-VMSwitchExtensionSwitchData", parameters);
     }
+
+    public Task GetVMSwitchExtensionSwitchDataAsync(GetVMSwitchExtensionSwitchDataArguments args) =>
+        Task.Run(() => GetVMSwitchExtensionSwitchData(args));
 
     public class GetVMSwitchExtensionSwitchFeatureArguments
     {
@@ -10308,6 +10680,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMSwitchExtensionSwitchFeature[]> GetVMSwitchExtensionSwitchFeatureAsync(
+        GetVMSwitchExtensionSwitchFeatureArguments args
+    ) => Task.Run(() => GetVMSwitchExtensionSwitchFeature(args));
+
     public class GetVMSwitchTeamArguments
     {
         /**
@@ -10371,6 +10747,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMSwitchTeam[]> GetVMSwitchTeamAsync(GetVMSwitchTeamArguments args) =>
+        Task.Run(() => GetVMSwitchTeam(args));
+
     public class GetVMSystemSwitchExtensionArguments
     {
         /**
@@ -10428,6 +10807,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMSystemSwitchExtension[]> GetVMSystemSwitchExtensionAsync(
+        GetVMSystemSwitchExtensionArguments args
+    ) => Task.Run(() => GetVMSystemSwitchExtension(args));
 
     public class GetVMSystemSwitchExtensionPortFeatureArguments
     {
@@ -10503,6 +10886,10 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Get-VMSystemSwitchExtensionPortFeature", parameters);
     }
+
+    public Task GetVMSystemSwitchExtensionPortFeatureAsync(
+        GetVMSystemSwitchExtensionPortFeatureArguments args
+    ) => Task.Run(() => GetVMSystemSwitchExtensionPortFeature(args));
 
     public class GetVMSystemSwitchExtensionSwitchFeatureArguments
     {
@@ -10582,6 +10969,10 @@ public class HyperVApi
         );
     }
 
+    public Task GetVMSystemSwitchExtensionSwitchFeatureAsync(
+        GetVMSystemSwitchExtensionSwitchFeatureArguments args
+    ) => Task.Run(() => GetVMSystemSwitchExtensionSwitchFeature(args));
+
     public class GetVMVideoArguments
     {
         /**
@@ -10659,6 +11050,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMVideo>("Get-VMVideo", parameters);
         return result;
     }
+
+    public Task<VMVideo[]> GetVMVideoAsync(GetVMVideoArguments args) =>
+        Task.Run(() => GetVMVideo(args));
 
     public class GrantVMConnectAccessArguments
     {
@@ -10748,6 +11142,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Grant-VMConnectAccess", parameters);
     }
+
+    public Task GrantVMConnectAccessAsync(GrantVMConnectAccessArguments args) =>
+        Task.Run(() => GrantVMConnectAccess(args));
 
     public class ImportVMArguments
     {
@@ -10889,6 +11286,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VirtualMachine[]> ImportVMAsync(ImportVMArguments args) =>
+        Task.Run(() => ImportVM(args));
+
     public class ImportVMInitialReplicationArguments
     {
         /**
@@ -10991,6 +11391,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Import-VMInitialReplication", parameters);
     }
+
+    public Task ImportVMInitialReplicationAsync(ImportVMInitialReplicationArguments args) =>
+        Task.Run(() => ImportVMInitialReplication(args));
 
     public class MeasureVMArguments
     {
@@ -11123,6 +11526,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMMeteringReportForVirtualMachine[]> MeasureVMAsync(MeasureVMArguments args) =>
+        Task.Run(() => MeasureVM(args));
+
     public class MeasureVMReplicationArguments
     {
         /**
@@ -11253,6 +11659,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMReplicationHealth[]> MeasureVMReplicationAsync(
+        MeasureVMReplicationArguments args
+    ) => Task.Run(() => MeasureVMReplication(args));
 
     public class MeasureVMResourcePoolArguments
     {
@@ -11395,6 +11805,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMMeteringReportForResourcePool[]> MeasureVMResourcePoolAsync(
+        MeasureVMResourcePoolArguments args
+    ) => Task.Run(() => MeasureVMResourcePool(args));
+
     public class MergeVHDArguments
     {
         /**
@@ -11496,6 +11910,9 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<Microsoft.Vhd.PowerShell.VirtualHardDisk[]> MergeVHDAsync(MergeVHDArguments args) =>
+        Task.Run(() => MergeVHD(args));
 
     public class MountVHDArguments
     {
@@ -11599,6 +12016,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<Microsoft.Vhd.PowerShell.VirtualHardDisk[]> MountVHDAsync(MountVHDArguments args) =>
+        Task.Run(() => MountVHD(args));
+
     public class MountVMHostAssignableDeviceArguments
     {
         /**
@@ -11699,6 +12119,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMHostAssignableDevice[]> MountVMHostAssignableDeviceAsync(
+        MountVMHostAssignableDeviceArguments args
+    ) => Task.Run(() => MountVMHostAssignableDevice(args));
 
     public class MoveVMArguments
     {
@@ -11884,6 +12308,8 @@ public class HyperVApi
         var result = instance.InvokeFunction("Move-VM", parameters);
     }
 
+    public Task MoveVMAsync(MoveVMArguments args) => Task.Run(() => MoveVM(args));
+
     public class MoveVMStorageArguments
     {
         /**
@@ -12033,6 +12459,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Move-VMStorage", parameters);
     }
 
+    public Task MoveVMStorageAsync(MoveVMStorageArguments args) =>
+        Task.Run(() => MoveVMStorage(args));
+
     public class NewVFDArguments
     {
         /**
@@ -12101,6 +12530,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<System.IO.FileInfo>("New-VFD", parameters);
         return result;
     }
+
+    public Task<System.IO.FileInfo[]> NewVFDAsync(NewVFDArguments args) =>
+        Task.Run(() => NewVFD(args));
 
     public class NewVHDArguments
     {
@@ -12245,6 +12677,9 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<Microsoft.Vhd.PowerShell.VirtualHardDisk[]> NewVHDAsync(NewVHDArguments args) =>
+        Task.Run(() => NewVHD(args));
 
     public class NewVMArguments
     {
@@ -12471,6 +12906,8 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VirtualMachine[]> NewVMAsync(NewVMArguments args) => Task.Run(() => NewVM(args));
+
     public class NewVMGroupArguments
     {
         /**
@@ -12552,6 +12989,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMGroup>("New-VMGroup", parameters);
         return result;
     }
+
+    public Task<VMGroup[]> NewVMGroupAsync(NewVMGroupArguments args) =>
+        Task.Run(() => NewVMGroup(args));
 
     public class NewVMReplicationAuthorizationEntryArguments
     {
@@ -12646,6 +13086,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMReplicationAuthorizationEntry[]> NewVMReplicationAuthorizationEntryAsync(
+        NewVMReplicationAuthorizationEntryArguments args
+    ) => Task.Run(() => NewVMReplicationAuthorizationEntry(args));
+
     public class NewVMResourcePoolArguments
     {
         /**
@@ -12734,6 +13178,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMResourcePool>("New-VMResourcePool", parameters);
         return result;
     }
+
+    public Task<VMResourcePool[]> NewVMResourcePoolAsync(NewVMResourcePoolArguments args) =>
+        Task.Run(() => NewVMResourcePool(args));
 
     public class NewVMSanArguments
     {
@@ -12831,6 +13278,8 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMSan>("New-VMSan", parameters);
         return result;
     }
+
+    public Task<VMSan[]> NewVMSanAsync(NewVMSanArguments args) => Task.Run(() => NewVMSan(args));
 
     public class NewVMSwitchArguments
     {
@@ -12974,6 +13423,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMSwitch[]> NewVMSwitchAsync(NewVMSwitchArguments args) =>
+        Task.Run(() => NewVMSwitch(args));
+
     public class OptimizeVHDArguments
     {
         /**
@@ -13079,6 +13531,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<Microsoft.Vhd.PowerShell.VirtualHardDisk[]> OptimizeVHDAsync(
+        OptimizeVHDArguments args
+    ) => Task.Run(() => OptimizeVHD(args));
+
     public class OptimizeVHDSetArguments
     {
         /**
@@ -13166,6 +13622,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<Microsoft.Vhd.PowerShell.VirtualHardDisk[]> OptimizeVHDSetAsync(
+        OptimizeVHDSetArguments args
+    ) => Task.Run(() => OptimizeVHDSet(args));
 
     public class RemoveVHDSnapshotArguments
     {
@@ -13273,6 +13733,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<Microsoft.Vhd.PowerShell.VHDSnapshotInfo[]> RemoveVHDSnapshotAsync(
+        RemoveVHDSnapshotArguments args
+    ) => Task.Run(() => RemoveVHDSnapshot(args));
+
     public class RemoveVMArguments
     {
         /**
@@ -13367,6 +13831,8 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Remove-VM", parameters);
     }
+
+    public Task RemoveVMAsync(RemoveVMArguments args) => Task.Run(() => RemoveVM(args));
 
     public class RemoveVMAssignableDeviceArguments
     {
@@ -13471,6 +13937,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMAssignedDevice[]> RemoveVMAssignableDeviceAsync(
+        RemoveVMAssignableDeviceArguments args
+    ) => Task.Run(() => RemoveVMAssignableDevice(args));
+
     public class RemoveVMDvdDriveArguments
     {
         /**
@@ -13567,6 +14037,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Remove-VMDvdDrive", parameters);
     }
+
+    public Task RemoveVMDvdDriveAsync(RemoveVMDvdDriveArguments args) =>
+        Task.Run(() => RemoveVMDvdDrive(args));
 
     public class RemoveVMFibreChannelHbaArguments
     {
@@ -13677,6 +14150,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMFibreChannelHba", parameters);
     }
 
+    public Task RemoveVMFibreChannelHbaAsync(RemoveVMFibreChannelHbaArguments args) =>
+        Task.Run(() => RemoveVMFibreChannelHba(args));
+
     public class RemoveVMGpuPartitionAdapterArguments
     {
         /**
@@ -13785,6 +14261,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMGpuPartitionAdapter[]> RemoveVMGpuPartitionAdapterAsync(
+        RemoveVMGpuPartitionAdapterArguments args
+    ) => Task.Run(() => RemoveVMGpuPartitionAdapter(args));
+
     public class RemoveVMGroupArguments
     {
         /**
@@ -13865,6 +14345,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<System.Object>("Remove-VMGroup", parameters);
         return result;
     }
+
+    public Task<System.Object[]> RemoveVMGroupAsync(RemoveVMGroupArguments args) =>
+        Task.Run(() => RemoveVMGroup(args));
 
     public class RemoveVMGroupMemberArguments
     {
@@ -13978,6 +14461,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMGroup[]> RemoveVMGroupMemberAsync(RemoveVMGroupMemberArguments args) =>
+        Task.Run(() => RemoveVMGroupMember(args));
+
     public class RemoveVMHardDiskDriveArguments
     {
         /**
@@ -14082,6 +14568,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Remove-VMHardDiskDrive", parameters);
     }
+
+    public Task RemoveVMHardDiskDriveAsync(RemoveVMHardDiskDriveArguments args) =>
+        Task.Run(() => RemoveVMHardDiskDrive(args));
 
     public class RemoveVMHostAssignableDeviceArguments
     {
@@ -14190,6 +14679,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<System.Object[]> RemoveVMHostAssignableDeviceAsync(
+        RemoveVMHostAssignableDeviceArguments args
+    ) => Task.Run(() => RemoveVMHostAssignableDevice(args));
+
     public class RemoveVMKeyStorageDriveArguments
     {
         public CimSession[]? CimSession { get; set; }
@@ -14239,6 +14732,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<KeyStorageDrive[]> RemoveVMKeyStorageDriveAsync(
+        RemoveVMKeyStorageDriveArguments args
+    ) => Task.Run(() => RemoveVMKeyStorageDrive(args));
 
     public class RemoveVMMigrationNetworkArguments
     {
@@ -14313,6 +14810,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Remove-VMMigrationNetwork", parameters);
     }
+
+    public Task RemoveVMMigrationNetworkAsync(RemoveVMMigrationNetworkArguments args) =>
+        Task.Run(() => RemoveVMMigrationNetwork(args));
 
     public class RemoveVMNetworkAdapterArguments
     {
@@ -14423,6 +14923,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Remove-VMNetworkAdapter", parameters);
     }
+
+    public Task RemoveVMNetworkAdapterAsync(RemoveVMNetworkAdapterArguments args) =>
+        Task.Run(() => RemoveVMNetworkAdapter(args));
 
     public class RemoveVMNetworkAdapterAclArguments
     {
@@ -14589,6 +15092,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMNetworkAdapterAcl", parameters);
     }
 
+    public Task RemoveVMNetworkAdapterAclAsync(RemoveVMNetworkAdapterAclArguments args) =>
+        Task.Run(() => RemoveVMNetworkAdapterAcl(args));
+
     public class RemoveVMNetworkAdapterExtendedAclArguments
     {
         /**
@@ -14740,6 +15246,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMNetworkAdapterExtendedAclSetting[]> RemoveVMNetworkAdapterExtendedAclAsync(
+        RemoveVMNetworkAdapterExtendedAclArguments args
+    ) => Task.Run(() => RemoveVMNetworkAdapterExtendedAcl(args));
+
     public class RemoveVMNetworkAdapterRoutingDomainMappingArguments
     {
         /**
@@ -14884,6 +15394,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMNetworkAdapterRoutingDomainSetting[]> RemoveVMNetworkAdapterRoutingDomainMappingAsync(
+        RemoveVMNetworkAdapterRoutingDomainMappingArguments args
+    ) => Task.Run(() => RemoveVMNetworkAdapterRoutingDomainMapping(args));
+
     public class RemoveVMNetworkAdapterTeamMappingArguments
     {
         /**
@@ -15004,6 +15518,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMNetworkAdapterTeamMappingSetting[]> RemoveVMNetworkAdapterTeamMappingAsync(
+        RemoveVMNetworkAdapterTeamMappingArguments args
+    ) => Task.Run(() => RemoveVMNetworkAdapterTeamMapping(args));
+
     public class RemoveVMPmemControllerArguments
     {
         public CimSession[]? CimSession { get; set; }
@@ -15053,6 +15571,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMPmemController[]> RemoveVMPmemControllerAsync(
+        RemoveVMPmemControllerArguments args
+    ) => Task.Run(() => RemoveVMPmemController(args));
 
     public class RemoveVMRemoteFx3dVideoAdapterArguments
     {
@@ -15141,6 +15663,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Remove-VMRemoteFx3dVideoAdapter", parameters);
     }
+
+    public Task RemoveVMRemoteFx3dVideoAdapterAsync(RemoveVMRemoteFx3dVideoAdapterArguments args) =>
+        Task.Run(() => RemoveVMRemoteFx3dVideoAdapter(args));
 
     public class RemoveVMReplicationArguments
     {
@@ -15239,6 +15764,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMReplication", parameters);
     }
 
+    public Task RemoveVMReplicationAsync(RemoveVMReplicationArguments args) =>
+        Task.Run(() => RemoveVMReplication(args));
+
     public class RemoveVMReplicationAuthorizationEntryArguments
     {
         /**
@@ -15329,6 +15857,10 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMReplicationAuthorizationEntry", parameters);
     }
 
+    public Task RemoveVMReplicationAuthorizationEntryAsync(
+        RemoveVMReplicationAuthorizationEntryArguments args
+    ) => Task.Run(() => RemoveVMReplicationAuthorizationEntry(args));
+
     public class RemoveVMResourcePoolArguments
     {
         /**
@@ -15410,6 +15942,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMResourcePool", parameters);
     }
 
+    public Task RemoveVMResourcePoolAsync(RemoveVMResourcePoolArguments args) =>
+        Task.Run(() => RemoveVMResourcePool(args));
+
     public class RemoveVMSanArguments
     {
         /**
@@ -15483,6 +16018,8 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Remove-VMSan", parameters);
     }
+
+    public Task RemoveVMSanAsync(RemoveVMSanArguments args) => Task.Run(() => RemoveVMSan(args));
 
     public class RemoveVMSavedStateArguments
     {
@@ -15564,6 +16101,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Remove-VMSavedState", parameters);
     }
+
+    public Task RemoveVMSavedStateAsync(RemoveVMSavedStateArguments args) =>
+        Task.Run(() => RemoveVMSavedState(args));
 
     public class RemoveVMScsiControllerArguments
     {
@@ -15655,6 +16195,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMScsiController", parameters);
     }
 
+    public Task RemoveVMScsiControllerAsync(RemoveVMScsiControllerArguments args) =>
+        Task.Run(() => RemoveVMScsiController(args));
+
     public class RemoveVMStoragePathArguments
     {
         /**
@@ -15728,6 +16271,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Remove-VMStoragePath", parameters);
     }
+
+    public Task RemoveVMStoragePathAsync(RemoveVMStoragePathArguments args) =>
+        Task.Run(() => RemoveVMStoragePath(args));
 
     public class RemoveVMSwitchArguments
     {
@@ -15816,6 +16362,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Remove-VMSwitch", parameters);
     }
+
+    public Task RemoveVMSwitchAsync(RemoveVMSwitchArguments args) =>
+        Task.Run(() => RemoveVMSwitch(args));
 
     public class RemoveVMSwitchExtensionPortFeatureArguments
     {
@@ -15941,6 +16490,10 @@ public class HyperVApi
         var result = instance.InvokeFunction("Remove-VMSwitchExtensionPortFeature", parameters);
     }
 
+    public Task RemoveVMSwitchExtensionPortFeatureAsync(
+        RemoveVMSwitchExtensionPortFeatureArguments args
+    ) => Task.Run(() => RemoveVMSwitchExtensionPortFeature(args));
+
     public class RemoveVMSwitchExtensionSwitchFeatureArguments
     {
         /**
@@ -16030,6 +16583,10 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Remove-VMSwitchExtensionSwitchFeature", parameters);
     }
+
+    public Task RemoveVMSwitchExtensionSwitchFeatureAsync(
+        RemoveVMSwitchExtensionSwitchFeatureArguments args
+    ) => Task.Run(() => RemoveVMSwitchExtensionSwitchFeature(args));
 
     public class RemoveVMSwitchTeamMemberArguments
     {
@@ -16133,6 +16690,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMSwitch[]> RemoveVMSwitchTeamMemberAsync(RemoveVMSwitchTeamMemberArguments args) =>
+        Task.Run(() => RemoveVMSwitchTeamMember(args));
+
     public class RenameVMArguments
     {
         /**
@@ -16220,6 +16780,8 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Rename-VM", parameters);
     }
+
+    public Task RenameVMAsync(RenameVMArguments args) => Task.Run(() => RenameVM(args));
 
     public class RenameVMGroupArguments
     {
@@ -16324,6 +16886,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMGroup>("Rename-VMGroup", parameters);
         return result;
     }
+
+    public Task<VMGroup[]> RenameVMGroupAsync(RenameVMGroupArguments args) =>
+        Task.Run(() => RenameVMGroup(args));
 
     public class RenameVMNetworkAdapterArguments
     {
@@ -16435,6 +17000,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Rename-VMNetworkAdapter", parameters);
     }
 
+    public Task RenameVMNetworkAdapterAsync(RenameVMNetworkAdapterArguments args) =>
+        Task.Run(() => RenameVMNetworkAdapter(args));
+
     public class RenameVMResourcePoolArguments
     {
         /**
@@ -16523,6 +17091,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Rename-VMResourcePool", parameters);
     }
 
+    public Task RenameVMResourcePoolAsync(RenameVMResourcePoolArguments args) =>
+        Task.Run(() => RenameVMResourcePool(args));
+
     public class RenameVMSanArguments
     {
         /**
@@ -16603,6 +17174,8 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Rename-VMSan", parameters);
     }
+
+    public Task RenameVMSanAsync(RenameVMSanArguments args) => Task.Run(() => RenameVMSan(args));
 
     public class RenameVMSwitchArguments
     {
@@ -16692,6 +17265,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Rename-VMSwitch", parameters);
     }
 
+    public Task RenameVMSwitchAsync(RenameVMSwitchArguments args) =>
+        Task.Run(() => RenameVMSwitch(args));
+
     public class RepairVMArguments
     {
         /**
@@ -16752,6 +17328,8 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Repair-VM", parameters);
     }
+
+    public Task RepairVMAsync(RepairVMArguments args) => Task.Run(() => RepairVM(args));
 
     public class ResetVMReplicationStatisticsArguments
     {
@@ -16850,6 +17428,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Reset-VMReplicationStatistics", parameters);
     }
 
+    public Task ResetVMReplicationStatisticsAsync(ResetVMReplicationStatisticsArguments args) =>
+        Task.Run(() => ResetVMReplicationStatistics(args));
+
     public class ResetVMResourceMeteringArguments
     {
         /**
@@ -16928,6 +17509,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Reset-VMResourceMetering", parameters);
     }
+
+    public Task ResetVMResourceMeteringAsync(ResetVMResourceMeteringArguments args) =>
+        Task.Run(() => ResetVMResourceMetering(args));
 
     public class ResizeVHDArguments
     {
@@ -17031,6 +17615,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<Microsoft.Vhd.PowerShell.VirtualHardDisk[]> ResizeVHDAsync(
+        ResizeVHDArguments args
+    ) => Task.Run(() => ResizeVHD(args));
 
     public class RestartVMArguments
     {
@@ -17159,6 +17747,8 @@ public class HyperVApi
         var result = instance.InvokeFunction("Restart-VM", parameters);
     }
 
+    public Task RestartVMAsync(RestartVMArguments args) => Task.Run(() => RestartVM(args));
+
     public class ResumeVMArguments
     {
         /**
@@ -17248,6 +17838,8 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Resume-VM", parameters);
     }
+
+    public Task ResumeVMAsync(ResumeVMArguments args) => Task.Run(() => ResumeVM(args));
 
     public class ResumeVMReplicationArguments
     {
@@ -17379,6 +17971,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Resume-VMReplication", parameters);
     }
 
+    public Task ResumeVMReplicationAsync(ResumeVMReplicationArguments args) =>
+        Task.Run(() => ResumeVMReplication(args));
+
     public class RevokeVMConnectAccessArguments
     {
         /**
@@ -17466,6 +18061,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Revoke-VMConnectAccess", parameters);
     }
+
+    public Task RevokeVMConnectAccessAsync(RevokeVMConnectAccessArguments args) =>
+        Task.Run(() => RevokeVMConnectAccess(args));
 
     public class SaveVMArguments
     {
@@ -17556,6 +18154,8 @@ public class HyperVApi
         var result = instance.InvokeFunction<VirtualMachine>("Save-VM", parameters);
         return result;
     }
+
+    public Task<VirtualMachine[]> SaveVMAsync(SaveVMArguments args) => Task.Run(() => SaveVM(args));
 
     public class SetVHDArguments
     {
@@ -17682,6 +18282,9 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<Microsoft.Vhd.PowerShell.VirtualHardDisk[]> SetVHDAsync(SetVHDArguments args) =>
+        Task.Run(() => SetVHD(args));
 
     public class SetVMArguments
     {
@@ -17941,6 +18544,8 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VM", parameters);
     }
 
+    public Task SetVMAsync(SetVMArguments args) => Task.Run(() => SetVM(args));
+
     public class SetVMBiosArguments
     {
         /**
@@ -18055,6 +18660,8 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMBios", parameters);
     }
 
+    public Task SetVMBiosAsync(SetVMBiosArguments args) => Task.Run(() => SetVMBios(args));
+
     public class SetVMComPortArguments
     {
         /**
@@ -18165,6 +18772,8 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Set-VMComPort", parameters);
     }
+
+    public Task SetVMComPortAsync(SetVMComPortArguments args) => Task.Run(() => SetVMComPort(args));
 
     public class SetVMDvdDriveArguments
     {
@@ -18298,6 +18907,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Set-VMDvdDrive", parameters);
     }
+
+    public Task SetVMDvdDriveAsync(SetVMDvdDriveArguments args) =>
+        Task.Run(() => SetVMDvdDrive(args));
 
     public class SetVMFibreChannelHbaArguments
     {
@@ -18454,6 +19066,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMFibreChannelHba[]> SetVMFibreChannelHbaAsync(
+        SetVMFibreChannelHbaArguments args
+    ) => Task.Run(() => SetVMFibreChannelHba(args));
 
     public class SetVMFirmwareArguments
     {
@@ -18635,6 +19251,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMFirmware[]> SetVMFirmwareAsync(SetVMFirmwareArguments args) =>
+        Task.Run(() => SetVMFirmware(args));
+
     public class SetVMFloppyDiskDriveArguments
     {
         /**
@@ -18741,6 +19360,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMFloppyDiskDrive[]> SetVMFloppyDiskDriveAsync(
+        SetVMFloppyDiskDriveArguments args
+    ) => Task.Run(() => SetVMFloppyDiskDrive(args));
 
     public class SetVMGpuPartitionAdapterArguments
     {
@@ -18940,6 +19563,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMGpuPartitionAdapter[]> SetVMGpuPartitionAdapterAsync(
+        SetVMGpuPartitionAdapterArguments args
+    ) => Task.Run(() => SetVMGpuPartitionAdapter(args));
 
     public class SetVMHardDiskDriveArguments
     {
@@ -19145,6 +19772,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<HardDiskDrive[]> SetVMHardDiskDriveAsync(SetVMHardDiskDriveArguments args) =>
+        Task.Run(() => SetVMHardDiskDrive(args));
+
     public class SetVMHostArguments
     {
         /**
@@ -19345,6 +19975,8 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMHost", parameters);
     }
 
+    public Task SetVMHostAsync(SetVMHostArguments args) => Task.Run(() => SetVMHost(args));
+
     public class SetVMHostClusterArguments
     {
         /**
@@ -19412,6 +20044,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMHostCluster>("Set-VMHostCluster", parameters);
         return result;
     }
+
+    public Task<VMHostCluster[]> SetVMHostClusterAsync(SetVMHostClusterArguments args) =>
+        Task.Run(() => SetVMHostCluster(args));
 
     public class SetVMHostPartitionableGpuArguments
     {
@@ -19494,6 +20129,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMHostPartitionableGpu[]> SetVMHostPartitionableGpuAsync(
+        SetVMHostPartitionableGpuArguments args
+    ) => Task.Run(() => SetVMHostPartitionableGpu(args));
 
     public class SetVMKeyProtectorArguments
     {
@@ -19604,6 +20243,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VirtualMachine[]> SetVMKeyProtectorAsync(SetVMKeyProtectorArguments args) =>
+        Task.Run(() => SetVMKeyProtector(args));
+
     public class SetVMKeyStorageDriveArguments
     {
         public object? AllowUnverifiedPaths { get; set; }
@@ -19668,6 +20310,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<KeyStorageDrive>("Set-VMKeyStorageDrive", parameters);
         return result;
     }
+
+    public Task<KeyStorageDrive[]> SetVMKeyStorageDriveAsync(SetVMKeyStorageDriveArguments args) =>
+        Task.Run(() => SetVMKeyStorageDrive(args));
 
     public class SetVMMemoryArguments
     {
@@ -19815,6 +20460,8 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMMemory", parameters);
     }
 
+    public Task SetVMMemoryAsync(SetVMMemoryArguments args) => Task.Run(() => SetVMMemory(args));
+
     public class SetVMMigrationNetworkArguments
     {
         /**
@@ -19904,6 +20551,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Set-VMMigrationNetwork", parameters);
     }
+
+    public Task SetVMMigrationNetworkAsync(SetVMMigrationNetworkArguments args) =>
+        Task.Run(() => SetVMMigrationNetwork(args));
 
     public class SetVMNetworkAdapterArguments
     {
@@ -20276,6 +20926,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMNetworkAdapter", parameters);
     }
 
+    public Task SetVMNetworkAdapterAsync(SetVMNetworkAdapterArguments args) =>
+        Task.Run(() => SetVMNetworkAdapter(args));
+
     public class SetVMNetworkAdapterFailoverConfigurationArguments
     {
         /**
@@ -20466,6 +21119,10 @@ public class HyperVApi
         );
     }
 
+    public Task SetVMNetworkAdapterFailoverConfigurationAsync(
+        SetVMNetworkAdapterFailoverConfigurationArguments args
+    ) => Task.Run(() => SetVMNetworkAdapterFailoverConfiguration(args));
+
     public class SetVMNetworkAdapterIsolationArguments
     {
         /**
@@ -20637,6 +21294,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMNetworkAdapterIsolationSetting[]> SetVMNetworkAdapterIsolationAsync(
+        SetVMNetworkAdapterIsolationArguments args
+    ) => Task.Run(() => SetVMNetworkAdapterIsolation(args));
+
     public class SetVMNetworkAdapterRdmaArguments
     {
         public CimSession[]? CimSession { get; set; }
@@ -20704,6 +21365,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMNetworkAdapterRdmaSetting[]> SetVMNetworkAdapterRdmaAsync(
+        SetVMNetworkAdapterRdmaArguments args
+    ) => Task.Run(() => SetVMNetworkAdapterRdma(args));
 
     public class SetVMNetworkAdapterRoutingDomainMappingArguments
     {
@@ -20876,6 +21541,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMNetworkAdapterRoutingDomainSetting[]> SetVMNetworkAdapterRoutingDomainMappingAsync(
+        SetVMNetworkAdapterRoutingDomainMappingArguments args
+    ) => Task.Run(() => SetVMNetworkAdapterRoutingDomainMapping(args));
+
     public class SetVMNetworkAdapterTeamMappingArguments
     {
         /**
@@ -21002,6 +21671,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMNetworkAdapterTeamMappingSetting[]> SetVMNetworkAdapterTeamMappingAsync(
+        SetVMNetworkAdapterTeamMappingArguments args
+    ) => Task.Run(() => SetVMNetworkAdapterTeamMapping(args));
 
     public class SetVMNetworkAdapterVlanArguments
     {
@@ -21205,6 +21878,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMNetworkAdapterVlan", parameters);
     }
 
+    public Task SetVMNetworkAdapterVlanAsync(SetVMNetworkAdapterVlanArguments args) =>
+        Task.Run(() => SetVMNetworkAdapterVlan(args));
+
     public class SetVMPartitionableGpuArguments
     {
         public required CimSession[]? CimSession { get; set; }
@@ -21255,6 +21931,10 @@ public class HyperVApi
         );
         return result;
     }
+
+    public Task<VMPartitionableGpu[]> SetVMPartitionableGpuAsync(
+        SetVMPartitionableGpuArguments args
+    ) => Task.Run(() => SetVMPartitionableGpu(args));
 
     public class SetVMProcessorArguments
     {
@@ -21446,6 +22126,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMProcessor", parameters);
     }
 
+    public Task SetVMProcessorAsync(SetVMProcessorArguments args) =>
+        Task.Run(() => SetVMProcessor(args));
+
     public class SetVMRemoteFx3dVideoAdapterArguments
     {
         /**
@@ -21554,6 +22237,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Set-VMRemoteFx3dVideoAdapter", parameters);
     }
+
+    public Task SetVMRemoteFx3dVideoAdapterAsync(SetVMRemoteFx3dVideoAdapterArguments args) =>
+        Task.Run(() => SetVMRemoteFx3dVideoAdapter(args));
 
     public class SetVMReplicationArguments
     {
@@ -21847,6 +22533,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMReplication", parameters);
     }
 
+    public Task SetVMReplicationAsync(SetVMReplicationArguments args) =>
+        Task.Run(() => SetVMReplication(args));
+
     public class SetVMReplicationAuthorizationEntryArguments
     {
         /**
@@ -21946,6 +22635,10 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Set-VMReplicationAuthorizationEntry", parameters);
     }
+
+    public Task SetVMReplicationAuthorizationEntryAsync(
+        SetVMReplicationAuthorizationEntryArguments args
+    ) => Task.Run(() => SetVMReplicationAuthorizationEntry(args));
 
     public class SetVMReplicationServerArguments
     {
@@ -22136,6 +22829,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMReplicationServer", parameters);
     }
 
+    public Task SetVMReplicationServerAsync(SetVMReplicationServerArguments args) =>
+        Task.Run(() => SetVMReplicationServer(args));
+
     public class SetVMResourcePoolArguments
     {
         /**
@@ -22223,6 +22919,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Set-VMResourcePool", parameters);
     }
+
+    public Task SetVMResourcePoolAsync(SetVMResourcePoolArguments args) =>
+        Task.Run(() => SetVMResourcePool(args));
 
     public class SetVMSanArguments
     {
@@ -22326,6 +23025,8 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Set-VMSan", parameters);
     }
+
+    public Task SetVMSanAsync(SetVMSanArguments args) => Task.Run(() => SetVMSan(args));
 
     public class SetVMSecurityArguments
     {
@@ -22436,6 +23137,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMSecurity", parameters);
     }
 
+    public Task SetVMSecurityAsync(SetVMSecurityArguments args) =>
+        Task.Run(() => SetVMSecurity(args));
+
     public class SetVMSecurityPolicyArguments
     {
         /**
@@ -22528,6 +23232,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMSecurityPolicy", parameters);
     }
 
+    public Task SetVMSecurityPolicyAsync(SetVMSecurityPolicyArguments args) =>
+        Task.Run(() => SetVMSecurityPolicy(args));
+
     public class SetVMStorageSettingsArguments
     {
         public CimSession[]? CimSession { get; set; }
@@ -22583,6 +23290,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VirtualMachine>("Set-VMStorageSettings", parameters);
         return result;
     }
+
+    public Task<VirtualMachine[]> SetVMStorageSettingsAsync(SetVMStorageSettingsArguments args) =>
+        Task.Run(() => SetVMStorageSettings(args));
 
     public class SetVMSwitchArguments
     {
@@ -22764,6 +23474,8 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMSwitch", parameters);
     }
 
+    public Task SetVMSwitchAsync(SetVMSwitchArguments args) => Task.Run(() => SetVMSwitch(args));
+
     public class SetVMSwitchExtensionPortFeatureArguments
     {
         /**
@@ -22888,6 +23600,10 @@ public class HyperVApi
         var result = instance.InvokeFunction("Set-VMSwitchExtensionPortFeature", parameters);
     }
 
+    public Task SetVMSwitchExtensionPortFeatureAsync(
+        SetVMSwitchExtensionPortFeatureArguments args
+    ) => Task.Run(() => SetVMSwitchExtensionPortFeature(args));
+
     public class SetVMSwitchExtensionSwitchFeatureArguments
     {
         /**
@@ -22975,6 +23691,10 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Set-VMSwitchExtensionSwitchFeature", parameters);
     }
+
+    public Task SetVMSwitchExtensionSwitchFeatureAsync(
+        SetVMSwitchExtensionSwitchFeatureArguments args
+    ) => Task.Run(() => SetVMSwitchExtensionSwitchFeature(args));
 
     public class SetVMSwitchTeamArguments
     {
@@ -23096,6 +23816,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<VMSwitch>("Set-VMSwitchTeam", parameters);
         return result;
     }
+
+    public Task<VMSwitch[]> SetVMSwitchTeamAsync(SetVMSwitchTeamArguments args) =>
+        Task.Run(() => SetVMSwitchTeam(args));
 
     public class SetVMVideoArguments
     {
@@ -23224,6 +23947,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMVideo[]> SetVMVideoAsync(SetVMVideoArguments args) =>
+        Task.Run(() => SetVMVideo(args));
+
     public class StartVMArguments
     {
         /**
@@ -23311,6 +24037,8 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Start-VM", parameters);
     }
+
+    public Task StartVMAsync(StartVMArguments args) => Task.Run(() => StartVM(args));
 
     public class StartVMFailoverArguments
     {
@@ -23428,6 +24156,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Start-VMFailover", parameters);
     }
+
+    public Task StartVMFailoverAsync(StartVMFailoverArguments args) =>
+        Task.Run(() => StartVMFailover(args));
 
     public class StartVMInitialReplicationArguments
     {
@@ -23551,6 +24282,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Start-VMInitialReplication", parameters);
     }
 
+    public Task StartVMInitialReplicationAsync(StartVMInitialReplicationArguments args) =>
+        Task.Run(() => StartVMInitialReplication(args));
+
     public class StartVMTraceArguments
     {
         /**
@@ -23599,6 +24333,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<System.Object>("Start-VMTrace", parameters);
         return result;
     }
+
+    public Task<System.Object[]> StartVMTraceAsync(StartVMTraceArguments args) =>
+        Task.Run(() => StartVMTrace(args));
 
     public class StopVMArguments
     {
@@ -23711,6 +24448,8 @@ public class HyperVApi
         var result = instance.InvokeFunction("Stop-VM", parameters);
     }
 
+    public Task StopVMAsync(StopVMArguments args) => Task.Run(() => StopVM(args));
+
     public class StopVMFailoverArguments
     {
         /**
@@ -23799,6 +24538,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Stop-VMFailover", parameters);
     }
 
+    public Task StopVMFailoverAsync(StopVMFailoverArguments args) =>
+        Task.Run(() => StopVMFailover(args));
+
     public class StopVMInitialReplicationArguments
     {
         /**
@@ -23886,6 +24628,9 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Stop-VMInitialReplication", parameters);
     }
+
+    public Task StopVMInitialReplicationAsync(StopVMInitialReplicationArguments args) =>
+        Task.Run(() => StopVMInitialReplication(args));
 
     public class StopVMReplicationArguments
     {
@@ -23984,6 +24729,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Stop-VMReplication", parameters);
     }
 
+    public Task StopVMReplicationAsync(StopVMReplicationArguments args) =>
+        Task.Run(() => StopVMReplication(args));
+
     /** <summary>
      * <see href="https://learn.microsoft.com/powershell/module/hyper-v/stop-vmtrace?view=windowsserver2025-ps&amp;wt.mc_id=ps-gethelp">Online Version</see>
      *
@@ -24001,6 +24749,8 @@ public class HyperVApi
         var result = instance.InvokeFunction<System.Object>("Stop-VMTrace", parameters);
         return result;
     }
+
+    public Task<System.Object[]> StopVMTraceAsync() => Task.Run(() => StopVMTrace());
 
     public class SuspendVMArguments
     {
@@ -24089,6 +24839,8 @@ public class HyperVApi
         using var instance = new HyperVInstance();
         var result = instance.InvokeFunction("Suspend-VM", parameters);
     }
+
+    public Task SuspendVMAsync(SuspendVMArguments args) => Task.Run(() => SuspendVM(args));
 
     public class SuspendVMReplicationArguments
     {
@@ -24187,6 +24939,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Suspend-VMReplication", parameters);
     }
 
+    public Task SuspendVMReplicationAsync(SuspendVMReplicationArguments args) =>
+        Task.Run(() => SuspendVMReplication(args));
+
     public class TestVHDArguments
     {
         /**
@@ -24248,6 +25003,9 @@ public class HyperVApi
         var result = instance.InvokeFunction<System.Boolean>("Test-VHD", parameters);
         return result;
     }
+
+    public Task<System.Boolean[]> TestVHDAsync(TestVHDArguments args) =>
+        Task.Run(() => TestVHD(args));
 
     public class TestVMNetworkAdapterArguments
     {
@@ -24425,6 +25183,10 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VMNetworkAdapterConnectionTestResult[]> TestVMNetworkAdapterAsync(
+        TestVMNetworkAdapterArguments args
+    ) => Task.Run(() => TestVMNetworkAdapter(args));
+
     public class TestVMReplicationConnectionArguments
     {
         /**
@@ -24531,6 +25293,9 @@ public class HyperVApi
         var result = instance.InvokeFunction("Test-VMReplicationConnection", parameters);
     }
 
+    public Task TestVMReplicationConnectionAsync(TestVMReplicationConnectionArguments args) =>
+        Task.Run(() => TestVMReplicationConnection(args));
+
     public class UpdateVMVersionArguments
     {
         /**
@@ -24631,6 +25396,9 @@ public class HyperVApi
         return result;
     }
 
+    public Task<VirtualMachine[]> UpdateVMVersionAsync(UpdateVMVersionArguments args) =>
+        Task.Run(() => UpdateVMVersion(args));
+
     public class WaitVMArguments
     {
         public object? AsJob { get; set; }
@@ -24683,4 +25451,6 @@ public class HyperVApi
         var result = instance.InvokeFunction<VirtualMachine>("Wait-VM", parameters);
         return result;
     }
+
+    public Task<VirtualMachine[]> WaitVMAsync(WaitVMArguments args) => Task.Run(() => WaitVM(args));
 }

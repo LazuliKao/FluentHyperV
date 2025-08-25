@@ -11,9 +11,9 @@ public class HyperVTest(ITestOutputHelper testOutputHelper)
     private HyperVApi Api => _hyperV;
 
     [Fact]
-    public void TestInstance()
+    public async Task TestInstance()
     {
-        var results = _hyperV.GetVM(new() { });
+        var results = await _hyperV.GetVMAsync(new());
         testOutputHelper.WriteLine(results.Length.ToString());
         foreach (var virtualMachine in results)
         {
@@ -31,6 +31,7 @@ public class HyperVTest(ITestOutputHelper testOutputHelper)
         {
             _hyperV.RemoveVM(new() { VM = [vmLegacy], Name = null });
         }
+
         var vm = _hyperV.NewVM(
             new()
             {

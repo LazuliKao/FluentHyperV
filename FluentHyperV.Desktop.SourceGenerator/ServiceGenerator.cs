@@ -52,18 +52,18 @@ public class ServiceGenerator : IIncrementalGenerator
                 sb.AppendLine("using System;");
                 sb.AppendLine("using Microsoft.Extensions.DependencyInjection;");
                 sb.AppendLine($"namespace {ns};");
-                sb.AppendLine("  public static class Registry");
-                sb.AppendLine("  {");
+                sb.AppendLine("public static class Registry");
+                sb.AppendLine("{");
                 sb.AppendLine(
-                    "      public static void AddProjectPageAndViewModels(this IServiceCollection services)"
+                    "    public static void AddProjectPageAndViewModels(this IServiceCollection services)"
                 );
-                sb.AppendLine("      {");
+                sb.AppendLine("    {");
                 foreach (var symbol in list.Distinct(SymbolEqualityComparer.Default))
                 {
                     if (symbol is INamedTypeSymbol symbolNamed)
                     {
                         sb.AppendLine(
-                            $"              services.AddSingleton<{symbolNamed.ToDisplayString()}>();"
+                            $"        services.AddSingleton<{symbolNamed.ToDisplayString()}>();"
                         );
                     }
                 }

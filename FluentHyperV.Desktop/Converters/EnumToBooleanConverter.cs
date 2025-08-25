@@ -1,11 +1,10 @@
-﻿using System.Diagnostics;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows.Data;
 using Wpf.Ui.Appearance;
 
 namespace FluentHyperV.Desktop.Converters;
 
-public class EnumToBooleanConverter : IValueConverter
+internal class EnumToBooleanConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
@@ -14,7 +13,6 @@ public class EnumToBooleanConverter : IValueConverter
             throw new ArgumentException("ExceptionEnumToBooleanConverterParameterMustBeAnEnumName");
         }
 
-        Debug.Assert(value != null, nameof(value) + " != null");
         if (!Enum.IsDefined(typeof(ApplicationTheme), value))
         {
             throw new ArgumentException("ExceptionEnumToBooleanConverterValueMustBeAnEnum");

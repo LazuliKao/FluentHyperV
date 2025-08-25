@@ -1,9 +1,6 @@
 ﻿using System.IO;
 using System.Windows.Threading;
 using FluentHyperV.Desktop.Services;
-using FluentHyperV.Desktop.ViewModels.Pages;
-using FluentHyperV.Desktop.ViewModels.Windows;
-using FluentHyperV.Desktop.Views.Pages;
 using FluentHyperV.Desktop.Views.Windows;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
