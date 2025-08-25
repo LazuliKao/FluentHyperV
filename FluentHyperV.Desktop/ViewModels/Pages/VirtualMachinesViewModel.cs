@@ -2,6 +2,8 @@
 
 namespace FluentHyperV.Desktop.ViewModels.Pages;
 
+public class VirtualMachineViewModel : ObservableObject { }
+
 public class VirtualMachinesViewModel : ObservableObject, INavigationAware
 {
     private bool _isInitialized;

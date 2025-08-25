@@ -73,5 +73,16 @@ public class ServiceGenerator : IIncrementalGenerator
                 spc.AddSource("ModelRegistry.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
             }
         );
+        context.RegisterSourceOutput(
+            context.CompilationProvider,
+            (s, c) =>
+                s.AddSource(
+                    "Attributes.g.cs",
+                    $$"""
+                    namespace {{c.AssemblyName}};
+                    public class DependencyInjectionTransientAttribute : System.Attribute { }
+                    """
+                )
+        );
     }
 }

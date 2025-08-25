@@ -282,6 +282,7 @@ type GetCommandResult =
       RemotingCapability: int64
       Parameters: Dictionary<string, GetCommandParameter>
       HelpUri: Uri
+      [<JsonPropertyName("DLL")>]
       Dll: string }
 
 
@@ -340,6 +341,20 @@ for (cmd, details) in commandData do
     printfn "------------------------"
     let funcName = cmd.Name.Replace("-", "").Replace(" ", "_")
 
+    let defaultParamSet =
+        [ "Verbose"
+          "Debug"
+          "ErrorAction"
+          "WarningAction"
+          "InformationAction"
+          "ProgressAction"
+          "ErrorVariable"
+          "WarningVariable"
+          "InformationVariable"
+          "OutVariable"
+          "OutBuffer"
+          "PipelineVariable" ]
+
     let hasParameters =
         cmd.parameters.IsSome && cmd.parameters.Value.parameter.Length > 0
 
@@ -379,12 +394,12 @@ for (cmd, details) in commandData do
     let getFirstValidReturnTypeDesc () =
         cmd.returnValues.Value.returnValue
         |> Array.tryFind (fun rv -> rv.``type``.name <> "None")
-    
+
     let hasReturnValueDesc =
         cmd.returnValues.IsSome
         && cmd.returnValues.Value.returnValue.Length > 0
         && getFirstValidReturnTypeDesc().IsSome
-    
+
     // let hasNoneReturnType =
     //     hasReturnValue
     //     && cmd.returnValues.Value.returnValue
@@ -404,11 +419,12 @@ for (cmd, details) in commandData do
     let typeName =
         let mapper =
             dict
-                [ ("Microsoft.HyperV.PowerShell.SystemSwitchExtension", "VMSystemSwitchExtension")
-                  ("Microsoft.HyperV.PowerShell.VMNetworkAdapterFailoverSetting", "PSObject")
-                  ("Microsoft.HyperV.PowerShell.Snapshot", "VMSnapshot")
-                  ("Microsoft.HyperV.PowerShell.VMNetwork", "VMSwitch")
-                  ("Microsoft.HyperV.PowerShell.MigrationNetwork", "VMMigrationNetwork") ]
+                [ ("Microsoft.HyperV.PowerShell.VMNetworkAdapterFailoverSetting", "PSObject")
+                  // ("Microsoft.HyperV.PowerShell.SystemSwitchExtension", "VMSystemSwitchExtension")
+                  // ("Microsoft.HyperV.PowerShell.Snapshot", "VMSnapshot")
+                  // ("Microsoft.HyperV.PowerShell.VMNetwork", "VMSwitch")
+                  // ("Microsoft.HyperV.PowerShell.MigrationNetwork", "VMMigrationNetwork")
+                  ]
 
         if hasReturnValue then
             let name =
