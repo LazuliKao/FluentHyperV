@@ -5,14 +5,172 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="clr-namespace:FluentHyperV.Desktop.Views.Pages"
+  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
   mc:Ignorable="d"
-  d:DesignHeight="450"
-  d:DesignWidth="800"
-  Title="VirtualMachinesPage"
+  d:DesignHeight="800"
+  d:DesignWidth="1200"
+  Title="虚拟机管理"
   d:DataContext="{d:DesignInstance local:VirtualMachinesPage,
                                      IsDesignTimeCreatable=False}"
 >
-  <Grid>
-    <Button />
+  <Grid Margin="20">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+    <!-- 标题栏 -->
+    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+      <ui:SymbolIcon Symbol="Server24" FontSize="24" Margin="0,0,10,0"/>
+      <TextBlock Text="虚拟机管理" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
+    </StackPanel>
+
+    <!-- 工具栏 -->
+    <Grid Grid.Row="1" Margin="0,0,0,20">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+
+      <!-- 操作按钮组 -->
+      <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+        <ui:Button 
+          Content="刷新" 
+          Icon="{ui:SymbolIcon ArrowClockwise24}"
+          Command="{Binding ViewModel.RefreshCommand}"
+          Margin="0,0,10,0"/>
+        <ui:Button 
+          Content="启动" 
+          Icon="{ui:SymbolIcon Play24}"
+          Command="{Binding ViewModel.StartVirtualMachineCommand}"
+          IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}"
+          Margin="0,0,10,0"/>
+        <ui:Button 
+          Content="停止" 
+          Icon="{ui:SymbolIcon Stop24}"
+          Command="{Binding ViewModel.StopVirtualMachineCommand}"
+          IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}"
+          Margin="0,0,10,0"/>
+        <ui:Button 
+          Content="重启" 
+          Icon="{ui:SymbolIcon ArrowCounterclockwise24}"
+          Command="{Binding ViewModel.RestartVirtualMachineCommand}"
+          IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}"
+          Margin="0,0,10,0"/>
+      </StackPanel>
+
+      <!-- 加载状态 -->
+      <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+        <ui:ProgressRing 
+          IsIndeterminate="True" 
+          Visibility="{Binding ViewModel.IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+          Width="20" Height="20" Margin="0,0,10,0"/>
+        <TextBlock Text="{Binding ViewModel.StatusMessage}" VerticalAlignment="Center"/>
+      </StackPanel>
+    </Grid>
+
+    <!-- 虚拟机列表 -->
+    <Border Grid.Row="2" Background="{DynamicResource ControlFillColorDefaultBrush}" 
+            CornerRadius="8" Padding="1">
+      <DataGrid 
+        x:Name="VirtualMachinesDataGrid"
+        ItemsSource="{Binding ViewModel.VirtualMachines}"
+        SelectedItem="{Binding ViewModel.SelectedVirtualMachine}"
+        AutoGenerateColumns="False"
+        CanUserAddRows="False"
+        CanUserDeleteRows="False"
+        CanUserReorderColumns="True"
+        CanUserResizeColumns="True"
+        CanUserSortColumns="True"
+        GridLinesVisibility="Horizontal"
+        HeadersVisibility="Column"
+        SelectionMode="Single"
+        AlternatingRowBackground="{DynamicResource ControlFillColorSecondaryBrush}"
+        Background="Transparent"
+        BorderThickness="0">
+        
+        <DataGrid.Columns>
+          <!-- 名称 -->
+          <DataGridTextColumn 
+            Header="名称" 
+            Binding="{Binding Name}" 
+            Width="200"
+            IsReadOnly="True"/>
+          
+          <!-- 状态 -->
+          <DataGridTemplateColumn Header="状态" Width="120">
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                  <Ellipse Width="8" Height="8" 
+                           Fill="{Binding State, Converter={StaticResource StatusToBrushConverter}}" 
+                           Margin="0,0,8,0"/>
+                  <TextBlock Text="{Binding State}" VerticalAlignment="Center"/>
+                </StackPanel>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
+          
+          <!-- 处理器数量 -->
+          <DataGridTextColumn 
+            Header="CPU" 
+            Binding="{Binding ProcessorCount}" 
+            Width="80"
+            IsReadOnly="True"/>
+          
+          <!-- 内存分配 -->
+          <DataGridTextColumn 
+            Header="内存" 
+            Binding="{Binding MemoryAssigned, Converter={StaticResource BytesToFormatConverter}}" 
+            Width="120"
+            IsReadOnly="True"/>
+          
+          <!-- 动态内存 -->
+          <DataGridTemplateColumn Header="动态内存" Width="100">
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding DynamicMemoryEnabled, Converter={StaticResource BoolToStringConverter}}" 
+                           HorizontalAlignment="Center"/>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
+          
+          <!-- 创建时间 -->
+          <DataGridTextColumn 
+            Header="创建时间" 
+            Binding="{Binding CreationTime, Converter={StaticResource DateTimeToStringConverter}}" 
+            Width="150"
+            IsReadOnly="True"/>
+          
+          <!-- ID -->
+          <DataGridTextColumn 
+            Header="ID" 
+            Binding="{Binding Id}" 
+            Width="200"
+            IsReadOnly="True"/>
+        </DataGrid.Columns>
+      </DataGrid>
+    </Border>
+
+    <!-- 状态栏 -->
+    <Border Grid.Row="3" Background="{DynamicResource ControlFillColorSecondaryBrush}" 
+            CornerRadius="4" Padding="10,5" Margin="0,20,0,0">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Grid.Column="0" 
+                   Text="{Binding ViewModel.StatusMessage}" 
+                   VerticalAlignment="Center"/>
+        
+        <TextBlock Grid.Column="1" 
+                   Text="{Binding ViewModel.VirtualMachines.Count, StringFormat='共 {0} 台虚拟机'}" 
+                   VerticalAlignment="Center"/>
+      </Grid>
+    </Border>
   </Grid>
 </Page>

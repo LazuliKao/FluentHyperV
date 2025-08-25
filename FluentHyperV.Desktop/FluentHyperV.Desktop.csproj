@@ -12,6 +12,8 @@
     <Content Include="wpfui-icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Facet" Version="2.3.0" />
+    <PackageReference Include="Facet.Mapping" Version="2.3.0" />
     <PackageReference Include="WPF-UI" Version="4.0.3" />
     <PackageReference Include="WPF-UI.DependencyInjection" Version="4.0.3" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.8" />

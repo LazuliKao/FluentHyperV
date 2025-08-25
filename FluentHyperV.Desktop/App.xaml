@@ -26,12 +26,14 @@
       <converters:BytesToFormatConverter x:Key="BytesToFormatConverter" />
       <converters:BoolToInvertedBoolConverter x:Key="BoolToInvertedBoolConverter" />
       <converters:BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+      <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
       <converters:BoolToInvertedVisibilityConverter x:Key="BoolToInvertedVisibilityConverter" />
       <converters:BoolToAppearanceConverter x:Key="BoolToAppearanceConverter" />
       <converters:BoolToInvertedAppearanceConverter x:Key="BoolToInvertedAppearanceConverter" />
       <converters:BoolToStringConverter x:Key="BoolToStringConverter" />
       <converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter" />
       <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+      <converters:CountToBooleanConverter x:Key="CountToBooleanConverter" />
     </ResourceDictionary>
   </Application.Resources>
 </Application>

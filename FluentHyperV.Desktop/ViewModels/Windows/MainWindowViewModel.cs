@@ -17,6 +17,12 @@ public partial class MainWindowViewModel : ObservableObject
             Icon = new SymbolIcon { Symbol = SymbolRegular.Home24 },
             TargetPageType = typeof(Views.Pages.DashboardPage),
         },
+        new NavigationViewItem
+        {
+            Content = "VM",
+            Icon = new SymbolIcon { Symbol = SymbolRegular.Home24 },
+            TargetPageType = typeof(Views.Pages.VirtualMachinesPage),
+        },
     };
 
     [ObservableProperty]
