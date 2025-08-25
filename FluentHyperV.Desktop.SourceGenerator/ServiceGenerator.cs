@@ -62,8 +62,17 @@ public class ServiceGenerator : IIncrementalGenerator
                 {
                     if (symbol is INamedTypeSymbol symbolNamed)
                     {
+                        var hasTransientAttr = symbolNamed
+                            .GetAttributes()
+                            .Any(attr =>
+                                attr.AttributeClass?.MetadataName
+                                    is "DependencyInjectionTransient"
+                                        or "DependencyInjectionTransientAttribute"
+                            );
                         sb.AppendLine(
-                            $"        services.AddSingleton<{symbolNamed.ToDisplayString()}>();"
+                            hasTransientAttr
+                                ? $"        services.AddTransient<{symbolNamed.ToDisplayString()}>();"
+                                : $"        services.AddSingleton<{symbolNamed.ToDisplayString()}>();"
                         );
                     }
                 }
