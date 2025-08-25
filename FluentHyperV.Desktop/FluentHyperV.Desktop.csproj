@@ -12,13 +12,6 @@
     <Content Include="wpfui-icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference
-      Include="..\FluentHyperV.Desktop.SourceGenerator\FluentHyperV.Desktop.SourceGenerator.csproj"
-      OutputItemType="Analyzer"
-      ReferenceOutputAssembly="false"
-    />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="WPF-UI" Version="4.0.3" />
     <PackageReference Include="WPF-UI.DependencyInjection" Version="4.0.3" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.8" />
@@ -33,6 +26,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FluentHyperV\FluentHyperV.csproj" />
+    <ProjectReference
+      Include="..\FluentHyperV.Desktop.SourceGenerator\FluentHyperV.Desktop.SourceGenerator.csproj"
+      OutputItemType="Analyzer"
+      ReferenceOutputAssembly="false"
+    />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\wpfui-icon-256.png" />

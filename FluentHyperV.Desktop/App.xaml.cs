@@ -47,15 +47,15 @@ public partial class App
 
                 // Main window with navigation
                 services.AddSingleton<INavigationWindow, MainWindow>();
-                services.AddSingleton<MainWindowViewModel>();
 
-                services.AddSingleton<DashboardPage>();
-                services.AddSingleton<DashboardViewModel>();
-
-                //services.AddSingleton<DataPage>();
-                //services.AddSingleton<DataViewModel>();
-                services.AddSingleton<SettingsPage>();
-                services.AddSingleton<SettingsViewModel>();
+                services.AddProjectPageAndViewModels(); //自动添加所有Page和ViewModel
+                // services.AddSingleton<MainWindowViewModel>();
+                //
+                // services.AddSingleton<DashboardPage>();
+                // services.AddSingleton<DashboardViewModel>();
+                //
+                // services.AddSingleton<SettingsPage>();
+                // services.AddSingleton<SettingsViewModel>();
             }
         )
         .Build();
