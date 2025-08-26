@@ -20,31 +20,237 @@
   <Page.Resources>
     <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
   </Page.Resources>
-  <StackPanel>
-    <TextBlock FontSize="20" FontWeight="Medium" Text="Personalization" />
-    <TextBlock Margin="0,12,0,0" Text="Theme" />
-    <RadioButton
-      Margin="0,12,0,0"
-      Command="{Binding ViewModel.ChangeThemeCommand, Mode=OneWay}"
-      CommandParameter="theme_light"
-      Content="Light"
-      GroupName="themeSelect"
-      IsChecked="{Binding ViewModel.CurrentTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}"
-    />
-    <RadioButton
-      Margin="0,8,0,0"
-      Command="{Binding ViewModel.ChangeThemeCommand, Mode=OneWay}"
-      CommandParameter="theme_dark"
-      Content="Dark"
-      GroupName="themeSelect"
-      IsChecked="{Binding ViewModel.CurrentTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}"
-    />
-    <TextBlock
-      Margin="0,24,0,0"
-      FontSize="20"
-      FontWeight="Medium"
-      Text="About FluentHyperVDesktop"
-    />
-    <TextBlock Margin="0,12,0,0" Text="{Binding ViewModel.AppVersion, Mode=OneWay}" />
-  </StackPanel>
+  
+  <Grid Margin="20">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    
+    <!-- 标题栏 -->
+    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+      <ui:SymbolIcon Symbol="Settings24" FontSize="24" Margin="0,0,10,0" />
+      <TextBlock Text="设置" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" />
+    </StackPanel>
+    
+    <!-- 设置内容 -->
+    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+      <StackPanel Margin="0,0,20,0">
+        
+        <!-- 主题设置卡片 -->
+        <ui:CardControl Icon="{ui:SymbolIcon Color24}" Margin="0,0,0,16" Padding="20,16,20,16">
+          <ui:CardControl.Header>
+            <StackPanel>
+              <ui:TextBlock
+                Margin="0"
+                FontTypography="BodyStrong"
+                Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                Text="主题设置"
+                TextWrapping="WrapWithOverflow" />
+              <ui:TextBlock
+                Appearance="Secondary"
+                Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                Text="切换应用程序的深色和浅色主题外观"
+                TextWrapping="WrapWithOverflow" />
+            </StackPanel>
+          </ui:CardControl.Header>
+          <StackPanel Orientation="Horizontal">
+            <ui:Button
+              Content="浅色主题"
+              Icon="{ui:SymbolIcon WeatherSunny24}"
+              Command="{Binding ViewModel.ChangeThemeCommand, Mode=OneWay}"
+              CommandParameter="theme_light"
+              MinWidth="120">
+              <ui:Button.Style>
+                <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                  <Setter Property="Appearance" Value="Secondary" />
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding ViewModel.CurrentTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light}" Value="True">
+                      <Setter Property="Appearance" Value="Primary" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </ui:Button.Style>
+            </ui:Button>
+            <ui:Button
+              Content="深色主题"
+              Icon="{ui:SymbolIcon WeatherMoon24}"
+              Command="{Binding ViewModel.ChangeThemeCommand, Mode=OneWay}"
+              CommandParameter="theme_dark"
+              MinWidth="120">
+              <ui:Button.Style>
+                <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                  <Setter Property="Appearance" Value="Secondary" />
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding ViewModel.CurrentTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark}" Value="True">
+                      <Setter Property="Appearance" Value="Primary" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </ui:Button.Style>
+            </ui:Button>
+          </StackPanel>
+        </ui:CardControl>
+
+        <!-- Hyper-V 连接设置卡片 -->
+        <ui:CardControl Icon="{ui:SymbolIcon Server24}" Margin="0,0,0,16" Padding="20,16,20,16">
+          <ui:CardControl.Header>
+            <StackPanel>
+              <ui:TextBlock
+                Margin="0"
+                FontTypography="BodyStrong"
+                Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                Text="Hyper-V 连接"
+                TextWrapping="WrapWithOverflow" />
+              <ui:TextBlock
+                Appearance="Secondary"
+                Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                Text="配置 Hyper-V 服务器连接和管理选项"
+                TextWrapping="WrapWithOverflow" />
+            </StackPanel>
+          </ui:CardControl.Header>
+          <StackPanel>
+            <Grid Margin="0,0,0,12">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <ui:TextBlock Grid.Column="0" Text="服务器地址:" VerticalAlignment="Center" Margin="0,0,12,0" FontWeight="Medium" />
+              <ui:TextBox Grid.Column="1" PlaceholderText="localhost" MaxWidth="300" HorizontalAlignment="Left" />
+            </Grid>
+            <ui:ToggleSwitch Content="自动连接到本地 Hyper-V 服务" IsChecked="True" />
+          </StackPanel>
+        </ui:CardControl>
+
+        <!-- 性能设置卡片 -->
+        <ui:CardControl Icon="{ui:SymbolIcon Gauge24}" Margin="0,0,0,16" Padding="20,16,20,16">
+          <ui:CardControl.Header>
+            <StackPanel>
+              <ui:TextBlock
+                Margin="0"
+                FontTypography="BodyStrong"
+                Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                Text="性能和显示"
+                TextWrapping="WrapWithOverflow" />
+              <ui:TextBlock
+                Appearance="Secondary"
+                Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                Text="调整应用程序性能和显示相关设置"
+                TextWrapping="WrapWithOverflow" />
+            </StackPanel>
+          </ui:CardControl.Header>
+          <StackPanel>
+            <ui:ToggleSwitch Content="启用实时状态更新" IsChecked="True" Margin="0,0,0,8" />
+            <ui:ToggleSwitch Content="显示详细的虚拟机信息" IsChecked="True" Margin="0,0,0,8" />
+            <Grid Margin="0,8,0,0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <ui:TextBlock Grid.Column="0" Text="刷新间隔:" VerticalAlignment="Center" Margin="0,0,12,0" FontWeight="Medium" />
+              <ComboBox Grid.Column="1" MaxWidth="200" HorizontalAlignment="Left" SelectedIndex="1">
+                <ComboBoxItem Content="1 秒" />
+                <ComboBoxItem Content="5 秒" />
+                <ComboBoxItem Content="10 秒" />
+                <ComboBoxItem Content="30 秒" />
+              </ComboBox>
+            </Grid>
+          </StackPanel>
+        </ui:CardControl>
+
+        <!-- 存储设置卡片 -->
+        <ui:CardControl Icon="{ui:SymbolIcon Storage24}" Margin="0,0,0,16" Padding="20,16,20,16">
+          <ui:CardControl.Header>
+            <StackPanel>
+              <ui:TextBlock
+                Margin="0"
+                FontTypography="BodyStrong"
+                Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                Text="默认存储路径"
+                TextWrapping="WrapWithOverflow" />
+              <ui:TextBlock
+                Appearance="Secondary"
+                Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                Text="设置虚拟机和虚拟硬盘的默认存储位置"
+                TextWrapping="WrapWithOverflow" />
+            </StackPanel>
+          </ui:CardControl.Header>
+          <StackPanel>
+            <Grid Margin="0,0,0,12">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <ui:TextBlock Grid.Row="0" Text="虚拟机默认路径:" FontWeight="Medium" Margin="0,0,0,4" />
+              <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ui:TextBox Grid.Column="0" Text="C:\ProgramData\Microsoft\Windows\Hyper-V" IsReadOnly="True" />
+                <ui:Button Grid.Column="1" Content="浏览..." Margin="8,0,0,0" Width="80" />
+              </Grid>
+            </Grid>
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <ui:TextBlock Grid.Row="0" Text="虚拟硬盘默认路径:" FontWeight="Medium" Margin="0,0,0,4" />
+              <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ui:TextBox Grid.Column="0" Text="C:\Users\Public\Documents\Hyper-V\Virtual hard disks" IsReadOnly="True" />
+                <ui:Button Grid.Column="1" Content="浏览..." Margin="8,0,0,0" Width="80" />
+              </Grid>
+            </Grid>
+          </StackPanel>
+        </ui:CardControl>
+
+        <!-- 关于应用程序卡片 -->
+        <ui:CardControl Icon="{ui:SymbolIcon Info24}" Margin="0,0,0,16" Padding="20,16,20,16">
+          <ui:CardControl.Header>
+            <StackPanel>
+              <ui:TextBlock
+                Margin="0"
+                FontTypography="BodyStrong"
+                Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                Text="关于 Fluent HyperV"
+                TextWrapping="WrapWithOverflow" />
+              <ui:TextBlock
+                Appearance="Secondary"
+                Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                Text="应用程序版本信息和系统详细信息"
+                TextWrapping="WrapWithOverflow" />
+            </StackPanel>
+          </ui:CardControl.Header>
+          <StackPanel>
+            <Grid Margin="0,0,0,8">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <ui:TextBlock Grid.Column="0" Text="版本:" FontWeight="Medium" />
+              <ui:TextBlock Grid.Column="1" Text="{Binding ViewModel.AppVersion, Mode=OneWay}" />
+            </Grid>
+            <Grid Margin="0,0,0,8">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <ui:TextBlock Grid.Column="0" Text="构建日期:" FontWeight="Medium" />
+              <ui:TextBlock Grid.Column="1" Text="2024-01-15" />
+            </Grid>
+            <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+              <ui:Button Content="检查更新" Icon="{ui:SymbolIcon ArrowDownload24}" Appearance="Secondary" Margin="0,0,8,0" />
+              <ui:Button Content="GitHub" Icon="{ui:SymbolIcon Open24}" Appearance="Secondary" />
+            </StackPanel>
+          </StackPanel>
+        </ui:CardControl>
+
+      </StackPanel>
+    </ScrollViewer>
+  </Grid>
 </Page>

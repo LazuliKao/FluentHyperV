@@ -7,6 +7,6 @@ public class BoolToAppearanceConverter : ValueConverterBase<bool, ControlAppeara
 {
     protected override ControlAppearance ConvertNonNullValue(bool value)
     {
-        return value ? ControlAppearance.Secondary : ControlAppearance.Primary;
+        return value ? ControlAppearance.Primary : ControlAppearance.Secondary;
     }
 }
