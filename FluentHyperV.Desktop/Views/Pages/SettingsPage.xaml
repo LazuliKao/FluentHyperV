@@ -7,6 +7,7 @@
   xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
   xmlns:pages="clr-namespace:FluentHyperV.Desktop.Views.Pages"
   xmlns:converters="clr-namespace:FluentHyperV.Desktop.Converters"
+  xmlns:controls="clr-namespace:FluentHyperV.Desktop.Controls"
   Title="SettingsPage"
   d:DataContext="{d:DesignInstance pages:SettingsPage,
                                      IsDesignTimeCreatable=False}"
@@ -21,21 +22,9 @@
     <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
   </Page.Resources>
   
-  <Grid Margin="20">
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="*" />
-    </Grid.RowDefinitions>
-    
-    <!-- 标题栏 -->
-    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
-      <ui:SymbolIcon Symbol="Settings24" FontSize="24" Margin="0,0,10,0" />
-      <TextBlock Text="设置" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" />
-    </StackPanel>
-    
-    <!-- 设置内容 -->
-    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-      <StackPanel Margin="0,0,20,0">
+  <controls:PageContainer Header="设置" IsDynamicScrollViewerEnabled="True">
+    <controls:PageContainer.ContainerContent>
+      <StackPanel Margin="0,20,0,0">
         
         <!-- 主题设置卡片 -->
         <ui:CardControl Icon="{ui:SymbolIcon Color24}" Margin="0,0,0,16" Padding="20,16,20,16">
@@ -251,6 +240,6 @@
         </ui:CardControl>
 
       </StackPanel>
-    </ScrollViewer>
-  </Grid>
+    </controls:PageContainer.ContainerContent>
+  </controls:PageContainer>
 </Page>

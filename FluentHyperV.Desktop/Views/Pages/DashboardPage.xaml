@@ -6,6 +6,7 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
   xmlns:pages="clr-namespace:FluentHyperV.Desktop.Views.Pages"
+  xmlns:controls="clr-namespace:FluentHyperV.Desktop.Controls"
   Title="DashboardPage"
   d:DataContext="{d:DesignInstance pages:DashboardPage,
                                      IsDesignTimeCreatable=False}"
@@ -16,22 +17,26 @@
   Foreground="{DynamicResource TextFillColorPrimaryBrush}"
   mc:Ignorable="d"
 >
-  <Grid VerticalAlignment="Top">
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="Auto" />
-      <ColumnDefinition Width="Auto" />
-    </Grid.ColumnDefinitions>
-    <ui:Button
-      Grid.Column="0"
-      Command="{Binding ViewModel.CounterIncrementCommand, Mode=OneWay}"
-      Content="Click me!"
-      Icon="Fluent24"
-    />
-    <TextBlock
-      Grid.Column="1"
-      Margin="12,0,0,0"
-      VerticalAlignment="Center"
-      Text="{Binding ViewModel.Counter, Mode=OneWay}"
-    />
-  </Grid>
+  <controls:PageContainer Header="仪表板">
+    <controls:PageContainer.ContainerContent>
+      <Grid VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <ui:Button
+          Grid.Column="0"
+          Command="{Binding ViewModel.CounterIncrementCommand, Mode=OneWay}"
+          Content="Click me!"
+          Icon="Fluent24"
+        />
+        <TextBlock
+          Grid.Column="1"
+          Margin="12,0,0,0"
+          VerticalAlignment="Center"
+          Text="{Binding ViewModel.Counter, Mode=OneWay}"
+        />
+      </Grid>
+    </controls:PageContainer.ContainerContent>
+  </controls:PageContainer>
 </Page>
