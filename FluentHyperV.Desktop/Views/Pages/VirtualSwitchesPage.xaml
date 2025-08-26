@@ -1,0 +1,398 @@
+<Page
+  x:Class="FluentHyperV.Desktop.Views.Pages.VirtualSwitchesPage"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="clr-namespace:FluentHyperV.Desktop.Views.Pages"
+  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+  xmlns:converters="clr-namespace:FluentHyperV.Desktop.Converters"
+  mc:Ignorable="d"
+  d:DesignHeight="800"
+  d:DesignWidth="1200"
+  Title="虚拟交换机管理"
+  d:DataContext="{d:DesignInstance local:VirtualSwitchesPage,
+                                     IsDesignTimeCreatable=False}"
+>
+  <Page.Resources>
+    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+    <converters:BoolToInvertedBoolConverter x:Key="BoolToInvertedBoolConverter" />
+  </Page.Resources>
+  <!-- 整体容器，包含对话框 -->
+  <Grid>
+    <!-- 主要内容区域 -->
+    <Grid Margin="20">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <!-- 标题栏 -->
+      <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+        <ui:SymbolIcon Symbol="Router24" FontSize="24" Margin="0,0,10,0" />
+        <TextBlock
+          Text="虚拟交换机管理"
+          FontSize="24"
+          FontWeight="Bold"
+          VerticalAlignment="Center"
+        />
+      </StackPanel>
+      <!-- 工具栏 -->
+      <Border
+        Grid.Row="1"
+        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+        CornerRadius="8"
+        Padding="16"
+        Margin="0,0,0,20"
+      >
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+          <ui:Button
+            Content="创建虚拟交换机"
+            Icon="{ui:SymbolIcon Add24}"
+            Appearance="Primary"
+            Margin="0,0,10,0"
+            Command="{Binding ViewModel.OpenCreateDialogCommand}"
+          />
+          <ui:Button
+            Content="删除"
+            Icon="{ui:SymbolIcon Delete24}"
+            Appearance="Danger"
+            Margin="0,0,10,0"
+            Command="{Binding ViewModel.DeleteVirtualSwitchCommand}"
+            IsEnabled="{Binding ViewModel.SelectedVirtualSwitch, Converter={StaticResource CountToVisibilityConverter}}"
+          />
+          <ui:Button
+            Content="详情"
+            Icon="{ui:SymbolIcon Info24}"
+            Margin="0,0,10,0"
+            Command="{Binding ViewModel.ViewSwitchDetailsCommand}"
+            IsEnabled="{Binding ViewModel.SelectedVirtualSwitch, Converter={StaticResource CountToVisibilityConverter}}"
+          />
+          <ui:Button
+            Content="刷新"
+            Icon="{ui:SymbolIcon ArrowClockwise24}"
+            Margin="0,0,10,0"
+            Command="{Binding ViewModel.RefreshCommand}"
+          />
+        </StackPanel>
+      </Border>
+      <!-- 虚拟交换机列表 -->
+      <Border
+        Grid.Row="2"
+        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+        CornerRadius="8"
+        Padding="0"
+      >
+        <Grid>
+          <!-- 加载指示器 -->
+          <ui:ProgressRing
+            IsIndeterminate="True"
+            Visibility="{Binding ViewModel.IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+            Width="50"
+            Height="50"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+          />
+          <!-- 虚拟交换机数据网格 -->
+          <DataGrid
+            x:Name="VirtualSwitchesDataGrid"
+            ItemsSource="{Binding ViewModel.VirtualSwitches}"
+            SelectedItem="{Binding ViewModel.SelectedVirtualSwitch}"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            CanUserDeleteRows="False"
+            IsReadOnly="True"
+            GridLinesVisibility="Horizontal"
+            HeadersVisibility="Column"
+            SelectionMode="Single"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
+            Background="Transparent"
+            BorderThickness="0"
+            Visibility="{Binding ViewModel.IsLoading, Converter={StaticResource BoolToInvertedBoolConverter}}"
+          >
+            <DataGrid.Columns>
+              <DataGridTextColumn
+                Header="名称"
+                Binding="{Binding Name}"
+                Width="200"
+                MinWidth="150"
+              />
+              <DataGridTextColumn
+                Header="类型"
+                Binding="{Binding SwitchType}"
+                Width="120"
+                MinWidth="100"
+              />
+              <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="250" MinWidth="200" />
+              <DataGridTextColumn
+                Header="备注"
+                Binding="{Binding Notes}"
+                Width="*"
+                MinWidth="100"
+              />
+            </DataGrid.Columns>
+            <DataGrid.RowStyle>
+              <Style TargetType="DataGridRow">
+                <Setter Property="Height" Value="50" />
+                <Setter Property="Background" Value="Transparent" />
+                <Style.Triggers>
+                  <Trigger Property="IsMouseOver" Value="True">
+                    <Setter
+                      Property="Background"
+                      Value="{DynamicResource SubtleFillColorSecondaryBrush}"
+                    />
+                  </Trigger>
+                  <Trigger Property="IsSelected" Value="True">
+                    <Setter
+                      Property="Background"
+                      Value="{DynamicResource AccentFillColorDefaultBrush}"
+                    />
+                    <Setter
+                      Property="Foreground"
+                      Value="{DynamicResource TextOnAccentFillColorPrimaryBrush}"
+                    />
+                  </Trigger>
+                </Style.Triggers>
+              </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.ColumnHeaderStyle>
+              <Style TargetType="DataGridColumnHeader">
+                <Setter
+                  Property="Background"
+                  Value="{DynamicResource CardBackgroundFillColorSecondaryBrush}"
+                />
+                <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="Height" Value="40" />
+                <Setter Property="Padding" Value="12,0" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+              </Style>
+            </DataGrid.ColumnHeaderStyle>
+          </DataGrid>
+          <!-- 空状态提示 -->
+          <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Visibility="{Binding ViewModel.VirtualSwitches.Count, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=Invert}"
+          >
+            <ui:SymbolIcon
+              Symbol="Router24"
+              FontSize="48"
+              Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+              Margin="0,0,0,16"
+            />
+            <TextBlock
+              Text="暂无虚拟交换机"
+              FontSize="18"
+              Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+              HorizontalAlignment="Center"
+            />
+            <TextBlock
+              Text="点击上方的‘创建虚拟交换机’按钮来添加新的虚拟交换机"
+              Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+              HorizontalAlignment="Center"
+              Margin="0,8,0,0"
+            />
+          </StackPanel>
+        </Grid>
+      </Border>
+      <!-- 状态栏 -->
+      <Border
+        Grid.Row="3"
+        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+        CornerRadius="8"
+        Padding="16"
+        Margin="0,20,0,0"
+      >
+        <StackPanel Orientation="Horizontal">
+          <ui:SymbolIcon
+            Symbol="Info16"
+            FontSize="16"
+            Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+            Margin="0,0,8,0"
+          />
+          <TextBlock
+            Text="{Binding ViewModel.StatusMessage}"
+            Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+            VerticalAlignment="Center"
+          />
+        </StackPanel>
+      </Border>
+    </Grid>
+    <!-- 自定义对话框遮罩层 -->
+    <Grid
+      x:Name="DialogOverlay"
+      Background="#80000000"
+      Visibility="{Binding ViewModel.IsCreateDialogOpen, Converter={StaticResource BooleanToVisibilityConverter}}"
+      MouseDown="DialogOverlay_MouseDown"
+    >
+      <!-- 对话框容器 -->
+      <Border
+        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+        CornerRadius="12"
+        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+        BorderThickness="1"
+        Width="500"
+        MaxHeight="600"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Margin="40"
+      >
+        <Border.Effect>
+          <DropShadowEffect Color="Black" Opacity="0.3" ShadowDepth="8" BlurRadius="16" />
+        </Border.Effect>
+        <!-- 对话框内容 -->
+        <Grid Margin="24">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <!-- 对话框标题 -->
+          <Grid Grid.Row="0" Margin="0,0,0,20">
+            <TextBlock
+              Text="创建虚拟交换机"
+              FontSize="20"
+              FontWeight="SemiBold"
+              Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Center"
+            />
+            <!-- 关闭按钮 -->
+            <Button
+              Grid.Column="1"
+              Width="32"
+              Height="32"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Top"
+              Background="Transparent"
+              BorderThickness="0"
+              Command="{Binding ViewModel.CloseCreateDialogCommand}"
+              Style="{DynamicResource DefaultButtonStyle}"
+            >
+              <ui:SymbolIcon Symbol="Dismiss24" FontSize="16" />
+            </Button>
+          </Grid>
+          <!-- 对话框主体内容 -->
+          <ScrollViewer
+            Grid.Row="1"
+            VerticalScrollBarVisibility="Auto"
+            HorizontalScrollBarVisibility="Disabled"
+          >
+            <StackPanel>
+              <!-- 虚拟交换机名称 -->
+              <TextBlock
+                Text="虚拟交换机名称"
+                FontWeight="SemiBold"
+                Margin="0,0,0,8"
+                Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+              />
+              <ui:TextBox
+                x:Name="SwitchNameTextBox"
+                Text="{Binding ViewModel.NewSwitchName, UpdateSourceTrigger=PropertyChanged}"
+                PlaceholderText="输入虚拟交换机名称..."
+                Margin="0,0,0,20"
+              />
+              <!-- 交换机类型 -->
+              <TextBlock
+                Text="交换机类型"
+                FontWeight="SemiBold"
+                Margin="0,0,0,8"
+                Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+              />
+              <ComboBox
+                ItemsSource="{Binding ViewModel.SwitchTypes}"
+                SelectedItem="{Binding ViewModel.SelectedSwitchType}"
+                Margin="0,0,0,20"
+                Style="{DynamicResource DefaultComboBoxStyle}"
+              />
+              <!-- 类型说明 -->
+              <TextBlock
+                Text="类型说明:"
+                FontWeight="SemiBold"
+                Margin="0,0,0,8"
+                Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+              />
+              <Border
+                Background="{DynamicResource CardBackgroundFillColorSecondaryBrush}"
+                CornerRadius="6"
+                Padding="16"
+                Margin="0,0,0,20"
+              >
+                <StackPanel>
+                  <StackPanel Orientation="Horizontal" Margin="0,2">
+                    <Ellipse
+                      Width="6"
+                      Height="6"
+                      Fill="{DynamicResource AccentFillColorDefaultBrush}"
+                      Margin="0,0,8,0"
+                      VerticalAlignment="Center"
+                    />
+                    <TextBlock
+                      Text="External: 外部网络，可以访问物理网络"
+                      Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                    />
+                  </StackPanel>
+                  <StackPanel Orientation="Horizontal" Margin="0,2">
+                    <Ellipse
+                      Width="6"
+                      Height="6"
+                      Fill="{DynamicResource AccentFillColorDefaultBrush}"
+                      Margin="0,0,8,0"
+                      VerticalAlignment="Center"
+                    />
+                    <TextBlock
+                      Text="Internal: 内部网络，仅主机和虚拟机可以访问"
+                      Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                    />
+                  </StackPanel>
+                  <StackPanel Orientation="Horizontal" Margin="0,2">
+                    <Ellipse
+                      Width="6"
+                      Height="6"
+                      Fill="{DynamicResource AccentFillColorDefaultBrush}"
+                      Margin="0,0,8,0"
+                      VerticalAlignment="Center"
+                    />
+                    <TextBlock
+                      Text="Private: 私有网络，仅虚拟机之间可以访问"
+                      Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                    />
+                  </StackPanel>
+                </StackPanel>
+              </Border>
+            </StackPanel>
+          </ScrollViewer>
+          <!-- 对话框按钮 -->
+          <Grid Grid.Row="2" Margin="0,20,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <!-- 取消按钮 -->
+            <ui:Button
+              Grid.Column="1"
+              Content="取消"
+              Margin="0,0,12,0"
+              MinWidth="80"
+              Command="{Binding ViewModel.CloseCreateDialogCommand}"
+            />
+            <!-- 创建按钮 -->
+            <ui:Button
+              Grid.Column="2"
+              Content="创建"
+              Appearance="Primary"
+              MinWidth="80"
+              Command="{Binding ViewModel.CreateVirtualSwitchCommand}"
+            />
+          </Grid>
+        </Grid>
+      </Border>
+    </Grid>
+  </Grid>
+</Page>

@@ -19,15 +19,21 @@ public partial class MainWindowViewModel : ObservableObject
         },
         new NavigationViewItem
         {
-            Content = "虚拟机管理",
+            Content = "管理",
             Icon = new SymbolIcon { Symbol = SymbolRegular.Server24 },
             TargetPageType = typeof(Views.Pages.VirtualMachinesPage),
         },
         new NavigationViewItem
         {
-            Content = "创建虚拟机",
-            Icon = new SymbolIcon { Symbol = SymbolRegular.Add24 },
+            Content = "创建",
+            Icon = new SymbolIcon { Symbol = SymbolRegular.FormNew24 },
             TargetPageType = typeof(Views.Pages.CreateVirtualMachinePage),
+        },
+        new NavigationViewItem
+        {
+            Content = "网络",
+            Icon = new SymbolIcon { Symbol = SymbolRegular.Router24 },
+            TargetPageType = typeof(Views.Pages.VirtualSwitchesPage),
         },
     };
 

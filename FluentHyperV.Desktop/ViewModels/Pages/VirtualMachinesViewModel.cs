@@ -1,12 +1,13 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
 using System.Windows;
+using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Facet;
+using Facet.Mapping;
+using FluentHyperV.HyperV;
 using Microsoft.HyperV.PowerShell;
 using Wpf.Ui.Abstractions.Controls;
-using FluentHyperV.HyperV;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace FluentHyperV.Desktop.ViewModels.Pages;
 
@@ -17,24 +18,19 @@ public partial class VirtualMachineViewModel : ObservableObject { }
 public partial class VirtualMachinesViewModel : ObservableObject, INavigationAware
 {
     private bool _isInitialized;
-    private readonly HyperVApi _hyperVApi;
+    private readonly HyperVApi _hyperVApi = new();
 
     [ObservableProperty]
-    private ObservableCollection<VirtualMachine> virtualMachines = new();
+    private ObservableCollection<VirtualMachineViewModel> virtualMachines = new();
 
     [ObservableProperty]
-    private VirtualMachine? selectedVirtualMachine;
+    private VirtualMachineViewModel? selectedVirtualMachine;
 
     [ObservableProperty]
     private bool isLoading;
 
     [ObservableProperty]
     private string statusMessage = string.Empty;
-
-    public VirtualMachinesViewModel()
-    {
-        _hyperVApi = new HyperVApi();
-    }
 
     public async Task OnNavigatedToAsync()
     {
@@ -54,15 +50,15 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
         {
             IsLoading = true;
             StatusMessage = "加载虚拟机列表...";
-            
+
             var vmArray = await _hyperVApi.GetVMAsync(new HyperVApi.GetVMArguments());
-            
+
             VirtualMachines.Clear();
             foreach (var vm in vmArray)
             {
-                VirtualMachines.Add(vm);
+                VirtualMachines.Add(VirtualMachineViewModel.Projection.Compile().Invoke(vm));
             }
-            
+
             StatusMessage = $"已加载 {VirtualMachines.Count} 台虚拟机";
         }
         catch (Exception ex)
@@ -78,7 +74,8 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
     [RelayCommand]
     private async Task StartVirtualMachineAsync()
     {
-        if (SelectedVirtualMachine == null) return;
+        if (SelectedVirtualMachine == null)
+            return;
 
         try
         {
@@ -97,7 +94,8 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
     [RelayCommand]
     private async Task StopVirtualMachineAsync()
     {
-        if (SelectedVirtualMachine == null) return;
+        if (SelectedVirtualMachine == null)
+            return;
 
         try
         {
@@ -116,7 +114,8 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
     [RelayCommand]
     private async Task RestartVirtualMachineAsync()
     {
-        if (SelectedVirtualMachine == null) return;
+        if (SelectedVirtualMachine == null)
+            return;
 
         try
         {
@@ -141,7 +140,8 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
     [RelayCommand]
     private async Task PauseVirtualMachineAsync()
     {
-        if (SelectedVirtualMachine == null) return;
+        if (SelectedVirtualMachine == null)
+            return;
 
         try
         {
@@ -160,7 +160,8 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
     [RelayCommand]
     private async Task ResumeVirtualMachineAsync()
     {
-        if (SelectedVirtualMachine == null) return;
+        if (SelectedVirtualMachine == null)
+            return;
 
         try
         {
@@ -179,7 +180,8 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
     [RelayCommand]
     private async Task CreateCheckpointAsync()
     {
-        if (SelectedVirtualMachine == null) return;
+        if (SelectedVirtualMachine == null)
+            return;
 
         try
         {
@@ -197,20 +199,21 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
     [RelayCommand]
     private Task ConnectToVirtualMachineAsync()
     {
-        if (SelectedVirtualMachine == null) return Task.CompletedTask;
+        if (SelectedVirtualMachine == null)
+            return Task.CompletedTask;
 
         try
         {
             StatusMessage = $"正在连接到虚拟机 {SelectedVirtualMachine.Name}...";
-            
+
             // 启动虚拟机连接程序
             var processInfo = new System.Diagnostics.ProcessStartInfo
             {
                 FileName = "vmconnect.exe",
                 Arguments = $"localhost \"{SelectedVirtualMachine.Name}\"",
-                UseShellExecute = true
+                UseShellExecute = true,
             };
-            
+
             System.Diagnostics.Process.Start(processInfo);
             StatusMessage = $"已启动到虚拟机 {SelectedVirtualMachine.Name} 的连接";
         }
@@ -218,14 +221,15 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
         {
             StatusMessage = $"连接虚拟机失败: {ex.Message}";
         }
-        
+
         return Task.CompletedTask;
     }
 
     [RelayCommand]
     private async Task ShowVirtualMachineSettingsAsync()
     {
-        if (SelectedVirtualMachine == null) return;
+        if (SelectedVirtualMachine == null)
+            return;
 
         try
         {
@@ -243,7 +247,8 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
     [RelayCommand]
     private async Task DeleteVirtualMachineAsync()
     {
-        if (SelectedVirtualMachine == null) return;
+        if (SelectedVirtualMachine == null)
+            return;
 
         try
         {
@@ -252,7 +257,8 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
                 $"确定要删除虚拟机 '{SelectedVirtualMachine.Name}' 吗？此操作无法撤销。",
                 "确认删除",
                 MessageBoxButton.YesNo,
-                MessageBoxImage.Warning);
+                MessageBoxImage.Warning
+            );
 
             if (result == MessageBoxResult.Yes)
             {
