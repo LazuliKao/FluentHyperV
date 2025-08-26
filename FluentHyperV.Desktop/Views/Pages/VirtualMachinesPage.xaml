@@ -7,77 +7,83 @@
   xmlns:local="clr-namespace:FluentHyperV.Desktop.Views.Pages"
   xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
   mc:Ignorable="d"
-  d:DesignHeight="800"
-  d:DesignWidth="1200"
+  d:DesignHeight="400"
+  d:DesignWidth="600"
   Title="虚拟机管理"
   d:DataContext="{d:DesignInstance local:VirtualMachinesPage,
                                      IsDesignTimeCreatable=False}"
 >
   <Grid Margin="20">
     <Grid.RowDefinitions>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="*"/>
-      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-
     <!-- 标题栏 -->
     <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
-      <ui:SymbolIcon Symbol="Server24" FontSize="24" Margin="0,0,10,0"/>
-      <TextBlock Text="虚拟机管理" FontSize="24" FontWeight="Bold" VerticalAlignment="Center"/>
+      <ui:SymbolIcon Symbol="Server24" FontSize="24" Margin="0,0,10,0" />
+      <TextBlock Text="虚拟机管理" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" />
     </StackPanel>
-
     <!-- 工具栏 -->
     <Grid Grid.Row="1" Margin="0,0,0,20">
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*"/>
-        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
       </Grid.ColumnDefinitions>
-
       <!-- 操作按钮组 -->
       <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
-        <ui:Button 
-          Content="刷新" 
+        <ui:Button
+          Content="刷新"
           Icon="{ui:SymbolIcon ArrowClockwise24}"
           Command="{Binding ViewModel.RefreshCommand}"
-          Margin="0,0,10,0"/>
-        <ui:Button 
-          Content="启动" 
+          Margin="0,0,10,0"
+        />
+        <ui:Button
+          Content="启动"
           Icon="{ui:SymbolIcon Play24}"
           Command="{Binding ViewModel.StartVirtualMachineCommand}"
-          IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}"
-          Margin="0,0,10,0"/>
-        <ui:Button 
-          Content="停止" 
+          IsEnabled="{Binding ViewModel.HasSelectedVirtualMachines}"
+          Margin="0,0,10,0"
+        />
+        <ui:Button
+          Content="停止"
           Icon="{ui:SymbolIcon Stop24}"
           Command="{Binding ViewModel.StopVirtualMachineCommand}"
-          IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}"
-          Margin="0,0,10,0"/>
-        <ui:Button 
-          Content="重启" 
+          IsEnabled="{Binding ViewModel.HasSelectedVirtualMachines}"
+          Margin="0,0,10,0"
+        />
+        <ui:Button
+          Content="重启"
           Icon="{ui:SymbolIcon ArrowCounterclockwise24}"
           Command="{Binding ViewModel.RestartVirtualMachineCommand}"
-          IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}"
-          Margin="0,0,10,0"/>
+          IsEnabled="{Binding ViewModel.HasSelectedVirtualMachines}"
+          Margin="0,0,10,0"
+        />
       </StackPanel>
-
       <!-- 加载状态 -->
       <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-        <ui:ProgressRing 
-          IsIndeterminate="True" 
+        <ui:ProgressRing
+          IsIndeterminate="True"
           Visibility="{Binding ViewModel.IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
-          Width="20" Height="20" Margin="0,0,10,0"/>
-        <TextBlock Text="{Binding ViewModel.StatusMessage}" VerticalAlignment="Center"/>
+          Width="20"
+          Height="20"
+          Margin="0,0,10,0"
+        />
+        <TextBlock Text="{Binding ViewModel.StatusMessage}" VerticalAlignment="Center" />
       </StackPanel>
     </Grid>
-
     <!-- 虚拟机列表 -->
-    <Border Grid.Row="2" Background="{DynamicResource ControlFillColorDefaultBrush}" 
-            CornerRadius="8" Padding="1">
-      <DataGrid 
+    <Border
+      Grid.Row="2"
+      Background="{DynamicResource ControlFillColorDefaultBrush}"
+      CornerRadius="8"
+      Padding="1"
+    >
+      <DataGrid
         x:Name="VirtualMachinesDataGrid"
         ItemsSource="{Binding ViewModel.VirtualMachines}"
-        SelectedItem="{Binding ViewModel.SelectedVirtualMachine}"
+        SelectedItem="{Binding ViewModel.SelectedVirtualMachine, Mode=TwoWay}"
         AutoGenerateColumns="False"
         CanUserAddRows="False"
         CanUserDeleteRows="False"
@@ -86,204 +92,239 @@
         CanUserSortColumns="True"
         GridLinesVisibility="Horizontal"
         HeadersVisibility="Column"
-        SelectionMode="Single"
+        SelectionMode="Extended"
         AlternatingRowBackground="{DynamicResource ControlFillColorSecondaryBrush}"
         Background="Transparent"
         BorderThickness="0"
-        MouseDoubleClick="VirtualMachinesDataGrid_MouseDoubleClick">
-        
+      >
+        <DataGrid.InputBindings>
+          <MouseBinding
+            MouseAction="LeftDoubleClick"
+            Command="{Binding ViewModel.ConnectToVirtualMachineCommand}"
+          />
+        </DataGrid.InputBindings>
         <!-- 右键上下文菜单 -->
         <DataGrid.ContextMenu>
           <ContextMenu>
-            <MenuItem 
-              Header="启动虚拟机" 
+            <MenuItem
+              Header="启动虚拟机"
               Icon="{ui:SymbolIcon Play24}"
               Command="{Binding ViewModel.StartVirtualMachineCommand}"
-              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}">
+              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource NullToBooleanConverter}}"
+            >
               <MenuItem.ToolTip>
-                <ToolTip Content="启动选中的虚拟机"/>
+                <ToolTip Content="启动选中的虚拟机" />
               </MenuItem.ToolTip>
             </MenuItem>
-            
-            <MenuItem 
-              Header="停止虚拟机" 
+            <MenuItem
+              Header="停止虚拟机"
               Icon="{ui:SymbolIcon Stop24}"
               Command="{Binding ViewModel.StopVirtualMachineCommand}"
-              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}">
+              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource NullToBooleanConverter}}"
+            >
               <MenuItem.ToolTip>
-                <ToolTip Content="停止选中的虚拟机"/>
+                <ToolTip Content="停止选中的虚拟机" />
               </MenuItem.ToolTip>
             </MenuItem>
-            
-            <MenuItem 
-              Header="重启虚拟机" 
+            <MenuItem
+              Header="重启虚拟机"
               Icon="{ui:SymbolIcon ArrowCounterclockwise24}"
               Command="{Binding ViewModel.RestartVirtualMachineCommand}"
-              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}">
+              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource NullToBooleanConverter}}"
+            >
               <MenuItem.ToolTip>
-                <ToolTip Content="重新启动选中的虚拟机"/>
+                <ToolTip Content="重新启动选中的虚拟机" />
               </MenuItem.ToolTip>
             </MenuItem>
-            
-            <Separator/>
-            
-            <MenuItem 
-              Header="暂停虚拟机" 
+            <Separator />
+            <MenuItem
+              Header="暂停虚拟机"
               Icon="{ui:SymbolIcon Pause24}"
               Command="{Binding ViewModel.PauseVirtualMachineCommand}"
-              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}">
+              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource NullToBooleanConverter}}"
+            >
               <MenuItem.ToolTip>
-                <ToolTip Content="暂停选中的虚拟机"/>
+                <ToolTip Content="暂停选中的虚拟机" />
               </MenuItem.ToolTip>
             </MenuItem>
-            
-            <MenuItem 
-              Header="恢复虚拟机" 
+            <MenuItem
+              Header="恢复虚拟机"
               Icon="{ui:SymbolIcon PlayCircle24}"
               Command="{Binding ViewModel.ResumeVirtualMachineCommand}"
-              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}">
+              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource NullToBooleanConverter}}"
+            >
               <MenuItem.ToolTip>
-                <ToolTip Content="恢复暂停的虚拟机"/>
+                <ToolTip Content="恢复暂停的虚拟机" />
               </MenuItem.ToolTip>
             </MenuItem>
-            
-            <Separator/>
-            
-            <MenuItem 
-              Header="创建检查点" 
+            <Separator />
+            <MenuItem
+              Header="创建检查点"
               Icon="{ui:SymbolIcon Save24}"
               Command="{Binding ViewModel.CreateCheckpointCommand}"
-              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}">
+              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource NullToBooleanConverter}}"
+            >
               <MenuItem.ToolTip>
-                <ToolTip Content="为选中的虚拟机创建检查点"/>
+                <ToolTip Content="为选中的虚拟机创建检查点" />
               </MenuItem.ToolTip>
             </MenuItem>
-            
-            <MenuItem 
-              Header="连接到虚拟机" 
+            <MenuItem
+              Header="连接到虚拟机"
               Icon="{ui:SymbolIcon Desktop24}"
               Command="{Binding ViewModel.ConnectToVirtualMachineCommand}"
-              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}">
+              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource NullToBooleanConverter}}"
+            >
               <MenuItem.ToolTip>
-                <ToolTip Content="使用Hyper-V管理器连接到虚拟机"/>
+                <ToolTip Content="使用Hyper-V管理器连接到虚拟机" />
               </MenuItem.ToolTip>
             </MenuItem>
-            
-            <Separator/>
-            
-            <MenuItem 
-              Header="设置" 
+            <Separator />
+            <MenuItem
+              Header="设置"
               Icon="{ui:SymbolIcon Settings24}"
               Command="{Binding ViewModel.ShowVirtualMachineSettingsCommand}"
-              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}">
+              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource NullToBooleanConverter}}"
+            >
               <MenuItem.ToolTip>
-                <ToolTip Content="打开虚拟机设置"/>
+                <ToolTip Content="打开虚拟机设置" />
               </MenuItem.ToolTip>
             </MenuItem>
-            
-            <MenuItem 
-              Header="删除虚拟机" 
+            <MenuItem
+              Header="删除虚拟机"
               Icon="{ui:SymbolIcon Delete24}"
               Command="{Binding ViewModel.DeleteVirtualMachineCommand}"
-              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource CountToBooleanConverter}}"
-              Foreground="Red">
+              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource NullToBooleanConverter}}"
+              Foreground="Red"
+            >
               <MenuItem.ToolTip>
-                <ToolTip Content="删除选中的虚拟机（不可恢复）"/>
+                <ToolTip Content="删除选中的虚拟机（不可恢复）" />
               </MenuItem.ToolTip>
             </MenuItem>
-            
-            <Separator/>
-            
-            <MenuItem 
-              Header="刷新列表" 
+            <Separator />
+            <MenuItem
+              Header="刷新列表"
               Icon="{ui:SymbolIcon ArrowClockwise24}"
-              Command="{Binding ViewModel.RefreshCommand}">
+              Command="{Binding ViewModel.RefreshCommand}"
+            >
               <MenuItem.ToolTip>
-                <ToolTip Content="刷新虚拟机列表"/>
+                <ToolTip Content="刷新虚拟机列表" />
               </MenuItem.ToolTip>
             </MenuItem>
           </ContextMenu>
         </DataGrid.ContextMenu>
-        
         <DataGrid.Columns>
+          <!-- 选择框 -->
+          <DataGridTemplateColumn Header="" Width="50">
+            <DataGridTemplateColumn.HeaderTemplate>
+              <DataTemplate>
+                <CheckBox
+                  x:Name="SelectAllCheckBox"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  ToolTip="全选/取消全选"
+                  Command="{Binding DataContext.ViewModel.ToggleSelectAllCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                />
+              </DataTemplate>
+            </DataGridTemplateColumn.HeaderTemplate>
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <CheckBox
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                />
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
           <!-- 名称 -->
-          <DataGridTextColumn 
-            Header="名称" 
-            Binding="{Binding Name}" 
+          <DataGridTextColumn
+            Header="名称"
+            Binding="{Binding Name}"
             Width="200"
-            IsReadOnly="True"/>
-          
+            IsReadOnly="True"
+          />
           <!-- 状态 -->
           <DataGridTemplateColumn Header="状态" Width="120">
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
                 <StackPanel Orientation="Horizontal">
-                  <Ellipse Width="8" Height="8" 
-                           Fill="{Binding State, Converter={StaticResource StatusToBrushConverter}}" 
-                           Margin="0,0,8,0"/>
-                  <TextBlock Text="{Binding State}" VerticalAlignment="Center"/>
+                  <Ellipse
+                    Width="8"
+                    Height="8"
+                    Fill="{Binding State, Converter={StaticResource StatusToBrushConverter}}"
+                    Margin="0,0,8,0"
+                  />
+                  <TextBlock Text="{Binding State}" VerticalAlignment="Center" />
                 </StackPanel>
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
-          
           <!-- 处理器数量 -->
-          <DataGridTextColumn 
-            Header="CPU" 
-            Binding="{Binding ProcessorCount}" 
+          <DataGridTextColumn
+            Header="CPU"
+            Binding="{Binding ProcessorCount}"
             Width="80"
-            IsReadOnly="True"/>
-          
+            IsReadOnly="True"
+          />
           <!-- 内存分配 -->
-          <DataGridTextColumn 
-            Header="内存" 
-            Binding="{Binding MemoryAssigned, Converter={StaticResource BytesToFormatConverter}}" 
+          <DataGridTextColumn
+            Header="内存"
+            Binding="{Binding MemoryAssigned, Converter={StaticResource BytesToFormatConverter}}"
             Width="120"
-            IsReadOnly="True"/>
-          
+            IsReadOnly="True"
+          />
           <!-- 动态内存 -->
           <DataGridTemplateColumn Header="动态内存" Width="100">
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <TextBlock Text="{Binding DynamicMemoryEnabled, Converter={StaticResource BoolToStringConverter}}" 
-                           HorizontalAlignment="Center"/>
+                <TextBlock
+                  Text="{Binding DynamicMemoryEnabled, Converter={StaticResource BoolToStringConverter}}"
+                  HorizontalAlignment="Center"
+                />
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
-          
           <!-- 创建时间 -->
-          <DataGridTextColumn 
-            Header="创建时间" 
-            Binding="{Binding CreationTime, Converter={StaticResource DateTimeToStringConverter}}" 
+          <DataGridTextColumn
+            Header="创建时间"
+            Binding="{Binding CreationTime, Converter={StaticResource DateTimeToStringConverter}}"
             Width="150"
-            IsReadOnly="True"/>
-          
+            IsReadOnly="True"
+          />
           <!-- ID -->
-          <DataGridTextColumn 
-            Header="ID" 
-            Binding="{Binding Id}" 
-            Width="200"
-            IsReadOnly="True"/>
+          <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="200" IsReadOnly="True" />
         </DataGrid.Columns>
       </DataGrid>
     </Border>
-
     <!-- 状态栏 -->
-    <Border Grid.Row="3" Background="{DynamicResource ControlFillColorSecondaryBrush}" 
-            CornerRadius="4" Padding="10,5" Margin="0,20,0,0">
+    <Border
+      Grid.Row="3"
+      Background="{DynamicResource ControlFillColorSecondaryBrush}"
+      CornerRadius="4"
+      Padding="10,5"
+      Margin="0,20,0,0"
+    >
       <Grid>
         <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="*"/>
-          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        
-        <TextBlock Grid.Column="0" 
-                   Text="{Binding ViewModel.StatusMessage}" 
-                   VerticalAlignment="Center"/>
-        
-        <TextBlock Grid.Column="1" 
-                   Text="{Binding ViewModel.VirtualMachines.Count, StringFormat='共 {0} 台虚拟机'}" 
-                   VerticalAlignment="Center"/>
+        <TextBlock
+          Grid.Column="0"
+          Text="{Binding ViewModel.StatusMessage}"
+          VerticalAlignment="Center"
+        />
+        <TextBlock
+          Grid.Column="1"
+          VerticalAlignment="Center"
+        >
+          <TextBlock.Text>
+            <MultiBinding StringFormat="共 {0} 台虚拟机，已选中 {1} 台">
+              <Binding Path="ViewModel.VirtualMachines.Count"/>
+              <Binding Path="ViewModel.SelectedVirtualMachinesCount"/>
+            </MultiBinding>
+          </TextBlock.Text>
+        </TextBlock>
       </Grid>
     </Border>
   </Grid>

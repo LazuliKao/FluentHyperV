@@ -8,29 +8,73 @@ using Facet.Mapping;
 using FluentHyperV.HyperV;
 using Microsoft.HyperV.PowerShell;
 using Wpf.Ui.Abstractions.Controls;
+using FluentHyperV.Desktop.Views.Pages;
+using Wpf.Ui;
 
 namespace FluentHyperV.Desktop.ViewModels.Pages;
 
 [DependencyInjectionTransient]
 [Facet(typeof(VirtualMachine))]
-public partial class VirtualMachineViewModel : ObservableObject { }
+public partial class VirtualMachineViewModel : ObservableObject 
+{
+    [ObservableProperty]
+    private bool _isSelected;
+
+    partial void OnIsSelectedChanged(bool value)
+    {
+        // 通知父ViewModel选择状态已更改
+        SelectionChanged?.Invoke();
+    }
+
+    public static event Action? SelectionChanged;
+}
 
 public partial class VirtualMachinesViewModel : ObservableObject, INavigationAware
 {
     private bool _isInitialized;
     private readonly HyperVApi _hyperVApi = new();
+    private readonly INavigationService _navigationService;
+
+    public VirtualMachinesViewModel(INavigationService navigationService)
+    {
+        _navigationService = navigationService;
+        VirtualMachineViewModel.SelectionChanged += OnSelectionChanged;
+    }
+
+    private void OnSelectionChanged()
+    {
+        OnPropertyChanged(nameof(SelectedVirtualMachines));
+        OnPropertyChanged(nameof(SelectedVirtualMachinesCount));
+        OnPropertyChanged(nameof(HasSelectedVirtualMachines));
+    }
 
     [ObservableProperty]
-    private ObservableCollection<VirtualMachineViewModel> virtualMachines = new();
+    private ObservableCollection<VirtualMachineViewModel> _virtualMachines = [];
 
     [ObservableProperty]
-    private VirtualMachineViewModel? selectedVirtualMachine;
+    private VirtualMachineViewModel? _selectedVirtualMachine;
 
     [ObservableProperty]
-    private bool isLoading;
+    private bool _isLoading;
 
     [ObservableProperty]
-    private string statusMessage = string.Empty;
+    private string _statusMessage = string.Empty;
+
+    /// <summary>
+    /// 获取所有选中的虚拟机
+    /// </summary>
+    public IEnumerable<VirtualMachineViewModel> SelectedVirtualMachines => 
+        VirtualMachines.Where(vm => vm.IsSelected);
+
+    /// <summary>
+    /// 获取选中的虚拟机数量
+    /// </summary>
+    public int SelectedVirtualMachinesCount => SelectedVirtualMachines.Count();
+
+    /// <summary>
+    /// 获取是否有选中的虚拟机
+    /// </summary>
+    public bool HasSelectedVirtualMachines => SelectedVirtualMachines.Any();
 
     public async Task OnNavigatedToAsync()
     {
@@ -74,15 +118,33 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
     [RelayCommand]
     private async Task StartVirtualMachineAsync()
     {
-        if (SelectedVirtualMachine == null)
+        var selectedVMs = SelectedVirtualMachines.ToList();
+        if (!selectedVMs.Any())
             return;
 
         try
         {
-            StatusMessage = $"正在启动虚拟机 {SelectedVirtualMachine.Name}...";
+            if (selectedVMs.Count == 1)
+            {
+                StatusMessage = $"正在启动虚拟机 {selectedVMs[0].Name}...";
+            }
+            else
+            {
+                StatusMessage = $"正在启动 {selectedVMs.Count} 台虚拟机...";
+            }
+
             // TODO: 实现启动虚拟机的逻辑
             await Task.Delay(1000); // 模拟操作
-            StatusMessage = $"虚拟机 {SelectedVirtualMachine.Name} 启动成功";
+            
+            if (selectedVMs.Count == 1)
+            {
+                StatusMessage = $"虚拟机 {selectedVMs[0].Name} 启动成功";
+            }
+            else
+            {
+                StatusMessage = $"{selectedVMs.Count} 台虚拟机启动成功";
+            }
+            
             await LoadVirtualMachinesAsync(); // 刷新状态
         }
         catch (Exception ex)
@@ -94,15 +156,33 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
     [RelayCommand]
     private async Task StopVirtualMachineAsync()
     {
-        if (SelectedVirtualMachine == null)
+        var selectedVMs = SelectedVirtualMachines.ToList();
+        if (!selectedVMs.Any())
             return;
 
         try
         {
-            StatusMessage = $"正在停止虚拟机 {SelectedVirtualMachine.Name}...";
+            if (selectedVMs.Count == 1)
+            {
+                StatusMessage = $"正在停止虚拟机 {selectedVMs[0].Name}...";
+            }
+            else
+            {
+                StatusMessage = $"正在停止 {selectedVMs.Count} 台虚拟机...";
+            }
+            
             // TODO: 实现停止虚拟机的逻辑
             await Task.Delay(1000); // 模拟操作
-            StatusMessage = $"虚拟机 {SelectedVirtualMachine.Name} 停止成功";
+            
+            if (selectedVMs.Count == 1)
+            {
+                StatusMessage = $"虚拟机 {selectedVMs[0].Name} 停止成功";
+            }
+            else
+            {
+                StatusMessage = $"{selectedVMs.Count} 台虚拟机停止成功";
+            }
+            
             await LoadVirtualMachinesAsync(); // 刷新状态
         }
         catch (Exception ex)
@@ -114,15 +194,33 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
     [RelayCommand]
     private async Task RestartVirtualMachineAsync()
     {
-        if (SelectedVirtualMachine == null)
+        var selectedVMs = SelectedVirtualMachines.ToList();
+        if (!selectedVMs.Any())
             return;
 
         try
         {
-            StatusMessage = $"正在重启虚拟机 {SelectedVirtualMachine.Name}...";
+            if (selectedVMs.Count == 1)
+            {
+                StatusMessage = $"正在重启虚拟机 {selectedVMs[0].Name}...";
+            }
+            else
+            {
+                StatusMessage = $"正在重启 {selectedVMs.Count} 台虚拟机...";
+            }
+            
             // TODO: 实现重启虚拟机的逻辑
             await Task.Delay(1000); // 模拟操作
-            StatusMessage = $"虚拟机 {SelectedVirtualMachine.Name} 重启成功";
+            
+            if (selectedVMs.Count == 1)
+            {
+                StatusMessage = $"虚拟机 {selectedVMs[0].Name} 重启成功";
+            }
+            else
+            {
+                StatusMessage = $"{selectedVMs.Count} 台虚拟机重启成功";
+            }
+            
             await LoadVirtualMachinesAsync(); // 刷新状态
         }
         catch (Exception ex)
@@ -226,7 +324,7 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
     }
 
     [RelayCommand]
-    private async Task ShowVirtualMachineSettingsAsync()
+    private void ShowVirtualMachineSettings()
     {
         if (SelectedVirtualMachine == null)
             return;
@@ -234,9 +332,11 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
         try
         {
             StatusMessage = $"正在打开虚拟机 {SelectedVirtualMachine.Name} 的设置...";
-            // TODO: 实现显示虚拟机设置对话框的逻辑
-            await Task.Delay(500); // 模拟操作
-            StatusMessage = "设置功能暂未实现";
+            
+            // 导航到设置页面
+            _navigationService.Navigate(typeof(VirtualMachineSettingsPage));
+            
+            StatusMessage = "已打开虚拟机设置";
         }
         catch (Exception ex)
         {
@@ -273,5 +373,42 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
         {
             StatusMessage = $"删除虚拟机失败: {ex.Message}";
         }
+    }
+
+    [RelayCommand]
+    private void SelectAll()
+    {
+        foreach (var vm in VirtualMachines)
+        {
+            vm.IsSelected = true;
+        }
+        OnPropertyChanged(nameof(SelectedVirtualMachines));
+        OnPropertyChanged(nameof(SelectedVirtualMachinesCount));
+        OnPropertyChanged(nameof(HasSelectedVirtualMachines));
+    }
+
+    [RelayCommand]
+    private void UnselectAll()
+    {
+        foreach (var vm in VirtualMachines)
+        {
+            vm.IsSelected = false;
+        }
+        OnPropertyChanged(nameof(SelectedVirtualMachines));
+        OnPropertyChanged(nameof(SelectedVirtualMachinesCount));
+        OnPropertyChanged(nameof(HasSelectedVirtualMachines));
+    }
+
+    [RelayCommand]
+    private void ToggleSelectAll()
+    {
+        var allSelected = VirtualMachines.All(vm => vm.IsSelected);
+        foreach (var vm in VirtualMachines)
+        {
+            vm.IsSelected = !allSelected;
+        }
+        OnPropertyChanged(nameof(SelectedVirtualMachines));
+        OnPropertyChanged(nameof(SelectedVirtualMachinesCount));
+        OnPropertyChanged(nameof(HasSelectedVirtualMachines));
     }
 }

@@ -1,6 +1,4 @@
 using System.Collections.ObjectModel;
-using System.Windows.Input;
-using System.Windows;
 using Facet;
 using Microsoft.HyperV.PowerShell;
 using Wpf.Ui.Abstractions.Controls;
@@ -41,6 +39,19 @@ public partial class VirtualSwitchesViewModel : ObservableObject, INavigationAwa
     [ObservableProperty]
     private bool isCreateDialogOpen;
 
+    // 详细信息编辑相关属性
+    [ObservableProperty]
+    private string editingSwitchName = string.Empty;
+
+    [ObservableProperty]
+    private string editingSwitchNotes = string.Empty;
+
+    [ObservableProperty]
+    private bool isEditingDetails;
+
+    [ObservableProperty]
+    private bool hasSelectedSwitch;
+
     public ObservableCollection<string> SwitchTypes { get; } = new()
     {
         "External",
@@ -51,6 +62,24 @@ public partial class VirtualSwitchesViewModel : ObservableObject, INavigationAwa
     public VirtualSwitchesViewModel()
     {
         _hyperVInstance = new HyperVInstance();
+    }
+
+    // 当选中的虚拟交换机发生变化时的处理
+    partial void OnSelectedVirtualSwitchChanged(VMSwitch? value)
+    {
+        HasSelectedSwitch = value != null;
+        if (value != null)
+        {
+            EditingSwitchName = value.Name;
+            EditingSwitchNotes = value.Notes ?? string.Empty;
+            IsEditingDetails = false;
+        }
+        else
+        {
+            EditingSwitchName = string.Empty;
+            EditingSwitchNotes = string.Empty;
+            IsEditingDetails = false;
+        }
     }
 
     public async Task OnNavigatedToAsync()
@@ -211,5 +240,79 @@ public partial class VirtualSwitchesViewModel : ObservableObject, INavigationAwa
                      $"备注: {SelectedVirtualSwitch.Notes ?? "无"}";
 
         MessageBox.Show(details, "虚拟交换机详情", MessageBoxButton.OK, MessageBoxImage.Information);
+    }
+
+    [RelayCommand]
+    private void StartEditDetails()
+    {
+        if (SelectedVirtualSwitch != null)
+        {
+            IsEditingDetails = true;
+        }
+    }
+
+    [RelayCommand]
+    private void CancelEditDetails()
+    {
+        if (SelectedVirtualSwitch != null)
+        {
+            EditingSwitchName = SelectedVirtualSwitch.Name;
+            EditingSwitchNotes = SelectedVirtualSwitch.Notes ?? string.Empty;
+            IsEditingDetails = false;
+        }
+    }
+
+    [RelayCommand]
+    private async Task SaveEditDetailsAsync()
+    {
+        if (SelectedVirtualSwitch == null || string.IsNullOrWhiteSpace(EditingSwitchName))
+        {
+            MessageBox.Show("名称不能为空", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        try
+        {
+            IsLoading = true;
+            StatusMessage = "正在保存更改...";
+
+            // 如果名称发生了变化，需要使用Rename-VMSwitch
+            if (EditingSwitchName != SelectedVirtualSwitch.Name)
+            {
+                var renameParameters = new Dictionary<string, object>
+                {
+                    ["VMSwitch"] = SelectedVirtualSwitch.Name,
+                    ["NewName"] = EditingSwitchName
+                };
+
+                await Task.Run(() => _hyperVInstance.InvokeFunction<object>("Rename-VMSwitch", renameParameters));
+            }
+
+            // 更新备注
+            var setParameters = new Dictionary<string, object>
+            {
+                ["Name"] = EditingSwitchName,
+                ["Notes"] = EditingSwitchNotes
+            };
+
+            await Task.Run(() => _hyperVInstance.InvokeFunction<object>("Set-VMSwitch", setParameters));
+
+            IsEditingDetails = false;
+            StatusMessage = "更改保存成功";
+            
+            await LoadVirtualSwitchesAsync();
+            
+            // 重新选择已编辑的交换机
+            SelectedVirtualSwitch = VirtualSwitches.FirstOrDefault(s => s.Name == EditingSwitchName);
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"保存更改失败: {ex.Message}";
+            MessageBox.Show($"保存更改失败: {ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 }

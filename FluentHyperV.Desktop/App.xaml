@@ -34,6 +34,7 @@
       <converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter" />
       <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
       <converters:CountToBooleanConverter x:Key="CountToBooleanConverter" />
+      <converters:NullToBooleanConverter x:Key="NullToBooleanConverter" />
     </ResourceDictionary>
   </Application.Resources>
 </Application>

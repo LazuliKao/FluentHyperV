@@ -77,6 +77,15 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
     [ObservableProperty]
     private string bootDevice = "VHD";
 
+    [ObservableProperty]
+    private int currentStep = 1;
+
+    [ObservableProperty]
+    private bool canGoPrevious = false;
+
+    [ObservableProperty]
+    private bool canGoNext = true;
+
     public ObservableCollection<string> GenerationOptions { get; } = new() { "1", "2" };
     
     public ObservableCollection<string> BootDeviceOptions { get; } = new() 
@@ -90,10 +99,73 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
         
         // 设置默认路径
         var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        var defaultVMPath = Path.Combine(userProfile, "Documents", "Virtual Machines");
-        VmPath = defaultVMPath;
+        var defaultVmPath = Path.Combine(userProfile, "Documents", "Virtual Machines");
+        VmPath = defaultVmPath;
         
-        VirtualHardDiskPath = Path.Combine(defaultVMPath, "Virtual Hard Disks");
+        VirtualHardDiskPath = Path.Combine(defaultVmPath, "Virtual Hard Disks");
+        
+        // 初始化步骤导航状态
+        UpdateNavigationState();
+    }
+
+    partial void OnVirtualMachineNameChanged(string value)
+    {
+        UpdateNavigationState();
+        
+        // 当虚拟机名称改变时，更新虚拟硬盘路径
+        if (!string.IsNullOrEmpty(value) && !string.IsNullOrEmpty(VirtualHardDiskPath))
+        {
+            var directory = Path.GetDirectoryName(VirtualHardDiskPath);
+            if (!string.IsNullOrEmpty(directory))
+            {
+                VirtualHardDiskPath = Path.Combine(directory, $"{value}.vhdx");
+            }
+        }
+    }
+
+    partial void OnMemoryStartupMBChanged(long value)
+    {
+        UpdateNavigationState();
+    }
+
+    private void UpdateNavigationState()
+    {
+        CanGoPrevious = CurrentStep > 1;
+        CanGoNext = CurrentStep < 8 && ValidateCurrentStep();
+    }
+
+    private bool ValidateCurrentStep()
+    {
+        return CurrentStep switch
+        {
+            1 => true, // 开始之前页面，无需验证
+            2 => !string.IsNullOrWhiteSpace(VirtualMachineName), // 需要名称
+            3 => true, // 代数选择，默认已选择
+            4 => MemoryStartupMB >= 32, // 内存验证
+            5 => true, // 网络配置，可选
+            6 => true, // 虚拟硬盘，可选
+            7 => true, // 安装选项，可选
+            8 => true, // 摘要页面
+            _ => false
+        };
+    }
+
+    [RelayCommand]
+    private void NextStep()
+    {
+        if (CanGoNext && CurrentStep < 8)
+        {
+            CurrentStep++;
+        }
+    }
+
+    [RelayCommand]
+    private void PreviousStep()
+    {
+        if (CanGoPrevious && CurrentStep > 1)
+        {
+            CurrentStep--;
+        }
     }
 
     public async Task OnNavigatedToAsync()
@@ -419,19 +491,6 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
         if (!string.IsNullOrEmpty(VmPath))
         {
             VirtualHardDiskPath = Path.Combine(VmPath, "Virtual Hard Disks");
-        }
-    }
-
-    partial void OnVirtualMachineNameChanged(string value)
-    {
-        // 当虚拟机名称改变时，更新虚拟硬盘路径
-        if (!string.IsNullOrEmpty(value) && !string.IsNullOrEmpty(VirtualHardDiskPath))
-        {
-            var directory = Path.GetDirectoryName(VirtualHardDiskPath);
-            if (!string.IsNullOrEmpty(directory))
-            {
-                VirtualHardDiskPath = Path.Combine(directory, $"{value}.vhdx");
-            }
         }
     }
 

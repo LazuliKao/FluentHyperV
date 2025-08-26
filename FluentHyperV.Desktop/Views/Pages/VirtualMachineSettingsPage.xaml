@@ -1,0 +1,467 @@
+<Page
+  x:Class="FluentHyperV.Desktop.Views.Pages.VirtualMachineSettingsPage"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="clr-namespace:FluentHyperV.Desktop.Views.Pages"
+  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+  xmlns:converters="clr-namespace:FluentHyperV.Desktop.Converters"
+  mc:Ignorable="d"
+  d:DesignHeight="600"
+  d:DesignWidth="800"
+  Title="虚拟机设置"
+  d:DataContext="{d:DesignInstance local:VirtualMachineSettingsPage,
+                                     IsDesignTimeCreatable=False}"
+>
+  <Page.Resources>
+    <converters:BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    <converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+  </Page.Resources>
+  <Grid Margin="20">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <!-- 标题栏 -->
+    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+      <ui:SymbolIcon Symbol="Settings24" FontSize="24" Margin="0,0,10,0" />
+      <TextBlock
+        Text="{Binding ViewModel.VirtualMachineName, StringFormat='虚拟机设置 - {0}'}"
+        FontSize="24"
+        FontWeight="Bold"
+        VerticalAlignment="Center"
+      />
+    </StackPanel>
+    <!-- 主要内容区域 -->
+    <Grid Grid.Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="200" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <!-- 左侧导航树 -->
+      <Border
+        Grid.Column="0"
+        Background="{DynamicResource ApplicationBackgroundBrush}"
+        BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
+        BorderThickness="1"
+        CornerRadius="4"
+        Margin="0,0,10,0"
+      >
+        <TreeView
+          Name="SettingsTreeView"
+          SelectedItemChanged="SettingsTreeView_SelectedItemChanged"
+        >
+          <TreeView.ItemContainerStyle>
+            <Style TargetType="TreeViewItem">
+              <Setter Property="IsExpanded" Value="True" />
+            </Style>
+          </TreeView.ItemContainerStyle>
+          <!-- 硬件节点 -->
+          <TreeViewItem Header="硬件" Tag="0">
+            <TreeViewItem Header="内存" Tag="0" />
+            <TreeViewItem Header="处理器" Tag="1" />
+            <TreeViewItem Header="SCSI 控制器" Tag="2">
+              <TreeViewItem Header="硬盘驱动器" Tag="3" />
+            </TreeViewItem>
+            <TreeViewItem Header="网络适配器" Tag="4" />
+            <TreeViewItem Header="安全性" Tag="5" />
+          </TreeViewItem>
+          <!-- 管理节点 -->
+          <TreeViewItem Header="管理" Tag="10">
+            <TreeViewItem Header="名称" Tag="10" />
+            <TreeViewItem Header="集成服务" Tag="11" />
+            <TreeViewItem Header="检查点" Tag="12" />
+            <TreeViewItem Header="智能分页文件位置" Tag="13" />
+            <TreeViewItem Header="自动启动操作" Tag="14" />
+            <TreeViewItem Header="自动停止操作" Tag="15" />
+          </TreeViewItem>
+        </TreeView>
+      </Border>
+      <!-- 右侧设置面板 -->
+      <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+        <StackPanel Name="SettingsContentPanel">
+          <!-- 内存设置 -->
+          <StackPanel Name="MemorySettings" Visibility="Visible">
+            <TextBlock Text="内存" FontSize="18" FontWeight="Bold" Margin="0,0,0,15" />
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="50" />
+              </Grid.ColumnDefinitions>
+              <TextBlock Grid.Row="0" Grid.Column="0" Text="启动内存:" VerticalAlignment="Center" />
+              <ui:NumberBox
+                Grid.Row="0"
+                Grid.Column="1"
+                Value="{Binding ViewModel.MemoryStartupMB}"
+                Minimum="32"
+                Maximum="1048576"
+                Margin="5,0"
+              />
+              <TextBlock Grid.Row="0" Grid.Column="2" Text="MB" VerticalAlignment="Center" />
+              <CheckBox
+                Grid.Row="1"
+                Grid.ColumnSpan="3"
+                Content="启用动态内存"
+                IsChecked="{Binding ViewModel.DynamicMemoryEnabled}"
+                Margin="0,10,0,10"
+              />
+              <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                Text="最小内存:"
+                VerticalAlignment="Center"
+                IsEnabled="{Binding ViewModel.DynamicMemoryEnabled}"
+              />
+              <ui:NumberBox
+                Grid.Row="2"
+                Grid.Column="1"
+                Value="{Binding ViewModel.MinimumMemoryMB}"
+                Minimum="32"
+                Maximum="1048576"
+                Margin="5,0"
+                IsEnabled="{Binding ViewModel.DynamicMemoryEnabled}"
+              />
+              <TextBlock
+                Grid.Row="2"
+                Grid.Column="2"
+                Text="MB"
+                VerticalAlignment="Center"
+                IsEnabled="{Binding ViewModel.DynamicMemoryEnabled}"
+              />
+              <TextBlock
+                Grid.Row="3"
+                Grid.Column="0"
+                Text="最大内存:"
+                VerticalAlignment="Center"
+                IsEnabled="{Binding ViewModel.DynamicMemoryEnabled}"
+              />
+              <ui:NumberBox
+                Grid.Row="3"
+                Grid.Column="1"
+                Value="{Binding ViewModel.MaximumMemoryMB}"
+                Minimum="32"
+                Maximum="1048576"
+                Margin="5,0"
+                IsEnabled="{Binding ViewModel.DynamicMemoryEnabled}"
+              />
+              <TextBlock
+                Grid.Row="3"
+                Grid.Column="2"
+                Text="MB"
+                VerticalAlignment="Center"
+                IsEnabled="{Binding ViewModel.DynamicMemoryEnabled}"
+              />
+            </Grid>
+          </StackPanel>
+          <!-- 处理器设置 -->
+          <StackPanel Name="ProcessorSettings" Visibility="Collapsed">
+            <TextBlock Text="处理器" FontSize="18" FontWeight="Bold" Margin="0,0,0,15" />
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="虚拟处理器数:"
+                VerticalAlignment="Center"
+              />
+              <ui:NumberBox
+                Grid.Row="0"
+                Grid.Column="1"
+                Value="{Binding ViewModel.ProcessorCount}"
+                Minimum="1"
+                Maximum="64"
+                Margin="5,0"
+              />
+              <CheckBox
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                Content="启用嵌套虚拟化"
+                IsChecked="{Binding ViewModel.EnableNestedVirtualization}"
+                Margin="0,10,0,0"
+              />
+            </Grid>
+          </StackPanel>
+          <!-- 硬盘驱动器设置 -->
+          <StackPanel Name="HardDriveSettings" Visibility="Collapsed">
+            <TextBlock Text="硬盘驱动器" FontSize="18" FontWeight="Bold" Margin="0,0,0,15" />
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <DataGrid
+                Grid.Row="0"
+                ItemsSource="{Binding ViewModel.HardDrives}"
+                SelectedItem="{Binding ViewModel.SelectedHardDrive}"
+                AutoGenerateColumns="False"
+                Height="200"
+                Margin="0,0,0,10"
+              >
+                <DataGrid.Columns>
+                  <DataGridTextColumn
+                    Header="控制器"
+                    Binding="{Binding ControllerType}"
+                    Width="80"
+                  />
+                  <DataGridTextColumn
+                    Header="位置"
+                    Binding="{Binding ControllerLocation}"
+                    Width="60"
+                  />
+                  <DataGridTextColumn Header="路径" Binding="{Binding Path}" Width="*" />
+                </DataGrid.Columns>
+              </DataGrid>
+              <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <ui:Button
+                  Content="添加"
+                  Icon="{ui:SymbolIcon Add24}"
+                  Command="{Binding ViewModel.AddHardDriveCommand}"
+                  Margin="0,0,10,0"
+                />
+                <ui:Button
+                  Content="移除"
+                  Icon="{ui:SymbolIcon Delete24}"
+                  Command="{Binding ViewModel.RemoveHardDriveCommand}"
+                  IsEnabled="{Binding ViewModel.SelectedHardDrive, Converter={StaticResource BoolToVisibilityConverter}}"
+                />
+              </StackPanel>
+            </Grid>
+          </StackPanel>
+          <!-- 网络适配器设置 -->
+          <StackPanel Name="NetworkAdapterSettings" Visibility="Collapsed">
+            <TextBlock Text="网络适配器" FontSize="18" FontWeight="Bold" Margin="0,0,0,15" />
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <DataGrid
+                Grid.Row="0"
+                ItemsSource="{Binding ViewModel.NetworkAdapters}"
+                SelectedItem="{Binding ViewModel.SelectedNetworkAdapter}"
+                AutoGenerateColumns="False"
+                Height="200"
+                Margin="0,0,0,10"
+              >
+                <DataGrid.Columns>
+                  <DataGridTextColumn Header="名称" Binding="{Binding Name}" Width="120" />
+                  <DataGridTextColumn
+                    Header="虚拟交换机"
+                    Binding="{Binding SwitchName}"
+                    Width="*"
+                  />
+                  <DataGridTextColumn Header="MAC地址" Binding="{Binding MacAddress}" Width="140" />
+                </DataGrid.Columns>
+              </DataGrid>
+              <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+                <ui:Button
+                  Content="添加"
+                  Icon="{ui:SymbolIcon Add24}"
+                  Command="{Binding ViewModel.AddNetworkAdapterCommand}"
+                  Margin="0,0,10,0"
+                />
+                <ui:Button
+                  Content="移除"
+                  Icon="{ui:SymbolIcon Delete24}"
+                  Command="{Binding ViewModel.RemoveNetworkAdapterCommand}"
+                  IsEnabled="{Binding ViewModel.SelectedNetworkAdapter, Converter={StaticResource BoolToVisibilityConverter}}"
+                />
+              </StackPanel>
+              <Grid
+                Grid.Row="2"
+                Visibility="{Binding ViewModel.SelectedNetworkAdapter, Converter={StaticResource BoolToVisibilityConverter}}"
+              >
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="100" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                  Grid.Row="0"
+                  Grid.Column="0"
+                  Text="虚拟交换机:"
+                  VerticalAlignment="Center"
+                />
+                <ComboBox
+                  Grid.Row="0"
+                  Grid.Column="1"
+                  ItemsSource="{Binding ViewModel.AvailableSwitches}"
+                  DisplayMemberPath="Name"
+                  Margin="5,0"
+                />
+              </Grid>
+            </Grid>
+          </StackPanel>
+          <!-- 安全性设置 -->
+          <StackPanel Name="SecuritySettings" Visibility="Collapsed">
+            <TextBlock Text="安全性" FontSize="18" FontWeight="Bold" Margin="0,0,0,15" />
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <CheckBox
+                Grid.Row="0"
+                Content="启用安全启动"
+                IsChecked="{Binding ViewModel.EnableSecureBoot}"
+                IsEnabled="{Binding ViewModel.VirtualMachineGeneration, Converter={x:Static converters:GenerationToBoolConverter.Instance}}"
+                Margin="0,0,0,10"
+              />
+              <TextBlock
+                Grid.Row="1"
+                Text="安全启动仅在第二代虚拟机上可用"
+                FontSize="12"
+                Foreground="Gray"
+                Visibility="{Binding ViewModel.VirtualMachineGeneration, Converter={x:Static converters:GenerationToBoolConverter.Instance}, ConverterParameter=Invert}"
+              />
+            </Grid>
+          </StackPanel>
+          <!-- 管理设置 -->
+          <StackPanel Name="ManagementSettings" Visibility="Collapsed">
+            <TextBlock Text="管理" FontSize="18" FontWeight="Bold" Margin="0,0,0,15" />
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <TextBlock Grid.Row="0" Grid.Column="0" Text="名称:" VerticalAlignment="Center" />
+              <ui:TextBox
+                Grid.Row="0"
+                Grid.Column="1"
+                Text="{Binding ViewModel.VirtualMachineName}"
+                IsReadOnly="True"
+                Margin="5,0,0,10"
+              />
+              <TextBlock Grid.Row="1" Grid.Column="0" Text="备注:" VerticalAlignment="Top" />
+              <ui:TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="{Binding ViewModel.Notes}"
+                AcceptsReturn="True"
+                Height="80"
+                Margin="5,0,0,10"
+              />
+              <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                Text="智能分页位置:"
+                VerticalAlignment="Center"
+              />
+              <ui:TextBox
+                Grid.Row="2"
+                Grid.Column="1"
+                Text="{Binding ViewModel.SmartPagingFileLocation}"
+                Margin="5,0,0,10"
+              />
+              <TextBlock
+                Grid.Row="3"
+                Grid.Column="0"
+                Text="自动启动操作:"
+                VerticalAlignment="Center"
+              />
+              <ComboBox
+                Grid.Row="3"
+                Grid.Column="1"
+                ItemsSource="{Binding ViewModel.StartActionOptions}"
+                SelectedItem="{Binding ViewModel.AutomaticStartAction}"
+                Margin="5,0,0,10"
+              />
+              <TextBlock
+                Grid.Row="4"
+                Grid.Column="0"
+                Text="自动停止操作:"
+                VerticalAlignment="Center"
+              />
+              <ComboBox
+                Grid.Row="4"
+                Grid.Column="1"
+                ItemsSource="{Binding ViewModel.StopActionOptions}"
+                SelectedItem="{Binding ViewModel.AutomaticStopAction}"
+                Margin="5,0,0,10"
+              />
+              <CheckBox
+                Grid.Row="5"
+                Grid.ColumnSpan="2"
+                Content="启用集成服务"
+                IsChecked="{Binding ViewModel.EnableIntegrationServices}"
+              />
+            </Grid>
+          </StackPanel>
+        </StackPanel>
+      </ScrollViewer>
+    </Grid>
+    <!-- 状态栏 -->
+    <Border
+      Grid.Row="2"
+      Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
+      Padding="10,5"
+      Margin="0,10,0,10"
+      CornerRadius="4"
+    >
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <ui:ProgressRing
+          Grid.Column="0"
+          Width="16"
+          Height="16"
+          Margin="0,0,10,0"
+          IsIndeterminate="{Binding ViewModel.IsLoading}"
+          Visibility="{Binding ViewModel.IsLoading, Converter={StaticResource BoolToVisibilityConverter}}"
+        />
+        <TextBlock
+          Grid.Column="1"
+          Text="{Binding ViewModel.StatusMessage}"
+          VerticalAlignment="Center"
+        />
+      </Grid>
+    </Border>
+    <!-- 按钮栏 -->
+    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+      <ui:Button
+        Content="确定"
+        Icon="{ui:SymbolIcon Checkmark24}"
+        Command="{Binding ViewModel.SaveSettingsCommand}"
+        Appearance="Primary"
+        Margin="0,0,10,0"
+      />
+      <ui:Button
+        Content="取消"
+        Icon="{ui:SymbolIcon Dismiss24}"
+        Command="{Binding ViewModel.CancelCommand}"
+      />
+    </StackPanel>
+  </Grid>
+</Page>
