@@ -87,6 +87,9 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
     private bool _canGoNext = true;
 
     [ObservableProperty]
+    private int _maxCompletedStep = 1;
+
+    [ObservableProperty]
     private bool _useCustomLocation;
 
     [ObservableProperty]
@@ -114,6 +117,8 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
         VirtualHardDiskPath = Path.Combine(defaultVmPath, "Virtual Hard Disks");
 
         // 初始化步骤导航状态
+        MaxCompletedStep = 1; // 开始时只允许访问第一步(索引1)
+        System.Diagnostics.Debug.WriteLine($"ViewModel初始化: CurrentStep={CurrentStep}, MaxCompletedStep={MaxCompletedStep}");
         UpdateNavigationState();
     }
 
@@ -137,26 +142,94 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
         UpdateNavigationState();
     }
 
+    partial void OnDynamicMemoryEnabledChanged(bool value)
+    {
+        UpdateNavigationState();
+    }
+
+    partial void OnMinimumMemoryMbChanged(long value)
+    {
+        UpdateNavigationState();
+    }
+
+    partial void OnMaximumMemoryMbChanged(long value)
+    {
+        UpdateNavigationState();
+    }
+
+    partial void OnVirtualHardDiskSizeGbChanged(long value)
+    {
+        UpdateNavigationState();
+    }
+
+    partial void OnVirtualHardDiskPathChanged(string value)
+    {
+        UpdateNavigationState();
+    }
+
+    partial void OnExistingVhdPathChanged(string value)
+    {
+        UpdateNavigationState();
+    }
+
+    partial void OnSkipVhdConfigurationChanged(bool value)
+    {
+        UpdateNavigationState();
+    }
+
     private void UpdateNavigationState()
     {
-        CanGoPrevious = CurrentStep > 1;
+        var previousMaxStep = MaxCompletedStep;
+        CanGoPrevious = CurrentStep > 0;
         CanGoNext = CurrentStep < 8 && ValidateCurrentStep();
+
+        // 如果当前步骤验证通过，更新最大完成步骤
+        if (ValidateCurrentStep())
+        {
+            MaxCompletedStep = Math.Max(MaxCompletedStep, CurrentStep + 1);
+        }
+
+        if (MaxCompletedStep != previousMaxStep)
+        {
+            System.Diagnostics.Debug.WriteLine($"MaxCompletedStep更新: {previousMaxStep} -> {MaxCompletedStep} (当前步骤: {CurrentStep})");
+        }
     }
 
     private bool ValidateCurrentStep()
     {
         return CurrentStep switch
         {
+            0 => true, // 欢迎页面，无需验证
             1 => true, // 开始之前页面，无需验证
-            2 => !string.IsNullOrWhiteSpace(VirtualMachineName), // 需要名称
-            3 => true, // 代数选择，默认已选择
-            4 => MemoryStartupMb >= 32, // 内存验证
+            2 => !string.IsNullOrWhiteSpace(VirtualMachineName) && VirtualMachineName.Trim().Length > 0, // 需要有效名称
+            3 => Generation == 1 || Generation == 2, // 代数选择验证
+            4 => MemoryStartupMb >= 32 && MemoryStartupMb <= 1048576 &&
+                 (!DynamicMemoryEnabled || (MinimumMemoryMb >= 32 && MaximumMemoryMb >= MemoryStartupMb)), // 内存验证
             5 => true, // 网络配置，可选
-            6 => true, // 虚拟硬盘，可选
+            6 => ValidateVhdConfiguration(), // 虚拟硬盘配置验证
             7 => true, // 安装选项，可选
             8 => true, // 摘要页面
             _ => false,
         };
+    }
+
+    private bool ValidateVhdConfiguration()
+    {
+        if (SkipVhdConfiguration)
+            return true;
+
+        if (CreateVirtualHardDisk && !UseExistingVhd)
+        {
+            return VirtualHardDiskSizeGb >= 1 && VirtualHardDiskSizeGb <= 64000 &&
+                   !string.IsNullOrWhiteSpace(VirtualHardDiskPath);
+        }
+
+        if (UseExistingVhd)
+        {
+            return !string.IsNullOrWhiteSpace(ExistingVhdPath) && File.Exists(ExistingVhdPath);
+        }
+
+        return true;
     }
 
     [RelayCommand]
@@ -165,16 +238,42 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
         if (CanGoNext && CurrentStep < 8)
         {
             CurrentStep++;
+            // 更新最大完成步骤
+            if (CurrentStep > MaxCompletedStep)
+            {
+                MaxCompletedStep = CurrentStep;
+            }
+            UpdateNavigationState();
         }
     }
 
     [RelayCommand]
     private void PreviousStep()
     {
-        if (CanGoPrevious && CurrentStep > 1)
+        if (CanGoPrevious && CurrentStep > 0)
         {
             CurrentStep--;
+            UpdateNavigationState();
         }
+    }
+
+    [RelayCommand]
+    private void GoToStep(object parameter)
+    {
+        if (parameter is int step)
+        {
+            // 只允许跳转到已完成的步骤或下一步
+            if (step <= MaxCompletedStep || step == MaxCompletedStep + 1)
+            {
+                CurrentStep = step;
+                UpdateNavigationState();
+            }
+        }
+    }
+
+    public bool CanAccessStep(int step)
+    {
+        return step <= MaxCompletedStep || step == MaxCompletedStep + 1;
     }
 
     public async Task OnNavigatedToAsync()
@@ -521,6 +620,7 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
         {
             CreateVirtualHardDisk = false;
         }
+        UpdateNavigationState();
     }
 
     partial void OnCreateVirtualHardDiskChanged(bool value)
@@ -529,6 +629,7 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
         {
             UseExistingVhd = false;
         }
+        UpdateNavigationState();
     }
 
     partial void OnGenerationChanged(int value)
@@ -550,5 +651,6 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
                 BootDevice = "NetworkAdapter";
             }
         }
+        UpdateNavigationState();
     }
 }
