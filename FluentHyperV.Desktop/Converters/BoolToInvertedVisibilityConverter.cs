@@ -1,28 +1,15 @@
-using System;
-using System.Globalization;
-using System.Windows;
-using System.Windows.Data;
+using WpfExtensions.Xaml.Converters;
 
-namespace FluentHyperV.Desktop.Converters
+namespace FluentHyperV.Desktop.Converters;
+
+public class BoolToInvertedVisibilityConverter : ValueConverterBase<object, Visibility>
 {
-    public class BoolToInvertedVisibilityConverter : IValueConverter
+    protected override Visibility Convert(object value)
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        if (value is bool boolValue)
         {
-            if (value is bool boolValue)
-            {
-                return boolValue ? Visibility.Collapsed : Visibility.Visible;
-            }
-            return Visibility.Collapsed;
+            return boolValue ? Visibility.Collapsed : Visibility.Visible;
         }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is Visibility visibility)
-            {
-                return visibility == Visibility.Collapsed;
-            }
-            return true;
-        }
+        return Visibility.Collapsed;
     }
 }

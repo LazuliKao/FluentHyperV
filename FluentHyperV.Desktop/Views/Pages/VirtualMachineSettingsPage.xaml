@@ -14,18 +14,16 @@
   d:DataContext="{d:DesignInstance local:VirtualMachineSettingsPage,
                                      IsDesignTimeCreatable=False}"
 >
-  <Page.Resources>
-    <converters:BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-    <converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
-  </Page.Resources>
-  <Grid Margin="20">
+  <!--<Grid Margin="20">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <!-- 标题栏 -->
+    -->
+  <!-- 标题栏 -->
+  <!--
     <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
       <ui:SymbolIcon Symbol="Settings24" FontSize="24" Margin="0,0,10,0" />
       <TextBlock
@@ -35,13 +33,17 @@
         VerticalAlignment="Center"
       />
     </StackPanel>
-    <!-- 主要内容区域 -->
+    -->
+  <!-- 主要内容区域 -->
+  <!--
     <Grid Grid.Row="1">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="200" />
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
-      <!-- 左侧导航树 -->
+      -->
+  <!-- 左侧导航树 -->
+  <!--
       <Border
         Grid.Column="0"
         Background="{DynamicResource ApplicationBackgroundBrush}"
@@ -59,7 +61,9 @@
               <Setter Property="IsExpanded" Value="True" />
             </Style>
           </TreeView.ItemContainerStyle>
-          <!-- 硬件节点 -->
+          -->
+  <!-- 硬件节点 -->
+  <!--
           <TreeViewItem Header="硬件" Tag="0">
             <TreeViewItem Header="内存" Tag="0" />
             <TreeViewItem Header="处理器" Tag="1" />
@@ -69,7 +73,9 @@
             <TreeViewItem Header="网络适配器" Tag="4" />
             <TreeViewItem Header="安全性" Tag="5" />
           </TreeViewItem>
-          <!-- 管理节点 -->
+          -->
+  <!-- 管理节点 -->
+  <!--
           <TreeViewItem Header="管理" Tag="10">
             <TreeViewItem Header="名称" Tag="10" />
             <TreeViewItem Header="集成服务" Tag="11" />
@@ -80,10 +86,14 @@
           </TreeViewItem>
         </TreeView>
       </Border>
-      <!-- 右侧设置面板 -->
+      -->
+  <!-- 右侧设置面板 -->
+  <!--
       <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
         <StackPanel Name="SettingsContentPanel">
-          <!-- 内存设置 -->
+          -->
+  <!-- 内存设置 -->
+  <!--
           <StackPanel Name="MemorySettings" Visibility="Visible">
             <TextBlock Text="内存" FontSize="18" FontWeight="Bold" Margin="0,0,0,15" />
             <Grid>
@@ -103,7 +113,7 @@
               <ui:NumberBox
                 Grid.Row="0"
                 Grid.Column="1"
-                Value="{Binding ViewModel.MemoryStartupMB}"
+                Value="{Binding ViewModel.MemoryStartupMb}"
                 Minimum="32"
                 Maximum="1048576"
                 Margin="5,0"
@@ -126,7 +136,7 @@
               <ui:NumberBox
                 Grid.Row="2"
                 Grid.Column="1"
-                Value="{Binding ViewModel.MinimumMemoryMB}"
+                Value="{Binding ViewModel.MinimumMemoryMb}"
                 Minimum="32"
                 Maximum="1048576"
                 Margin="5,0"
@@ -149,7 +159,7 @@
               <ui:NumberBox
                 Grid.Row="3"
                 Grid.Column="1"
-                Value="{Binding ViewModel.MaximumMemoryMB}"
+                Value="{Binding ViewModel.MaximumMemoryMb}"
                 Minimum="32"
                 Maximum="1048576"
                 Margin="5,0"
@@ -164,7 +174,9 @@
               />
             </Grid>
           </StackPanel>
-          <!-- 处理器设置 -->
+          -->
+  <!-- 处理器设置 -->
+  <!--
           <StackPanel Name="ProcessorSettings" Visibility="Collapsed">
             <TextBlock Text="处理器" FontSize="18" FontWeight="Bold" Margin="0,0,0,15" />
             <Grid>
@@ -199,7 +211,9 @@
               />
             </Grid>
           </StackPanel>
-          <!-- 硬盘驱动器设置 -->
+          -->
+  <!-- 硬盘驱动器设置 -->
+  <!--
           <StackPanel Name="HardDriveSettings" Visibility="Collapsed">
             <TextBlock Text="硬盘驱动器" FontSize="18" FontWeight="Bold" Margin="0,0,0,15" />
             <Grid>
@@ -245,7 +259,9 @@
               </StackPanel>
             </Grid>
           </StackPanel>
-          <!-- 网络适配器设置 -->
+          -->
+  <!-- 网络适配器设置 -->
+  <!--
           <StackPanel Name="NetworkAdapterSettings" Visibility="Collapsed">
             <TextBlock Text="网络适配器" FontSize="18" FontWeight="Bold" Margin="0,0,0,15" />
             <Grid>
@@ -313,7 +329,9 @@
               </Grid>
             </Grid>
           </StackPanel>
-          <!-- 安全性设置 -->
+          -->
+  <!-- 安全性设置 -->
+  <!--
           <StackPanel Name="SecuritySettings" Visibility="Collapsed">
             <TextBlock Text="安全性" FontSize="18" FontWeight="Bold" Margin="0,0,0,15" />
             <Grid>
@@ -337,7 +355,9 @@
               />
             </Grid>
           </StackPanel>
-          <!-- 管理设置 -->
+          -->
+  <!-- 管理设置 -->
+  <!--
           <StackPanel Name="ManagementSettings" Visibility="Collapsed">
             <TextBlock Text="管理" FontSize="18" FontWeight="Bold" Margin="0,0,0,15" />
             <Grid>
@@ -419,7 +439,9 @@
         </StackPanel>
       </ScrollViewer>
     </Grid>
-    <!-- 状态栏 -->
+    -->
+  <!-- 状态栏 -->
+  <!--
     <Border
       Grid.Row="2"
       Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
@@ -448,7 +470,9 @@
         />
       </Grid>
     </Border>
-    <!-- 按钮栏 -->
+    -->
+  <!-- 按钮栏 -->
+  <!--
     <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
       <ui:Button
         Content="确定"
@@ -463,5 +487,5 @@
         Command="{Binding ViewModel.CancelCommand}"
       />
     </StackPanel>
-  </Grid>
+  </Grid>-->
 </Page>

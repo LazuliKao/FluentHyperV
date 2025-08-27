@@ -1,61 +1,103 @@
-using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
+using WpfExtensions.Xaml.Converters;
 
-namespace FluentHyperV.Desktop.Controls
+namespace FluentHyperV.Desktop.Controls;
+
+/// <summary>
+/// PageContainer.xaml 的交互逻辑
+/// </summary>
+[ContentProperty("ContainerContent")]
+public partial class PageContainer : UserControl
 {
-    /// <summary>
-    /// PageContainer.xaml 的交互逻辑
-    /// </summary>
-    public partial class PageContainer : UserControl
+    public class BoolToPaddingConverter : ValueConverterBase<bool, Thickness>
     {
-        public static readonly DependencyProperty HeaderProperty =
-            DependencyProperty.Register("Header", typeof(string), typeof(PageContainer), new PropertyMetadata(string.Empty));
+        protected override Thickness ConvertNonNullValue(bool value) =>
+            value ? new(42, 0, 42, 42) : new Thickness(0);
+    }
 
-        public static readonly DependencyProperty ContainerContentProperty =
-            DependencyProperty.Register("ContainerContent", typeof(object), typeof(PageContainer), new PropertyMetadata(null));
+    public class BoolToPaddingConverterForText : ValueConverterBase<bool, Thickness>
+    {
+        protected override Thickness ConvertNonNullValue(bool value) =>
+            value ? new(0, 36, 0, 0) : new Thickness(42, 36, 0, 0);
+    }
 
-        public static readonly DependencyProperty HasPaddingProperty =
-            DependencyProperty.Register("HasPadding", typeof(bool), typeof(PageContainer), new PropertyMetadata(true));
+    public class BoolToGridRowConverter : ValueConverterBase<bool, int>
+    {
+        protected override int ConvertNonNullValue(bool value) => value ? 1 : 0;
+    }
 
-        public static readonly DependencyProperty IsDynamicScrollViewerEnabledProperty =
-            DependencyProperty.Register("IsDynamicScrollViewerEnabled", typeof(bool), typeof(PageContainer), new PropertyMetadata(false));
+    public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
+        "Header",
+        typeof(string),
+        typeof(PageContainer),
+        new(string.Empty)
+    );
 
-        public static readonly DependencyProperty IsTextFloatingProperty =
-            DependencyProperty.Register("IsTextFloating", typeof(bool), typeof(PageContainer), new PropertyMetadata(false));
+    public static readonly DependencyProperty ContainerContentProperty =
+        DependencyProperty.Register(
+            "ContainerContent",
+            typeof(object),
+            typeof(PageContainer),
+            new(null)
+        );
 
-        public PageContainer()
-        {
-            InitializeComponent();
-        }
+    public static readonly DependencyProperty HasPaddingProperty = DependencyProperty.Register(
+        "HasPadding",
+        typeof(bool),
+        typeof(PageContainer),
+        new(true)
+    );
 
-        public string Header
-        {
-            get { return (string)GetValue(HeaderProperty); }
-            set { SetValue(HeaderProperty, value); }
-        }
+    public static readonly DependencyProperty IsDynamicScrollViewerEnabledProperty =
+        DependencyProperty.Register(
+            "IsDynamicScrollViewerEnabled",
+            typeof(bool),
+            typeof(PageContainer),
+            new(false)
+        );
 
-        public object ContainerContent
-        {
-            get { return GetValue(ContainerContentProperty); }
-            set { SetValue(ContainerContentProperty, value); }
-        }
+    public static readonly DependencyProperty IsTextFloatingProperty = DependencyProperty.Register(
+        "IsTextFloating",
+        typeof(bool),
+        typeof(PageContainer),
+        new(false)
+    );
 
-        public bool HasPadding
-        {
-            get { return (bool)GetValue(HasPaddingProperty); }
-            set { SetValue(HasPaddingProperty, value); }
-        }
+    public PageContainer()
+    {
+        InitializeComponent();
+    }
 
-        public bool IsDynamicScrollViewerEnabled
-        {
-            get { return (bool)GetValue(IsDynamicScrollViewerEnabledProperty); }
-            set { SetValue(IsDynamicScrollViewerEnabledProperty, value); }
-        }
+    //public partial string Header1 { get; }
 
-        public bool IsTextFloating
-        {
-            get { return (bool)GetValue(IsTextFloatingProperty); }
-            set { SetValue(IsTextFloatingProperty, value); }
-        }
+    public string Header
+    {
+        get => (string)GetValue(HeaderProperty);
+        set => SetValue(HeaderProperty, value);
+    }
+
+    public object ContainerContent
+    {
+        get => GetValue(ContainerContentProperty);
+        set => SetValue(ContainerContentProperty, value);
+    }
+
+    public bool HasPadding
+    {
+        get => (bool)GetValue(HasPaddingProperty);
+        set => SetValue(HasPaddingProperty, value);
+    }
+
+    public bool IsDynamicScrollViewerEnabled
+    {
+        get => (bool)GetValue(IsDynamicScrollViewerEnabledProperty);
+        set => SetValue(IsDynamicScrollViewerEnabledProperty, value);
+    }
+
+    public bool IsTextFloating
+    {
+        get => (bool)GetValue(IsTextFloatingProperty);
+        set => SetValue(IsTextFloatingProperty, value);
     }
 }

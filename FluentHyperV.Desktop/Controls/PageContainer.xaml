@@ -1,59 +1,76 @@
-<UserControl x:Class="FluentHyperV.Desktop.Controls.PageContainer"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:markup="clr-namespace:WpfExtensions.Xaml.Markup;assembly=WpfExtensions.Xaml"
-             xmlns:controls="clr-namespace:FluentHyperV.Desktop.Controls"
-             xmlns:converters="clr-namespace:FluentHyperV.Desktop.Converters"
-             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" x:Name="Root">
-    <UserControl.Resources>
-        <converters:BoolToPaddingConverter x:Key="BoolToPaddingConverter" />
-        <converters:BoolToPaddingConverterForText x:Key="BoolToPaddingConverterForText" />
-        <converters:BoolToGridRowConverter x:Key="BoolToGridRowConverter" />
-        <ControlTemplate  x:Key="ContentControlWithScrollViewTemplate"  TargetType="{x:Type ContentControl}">
-            <ui:DynamicScrollViewer
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Focusable="False">
-                <ContentPresenter/>
-            </ui:DynamicScrollViewer>
-        </ControlTemplate>
-        <ControlTemplate x:Key="ContentControlDefaultTemplate"  TargetType="{x:Type ContentControl}">
-            <ContentPresenter/>
-        </ControlTemplate>
-
-    </UserControl.Resources>
-    <UserControl.Content>
-        <ContentControl>
-            <ContentControl.Style>
-                <Style TargetType="ContentControl">
-                    <Setter Property="Template" Value="{StaticResource ContentControlDefaultTemplate}" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsDynamicScrollViewerEnabled, ElementName=Root}" Value="True">
-                            <Setter Property="Template" Value="{StaticResource ContentControlWithScrollViewTemplate}" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ContentControl.Style>
-            <Grid  Margin="{Binding HasPadding, ElementName=Root, Converter={StaticResource BoolToPaddingConverter},Mode=OneWay}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <TextBlock
-                    Grid.Row="{Binding IsTextFloating, ElementName=Root, Converter={StaticResource BoolToGridRowConverter}}"
-                    FontWeight="Bold"
-                    FontSize="32"
-                    Text="{Binding Header, ElementName=Root, Mode=OneWay}"
-                    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-                    HorizontalAlignment="Left" VerticalAlignment="Top"
-                    Margin="{Binding HasPadding, ElementName=Root, Converter={StaticResource BoolToPaddingConverterForText},Mode=OneWay}" 
-                />
-                <ContentPresenter Grid.Row="1" Content="{Binding ContainerContent, ElementName=Root, Mode=OneWay}" />
-            </Grid>
-        </ContentControl>
-    </UserControl.Content>
+<UserControl
+  x:Class="FluentHyperV.Desktop.Controls.PageContainer"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:markup="clr-namespace:WpfExtensions.Xaml.Markup;assembly=WpfExtensions.Xaml"
+  xmlns:controls="clr-namespace:FluentHyperV.Desktop.Controls"
+  xmlns:converters="clr-namespace:FluentHyperV.Desktop.Converters"
+  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+  mc:Ignorable="d"
+  d:DesignHeight="450"
+  d:DesignWidth="800"
+  x:Name="Root"
+>
+  <UserControl.Resources>
+    <controls:BoolToPaddingConverter x:Key="BoolToPaddingConverter" />
+    <controls:BoolToPaddingConverterForText x:Key="BoolToPaddingConverterForText" />
+    <controls:BoolToGridRowConverter x:Key="BoolToGridRowConverter" />
+    <ControlTemplate
+      x:Key="ContentControlWithScrollViewTemplate"
+      TargetType="{x:Type ContentControl}"
+    >
+      <ui:DynamicScrollViewer
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        Focusable="False"
+      >
+        <ContentPresenter />
+      </ui:DynamicScrollViewer>
+    </ControlTemplate>
+    <ControlTemplate x:Key="ContentControlDefaultTemplate" TargetType="{x:Type ContentControl}">
+      <ContentPresenter />
+    </ControlTemplate>
+  </UserControl.Resources>
+  <UserControl.Content>
+    <ContentControl>
+      <ContentControl.Style>
+        <Style TargetType="ContentControl">
+          <Setter Property="Template" Value="{StaticResource ContentControlDefaultTemplate}" />
+          <Style.Triggers>
+            <DataTrigger
+              Binding="{Binding IsDynamicScrollViewerEnabled, ElementName=Root}"
+              Value="True"
+            >
+              <Setter
+                Property="Template"
+                Value="{StaticResource ContentControlWithScrollViewTemplate}"
+              />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </ContentControl.Style>
+      <Grid Margin="{Binding HasPadding, ElementName=Root, Converter={StaticResource BoolToPaddingConverter},Mode=OneWay}">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock
+          Grid.Row="{Binding IsTextFloating, ElementName=Root, Converter={StaticResource BoolToGridRowConverter}}"
+          FontWeight="Bold"
+          FontSize="32"
+          Text="{Binding Header, ElementName=Root, Mode=OneWay}"
+          Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+          HorizontalAlignment="Left"
+          VerticalAlignment="Top"
+          Margin="{Binding HasPadding, ElementName=Root, Converter={StaticResource BoolToPaddingConverterForText},Mode=OneWay}"
+        />
+        <ContentPresenter
+          Grid.Row="1"
+          Content="{Binding ContainerContent, ElementName=Root, Mode=OneWay}"
+        />
+      </Grid>
+    </ContentControl>
+  </UserControl.Content>
 </UserControl>
