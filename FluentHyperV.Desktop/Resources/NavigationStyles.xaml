@@ -18,8 +18,8 @@
         <ControlTemplate TargetType="{x:Type TabControl}">
           <Grid KeyboardNavigation.TabNavigation="Local">
             <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto" />
-              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="2*" />
+              <ColumnDefinition Width="7*" />
             </Grid.ColumnDefinitions>
             <ScrollViewer Grid.Column="0" 
                           VerticalScrollBarVisibility="Auto" 
