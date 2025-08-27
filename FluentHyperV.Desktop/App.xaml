@@ -24,6 +24,7 @@
       <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
       <converters:StatusToBrushConverter x:Key="StatusToBrushConverter" />
       <converters:BytesToFormatConverter x:Key="BytesToFormatConverter" />
+      <converters:MbToFormatConverter x:Key="MbToFormatConverter" />
       <converters:BoolToInvertedBoolConverter x:Key="BoolToInvertedBoolConverter" />
       <converters:BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
       <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />

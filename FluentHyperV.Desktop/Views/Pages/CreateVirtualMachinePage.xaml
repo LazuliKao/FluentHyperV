@@ -7,1019 +7,911 @@
   xmlns:local="clr-namespace:FluentHyperV.Desktop.Views.Pages"
   xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
   xmlns:converters="clr-namespace:FluentHyperV.Desktop.Converters"
+  xmlns:controls="clr-namespace:FluentHyperV.Desktop.Controls"
   mc:Ignorable="d"
   d:DesignHeight="900"
   d:DesignWidth="1200"
   Title="创建虚拟机"
+  ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+  ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
   d:DataContext="{d:DesignInstance local:CreateVirtualMachinePage,
                                      IsDesignTimeCreatable=False}"
 >
   <Page.Resources>
-    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    <converters:BoolToInvertedBoolConverter x:Key="BoolToInvertedBoolConverter" />
-    <converters:GenerationToIndexConverter x:Key="GenerationToIndexConverter" />
-    <converters:GenerationToBoolConverter x:Key="GenerationToBoolConverter" />
-    <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
-    <converters:StepToBrushConverter x:Key="StepToBrushConverter" />
-    <converters:IntToBoolConverter x:Key="IntToBoolConverter" />
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Resources/NavigationStyles.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+      <converters:GenerationToBoolConverter x:Key="GenerationToBoolConverter" />
+      <converters:IntToBoolConverter x:Key="IntToBoolConverter" />
+    </ResourceDictionary>
   </Page.Resources>
-  <Grid Margin="20">
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="*" />
-      <RowDefinition Height="Auto" />
-    </Grid.RowDefinitions>
-    <!-- 标题栏 -->
-    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
-      <ui:SymbolIcon Symbol="Add24" FontSize="24" Margin="0,0,10,0" />
-      <TextBlock Text="新建虚拟机向导" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" />
-    </StackPanel>
-    <!-- 步骤指示器 -->
-    <Grid Grid.Row="1" Margin="0,0,0,30">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="*" />
-      </Grid.ColumnDefinitions>
-      <!-- 步骤1: 开始之前 -->
-      <StackPanel Grid.Column="0" HorizontalAlignment="Center">
-        <Border
-          Width="40"
-          Height="40"
-          CornerRadius="20"
-          Background="{Binding ViewModel.CurrentStep, Converter={StaticResource StepToBrushConverter}, ConverterParameter=1}"
-          Margin="0,0,0,10"
-        >
-          <TextBlock
-            Text="1"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontWeight="Bold"
-            Foreground="White"
-          />
-        </Border>
-        <TextBlock
-          Text="开始之前"
-          HorizontalAlignment="Center"
-          FontSize="12"
-          TextWrapping="Wrap"
-          MaxWidth="80"
-        />
-      </StackPanel>
-      <!-- 步骤2: 指定名称和位置 -->
-      <StackPanel Grid.Column="1" HorizontalAlignment="Center">
-        <Border
-          Width="40"
-          Height="40"
-          CornerRadius="20"
-          Background="{Binding ViewModel.CurrentStep, Converter={StaticResource StepToBrushConverter}, ConverterParameter=2}"
-          Margin="0,0,0,10"
-        >
-          <TextBlock
-            Text="2"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontWeight="Bold"
-            Foreground="White"
-          />
-        </Border>
-        <TextBlock
-          Text="指定名称和位置"
-          HorizontalAlignment="Center"
-          FontSize="12"
-          TextWrapping="Wrap"
-          MaxWidth="80"
-        />
-      </StackPanel>
-      <!-- 步骤3: 指定代数 -->
-      <StackPanel Grid.Column="2" HorizontalAlignment="Center">
-        <Border
-          Width="40"
-          Height="40"
-          CornerRadius="20"
-          Background="{Binding ViewModel.CurrentStep, Converter={StaticResource StepToBrushConverter}, ConverterParameter=3}"
-          Margin="0,0,0,10"
-        >
-          <TextBlock
-            Text="3"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontWeight="Bold"
-            Foreground="White"
-          />
-        </Border>
-        <TextBlock
-          Text="指定代数"
-          HorizontalAlignment="Center"
-          FontSize="12"
-          TextWrapping="Wrap"
-          MaxWidth="80"
-        />
-      </StackPanel>
-      <!-- 步骤4: 分配内存 -->
-      <StackPanel Grid.Column="3" HorizontalAlignment="Center">
-        <Border
-          Width="40"
-          Height="40"
-          CornerRadius="20"
-          Background="{Binding ViewModel.CurrentStep, Converter={StaticResource StepToBrushConverter}, ConverterParameter=4}"
-          Margin="0,0,0,10"
-        >
-          <TextBlock
-            Text="4"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontWeight="Bold"
-            Foreground="White"
-          />
-        </Border>
-        <TextBlock
-          Text="分配内存"
-          HorizontalAlignment="Center"
-          FontSize="12"
-          TextWrapping="Wrap"
-          MaxWidth="80"
-        />
-      </StackPanel>
-      <!-- 步骤5: 配置网络 -->
-      <StackPanel Grid.Column="4" HorizontalAlignment="Center">
-        <Border
-          Width="40"
-          Height="40"
-          CornerRadius="20"
-          Background="{Binding ViewModel.CurrentStep, Converter={StaticResource StepToBrushConverter}, ConverterParameter=5}"
-          Margin="0,0,0,10"
-        >
-          <TextBlock
-            Text="5"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontWeight="Bold"
-            Foreground="White"
-          />
-        </Border>
-        <TextBlock
-          Text="配置网络"
-          HorizontalAlignment="Center"
-          FontSize="12"
-          TextWrapping="Wrap"
-          MaxWidth="80"
-        />
-      </StackPanel>
-      <!-- 步骤6: 连接虚拟硬盘 -->
-      <StackPanel Grid.Column="5" HorizontalAlignment="Center">
-        <Border
-          Width="40"
-          Height="40"
-          CornerRadius="20"
-          Background="{Binding ViewModel.CurrentStep, Converter={StaticResource StepToBrushConverter}, ConverterParameter=6}"
-          Margin="0,0,0,10"
-        >
-          <TextBlock
-            Text="6"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontWeight="Bold"
-            Foreground="White"
-          />
-        </Border>
-        <TextBlock
-          Text="连接虚拟硬盘"
-          HorizontalAlignment="Center"
-          FontSize="12"
-          TextWrapping="Wrap"
-          MaxWidth="80"
-        />
-      </StackPanel>
-      <!-- 步骤7: 安装选项 -->
-      <StackPanel Grid.Column="6" HorizontalAlignment="Center">
-        <Border
-          Width="40"
-          Height="40"
-          CornerRadius="20"
-          Background="{Binding ViewModel.CurrentStep, Converter={StaticResource StepToBrushConverter}, ConverterParameter=7}"
-          Margin="0,0,0,10"
-        >
-          <TextBlock
-            Text="7"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontWeight="Bold"
-            Foreground="White"
-          />
-        </Border>
-        <TextBlock
-          Text="安装选项"
-          HorizontalAlignment="Center"
-          FontSize="12"
-          TextWrapping="Wrap"
-          MaxWidth="80"
-        />
-      </StackPanel>
-      <!-- 步骤8: 摘要 -->
-      <StackPanel Grid.Column="7" HorizontalAlignment="Center">
-        <Border
-          Width="40"
-          Height="40"
-          CornerRadius="20"
-          Background="{Binding ViewModel.CurrentStep, Converter={StaticResource StepToBrushConverter}, ConverterParameter=8}"
-          Margin="0,0,0,10"
-        >
-          <TextBlock
-            Text="8"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontWeight="Bold"
-            Foreground="White"
-          />
-        </Border>
-        <TextBlock
-          Text="摘要"
-          HorizontalAlignment="Center"
-          FontSize="12"
-          TextWrapping="Wrap"
-          MaxWidth="80"
-        />
-      </StackPanel>
-    </Grid>
-    <!-- 主要内容区域 -->
-    <ScrollViewer
-      Grid.Row="2"
-      VerticalScrollBarVisibility="Auto"
-      HorizontalScrollBarVisibility="Disabled"
-    >
-      <ContentPresenter>
-        <ContentPresenter.Style>
-          <Style TargetType="ContentPresenter">
-            <Style.Triggers>
-              <!-- 步骤1: 开始之前 -->
-              <DataTrigger Binding="{Binding ViewModel.CurrentStep}" Value="1">
-                <Setter Property="Content">
-                  <Setter.Value>
-                    <StackPanel Margin="40">
-                      <TextBlock
-                        Text="新建虚拟机向导"
-                        FontSize="28"
-                        FontWeight="Bold"
-                        Margin="0,0,0,20"
-                      />
-                      <TextBlock
-                        Text="此向导将帮助您创建虚拟机。虚拟机就像计算机一样运行，但是它们是使用软件而不是硬件来运行的。您可以使用虚拟机来运行与主机操作系统不同的操作系统，或者隔离应用程序和服务。"
-                        FontSize="14"
-                        Margin="0,0,0,30"
-                        TextWrapping="Wrap"
-                        LineHeight="22"
-                      />
-                      <ui:Card Margin="0,0,0,20">
-                        <StackPanel>
-                          <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <ui:SymbolIcon Symbol="Info24" Margin="0,0,10,0" />
-                            <TextBlock Text="重要信息" FontWeight="Bold" />
-                          </StackPanel>
-                          <StackPanel>
-                            <TextBlock
-                              Text="• 确保您有足够的磁盘空间来存储虚拟机文件"
-                              Margin="0,0,0,5"
-                            />
-                            <TextBlock
-                              Text="• 虚拟机将使用主机的内存和处理器资源"
-                              Margin="0,0,0,5"
-                            />
-                            <TextBlock Text="• 需要管理员权限来创建和管理虚拟机" Margin="0,0,0,5" />
-                            <TextBlock Text="• 某些功能可能需要特定的硬件支持" Margin="0,0,0,5" />
-                          </StackPanel>
-                        </StackPanel>
-                      </ui:Card>
-                      <TextBlock Text="单击下一步继续。" FontSize="14" Margin="0,20,0,0" />
+  <controls:PageContainer Header="创建虚拟机" IsTextFloating="True" HasPadding="False">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <TabControl Grid.Row="0" Margin="4,0,0,0" SelectedIndex="{Binding ViewModel.CurrentStep}">
+        <TabControl.Resources>
+          <Style TargetType="Grid" x:Key="TabContent">
+            <Setter Property="Margin" Value="0" />
+          </Style>
+        </TabControl.Resources>
+        <!-- 默认欢迎页面 -->
+        <TabItem Height="100" IsSelected="True">
+          <TabItem.Header>
+            <Grid Width="200" Height="80">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <ui:SymbolIcon
+                Grid.Row="0"
+                Symbol="Add24"
+                FontSize="24"
+                HorizontalAlignment="Center"
+              />
+              <TextBlock Grid.Row="1" Text="欢迎" HorizontalAlignment="Center" FontSize="12" />
+            </Grid>
+          </TabItem.Header>
+          <Grid Style="{StaticResource TabContent}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+              <ui:SymbolIcon
+                Symbol="Add24"
+                FontSize="48"
+                Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                HorizontalAlignment="Center"
+                Margin="0,0,0,20"
+              />
+              <TextBlock
+                Text="欢迎使用虚拟机创建向导"
+                Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                FontSize="16"
+                HorizontalAlignment="Center"
+                TextAlignment="Center"
+              />
+              <TextBlock
+                Text="请选择左侧的步骤开始创建虚拟机"
+                Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                FontSize="14"
+                HorizontalAlignment="Center"
+                TextAlignment="Center"
+                Margin="0,10,0,0"
+              />
+            </StackPanel>
+          </Grid>
+        </TabItem>
+        <!-- 步骤1: 开始之前 -->
+        <TabItem>
+          <TabItem.Header>
+            <Grid Width="200" Height="80">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <ui:SymbolIcon
+                Grid.Row="0"
+                Symbol="Info24"
+                FontSize="24"
+                HorizontalAlignment="Center"
+              />
+              <TextBlock Grid.Row="1" Text="开始之前" HorizontalAlignment="Center" FontSize="12" />
+            </Grid>
+          </TabItem.Header>
+          <Grid Style="{StaticResource TabContent}">
+            <ScrollViewer>
+              <StackPanel Margin="40">
+                <TextBlock
+                  Text="新建虚拟机向导"
+                  FontSize="28"
+                  FontWeight="Bold"
+                  Margin="0,0,0,20"
+                />
+                <TextBlock
+                  Text="此向导将帮助您创建虚拟机。虚拟机就像计算机一样运行，但是它们是使用软件而不是硬件来运行的。您可以使用虚拟机来运行与主机操作系统不同的操作系统，或者隔离应用程序和服务。"
+                  FontSize="14"
+                  Margin="0,0,0,30"
+                  TextWrapping="Wrap"
+                  LineHeight="22"
+                />
+                <ui:Card Margin="0,0,0,20">
+                  <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                      <ui:SymbolIcon Symbol="Info24" Margin="0,0,10,0" />
+                      <TextBlock Text="重要信息" FontWeight="Bold" />
                     </StackPanel>
-                  </Setter.Value>
-                </Setter>
-              </DataTrigger>
-              <!-- 步骤2: 指定名称和位置 -->
-              <DataTrigger Binding="{Binding ViewModel.CurrentStep}" Value="2">
-                <Setter Property="Content">
-                  <Setter.Value>
-                    <StackPanel Margin="40">
-                      <TextBlock
-                        Text="指定名称和位置"
-                        FontSize="28"
-                        FontWeight="Bold"
-                        Margin="0,0,0,20"
-                      />
-                      <TextBlock
-                        Text="为虚拟机指定名称和位置。名称将显示在 Hyper-V 管理器中。"
-                        FontSize="14"
-                        Margin="0,0,0,30"
-                        TextWrapping="Wrap"
-                      />
-                      <!-- 虚拟机名称 -->
-                      <Grid Margin="0,0,0,25">
+                    <StackPanel>
+                      <TextBlock Text="• 确保您有足够的磁盘空间来存储虚拟机文件" Margin="0,0,0,5" />
+                      <TextBlock Text="• 虚拟机将使用主机的内存和处理器资源" Margin="0,0,0,5" />
+                      <TextBlock Text="• 需要管理员权限来创建和管理虚拟机" Margin="0,0,0,5" />
+                      <TextBlock Text="• 某些功能可能需要特定的硬件支持" Margin="0,0,0,5" />
+                    </StackPanel>
+                  </StackPanel>
+                </ui:Card>
+                <TextBlock Text="单击下一步继续。" FontSize="14" Margin="0,20,0,0" />
+              </StackPanel>
+            </ScrollViewer>
+          </Grid>
+        </TabItem>
+        <!-- 步骤2: 指定名称和位置 -->
+        <TabItem>
+          <TabItem.Header>
+            <Grid Width="200" Height="80">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <ui:SymbolIcon
+                Grid.Row="0"
+                Symbol="Rename24"
+                FontSize="24"
+                HorizontalAlignment="Center"
+              />
+              <TextBlock
+                Grid.Row="1"
+                Text="名称和位置"
+                HorizontalAlignment="Center"
+                FontSize="12"
+              />
+            </Grid>
+          </TabItem.Header>
+          <Grid Style="{StaticResource TabContent}">
+            <ScrollViewer>
+              <StackPanel Margin="40">
+                <TextBlock
+                  Text="指定名称和位置"
+                  FontSize="28"
+                  FontWeight="Bold"
+                  Margin="0,0,0,20"
+                />
+                <TextBlock
+                  Text="为虚拟机指定名称和选择存储位置。名称将显示在 Hyper-V 管理器中，也将用作虚拟机文件的文件名。"
+                  FontSize="14"
+                  Margin="0,0,0,30"
+                  TextWrapping="Wrap"
+                  LineHeight="22"
+                />
+                <Grid>
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                  </Grid.RowDefinitions>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="名称:"
+                    VerticalAlignment="Center"
+                    Margin="0,0,10,10"
+                  />
+                  <ui:TextBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Text="{Binding ViewModel.VirtualMachineName}"
+                    Margin="0,0,0,10"
+                  />
+                  <CheckBox
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Content="将虚拟机存储在其他位置"
+                    IsChecked="{Binding ViewModel.UseCustomLocation}"
+                    Margin="0,10,0,10"
+                  />
+                  <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Text="位置:"
+                    VerticalAlignment="Center"
+                    Margin="0,0,10,10"
+                    Visibility="{Binding ViewModel.UseCustomLocation, Converter={StaticResource BooleanToVisibilityConverter}}"
+                  />
+                  <ui:TextBox
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Text="{Binding ViewModel.VmPath}"
+                    Margin="0,0,10,10"
+                    Visibility="{Binding ViewModel.UseCustomLocation, Converter={StaticResource BooleanToVisibilityConverter}}"
+                  />
+                  <!--<ui:Button
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Content="浏览..."
+                    Command="{Binding ViewModel.BrowseVMPathCommand}"
+                    Visibility="{Binding ViewModel.UseCustomLocation, Converter={StaticResource BooleanToVisibilityConverter}}"
+                  />-->
+                </Grid>
+              </StackPanel>
+            </ScrollViewer>
+          </Grid>
+        </TabItem>
+        <!-- 步骤3: 指定代数 -->
+        <TabItem>
+          <TabItem.Header>
+            <Grid Width="200" Height="80">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <ui:SymbolIcon
+                Grid.Row="0"
+                Symbol="Settings24"
+                FontSize="24"
+                HorizontalAlignment="Center"
+              />
+              <TextBlock Grid.Row="1" Text="指定代数" HorizontalAlignment="Center" FontSize="12" />
+            </Grid>
+          </TabItem.Header>
+          <Grid Style="{StaticResource TabContent}">
+            <ScrollViewer>
+              <StackPanel Margin="40">
+                <TextBlock Text="指定代数" FontSize="28" FontWeight="Bold" Margin="0,0,0,20" />
+                <TextBlock
+                  Text="选择此虚拟机的代数。代数 2 提供了新功能，如更大的内存支持、安全启动和其他功能。"
+                  FontSize="14"
+                  Margin="0,0,0,30"
+                  TextWrapping="Wrap"
+                  LineHeight="22"
+                />
+                <StackPanel>
+                  <RadioButton
+                    Content="第 1 代"
+                    IsChecked="{Binding ViewModel.Generation, Converter={StaticResource GenerationToBoolConverter}, ConverterParameter=1}"
+                    Margin="0,0,0,10"
+                  />
+                  <TextBlock
+                    Text="此虚拟机代数支持 32 位和 64 位来宾操作系统，并提供虚拟硬件，这些硬件在所有以前版本的 Hyper-V 中都存在。"
+                    FontSize="12"
+                    Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                    Margin="20,0,0,20"
+                    TextWrapping="Wrap"
+                  />
+                  <!--<RadioButton
+                    Content="第 2 代"
+                    IsChecked="{Binding ViewModel.Generation, Converter={StaticResource GenerationToBoolConverter}, ConverterParameter=2}"
+                    Margin="0,0,0,10"
+                  />-->
+                  <TextBlock
+                    Text="此虚拟机代数支持更新的虚拟化功能，具有 UEFI 启动、安全启动、从 SCSI 虚拟硬盘启动的功能，以及从网络适配器启动的功能（通过使用 UEFI）。"
+                    FontSize="12"
+                    Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                    Margin="20,0,0,20"
+                    TextWrapping="Wrap"
+                  />
+                </StackPanel>
+              </StackPanel>
+            </ScrollViewer>
+          </Grid>
+        </TabItem>
+        <!-- 步骤4: 分配内存 -->
+        <TabItem>
+          <TabItem.Header>
+            <Grid Width="200" Height="80">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <ui:SymbolIcon
+                Grid.Row="0"
+                Symbol="DataUsage24"
+                FontSize="24"
+                HorizontalAlignment="Center"
+              />
+              <TextBlock Grid.Row="1" Text="分配内存" HorizontalAlignment="Center" FontSize="12" />
+            </Grid>
+          </TabItem.Header>
+          <Grid Style="{StaticResource TabContent}">
+            <ScrollViewer>
+              <StackPanel Margin="40">
+                <TextBlock Text="分配内存" FontSize="28" FontWeight="Bold" Margin="0,0,0,20" />
+                <TextBlock
+                  Text="指定要分配给此虚拟机的内存量。您可以指定一个值，该值介于 32 MB 到主机上可用内存量之间。"
+                  FontSize="14"
+                  Margin="0,0,0,30"
+                  TextWrapping="Wrap"
+                  LineHeight="22"
+                />
+                <Grid>
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                  </Grid.RowDefinitions>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="启动内存:"
+                    VerticalAlignment="Center"
+                    Margin="0,0,10,10"
+                  />
+                  <ui:NumberBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Value="{Binding ViewModel.MemoryStartupMb}"
+                    Minimum="32"
+                    Maximum="1048576"
+                    Margin="0,0,10,10"
+                  />
+                  <TextBlock Grid.Row="0" Grid.Column="2" Text="MB" VerticalAlignment="Center" />
+                  <CheckBox
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Content="为此虚拟机使用动态内存"
+                    IsChecked="{Binding ViewModel.DynamicMemoryEnabled}"
+                    Margin="0,10,0,10"
+                  />
+                  <ui:Card
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Margin="0,10,0,0"
+                    Visibility="{Binding ViewModel.DynamicMemoryEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                  >
+                    <StackPanel>
+                      <TextBlock Text="动态内存设置" FontWeight="Bold" Margin="0,0,0,10" />
+                      <Grid>
                         <Grid.RowDefinitions>
                           <RowDefinition Height="Auto" />
                           <RowDefinition Height="Auto" />
-                          <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Text="名称:" FontWeight="Medium" Margin="0,0,0,5" />
-                        <ui:TextBox
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto" />
+                          <ColumnDefinition Width="*" />
+                          <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                          Grid.Row="0"
+                          Grid.Column="0"
+                          Text="最小 RAM:"
+                          VerticalAlignment="Center"
+                          Margin="0,0,10,5"
+                        />
+                        <ui:NumberBox
+                          Grid.Row="0"
+                          Grid.Column="1"
+                          Value="{Binding ViewModel.MinimumMemoryMb}"
+                          Minimum="32"
+                          Margin="0,0,10,5"
+                        />
+                        <TextBlock
+                          Grid.Row="0"
+                          Grid.Column="2"
+                          Text="MB"
+                          VerticalAlignment="Center"
+                        />
+                        <TextBlock
                           Grid.Row="1"
-                          Text="{Binding ViewModel.VirtualMachineName, UpdateSourceTrigger=PropertyChanged}"
-                          PlaceholderText="输入虚拟机名称"
-                          Icon="{ui:SymbolIcon Desktop24}"
-                          MaxWidth="400"
-                          HorizontalAlignment="Left"
-                        />
-                        <TextBlock
-                          Grid.Row="2"
-                          Text="虚拟机名称不能包含以下字符: \ / : * ? &quot; &lt; &gt; |"
-                          FontSize="12"
-                          Foreground="Gray"
-                          Margin="0,5,0,0"
-                        />
-                      </Grid>
-                      <!-- 虚拟机路径 -->
-                      <Grid Margin="0,0,0,15">
-                        <Grid.RowDefinitions>
-                          <RowDefinition Height="Auto" />
-                          <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Text="位置:" FontWeight="Medium" Margin="0,0,0,5" />
-                        <Grid Grid.Row="1" MaxWidth="500" HorizontalAlignment="Left">
-                          <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                          </Grid.ColumnDefinitions>
-                          <ui:TextBox
-                            Grid.Column="0"
-                            Text="{Binding ViewModel.VmPath}"
-                            PlaceholderText="选择虚拟机存储路径"
-                            IsReadOnly="True"
-                            Icon="{ui:SymbolIcon Folder24}"
-                          />
-                          <ui:Button
-                            Grid.Column="1"
-                            Content="浏览..."
-                            Icon="{ui:SymbolIcon FolderOpen24}"
-                            Command="{Binding ViewModel.BrowseVMPathCommand}"
-                            Margin="5,0,0,0"
-                          />
-                        </Grid>
-                      </Grid>
-                    </StackPanel>
-                  </Setter.Value>
-                </Setter>
-              </DataTrigger>
-              <!-- 步骤3: 指定代数 -->
-              <DataTrigger Binding="{Binding ViewModel.CurrentStep}" Value="3">
-                <Setter Property="Content">
-                  <Setter.Value>
-                    <StackPanel Margin="40">
-                      <TextBlock
-                        Text="指定代数"
-                        FontSize="28"
-                        FontWeight="Bold"
-                        Margin="0,0,0,20"
-                      />
-                      <TextBlock
-                        Text="选择要创建的虚拟机的代数。代数决定了虚拟机支持的硬件功能。"
-                        FontSize="14"
-                        Margin="0,0,0,30"
-                        TextWrapping="Wrap"
-                      />
-                      <StackPanel>
-                        <RadioButton
-                          Content="第 1 代"
-                          GroupName="Generation"
-                          IsChecked="{Binding ViewModel.Generation, Converter={StaticResource GenerationToBoolConverter}, ConverterParameter=1}"
-                          Margin="0,0,0,15"
-                        />
-                        <TextBlock
-                          Text="提供与早期版本的 Hyper-V 兼容的虚拟硬件。支持 32 位和 64 位操作系统。"
-                          FontSize="12"
-                          Foreground="Gray"
-                          Margin="20,0,0,20"
-                        />
-                        <RadioButton
-                          Content="第 2 代"
-                          GroupName="Generation"
-                          IsChecked="{Binding ViewModel.Generation, Converter={StaticResource GenerationToBoolConverter}, ConverterParameter=2}"
-                          Margin="0,0,0,15"
-                        />
-                        <TextBlock
-                          Text="提供基于 UEFI 的启动、安全启动和 PXE 启动等新功能。只支持 64 位操作系统。"
-                          FontSize="12"
-                          Foreground="Gray"
-                          Margin="20,0,0,20"
-                        />
-                      </StackPanel>
-                      <ui:InfoBar
-                        Title="提示"
-                        Message="建议选择第 2 代虚拟机，因为它提供了更好的性能和新功能。但是，如果您需要运行 32 位操作系统，请选择第 1 代。"
-                        IsOpen="True"
-                        Severity="Informational"
-                        Margin="0,20,0,0"
-                      />
-                    </StackPanel>
-                  </Setter.Value>
-                </Setter>
-              </DataTrigger>
-              <!-- 步骤4: 分配内存 -->
-              <DataTrigger Binding="{Binding ViewModel.CurrentStep}" Value="4">
-                <Setter Property="Content">
-                  <Setter.Value>
-                    <StackPanel Margin="40">
-                      <TextBlock
-                        Text="分配内存"
-                        FontSize="28"
-                        FontWeight="Bold"
-                        Margin="0,0,0,20"
-                      />
-                      <TextBlock
-                        Text="指定要分配给此虚拟机的内存量。您可以稍后更改此设置。"
-                        FontSize="14"
-                        Margin="0,0,0,30"
-                        TextWrapping="Wrap"
-                      />
-                      <!-- 启动内存 -->
-                      <Grid Margin="0,0,0,25">
-                        <Grid.RowDefinitions>
-                          <RowDefinition Height="Auto" />
-                          <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock
-                          Grid.Row="0"
-                          Text="启动内存:"
-                          FontWeight="Medium"
-                          Margin="0,0,0,5"
-                        />
-                        <StackPanel Grid.Row="1" Orientation="Horizontal">
-                          <ui:NumberBox
-                            Value="{Binding ViewModel.MemoryStartupMB}"
-                            Minimum="32"
-                            Maximum="1048576"
-                            Width="150"
-                          />
-                          <TextBlock Text="MB" VerticalAlignment="Center" Margin="10,0,0,0" />
-                        </StackPanel>
-                      </Grid>
-                      <!-- 动态内存 -->
-                      <ui:ToggleSwitch
-                        Content="为此虚拟机使用动态内存"
-                        IsChecked="{Binding ViewModel.DynamicMemoryEnabled}"
-                        Margin="0,0,0,15"
-                      />
-                      <TextBlock
-                        Text="动态内存允许 Hyper-V 根据需要自动分配和释放内存。"
-                        FontSize="12"
-                        Foreground="Gray"
-                        Margin="0,0,0,20"
-                      />
-                      <!-- 动态内存设置 -->
-                      <StackPanel Visibility="{Binding ViewModel.DynamicMemoryEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <!-- 最小内存 -->
-                        <Grid Margin="0,0,0,15">
-                          <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                          </Grid.RowDefinitions>
-                          <TextBlock
-                            Grid.Row="0"
-                            Text="最小内存:"
-                            FontWeight="Medium"
-                            Margin="0,0,0,5"
-                          />
-                          <StackPanel Grid.Row="1" Orientation="Horizontal">
-                            <ui:NumberBox
-                              Value="{Binding ViewModel.MinimumMemoryMB}"
-                              Minimum="32"
-                              Maximum="1048576"
-                              Width="150"
-                            />
-                            <TextBlock Text="MB" VerticalAlignment="Center" Margin="10,0,0,0" />
-                          </StackPanel>
-                        </Grid>
-                        <!-- 最大内存 -->
-                        <Grid Margin="0,0,0,15">
-                          <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                          </Grid.RowDefinitions>
-                          <TextBlock
-                            Grid.Row="0"
-                            Text="最大内存:"
-                            FontWeight="Medium"
-                            Margin="0,0,0,5"
-                          />
-                          <StackPanel Grid.Row="1" Orientation="Horizontal">
-                            <ui:NumberBox
-                              Value="{Binding ViewModel.MaximumMemoryMB}"
-                              Minimum="32"
-                              Maximum="1048576"
-                              Width="150"
-                            />
-                            <TextBlock Text="MB" VerticalAlignment="Center" Margin="10,0,0,0" />
-                          </StackPanel>
-                        </Grid>
-                      </StackPanel>
-                    </StackPanel>
-                  </Setter.Value>
-                </Setter>
-              </DataTrigger>
-              <!-- 步骤5: 配置网络 -->
-              <DataTrigger Binding="{Binding ViewModel.CurrentStep}" Value="5">
-                <Setter Property="Content">
-                  <Setter.Value>
-                    <StackPanel Margin="40">
-                      <TextBlock
-                        Text="配置网络"
-                        FontSize="28"
-                        FontWeight="Bold"
-                        Margin="0,0,0,20"
-                      />
-                      <TextBlock
-                        Text="如果您有虚拟交换机，可以现在连接网络适配器，也可以稍后连接。"
-                        FontSize="14"
-                        Margin="0,0,0,30"
-                        TextWrapping="Wrap"
-                      />
-                      <!-- 连接选项 -->
-                      <Grid Margin="0,0,0,25">
-                        <Grid.RowDefinitions>
-                          <RowDefinition Height="Auto" />
-                          <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock
-                          Grid.Row="0"
-                          Text="连接:"
-                          FontWeight="Medium"
-                          Margin="0,0,0,10"
-                        />
-                        <ComboBox
-                          Grid.Row="1"
-                          Width="300"
-                          HorizontalAlignment="Left"
-                          ItemsSource="{Binding ViewModel.AvailableSwitches}"
-                          SelectedItem="{Binding ViewModel.SelectedSwitch}"
-                          DisplayMemberPath="Name"
-                          SelectedValuePath="Name"
-                        />
-                      </Grid>
-                      <ui:Button
-                        Content="刷新网络适配器列表"
-                        Icon="{ui:SymbolIcon ArrowClockwise24}"
-                        Command="{Binding ViewModel.LoadVMSwitchesCommand}"
-                        HorizontalAlignment="Left"
-                        Margin="0,0,0,20"
-                      />
-                      <ui:InfoBar
-                        Title="提示"
-                        Message="如果列表为空，您需要先在 Hyper-V 管理器中创建虚拟交换机。您也可以选择不连接然后稍后配置网络。"
-                        IsOpen="True"
-                        Severity="Informational"
-                      />
-                    </StackPanel>
-                  </Setter.Value>
-                </Setter>
-              </DataTrigger>
-              <!-- 步骤6: 连接虚拟硬盘 -->
-              <DataTrigger Binding="{Binding ViewModel.CurrentStep}" Value="6">
-                <Setter Property="Content">
-                  <Setter.Value>
-                    <StackPanel Margin="40">
-                      <TextBlock
-                        Text="连接虚拟硬盘"
-                        FontSize="28"
-                        FontWeight="Bold"
-                        Margin="0,0,0,20"
-                      />
-                      <TextBlock
-                        Text="虚拟硬盘在虚拟机中显示为硬盘驱动器。您可以创建新的虚拟硬盘、使用现有虚拟硬盘或稍后添加虚拟硬盘。"
-                        FontSize="14"
-                        Margin="0,0,0,30"
-                        TextWrapping="Wrap"
-                      />
-                      <StackPanel>
-                        <!-- 创建新的虚拟硬盘 -->
-                        <RadioButton
-                          Content="创建虚拟硬盘"
-                          IsChecked="{Binding ViewModel.CreateVirtualHardDisk}"
-                          GroupName="VHDOptions"
-                          Margin="0,0,0,15"
-                        />
-                        <StackPanel
-                          Margin="25,0,0,20"
-                          Visibility="{Binding ViewModel.CreateVirtualHardDisk, Converter={StaticResource BooleanToVisibilityConverter}}"
-                        >
-                          <Grid Margin="0,0,0,15">
-                            <Grid.RowDefinitions>
-                              <RowDefinition Height="Auto" />
-                              <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <TextBlock
-                              Grid.Row="0"
-                              Text="位置:"
-                              FontWeight="Medium"
-                              Margin="0,0,0,5"
-                            />
-                            <Grid Grid.Row="1" MaxWidth="400" HorizontalAlignment="Left">
-                              <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                              </Grid.ColumnDefinitions>
-                              <ui:TextBox
-                                Grid.Column="0"
-                                Text="{Binding ViewModel.VirtualHardDiskPath}"
-                                PlaceholderText="选择虚拟硬盘保存路径"
-                                Icon="{ui:SymbolIcon Storage24}"
-                              />
-                              <ui:Button
-                                Grid.Column="1"
-                                Content="浏览..."
-                                Icon="{ui:SymbolIcon FolderOpen24}"
-                                Command="{Binding ViewModel.BrowseVHDPathCommand}"
-                                Margin="5,0,0,0"
-                              />
-                            </Grid>
-                          </Grid>
-                          <Grid>
-                            <Grid.RowDefinitions>
-                              <RowDefinition Height="Auto" />
-                              <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <TextBlock
-                              Grid.Row="0"
-                              Text="大小:"
-                              FontWeight="Medium"
-                              Margin="0,0,0,5"
-                            />
-                            <StackPanel Grid.Row="1" Orientation="Horizontal">
-                              <ui:NumberBox
-                                Value="{Binding ViewModel.VirtualHardDiskSizeGB}"
-                                Minimum="1"
-                                Maximum="2048"
-                                Width="150"
-                              />
-                              <TextBlock Text="GB" VerticalAlignment="Center" Margin="10,0,0,0" />
-                            </StackPanel>
-                          </Grid>
-                        </StackPanel>
-                        <!-- 使用现有虚拟硬盘 -->
-                        <RadioButton
-                          Content="使用现有虚拟硬盘"
-                          IsChecked="{Binding ViewModel.UseExistingVhd}"
-                          GroupName="VHDOptions"
-                          Margin="0,0,0,15"
-                        />
-                        <StackPanel
-                          Margin="25,0,0,20"
-                          Visibility="{Binding ViewModel.UseExistingVhd, Converter={StaticResource BooleanToVisibilityConverter}}"
-                        >
-                          <Grid>
-                            <Grid.RowDefinitions>
-                              <RowDefinition Height="Auto" />
-                              <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <TextBlock
-                              Grid.Row="0"
-                              Text="位置:"
-                              FontWeight="Medium"
-                              Margin="0,0,0,5"
-                            />
-                            <Grid Grid.Row="1" MaxWidth="400" HorizontalAlignment="Left">
-                              <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                              </Grid.ColumnDefinitions>
-                              <ui:TextBox
-                                Grid.Column="0"
-                                Text="{Binding ViewModel.ExistingVhdPath}"
-                                PlaceholderText="选择现有的虚拟硬盘文件"
-                                IsReadOnly="True"
-                                Icon="{ui:SymbolIcon Storage24}"
-                              />
-                              <ui:Button
-                                Grid.Column="1"
-                                Content="浏览..."
-                                Icon="{ui:SymbolIcon FolderOpen24}"
-                                Command="{Binding ViewModel.BrowseExistingVHDCommand}"
-                                Margin="5,0,0,0"
-                              />
-                            </Grid>
-                          </Grid>
-                        </StackPanel>
-                        <!-- 稍后附加虚拟硬盘 -->
-                        <RadioButton
-                          Content="稍后附加虚拟硬盘"
-                          IsChecked="{Binding ViewModel.CreateVirtualHardDisk, Converter={StaticResource BoolToInvertedBoolConverter}}"
-                          GroupName="VHDOptions"
-                        />
-                      </StackPanel>
-                    </StackPanel>
-                  </Setter.Value>
-                </Setter>
-              </DataTrigger>
-              <!-- 步骤7: 安装选项 -->
-              <DataTrigger Binding="{Binding ViewModel.CurrentStep}" Value="7">
-                <Setter Property="Content">
-                  <Setter.Value>
-                    <StackPanel Margin="40">
-                      <TextBlock
-                        Text="安装选项"
-                        FontSize="28"
-                        FontWeight="Bold"
-                        Margin="0,0,0,20"
-                      />
-                      <TextBlock
-                        Text="您可以现在安装操作系统，也可以稍后安装。"
-                        FontSize="14"
-                        Margin="0,0,0,30"
-                        TextWrapping="Wrap"
-                      />
-                      <StackPanel>
-                        <RadioButton
-                          Content="稍后安装操作系统"
-                          IsChecked="True"
-                          GroupName="InstallOptions"
-                          Margin="0,0,0,15"
-                        />
-                        <RadioButton
-                          Content="从可启动 CD/DVD-ROM 安装操作系统"
-                          GroupName="InstallOptions"
-                          Margin="0,0,0,15"
-                        />
-                        <RadioButton
-                          Content="从可启动软盘安装操作系统"
-                          GroupName="InstallOptions"
-                          Margin="0,0,0,15"
-                        />
-                        <RadioButton
-                          Content="从基于网络的安装服务器安装操作系统"
-                          GroupName="InstallOptions"
-                          Margin="0,0,0,15"
-                        />
-                      </StackPanel>
-                      <!-- 处理器数量 -->
-                      <Grid Margin="0,30,0,0">
-                        <Grid.RowDefinitions>
-                          <RowDefinition Height="Auto" />
-                          <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock
-                          Grid.Row="0"
-                          Text="虚拟处理器数量:"
-                          FontWeight="Medium"
-                          Margin="0,0,0,5"
+                          Grid.Column="0"
+                          Text="最大 RAM:"
+                          VerticalAlignment="Center"
+                          Margin="0,0,10,0"
                         />
                         <ui:NumberBox
                           Grid.Row="1"
-                          Value="{Binding ViewModel.ProcessorCount}"
-                          Minimum="1"
-                          Maximum="64"
-                          Width="150"
-                          HorizontalAlignment="Left"
-                        />
-                      </Grid>
-                      <!-- 安全启动 -->
-                      <ui:ToggleSwitch
-                        Content="启用安全启动"
-                        IsChecked="{Binding ViewModel.EnableSecureBoot}"
-                        IsEnabled="{Binding ViewModel.Generation, Converter={StaticResource GenerationToBoolConverter}}"
-                        Margin="0,20,0,0"
-                      />
-                    </StackPanel>
-                  </Setter.Value>
-                </Setter>
-              </DataTrigger>
-              <!-- 步骤8: 摘要 -->
-              <DataTrigger Binding="{Binding ViewModel.CurrentStep}" Value="8">
-                <Setter Property="Content">
-                  <Setter.Value>
-                    <StackPanel Margin="40">
-                      <TextBlock
-                        Text="正在完成新建虚拟机向导"
-                        FontSize="28"
-                        FontWeight="Bold"
-                        Margin="0,0,0,20"
-                      />
-                      <TextBlock
-                        Text="您即将创建以下虚拟机。要更改这些设置，请单击上一步。要创建虚拟机并关闭此向导，请单击完成。"
-                        FontSize="14"
-                        Margin="0,0,0,30"
-                        TextWrapping="Wrap"
-                      />
-                      <ui:Card Margin="0,0,0,20">
-                        <StackPanel>
-                          <TextBlock Text="虚拟机摘要" FontWeight="Bold" Margin="0,0,0,10" />
-                          <Grid>
-                            <Grid.ColumnDefinitions>
-                              <ColumnDefinition Width="150" />
-                              <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                              <RowDefinition Height="Auto" />
-                              <RowDefinition Height="Auto" />
-                              <RowDefinition Height="Auto" />
-                              <RowDefinition Height="Auto" />
-                              <RowDefinition Height="Auto" />
-                              <RowDefinition Height="Auto" />
-                              <RowDefinition Height="Auto" />
-                              <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <TextBlock
-                              Grid.Row="0"
-                              Grid.Column="0"
-                              Text="名称:"
-                              FontWeight="Medium"
-                              Margin="0,0,0,10"
-                            />
-                            <TextBlock
-                              Grid.Row="0"
-                              Grid.Column="1"
-                              Text="{Binding ViewModel.VirtualMachineName}"
-                              Margin="0,0,0,10"
-                            />
-                            <TextBlock
-                              Grid.Row="1"
-                              Grid.Column="0"
-                              Text="代数:"
-                              FontWeight="Medium"
-                              Margin="0,0,0,10"
-                            />
-                            <TextBlock
-                              Grid.Row="1"
-                              Grid.Column="1"
-                              Text="{Binding ViewModel.Generation, StringFormat='第 {0} 代'}"
-                              Margin="0,0,0,10"
-                            />
-                            <TextBlock
-                              Grid.Row="2"
-                              Grid.Column="0"
-                              Text="位置:"
-                              FontWeight="Medium"
-                              Margin="0,0,0,10"
-                            />
-                            <TextBlock
-                              Grid.Row="2"
-                              Grid.Column="1"
-                              Text="{Binding ViewModel.VmPath}"
-                              Margin="0,0,0,10"
-                            />
-                            <TextBlock
-                              Grid.Row="3"
-                              Grid.Column="0"
-                              Text="内存:"
-                              FontWeight="Medium"
-                              Margin="0,0,0,10"
-                            />
-                            <!--<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ViewModel.MemoryStartupMB, StringFormat='{0} MB'}" Margin="0,0,0,10"/>-->
-                            <TextBlock
-                              Grid.Row="4"
-                              Grid.Column="0"
-                              Text="虚拟处理器:"
-                              FontWeight="Medium"
-                              Margin="0,0,0,10"
-                            />
-                            <TextBlock
-                              Grid.Row="4"
-                              Grid.Column="1"
-                              Text="{Binding ViewModel.ProcessorCount}"
-                              Margin="0,0,0,10"
-                            />
-                            <TextBlock
-                              Grid.Row="5"
-                              Grid.Column="0"
-                              Text="网络适配器:"
-                              FontWeight="Medium"
-                              Margin="0,0,0,10"
-                            />
-                            <TextBlock
-                              Grid.Row="5"
-                              Grid.Column="1"
-                              Text="{Binding ViewModel.SelectedSwitch.Name, FallbackValue='未连接'}"
-                              Margin="0,0,0,10"
-                            />
-                            <TextBlock
-                              Grid.Row="6"
-                              Grid.Column="0"
-                              Text="硬盘:"
-                              FontWeight="Medium"
-                              Margin="0,0,0,10"
-                            />
-                            <TextBlock Grid.Row="6" Grid.Column="1" Margin="0,0,0,10">
-                              <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0} ({1} GB)">
-                                  <Binding
-                                    Path="ViewModel.VirtualHardDiskPath"
-                                    FallbackValue="稍后创建"
-                                  />
-                                  <Binding Path="ViewModel.VirtualHardDiskSizeGB" />
-                                </MultiBinding>
-                              </TextBlock.Text>
-                            </TextBlock>
-                          </Grid>
-                        </StackPanel>
-                      </ui:Card>
-                      <!-- 创建进度 -->
-                      <StackPanel
-                        Orientation="Horizontal"
-                        VerticalAlignment="Center"
-                        Margin="0,20,0,0"
-                        Visibility="{Binding ViewModel.IsCreating, Converter={StaticResource BooleanToVisibilityConverter}}"
-                      >
-                        <ui:ProgressRing
-                          IsIndeterminate="True"
-                          Width="20"
-                          Height="20"
+                          Grid.Column="1"
+                          Value="{Binding ViewModel.MaximumMemoryMb}"
+                          Minimum="32"
+                          Maximum="1048576"
                           Margin="0,0,10,0"
                         />
-                        <TextBlock Text="正在创建虚拟机..." VerticalAlignment="Center" />
-                      </StackPanel>
+                        <TextBlock
+                          Grid.Row="1"
+                          Grid.Column="2"
+                          Text="MB"
+                          VerticalAlignment="Center"
+                        />
+                      </Grid>
                     </StackPanel>
-                  </Setter.Value>
-                </Setter>
-              </DataTrigger>
-            </Style.Triggers>
-          </Style>
-        </ContentPresenter.Style>
-      </ContentPresenter>
-    </ScrollViewer>
-    <!-- 状态信息 -->
-    <ui:InfoBar
-      Grid.Row="3"
-      Title="状态"
-      Message="{Binding ViewModel.StatusMessage}"
-      IsOpen="{Binding ViewModel.StatusMessage, Converter={StaticResource StringToVisibilityConverter}}"
-      Margin="0,20,0,0"
-    />
-    <!-- 导航按钮 -->
-    <Grid Grid.Row="3" Margin="0,20,0,0" VerticalAlignment="Bottom">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="Auto" />
-        <ColumnDefinition Width="Auto" />
-        <ColumnDefinition Width="Auto" />
-      </Grid.ColumnDefinitions>
-      <!-- 左侧帮助按钮 -->
-      <ui:Button
-        Grid.Column="0"
-        Content="帮助"
-        Icon="{ui:SymbolIcon QuestionCircle24}"
-        HorizontalAlignment="Left"
-        Appearance="Secondary"
-      />
-      <!-- 导航按钮 -->
-      <ui:Button
-        Grid.Column="1"
-        Content="上一步"
-        Icon="{ui:SymbolIcon ChevronLeft24}"
-        Command="{Binding ViewModel.PreviousStepCommand}"
-        IsEnabled="{Binding ViewModel.CanGoPrevious}"
-        Appearance="Secondary"
-        Margin="0,0,10,0"
-      />
-      <ui:Button
-        Grid.Column="2"
-        Content="下一步"
-        Icon="{ui:SymbolIcon ChevronRight24}"
-        Command="{Binding ViewModel.NextStepCommand}"
-        IsEnabled="{Binding ViewModel.CanGoNext}"
-        Appearance="Primary"
-        Margin="0,0,10,0"
+                  </ui:Card>
+                </Grid>
+              </StackPanel>
+            </ScrollViewer>
+          </Grid>
+        </TabItem>
+        <!-- 步骤5: 配置网络 -->
+        <TabItem>
+          <TabItem.Header>
+            <Grid Width="200" Height="80">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <ui:SymbolIcon
+                Grid.Row="0"
+                Symbol="Wifi124"
+                FontSize="24"
+                HorizontalAlignment="Center"
+              />
+              <TextBlock Grid.Row="1" Text="配置网络" HorizontalAlignment="Center" FontSize="12" />
+            </Grid>
+          </TabItem.Header>
+          <Grid Style="{StaticResource TabContent}">
+            <ScrollViewer>
+              <StackPanel Margin="40">
+                <TextBlock Text="配置网络" FontSize="28" FontWeight="Bold" Margin="0,0,0,20" />
+                <TextBlock
+                  Text="您可以为此虚拟机连接网络适配器，也可以稍后再配置。"
+                  FontSize="14"
+                  Margin="0,0,0,30"
+                  TextWrapping="Wrap"
+                  LineHeight="22"
+                />
+                <Grid>
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                  </Grid.RowDefinitions>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                  </Grid.ColumnDefinitions>
+                  <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="连接:"
+                    VerticalAlignment="Center"
+                    Margin="0,0,10,10"
+                  />
+                  <ComboBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    SelectedValue="{Binding ViewModel.SelectedSwitch}"
+                    DisplayMemberPath="Name"
+                    SelectedValuePath="Name"
+                    ItemsSource="{Binding ViewModel.AvailableSwitches}"
+                    Margin="0,0,0,10"
+                  />
+                  <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Text="注意: 如果选择 '未连接'，虚拟机将无法访问网络。您可以稍后在虚拟机设置中配置网络连接。"
+                    FontSize="12"
+                    Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                    TextWrapping="Wrap"
+                    Margin="0,10,0,0"
+                  />
+                </Grid>
+              </StackPanel>
+            </ScrollViewer>
+          </Grid>
+        </TabItem>
+        <!-- 步骤6: 连接虚拟硬盘 -->
+        <TabItem>
+          <TabItem.Header>
+            <Grid Width="200" Height="80">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <ui:SymbolIcon
+                Grid.Row="0"
+                Symbol="Storage24"
+                FontSize="24"
+                HorizontalAlignment="Center"
+              />
+              <TextBlock Grid.Row="1" Text="虚拟硬盘" HorizontalAlignment="Center" FontSize="12" />
+            </Grid>
+          </TabItem.Header>
+          <Grid Style="{StaticResource TabContent}">
+            <ScrollViewer>
+              <StackPanel Margin="40">
+                <TextBlock Text="连接虚拟硬盘" FontSize="28" FontWeight="Bold" Margin="0,0,0,20" />
+                <TextBlock
+                  Text="您可以指定虚拟硬盘选项。虚拟硬盘是存储虚拟机操作系统、应用程序和数据的文件。"
+                  FontSize="14"
+                  Margin="0,0,0,30"
+                  TextWrapping="Wrap"
+                  LineHeight="22"
+                />
+                <StackPanel>
+                  <RadioButton
+                    Content="创建虚拟硬盘"
+                    IsChecked="{Binding ViewModel.CreateVirtualHardDisk}"
+                    Margin="0,0,0,10"
+                  />
+                  <ui:Card
+                    Margin="20,0,0,20"
+                    Visibility="{Binding ViewModel.CreateVirtualHardDisk, Converter={StaticResource BooleanToVisibilityConverter}}"
+                  >
+                    <Grid>
+                      <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                      </Grid.RowDefinitions>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                      </Grid.ColumnDefinitions>
+                      <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Text="名称:"
+                        VerticalAlignment="Center"
+                        Margin="0,0,10,10"
+                      />
+                      <ui:TextBox
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Text="{Binding ViewModel.VirtualMachineName}"
+                        Margin="0,0,10,10"
+                      />
+                      <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Text=".vhdx"
+                        VerticalAlignment="Center"
+                      />
+                      <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Text="位置:"
+                        VerticalAlignment="Center"
+                        Margin="0,0,10,10"
+                      />
+                      <ui:TextBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Text="{Binding ViewModel.VirtualHardDiskPath}"
+                        Margin="0,0,10,10"
+                      />
+                      <!--<ui:Button
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Content="浏览..."
+                        Command="{Binding ViewModel.BrowseVHDPathCommand}"
+                      />-->
+                      <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Text="大小:"
+                        VerticalAlignment="Center"
+                        Margin="0,0,10,0"
+                      />
+                      <ui:NumberBox
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Value="{Binding ViewModel.VirtualHardDiskSizeGb}"
+                        Minimum="1"
+                        Maximum="64000"
+                        Margin="0,0,10,0"
+                      />
+                      <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Text="GB"
+                        VerticalAlignment="Center"
+                      />
+                    </Grid>
+                  </ui:Card>
+                  <RadioButton
+                    Content="使用现有虚拟硬盘"
+                    IsChecked="{Binding ViewModel.UseExistingVhd}"
+                    Margin="0,0,0,10"
+                  />
+                  <ui:Card
+                    Margin="20,0,0,20"
+                    Visibility="{Binding ViewModel.UseExistingVhd, Converter={StaticResource BooleanToVisibilityConverter}}"
+                  >
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                      </Grid.ColumnDefinitions>
+                      <TextBlock
+                        Grid.Column="0"
+                        Text="位置:"
+                        VerticalAlignment="Center"
+                        Margin="0,0,10,0"
+                      />
+                      <ui:TextBox
+                        Grid.Column="1"
+                        Text="{Binding ViewModel.ExistingVhdPath}"
+                        Margin="0,0,10,0"
+                      />
+                      <!--<ui:Button
+                        Grid.Column="2"
+                        Content="浏览..."
+                        Command="{Binding ViewModel.BrowseExistingVHDCommand}"
+                      />-->
+                    </Grid>
+                  </ui:Card>
+                  <RadioButton
+                    Content="稍后附加虚拟硬盘"
+                    IsChecked="{Binding ViewModel.SkipVhdConfiguration}"
+                    Margin="0,0,0,10"
+                  />
+                  <TextBlock
+                    Text="您可以在完成此向导后在虚拟机设置中附加虚拟硬盘。"
+                    FontSize="12"
+                    Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                    Margin="20,0,0,0"
+                    TextWrapping="Wrap"
+                    Visibility="{Binding ViewModel.SkipVhdConfiguration, Converter={StaticResource BooleanToVisibilityConverter}}"
+                  />
+                </StackPanel>
+              </StackPanel>
+            </ScrollViewer>
+          </Grid>
+        </TabItem>
+        <!-- 步骤7: 安装选项 -->
+        <TabItem>
+          <TabItem.Header>
+            <Grid Width="200" Height="80">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <ui:SymbolIcon
+                Grid.Row="0"
+                Symbol="Apps24"
+                FontSize="24"
+                HorizontalAlignment="Center"
+              />
+              <TextBlock Grid.Row="1" Text="安装选项" HorizontalAlignment="Center" FontSize="12" />
+            </Grid>
+          </TabItem.Header>
+          <Grid Style="{StaticResource TabContent}">
+            <ScrollViewer>
+              <StackPanel Margin="40">
+                <TextBlock Text="安装选项" FontSize="28" FontWeight="Bold" Margin="0,0,0,20" />
+                <TextBlock
+                  Text="您可以选择如何安装操作系统。"
+                  FontSize="14"
+                  Margin="0,0,0,30"
+                  TextWrapping="Wrap"
+                  LineHeight="22"
+                />
+                <StackPanel>
+                  <RadioButton Content="稍后安装操作系统" IsChecked="True" Margin="0,0,0,10" />
+                  <TextBlock
+                    Text="虚拟机将创建完成，但不会安装操作系统。"
+                    FontSize="12"
+                    Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                    Margin="20,0,0,20"
+                    TextWrapping="Wrap"
+                  />
+                  <RadioButton Content="从可启动 CD/DVD-ROM 安装操作系统" Margin="0,0,0,10" />
+                  <ui:Card Margin="20,0,0,20">
+                    <StackPanel>
+                      <RadioButton
+                        Content="物理 CD/DVD 驱动器"
+                        IsChecked="True"
+                        Margin="0,0,0,10"
+                      />
+                      <RadioButton Content="映像文件(.iso)" Margin="0,0,0,10" />
+                      <Grid Margin="20,0,0,0">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="*" />
+                          <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ui:TextBox
+                          Grid.Column="0"
+                          Text="{Binding ViewModel.IsoPath}"
+                          Margin="0,0,10,0"
+                        />
+                        <ui:Button Grid.Column="1" Content="浏览..." />
+                      </Grid>
+                    </StackPanel>
+                  </ui:Card>
+                  <RadioButton Content="从基于网络的安装服务器安装操作系统" Margin="0,0,0,10" />
+                  <TextBlock
+                    Text="虚拟机将从网络启动以安装操作系统。此选项需要配置网络适配器。"
+                    FontSize="12"
+                    Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                    Margin="20,0,0,0"
+                    TextWrapping="Wrap"
+                  />
+                </StackPanel>
+              </StackPanel>
+            </ScrollViewer>
+          </Grid>
+        </TabItem>
+        <!-- 步骤8: 摘要 -->
+        <TabItem>
+          <TabItem.Header>
+            <Grid Width="200" Height="80">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <ui:SymbolIcon
+                Grid.Row="0"
+                Symbol="CheckmarkCircle24"
+                FontSize="24"
+                HorizontalAlignment="Center"
+              />
+              <TextBlock Grid.Row="1" Text="摘要" HorizontalAlignment="Center" FontSize="12" />
+            </Grid>
+          </TabItem.Header>
+          <Grid Style="{StaticResource TabContent}">
+            <ScrollViewer>
+              <StackPanel Margin="40">
+                <TextBlock
+                  Text="即将完成新建虚拟机向导"
+                  FontSize="28"
+                  FontWeight="Bold"
+                  Margin="0,0,0,20"
+                />
+                <TextBlock
+                  Text="您即将创建以下虚拟机。单击完成以创建虚拟机，或者单击上一步更改设置。"
+                  FontSize="14"
+                  Margin="0,0,0,30"
+                  TextWrapping="Wrap"
+                  LineHeight="22"
+                />
+                <ui:Card>
+                  <StackPanel>
+                    <TextBlock
+                      Text="虚拟机详细信息"
+                      FontWeight="Bold"
+                      FontSize="16"
+                      Margin="0,0,0,15"
+                    />
+                    <Grid>
+                      <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                      </Grid.RowDefinitions>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="*" />
+                      </Grid.ColumnDefinitions>
+                      <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Text="名称:"
+                        FontWeight="SemiBold"
+                        Margin="0,0,0,8"
+                      />
+                      <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Text="{Binding ViewModel.VirtualMachineName}"
+                        Margin="0,0,0,8"
+                      />
+                      <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Text="代数:"
+                        FontWeight="SemiBold"
+                        Margin="0,0,0,8"
+                      />
+                      <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Text="{Binding ViewModel.Generation, StringFormat='第 {0} 代'}"
+                        Margin="0,0,0,8"
+                      />
+                      <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Text="位置:"
+                        FontWeight="SemiBold"
+                        Margin="0,0,0,8"
+                      />
+                      <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Text="{Binding ViewModel.VmPath}"
+                        Margin="0,0,0,8"
+                        TextWrapping="Wrap"
+                      />
+                      <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Text="内存:"
+                        FontWeight="SemiBold"
+                        Margin="0,0,0,8"
+                      />
+                      <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Text="{Binding ViewModel.MemoryStartupMb, Converter={StaticResource MbToFormatConverter}}"
+                        Margin="0,0,0,8"
+                      />
+                      <TextBlock
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Text="网络:"
+                        FontWeight="SemiBold"
+                        Margin="0,0,0,8"
+                      />
+                      <TextBlock
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Text="{Binding ViewModel.SelectedSwitch.Name}"
+                        Margin="0,0,0,8"
+                      />
+                      <TextBlock
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Text="硬盘:"
+                        FontWeight="SemiBold"
+                        Margin="0,0,0,8"
+                      />
+                      <TextBlock
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        Text="{Binding ViewModel.VirtualHardDiskPath}"
+                        Margin="0,0,0,8"
+                        TextWrapping="Wrap"
+                      />
+                      <TextBlock
+                        Grid.Row="6"
+                        Grid.Column="0"
+                        Text="安装选项:"
+                        FontWeight="SemiBold"
+                        Margin="0,0,0,8"
+                      />
+                      <TextBlock
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        Text="{Binding ViewModel.BootDevice}"
+                        Margin="0,0,0,8"
+                        TextWrapping="Wrap"
+                      />
+                    </Grid>
+                  </StackPanel>
+                </ui:Card>
+              </StackPanel>
+            </ScrollViewer>
+          </Grid>
+        </TabItem>
+      </TabControl>
+      <!-- 底部按钮栏 -->
+      <Border
+        Grid.Row="1"
+        BorderThickness="0,1,0,0"
+        BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
+        Background="{DynamicResource LayerFillColorDefaultBrush}"
+        Padding="20"
       >
-        <ui:Button.Style>
-          <Style TargetType="ui:Button">
-            <Style.Triggers>
-              <DataTrigger Binding="{Binding ViewModel.CurrentStep}" Value="8">
-                <Setter Property="Visibility" Value="Collapsed" />
-              </DataTrigger>
-            </Style.Triggers>
-          </Style>
-        </ui:Button.Style>
-      </ui:Button>
-      <ui:Button
-        Grid.Column="3"
-        Content="完成"
-        Icon="{ui:SymbolIcon Checkmark24}"
-        Command="{Binding ViewModel.CreateVirtualMachineCommand}"
-        IsEnabled="{Binding ViewModel.IsCreating, Converter={StaticResource BoolToInvertedBoolConverter}}"
-        Appearance="Primary"
-      >
-        <ui:Button.Style>
-          <Style TargetType="ui:Button">
-            <Setter Property="Visibility" Value="Collapsed" />
-            <Style.Triggers>
-              <DataTrigger Binding="{Binding ViewModel.CurrentStep}" Value="8">
-                <Setter Property="Visibility" Value="Visible" />
-              </DataTrigger>
-            </Style.Triggers>
-          </Style>
-        </ui:Button.Style>
-      </ui:Button>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+          <ui:Button
+            Content="上一步"
+            Command="{Binding ViewModel.PreviousStepCommand}"
+            IsEnabled="{Binding ViewModel.CanGoPrevious}"
+            Margin="0,0,10,0"
+          />
+          <ui:Button
+            Content="下一步"
+            Command="{Binding ViewModel.NextStepCommand}"
+            IsEnabled="{Binding ViewModel.CanGoNext}"
+            Margin="0,0,10,0"
+          />
+          <ui:Button
+            Content="完成"
+            Command="{Binding ViewModel.CreateVirtualMachineCommand}"
+            IsEnabled="{Binding ViewModel.CanFinish}"
+            Appearance="Primary"
+            Margin="0,0,10,0"
+          />
+          <!--<ui:Button Content="取消" Command="{Binding ViewModel.CancelCommand}" />-->
+        </StackPanel>
+      </Border>
     </Grid>
-  </Grid>
+  </controls:PageContainer>
 </Page>

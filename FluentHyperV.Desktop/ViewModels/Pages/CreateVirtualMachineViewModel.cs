@@ -1,13 +1,13 @@
 using System.Collections.ObjectModel;
-using System.Windows.Input;
+using System.IO;
 using System.Windows;
+using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Facet;
+using FluentHyperV.HyperV;
 using Microsoft.HyperV.PowerShell;
 using Wpf.Ui.Abstractions.Controls;
-using FluentHyperV.HyperV;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
-using System.IO;
 using PowerShell = FluentHyperV.PowerShell;
 
 namespace FluentHyperV.Desktop.ViewModels.Pages;
@@ -18,92 +18,101 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
     private readonly HyperVApi _hyperVApi;
 
     [ObservableProperty]
-    private string virtualMachineName = string.Empty;
+    private string _virtualMachineName = string.Empty;
 
     [ObservableProperty]
-    private int generation = 2;
+    private int _generation = 2;
 
     [ObservableProperty]
-    private long memoryStartupMB = 2048;
+    private long _memoryStartupMb = 2048;
 
     [ObservableProperty]
-    private bool dynamicMemoryEnabled = true;
+    private bool _dynamicMemoryEnabled = true;
 
     [ObservableProperty]
-    private long minimumMemoryMB = 512;
+    private long _minimumMemoryMb = 512;
 
     [ObservableProperty]
-    private long maximumMemoryMB = 4096;
+    private long _maximumMemoryMb = 4096;
 
     [ObservableProperty]
-    private int processorCount = 2;
+    private int _processorCount = 2;
 
     [ObservableProperty]
-    private bool createVirtualHardDisk = true;
+    private bool _createVirtualHardDisk = true;
 
     [ObservableProperty]
-    private string virtualHardDiskPath = string.Empty;
+    private string _virtualHardDiskPath = string.Empty;
 
     [ObservableProperty]
-    private long virtualHardDiskSizeGB = 40;
+    private long _virtualHardDiskSizeGb = 40;
 
     [ObservableProperty]
-    private string existingVhdPath = string.Empty;
+    private string _existingVhdPath = string.Empty;
 
     [ObservableProperty]
-    private bool useExistingVhd = false;
+    private bool _useExistingVhd = false;
 
     [ObservableProperty]
-    private ObservableCollection<VMSwitch> availableSwitches = new();
+    private ObservableCollection<VMSwitch> _availableSwitches = new();
 
     [ObservableProperty]
-    private VMSwitch? selectedSwitch;
+    private VMSwitch? _selectedSwitch;
 
     [ObservableProperty]
-    private bool connectToNetwork = true;
+    private bool _connectToNetwork = true;
 
     [ObservableProperty]
-    private string vmPath = string.Empty;
+    private string _vmPath = string.Empty;
 
     [ObservableProperty]
-    private bool isCreating = false;
+    private bool _isCreating = false;
 
     [ObservableProperty]
-    private string statusMessage = string.Empty;
+    private string _statusMessage = string.Empty;
 
     [ObservableProperty]
-    private bool enableSecureBoot = true;
+    private bool _enableSecureBoot = true;
 
     [ObservableProperty]
-    private string bootDevice = "VHD";
+    private string _bootDevice = "VHD";
 
     [ObservableProperty]
-    private int currentStep = 1;
+    private int _currentStep = 1;
 
     [ObservableProperty]
-    private bool canGoPrevious = false;
+    private bool _canGoPrevious = false;
 
     [ObservableProperty]
-    private bool canGoNext = true;
+    private bool _canGoNext = true;
+
+    [ObservableProperty]
+    private bool _useCustomLocation;
+
+    [ObservableProperty]
+    private bool _skipVhdConfiguration;
+
+    [ObservableProperty]
+    private string _isoPath = string.Empty;
+
+    public bool CanFinish => CurrentStep == 8 && !string.IsNullOrWhiteSpace(VirtualMachineName);
 
     public ObservableCollection<string> GenerationOptions { get; } = new() { "1", "2" };
-    
-    public ObservableCollection<string> BootDeviceOptions { get; } = new() 
-    { 
-        "VHD", "CD", "NetworkAdapter", "Floppy", "IDE", "LegacyNetworkAdapter" 
-    };
+
+    public ObservableCollection<string> BootDeviceOptions { get; } =
+        new() { "VHD", "CD", "NetworkAdapter", "Floppy", "IDE", "LegacyNetworkAdapter" };
 
     public CreateVirtualMachineViewModel()
     {
         _hyperVApi = new HyperVApi();
-        
+
         // 设置默认路径
         var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         var defaultVmPath = Path.Combine(userProfile, "Documents", "Virtual Machines");
         VmPath = defaultVmPath;
-        
+
         VirtualHardDiskPath = Path.Combine(defaultVmPath, "Virtual Hard Disks");
-        
+
         // 初始化步骤导航状态
         UpdateNavigationState();
     }
@@ -111,7 +120,7 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
     partial void OnVirtualMachineNameChanged(string value)
     {
         UpdateNavigationState();
-        
+
         // 当虚拟机名称改变时，更新虚拟硬盘路径
         if (!string.IsNullOrEmpty(value) && !string.IsNullOrEmpty(VirtualHardDiskPath))
         {
@@ -123,7 +132,7 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
         }
     }
 
-    partial void OnMemoryStartupMBChanged(long value)
+    partial void OnMemoryStartupMbChanged(long value)
     {
         UpdateNavigationState();
     }
@@ -141,12 +150,12 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
             1 => true, // 开始之前页面，无需验证
             2 => !string.IsNullOrWhiteSpace(VirtualMachineName), // 需要名称
             3 => true, // 代数选择，默认已选择
-            4 => MemoryStartupMB >= 32, // 内存验证
+            4 => MemoryStartupMb >= 32, // 内存验证
             5 => true, // 网络配置，可选
             6 => true, // 虚拟硬盘，可选
             7 => true, // 安装选项，可选
             8 => true, // 摘要页面
-            _ => false
+            _ => false,
         };
     }
 
@@ -172,7 +181,7 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
     {
         if (!_isInitialized)
         {
-            await LoadVMSwitchesAsync();
+            await LoadVmSwitchesAsync();
             _isInitialized = true;
         }
     }
@@ -180,14 +189,14 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
     public Task OnNavigatedFromAsync() => Task.CompletedTask;
 
     [RelayCommand]
-    private async Task LoadVMSwitchesAsync()
+    private async Task LoadVmSwitchesAsync()
     {
         try
         {
             StatusMessage = "正在加载虚拟交换机...";
-            
+
             var switches = await _hyperVApi.GetVMSwitchAsync(new HyperVApi.GetVMSwitchArguments());
-            
+
             AvailableSwitches.Clear();
             foreach (var vmSwitch in switches)
             {
@@ -209,14 +218,14 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
     }
 
     [RelayCommand]
-    private void BrowseVMPath()
+    private void BrowseVmPath()
     {
         var dialog = new Microsoft.Win32.SaveFileDialog()
         {
             Title = "选择虚拟机存储路径",
             CheckFileExists = false,
             CheckPathExists = true,
-            FileName = "选择文件夹"
+            FileName = "选择文件夹",
         };
 
         if (dialog.ShowDialog() == true)
@@ -226,14 +235,15 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
     }
 
     [RelayCommand]
-    private void BrowseVHDPath()
+    private void BrowseVhdPath()
     {
         var dialog = new Microsoft.Win32.SaveFileDialog()
         {
             Title = "选择虚拟硬盘路径",
-            Filter = "Virtual Hard Disk files (*.vhdx)|*.vhdx|Virtual Hard Disk files (*.vhd)|*.vhd",
+            Filter =
+                "Virtual Hard Disk files (*.vhdx)|*.vhdx|Virtual Hard Disk files (*.vhd)|*.vhd",
             DefaultExt = ".vhdx",
-            FileName = $"{VirtualMachineName}.vhdx"
+            FileName = $"{VirtualMachineName}.vhdx",
         };
 
         if (dialog.ShowDialog() == true)
@@ -243,13 +253,14 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
     }
 
     [RelayCommand]
-    private void BrowseExistingVHD()
+    private void BrowseExistingVhd()
     {
         var dialog = new Microsoft.Win32.OpenFileDialog()
         {
             Title = "选择现有虚拟硬盘",
-            Filter = "Virtual Hard Disk files (*.vhdx;*.vhd)|*.vhdx;*.vhd|VHDX files (*.vhdx)|*.vhdx|VHD files (*.vhd)|*.vhd",
-            CheckFileExists = true
+            Filter =
+                "Virtual Hard Disk files (*.vhdx;*.vhd)|*.vhdx;*.vhd|VHDX files (*.vhdx)|*.vhdx|VHD files (*.vhd)|*.vhd",
+            CheckFileExists = true,
         };
 
         if (dialog.ShowDialog() == true)
@@ -273,18 +284,18 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
             {
                 Name = VirtualMachineName,
                 Generation = (short)Generation,
-                MemoryStartupBytes = MemoryStartupMB * 1024 * 1024, // 转换为字节
+                MemoryStartupBytes = MemoryStartupMb * 1024 * 1024, // 转换为字节
                 Path = VmPath,
                 NewVHDPath = null,
                 NewVHDSizeBytes = null,
-                VHDPath = null
+                VHDPath = null,
             };
 
             // 设置虚拟硬盘
             if (!UseExistingVhd && CreateVirtualHardDisk)
             {
                 args.NewVHDPath = Path.Combine(VirtualHardDiskPath, $"{VirtualMachineName}.vhdx");
-                args.NewVHDSizeBytes = (ulong)(VirtualHardDiskSizeGB * 1024 * 1024 * 1024); // 转换为字节
+                args.NewVHDSizeBytes = (ulong)(VirtualHardDiskSizeGb * 1024 * 1024 * 1024); // 转换为字节
             }
             else if (UseExistingVhd && !string.IsNullOrEmpty(ExistingVhdPath))
             {
@@ -312,8 +323,8 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
 
             if (result != null && result.Length > 0)
             {
-                var createdVM = result[0];
-                StatusMessage = $"虚拟机 '{createdVM.Name}' 创建成功！";
+                var createdVm = result[0];
+                StatusMessage = $"虚拟机 '{createdVm.Name}' 创建成功！";
 
                 // 如果启用了动态内存，配置内存设置
                 if (DynamicMemoryEnabled && Generation == 2)
@@ -321,7 +332,7 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
                     try
                     {
                         StatusMessage = "正在配置动态内存...";
-                        await ConfigureDynamicMemoryAsync(createdVM.Name);
+                        await ConfigureDynamicMemoryAsync(createdVm.Name);
                     }
                     catch (Exception ex)
                     {
@@ -335,7 +346,7 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
                     try
                     {
                         StatusMessage = "正在配置处理器...";
-                        await ConfigureProcessorAsync(createdVM.Name);
+                        await ConfigureProcessorAsync(createdVm.Name);
                     }
                     catch (Exception ex)
                     {
@@ -345,9 +356,13 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
 
                 // 重置表单
                 ResetForm();
-                
-                MessageBox.Show($"虚拟机 '{createdVM.Name}' 创建成功！", "创建成功", 
-                    MessageBoxButton.OK, MessageBoxImage.Information);
+
+                MessageBox.Show(
+                    $"虚拟机 '{createdVm.Name}' 创建成功！",
+                    "创建成功",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information
+                );
             }
             else
             {
@@ -357,8 +372,12 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
         catch (Exception ex)
         {
             StatusMessage = $"创建虚拟机失败: {ex.Message}";
-            MessageBox.Show($"创建虚拟机失败:\n{ex.Message}", "错误", 
-                MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(
+                $"创建虚拟机失败:\n{ex.Message}",
+                "错误",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error
+            );
         }
         finally
         {
@@ -373,11 +392,12 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
         await Task.Run(() =>
         {
             using var psInstance = new PowerShell.PowerShellInstance();
-            
-            var script = $@"
-                Set-VMMemory -VMName '{vmName}' -DynamicMemoryEnabled $true -MinimumBytes {MinimumMemoryMB * 1024 * 1024} -MaximumBytes {MaximumMemoryMB * 1024 * 1024}
+
+            var script =
+                $@"
+                Set-VMMemory -VMName '{vmName}' -DynamicMemoryEnabled $true -MinimumBytes {MinimumMemoryMb * 1024 * 1024} -MaximumBytes {MaximumMemoryMb * 1024 * 1024}
             ";
-            
+
             psInstance.ExecuteScript(script);
         });
     }
@@ -388,11 +408,12 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
         await Task.Run(() =>
         {
             using var psInstance = new PowerShell.PowerShellInstance();
-            
-            var script = $@"
+
+            var script =
+                $@"
                 Set-VMProcessor -VMName '{vmName}' -Count {ProcessorCount}
             ";
-            
+
             psInstance.ExecuteScript(script);
         });
     }
@@ -411,7 +432,7 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
             return false;
         }
 
-        if (MemoryStartupMB < 32)
+        if (MemoryStartupMb < 32)
         {
             StatusMessage = "启动内存不能少于32MB";
             return false;
@@ -419,13 +440,13 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
 
         if (DynamicMemoryEnabled)
         {
-            if (MinimumMemoryMB > MemoryStartupMB)
+            if (MinimumMemoryMb > MemoryStartupMb)
             {
                 StatusMessage = "最小内存不能大于启动内存";
                 return false;
             }
 
-            if (MaximumMemoryMB < MemoryStartupMB)
+            if (MaximumMemoryMb < MemoryStartupMb)
             {
                 StatusMessage = "最大内存不能小于启动内存";
                 return false;
@@ -440,7 +461,7 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
 
         if (CreateVirtualHardDisk && !UseExistingVhd)
         {
-            if (VirtualHardDiskSizeGB < 1)
+            if (VirtualHardDiskSizeGb < 1)
             {
                 StatusMessage = "虚拟硬盘大小至少为1GB";
                 return false;
@@ -473,20 +494,20 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
     {
         VirtualMachineName = string.Empty;
         Generation = 2;
-        MemoryStartupMB = 2048;
+        MemoryStartupMb = 2048;
         DynamicMemoryEnabled = true;
-        MinimumMemoryMB = 512;
-        MaximumMemoryMB = 4096;
+        MinimumMemoryMb = 512;
+        MaximumMemoryMb = 4096;
         ProcessorCount = 2;
         CreateVirtualHardDisk = true;
-        VirtualHardDiskSizeGB = 40;
+        VirtualHardDiskSizeGb = 40;
         UseExistingVhd = false;
         ExistingVhdPath = string.Empty;
         ConnectToNetwork = true;
         EnableSecureBoot = true;
         BootDevice = "VHD";
         StatusMessage = string.Empty;
-        
+
         // 重新设置虚拟硬盘路径
         if (!string.IsNullOrEmpty(VmPath))
         {

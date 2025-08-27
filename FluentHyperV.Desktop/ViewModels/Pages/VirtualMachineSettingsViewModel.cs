@@ -26,16 +26,16 @@ public partial class VirtualMachineSettingsViewModel : ObservableObject, INaviga
 
     // 硬件设置
     [ObservableProperty]
-    private long _memoryStartupMB = 2048;
+    private long _memoryStartupMb = 2048;
 
     [ObservableProperty]
     private bool _dynamicMemoryEnabled = true;
 
     [ObservableProperty]
-    private long _minimumMemoryMB = 512;
+    private long _minimumMemoryMb = 512;
 
     [ObservableProperty]
-    private long _maximumMemoryMB = 4096;
+    private long _maximumMemoryMb = 4096;
 
     [ObservableProperty]
     private int _processorCount = 2;

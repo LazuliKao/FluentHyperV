@@ -19,38 +19,38 @@ public partial class VirtualSwitchesViewModel : ObservableObject, INavigationAwa
     private readonly HyperVInstance _hyperVInstance;
 
     [ObservableProperty]
-    private ObservableCollection<VMSwitch> virtualSwitches = new();
+    private ObservableCollection<VMSwitch> _virtualSwitches = new();
 
     [ObservableProperty]
-    private VMSwitch? selectedVirtualSwitch;
+    private VMSwitch? _selectedVirtualSwitch;
 
     [ObservableProperty]
-    private bool isLoading;
+    private bool _isLoading;
 
     [ObservableProperty]
-    private string statusMessage = string.Empty;
+    private string _statusMessage = string.Empty;
 
     [ObservableProperty]
-    private string newSwitchName = string.Empty;
+    private string _newSwitchName = string.Empty;
 
     [ObservableProperty]
-    private string selectedSwitchType = "External";
+    private string _selectedSwitchType = "External";
 
     [ObservableProperty]
-    private bool isCreateDialogOpen;
+    private bool _isCreateDialogOpen;
 
     // 详细信息编辑相关属性
     [ObservableProperty]
-    private string editingSwitchName = string.Empty;
+    private string _editingSwitchName = string.Empty;
 
     [ObservableProperty]
-    private string editingSwitchNotes = string.Empty;
+    private string _editingSwitchNotes = string.Empty;
 
     [ObservableProperty]
-    private bool isEditingDetails;
+    private bool _isEditingDetails;
 
     [ObservableProperty]
-    private bool hasSelectedSwitch;
+    private bool _hasSelectedSwitch;
 
     public ObservableCollection<string> SwitchTypes { get; } = new()
     {
