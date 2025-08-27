@@ -7,6 +7,8 @@
   xmlns:local="clr-namespace:FluentHyperV.Desktop.Views.Pages"
   xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
   xmlns:controls="clr-namespace:FluentHyperV.Desktop.Controls"
+  xmlns:converters="clr-namespace:FluentHyperV.Desktop.Converters"
+  xmlns:xf="clr-namespace:XamlFlair;assembly=XamlFlair.WPF"
   mc:Ignorable="d"
   d:DesignHeight="400"
   d:DesignWidth="600"
@@ -14,6 +16,195 @@
   d:DataContext="{d:DesignInstance local:VirtualMachinesPage,
                                      IsDesignTimeCreatable=False}"
 >
+  <Page.Resources>
+    <converters:VmStateToBrushConverter x:Key="VmStateToBrushConverter" />
+    <converters:VmStateToChineseConverter x:Key="VmStateToChineseConverter" />
+    
+    <!-- 卡片样式 -->
+    <Style x:Key="VirtualMachineCardStyle" TargetType="Border">
+      <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeColorSecondaryBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Padding" Value="16" />
+      <Setter Property="Margin" Value="8" />
+      <Setter Property="Effect">
+        <Setter.Value>
+          <DropShadowEffect Color="{DynamicResource SystemAccentColorSecondary}" 
+                            BlurRadius="8" 
+                            ShadowDepth="2" 
+                            Opacity="0.1" />
+        </Setter.Value>
+      </Setter>
+      <Setter Property="RenderTransform">
+        <Setter.Value>
+          <ScaleTransform ScaleX="1" ScaleY="1" />
+        </Setter.Value>
+      </Setter>
+      <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+      <Style.Triggers>
+        <Trigger Property="IsMouseOver" Value="True">
+          <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+          <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColorSecondaryBrush}" />
+          <Setter Property="Effect">
+            <Setter.Value>
+              <DropShadowEffect Color="{DynamicResource SystemAccentColorSecondary}" 
+                                BlurRadius="12" 
+                                ShadowDepth="4" 
+                                Opacity="0.25" />
+            </Setter.Value>
+          </Setter>
+          <Trigger.EnterActions>
+            <BeginStoryboard>
+              <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
+                                 To="1.02" Duration="0:0:0.2">
+                  <DoubleAnimation.EasingFunction>
+                    <QuadraticEase EasingMode="EaseOut" />
+                  </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
+                                 To="1.02" Duration="0:0:0.2">
+                  <DoubleAnimation.EasingFunction>
+                    <QuadraticEase EasingMode="EaseOut" />
+                  </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+              </Storyboard>
+            </BeginStoryboard>
+          </Trigger.EnterActions>
+          <Trigger.ExitActions>
+            <BeginStoryboard>
+              <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
+                                 To="1.0" Duration="0:0:0.2">
+                  <DoubleAnimation.EasingFunction>
+                    <QuadraticEase EasingMode="EaseOut" />
+                  </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
+                                 To="1.0" Duration="0:0:0.2">
+                  <DoubleAnimation.EasingFunction>
+                    <QuadraticEase EasingMode="EaseOut" />
+                  </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+              </Storyboard>
+            </BeginStoryboard>
+          </Trigger.ExitActions>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+
+    <!-- 状态指示器样式 -->
+    <Style x:Key="StatusIndicatorStyle" TargetType="Border">
+      <Setter Property="Width" Value="12" />
+      <Setter Property="Height" Value="12" />
+      <Setter Property="CornerRadius" Value="6" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Margin" Value="0,0,8,0" />
+      <Setter Property="RenderTransform">
+        <Setter.Value>
+          <ScaleTransform ScaleX="1" ScaleY="1" />
+        </Setter.Value>
+      </Setter>
+      <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding State}" Value="Running">
+          <DataTrigger.EnterActions>
+            <BeginStoryboard>
+              <Storyboard RepeatBehavior="Forever">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)">
+                  <EasingDoubleKeyFrame KeyTime="0:0:0" Value="1.0" />
+                  <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1.2" />
+                  <EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="1.0" />
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)">
+                  <EasingDoubleKeyFrame KeyTime="0:0:0" Value="1.0" />
+                  <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1.2" />
+                  <EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="1.0" />
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
+                  <EasingDoubleKeyFrame KeyTime="0:0:0" Value="1.0" />
+                  <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0.7" />
+                  <EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="1.0" />
+                </DoubleAnimationUsingKeyFrames>
+              </Storyboard>
+            </BeginStoryboard>
+          </DataTrigger.EnterActions>
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+
+    <!-- 卡片头部样式 -->
+    <Style x:Key="CardHeaderStyle" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+      <Setter Property="Margin" Value="0,0,0,8" />
+    </Style>
+
+    <!-- 卡片信息样式 -->
+    <Style x:Key="CardInfoLabelStyle" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="FontWeight" Value="Medium" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+      <Setter Property="Margin" Value="0,0,4,0" />
+    </Style>
+
+    <Style x:Key="CardInfoValueStyle" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+    </Style>
+
+    <!-- 快速操作按钮样式 -->
+    <Style x:Key="QuickActionButtonStyle" TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+      <Setter Property="RenderTransform">
+        <Setter.Value>
+          <ScaleTransform ScaleX="1" ScaleY="1" />
+        </Setter.Value>
+      </Setter>
+      <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+      <Style.Triggers>
+        <Trigger Property="IsMouseOver" Value="True">
+          <Trigger.EnterActions>
+            <BeginStoryboard>
+              <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
+                                 To="1.1" Duration="0:0:0.15">
+                  <DoubleAnimation.EasingFunction>
+                    <BackEase EasingMode="EaseOut" Amplitude="0.3" />
+                  </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
+                                 To="1.1" Duration="0:0:0.15">
+                  <DoubleAnimation.EasingFunction>
+                    <BackEase EasingMode="EaseOut" Amplitude="0.3" />
+                  </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+              </Storyboard>
+            </BeginStoryboard>
+          </Trigger.EnterActions>
+          <Trigger.ExitActions>
+            <BeginStoryboard>
+              <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
+                                 To="1.0" Duration="0:0:0.15">
+                  <DoubleAnimation.EasingFunction>
+                    <BackEase EasingMode="EaseOut" />
+                  </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
+                                 To="1.0" Duration="0:0:0.15">
+                  <DoubleAnimation.EasingFunction>
+                    <BackEase EasingMode="EaseOut" />
+                  </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+              </Storyboard>
+            </BeginStoryboard>
+          </Trigger.ExitActions>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+  </Page.Resources>
   <controls:PageContainer Header="虚拟机管理" HasPadding="True">
     <controls:PageContainer.ContainerContent>
       <Grid>
@@ -36,6 +227,13 @@
           Command="{Binding ViewModel.RefreshCommand}"
           Margin="0,0,10,0"
         />
+        <ui:Button
+          Content="全选"
+          Icon="{ui:SymbolIcon CheckboxChecked24}"
+          Command="{Binding ViewModel.ToggleSelectAllCommand}"
+          Margin="0,0,10,0"
+        />
+        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0,0,10,0" />
         <ui:Button
           Content="启动"
           Icon="{ui:SymbolIcon Play24}"
@@ -70,229 +268,230 @@
         <TextBlock Text="{Binding ViewModel.StatusMessage}" VerticalAlignment="Center" />
       </StackPanel>
     </Grid>
-        <!-- 虚拟机列表 -->
-        <Border
-          Grid.Row="1"
-      Background="{DynamicResource ControlFillColorDefaultBrush}"
-      CornerRadius="8"
-      Padding="1"
-    >
-      <DataGrid
-        ItemsSource="{Binding ViewModel.VirtualMachines}"
-        SelectedItem="{Binding ViewModel.SelectedVirtualMachine, Mode=TwoWay}"
-        AutoGenerateColumns="False"
-        CanUserAddRows="False"
-        CanUserDeleteRows="False"
-        CanUserReorderColumns="True"
-        CanUserResizeColumns="True"
-        CanUserSortColumns="True"
-        GridLinesVisibility="Horizontal"
-        HeadersVisibility="Column"
-        SelectionMode="Extended"
-        AlternatingRowBackground="{DynamicResource ControlFillColorSecondaryBrush}"
-        Background="Transparent"
-        BorderThickness="0"
-      >
-        <DataGrid.InputBindings>
-          <MouseBinding
-            MouseAction="LeftDoubleClick"
-            Command="{Binding ViewModel.ConnectToVirtualMachineCommand}"
-          />
-        </DataGrid.InputBindings>
-        <!-- 右键上下文菜单 -->
-        <DataGrid.ContextMenu>
-          <ContextMenu>
-            <MenuItem
-              Header="启动虚拟机"
-              Icon="{ui:SymbolIcon Play24}"
-              Command="{Binding ViewModel.StartVirtualMachineCommand}"
-              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource NullToBooleanConverter}}"
-            >
-              <MenuItem.ToolTip>
-                <ToolTip Content="启动选中的虚拟机" />
-              </MenuItem.ToolTip>
-            </MenuItem>
-            <MenuItem
-              Header="停止虚拟机"
-              Icon="{ui:SymbolIcon Stop24}"
-              Command="{Binding ViewModel.StopVirtualMachineCommand}"
-              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource NullToBooleanConverter}}"
-            >
-              <MenuItem.ToolTip>
-                <ToolTip Content="停止选中的虚拟机" />
-              </MenuItem.ToolTip>
-            </MenuItem>
-            <MenuItem
-              Header="重启虚拟机"
-              Icon="{ui:SymbolIcon ArrowCounterclockwise24}"
-              Command="{Binding ViewModel.RestartVirtualMachineCommand}"
-              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource NullToBooleanConverter}}"
-            >
-              <MenuItem.ToolTip>
-                <ToolTip Content="重新启动选中的虚拟机" />
-              </MenuItem.ToolTip>
-            </MenuItem>
-            <Separator />
-            <MenuItem
-              Header="暂停虚拟机"
-              Icon="{ui:SymbolIcon Pause24}"
-              Command="{Binding ViewModel.PauseVirtualMachineCommand}"
-              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource NullToBooleanConverter}}"
-            >
-              <MenuItem.ToolTip>
-                <ToolTip Content="暂停选中的虚拟机" />
-              </MenuItem.ToolTip>
-            </MenuItem>
-            <MenuItem
-              Header="恢复虚拟机"
-              Icon="{ui:SymbolIcon PlayCircle24}"
-              Command="{Binding ViewModel.ResumeVirtualMachineCommand}"
-              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource NullToBooleanConverter}}"
-            >
-              <MenuItem.ToolTip>
-                <ToolTip Content="恢复暂停的虚拟机" />
-              </MenuItem.ToolTip>
-            </MenuItem>
-            <Separator />
-            <MenuItem
-              Header="创建检查点"
-              Icon="{ui:SymbolIcon Save24}"
-              Command="{Binding ViewModel.CreateCheckpointCommand}"
-              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource NullToBooleanConverter}}"
-            >
-              <MenuItem.ToolTip>
-                <ToolTip Content="为选中的虚拟机创建检查点" />
-              </MenuItem.ToolTip>
-            </MenuItem>
-            <MenuItem
-              Header="连接到虚拟机"
-              Icon="{ui:SymbolIcon Desktop24}"
-              Command="{Binding ViewModel.ConnectToVirtualMachineCommand}"
-              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource NullToBooleanConverter}}"
-            >
-              <MenuItem.ToolTip>
-                <ToolTip Content="使用Hyper-V管理器连接到虚拟机" />
-              </MenuItem.ToolTip>
-            </MenuItem>
-            <Separator />
-            <MenuItem
-              Header="设置"
-              Icon="{ui:SymbolIcon Settings24}"
-              Command="{Binding ViewModel.ShowVirtualMachineSettingsCommand}"
-              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource NullToBooleanConverter}}"
-            >
-              <MenuItem.ToolTip>
-                <ToolTip Content="打开虚拟机设置" />
-              </MenuItem.ToolTip>
-            </MenuItem>
-            <MenuItem
-              Header="删除虚拟机"
-              Icon="{ui:SymbolIcon Delete24}"
-              Command="{Binding ViewModel.DeleteVirtualMachineCommand}"
-              IsEnabled="{Binding ViewModel.SelectedVirtualMachine, Converter={StaticResource NullToBooleanConverter}}"
-              Foreground="Red"
-            >
-              <MenuItem.ToolTip>
-                <ToolTip Content="删除选中的虚拟机（不可恢复）" />
-              </MenuItem.ToolTip>
-            </MenuItem>
-            <Separator />
-            <MenuItem
-              Header="刷新列表"
-              Icon="{ui:SymbolIcon ArrowClockwise24}"
-              Command="{Binding ViewModel.RefreshCommand}"
-            >
-              <MenuItem.ToolTip>
-                <ToolTip Content="刷新虚拟机列表" />
-              </MenuItem.ToolTip>
-            </MenuItem>
-          </ContextMenu>
-        </DataGrid.ContextMenu>
-        <DataGrid.Columns>
-          <!-- 选择框 -->
-          <DataGridTemplateColumn Header="" Width="50">
-            <DataGridTemplateColumn.HeaderTemplate>
+        <!-- 虚拟机卡片列表 -->
+        <ScrollViewer 
+          Grid.Row="1" 
+          VerticalScrollBarVisibility="Auto" 
+          HorizontalScrollBarVisibility="Disabled"
+          xf:Animations.Primary="{StaticResource AnimationFadeInAndSlideFromBottom}">
+          
+          <ItemsControl ItemsSource="{Binding ViewModel.VirtualMachines}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel Orientation="Horizontal" />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            
+            <ItemsControl.ItemTemplate>
               <DataTemplate>
-                <CheckBox
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
-                  ToolTip="全选/取消全选"
-                  Command="{Binding DataContext.ViewModel.ToggleSelectAllCommand, RelativeSource={RelativeSource AncestorType=Page}}"
-                />
+                <!-- 虚拟机卡片 -->
+                <Border Style="{StaticResource VirtualMachineCardStyle}"
+                        Width="320" 
+                        Height="280"
+                        Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Page}}"
+                        xf:Animations.Primary="{StaticResource AnimationFadeInAndSlideFromBottom}"
+                        xf:Animations.AnimateOnLoad="True"
+                        xf:Animations.InterElementDelay="100">
+                  <Border.InputBindings>
+                    <MouseBinding MouseAction="LeftDoubleClick" 
+                                  Command="{Binding DataContext.ViewModel.ConnectToVirtualMachineCommand, RelativeSource={RelativeSource AncestorType=Page}}" />
+                  </Border.InputBindings>
+                  
+                  <!-- 右键上下文菜单 -->
+                  <Border.ContextMenu>
+                    <ContextMenu DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
+                                 Opened="ContextMenu_Opened">
+                      <MenuItem Header="启动虚拟机" Icon="{ui:SymbolIcon Play24}"
+                                Command="{Binding ViewModel.StartVirtualMachineCommand}" />
+                      <MenuItem Header="停止虚拟机" Icon="{ui:SymbolIcon Stop24}"
+                                Command="{Binding ViewModel.StopVirtualMachineCommand}" />
+                      <MenuItem Header="重启虚拟机" Icon="{ui:SymbolIcon ArrowCounterclockwise24}"
+                                Command="{Binding ViewModel.RestartVirtualMachineCommand}" />
+                      <Separator />
+                      <MenuItem Header="暂停虚拟机" Icon="{ui:SymbolIcon Pause24}"
+                                Command="{Binding ViewModel.PauseVirtualMachineCommand}" />
+                      <MenuItem Header="恢复虚拟机" Icon="{ui:SymbolIcon PlayCircle24}"
+                                Command="{Binding ViewModel.ResumeVirtualMachineCommand}" />
+                      <Separator />
+                      <MenuItem Header="创建检查点" Icon="{ui:SymbolIcon Save24}"
+                                Command="{Binding ViewModel.CreateCheckpointCommand}" />
+                      <MenuItem Header="连接到虚拟机" Icon="{ui:SymbolIcon Desktop24}"
+                                Command="{Binding ViewModel.ConnectToVirtualMachineCommand}" />
+                      <Separator />
+                      <MenuItem Header="设置" Icon="{ui:SymbolIcon Settings24}"
+                                Command="{Binding ViewModel.ShowVirtualMachineSettingsCommand}" />
+                      <MenuItem Header="删除虚拟机" Icon="{ui:SymbolIcon Delete24}" Foreground="Red"
+                                Command="{Binding ViewModel.DeleteVirtualMachineCommand}" />
+                      <Separator />
+                      <MenuItem Header="刷新列表" Icon="{ui:SymbolIcon ArrowClockwise24}"
+                                Command="{Binding ViewModel.RefreshCommand}" />
+                    </ContextMenu>
+                  </Border.ContextMenu>
+                  
+                  <Grid>
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="Auto" />
+                      <RowDefinition Height="*" />
+                      <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    
+                    <!-- 卡片头部 -->
+                    <Grid Grid.Row="0">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                      </Grid.ColumnDefinitions>
+                      
+                      <!-- VM 名称 -->
+                      <TextBlock Grid.Column="0" Text="{Binding Name}" Style="{StaticResource CardHeaderStyle}" />
+                      
+                      <!-- 选择框 -->
+                      <CheckBox Grid.Column="1" IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                                VerticalAlignment="Top" Margin="0,2,0,0" />
+                    </Grid>
+                    
+                    <!-- 卡片内容 -->
+                    <StackPanel Grid.Row="1">
+                      
+                      <!-- 状态行 -->
+                      <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto" />
+                          <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                          <Border Style="{StaticResource StatusIndicatorStyle}"
+                                  Background="{Binding State, Converter={StaticResource VmStateToBrushConverter}}" />
+                          <TextBlock Text="状态：" Style="{StaticResource CardInfoLabelStyle}" />
+                        </StackPanel>
+                        
+                        <TextBlock Grid.Column="1" 
+                                   Text="{Binding State, Converter={StaticResource VmStateToChineseConverter}}" 
+                                   Style="{StaticResource CardInfoValueStyle}" 
+                                   VerticalAlignment="Center" />
+                      </Grid>
+                      
+                      <!-- 处理器信息 -->
+                      <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto" />
+                          <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                          <TextBlock Text="🔧 处理器：" Style="{StaticResource CardInfoLabelStyle}" />
+                        </StackPanel>
+                        
+                        <TextBlock Grid.Column="1" Text="{Binding ProcessorCount}" 
+                                   Style="{StaticResource CardInfoValueStyle}" />
+                      </Grid>
+                      
+                      <!-- 内存信息 -->
+                      <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto" />
+                          <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                          <TextBlock Text="💾 内存：" Style="{StaticResource CardInfoLabelStyle}" />
+                        </StackPanel>
+                        
+                        <TextBlock Grid.Column="1" 
+                                   Text="{Binding MemoryAssigned, Converter={StaticResource BytesToFormatConverter}}" 
+                                   Style="{StaticResource CardInfoValueStyle}" />
+                      </Grid>
+                      
+                      <!-- 动态内存 -->
+                      <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto" />
+                          <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                          <TextBlock Text="⚡ 动态内存：" Style="{StaticResource CardInfoLabelStyle}" />
+                        </StackPanel>
+                        
+                        <TextBlock Grid.Column="1" 
+                                   Text="{Binding DynamicMemoryEnabled, Converter={StaticResource BoolToStringConverter}, ConverterParameter=已启用|已禁用}" 
+                                   Style="{StaticResource CardInfoValueStyle}" />
+                      </Grid>
+                      
+                      <!-- 创建时间 -->
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto" />
+                          <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                          <TextBlock Text="🕒 创建时间：" Style="{StaticResource CardInfoLabelStyle}" />
+                        </StackPanel>
+                        
+                        <TextBlock Grid.Column="1" 
+                                   Text="{Binding CreationTime, Converter={StaticResource DateTimeToStringConverter}}" 
+                                   Style="{StaticResource CardInfoValueStyle}" 
+                                   TextWrapping="Wrap" />
+                      </Grid>
+                      
+                    </StackPanel>
+                    
+                    <!-- 卡片底部操作按钮 -->
+                    <Grid Grid.Row="2" Margin="0,12,0,0">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                      </Grid.ColumnDefinitions>
+                      
+                      <!-- VM ID (小字体) -->
+                      <TextBlock Grid.Column="0" 
+                                 Text="{Binding Id}" 
+                                 FontSize="10" 
+                                 Foreground="{DynamicResource TextFillColorTertiaryBrush}" 
+                                 TextTrimming="CharacterEllipsis"
+                                 VerticalAlignment="Center"
+                                 ToolTip="{Binding Id}" />
+                      
+                      <!-- 快速操作按钮 -->
+                      <ui:Button Grid.Column="1" 
+                                 Icon="{ui:SymbolIcon Play24}" 
+                                 Appearance="Secondary"
+                                 Style="{StaticResource QuickActionButtonStyle}"
+                                 Width="32" Height="32"
+                                 Margin="4,0,0,0"
+                                 ToolTip="启动"
+                                 Click="StartButton_Click" />
+                      
+                      <ui:Button Grid.Column="2" 
+                                 Icon="{ui:SymbolIcon Stop24}" 
+                                 Appearance="Secondary"
+                                 Style="{StaticResource QuickActionButtonStyle}"
+                                 Width="32" Height="32"
+                                 Margin="4,0,0,0"
+                                 ToolTip="停止"
+                                 Click="StopButton_Click" />
+                      
+                      <ui:Button Grid.Column="3" 
+                                 Icon="{ui:SymbolIcon Desktop24}" 
+                                 Appearance="Secondary"
+                                 Style="{StaticResource QuickActionButtonStyle}"
+                                 Width="32" Height="32"
+                                 Margin="4,0,0,0"
+                                 ToolTip="连接"
+                                 Click="ConnectButton_Click" />
+                    </Grid>
+                  </Grid>
+                </Border>
               </DataTemplate>
-            </DataGridTemplateColumn.HeaderTemplate>
-            <DataGridTemplateColumn.CellTemplate>
-              <DataTemplate>
-                <CheckBox
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
-                  IsChecked="{Binding IsSelected, Mode=TwoWay}"
-                />
-              </DataTemplate>
-            </DataGridTemplateColumn.CellTemplate>
-          </DataGridTemplateColumn>
-          <!-- 名称 -->
-          <DataGridTextColumn
-            Header="名称"
-            Binding="{Binding Name}"
-            Width="200"
-            IsReadOnly="True"
-          />
-          <!-- 状态 -->
-          <DataGridTemplateColumn Header="状态" Width="120">
-            <DataGridTemplateColumn.CellTemplate>
-              <DataTemplate>
-                <StackPanel Orientation="Horizontal">
-                  <Ellipse
-                    Width="8"
-                    Height="8"
-                    Fill="{Binding State, Converter={StaticResource StatusToBrushConverter}}"
-                    Margin="0,0,8,0"
-                  />
-                  <TextBlock Text="{Binding State}" VerticalAlignment="Center" />
-                </StackPanel>
-              </DataTemplate>
-            </DataGridTemplateColumn.CellTemplate>
-          </DataGridTemplateColumn>
-          <!-- 处理器数量 -->
-          <DataGridTextColumn
-            Header="CPU"
-            Binding="{Binding ProcessorCount}"
-            Width="80"
-            IsReadOnly="True"
-          />
-          <!-- 内存分配 -->
-          <DataGridTextColumn
-            Header="内存"
-            Binding="{Binding MemoryAssigned, Converter={StaticResource BytesToFormatConverter}}"
-            Width="120"
-            IsReadOnly="True"
-          />
-          <!-- 动态内存 -->
-          <DataGridTemplateColumn Header="动态内存" Width="100">
-            <DataGridTemplateColumn.CellTemplate>
-              <DataTemplate>
-                <TextBlock
-                  Text="{Binding DynamicMemoryEnabled, Converter={StaticResource BoolToStringConverter}}"
-                  HorizontalAlignment="Center"
-                />
-              </DataTemplate>
-            </DataGridTemplateColumn.CellTemplate>
-          </DataGridTemplateColumn>
-          <!-- 创建时间 -->
-          <DataGridTextColumn
-            Header="创建时间"
-            Binding="{Binding CreationTime, Converter={StaticResource DateTimeToStringConverter}}"
-            Width="150"
-            IsReadOnly="True"
-          />
-          <!-- ID -->
-          <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="200" IsReadOnly="True" />
-        </DataGrid.Columns>
-      </DataGrid>
-    </Border>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
         <!-- 状态栏 -->
-        <Border
+        <!--<Border
           Grid.Row="2"
       Background="{DynamicResource ControlFillColorSecondaryBrush}"
       CornerRadius="4"
@@ -321,7 +520,7 @@
           </TextBlock.Text>
         </TextBlock>
         </Grid>
-        </Border>
+        </Border>-->
       </Grid>
     </controls:PageContainer.ContainerContent>
   </controls:PageContainer>
