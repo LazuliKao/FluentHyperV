@@ -7,6 +7,7 @@
   xmlns:local="clr-namespace:FluentHyperV.Desktop.Views.Pages"
   xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
   xmlns:converters="clr-namespace:FluentHyperV.Desktop.Converters"
+  xmlns:controls="clr-namespace:FluentHyperV.Desktop.Controls"
   mc:Ignorable="d"
   d:DesignHeight="800"
   d:DesignWidth="1200"
@@ -21,27 +22,18 @@
   </Page.Resources>
   <!-- 整体容器 -->
   <Grid>
-    <!-- 主要内容区域 -->
-    <Grid Margin="20">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="*" />
-        <RowDefinition Height="Auto" />
-      </Grid.RowDefinitions>
-      <!-- 标题栏 -->
-      <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
-        <ui:SymbolIcon Symbol="Router24" FontSize="24" Margin="0,0,10,0" />
-        <TextBlock
-          Text="虚拟交换机管理"
-          FontSize="24"
-          FontWeight="Bold"
-          VerticalAlignment="Center"
-        />
-      </StackPanel>
-      <!-- 工具栏 -->
-      <Border
-        Grid.Row="1"
+    <controls:PageContainer Header="虚拟交换机管理" HasPadding="True">
+      <controls:PageContainer.ContainerContent>
+        <!-- 主要内容区域 -->
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <!-- 工具栏 -->
+          <Border
+            Grid.Row="0"
         Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
         CornerRadius="8"
         Padding="16"
@@ -71,8 +63,8 @@
           />
         </StackPanel>
       </Border>
-      <!-- 主内容区域：左右分栏布局 -->
-      <Grid Grid.Row="2">
+          <!-- 主内容区域：左右分栏布局 -->
+          <Grid Grid.Row="1">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="2*" MinWidth="300" />
           <ColumnDefinition Width="5" />
@@ -117,7 +109,6 @@
             <!-- 虚拟交换机列表 -->
             <ListBox
               Grid.Row="1"
-              x:Name="VirtualSwitchesList"
               ItemsSource="{Binding ViewModel.VirtualSwitches}"
               SelectedItem="{Binding ViewModel.SelectedVirtualSwitch}"
               Background="Transparent"
@@ -433,9 +424,9 @@
           </Grid>
         </Border>
       </Grid>
-      <!-- 状态栏 -->
-      <Border
-        Grid.Row="3"
+          <!-- 状态栏 -->
+          <Border
+            Grid.Row="2"
         Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
         CornerRadius="8"
         Padding="16"
@@ -453,9 +444,11 @@
             Foreground="{DynamicResource TextFillColorSecondaryBrush}"
             VerticalAlignment="Center"
           />
-        </StackPanel>
-      </Border>
-    </Grid>
+          </StackPanel>
+          </Border>
+        </Grid>
+      </controls:PageContainer.ContainerContent>
+    </controls:PageContainer>
     <!-- 自定义对话框遮罩层 -->
     <Grid
       x:Name="DialogOverlay"

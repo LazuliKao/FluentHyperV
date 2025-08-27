@@ -6,6 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="clr-namespace:FluentHyperV.Desktop.Views.Pages"
   xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+  xmlns:controls="clr-namespace:FluentHyperV.Desktop.Controls"
   mc:Ignorable="d"
   d:DesignHeight="400"
   d:DesignWidth="600"
@@ -13,20 +14,16 @@
   d:DataContext="{d:DesignInstance local:VirtualMachinesPage,
                                      IsDesignTimeCreatable=False}"
 >
-  <Grid Margin="20">
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="*" />
-      <RowDefinition Height="Auto" />
-    </Grid.RowDefinitions>
-    <!-- 标题栏 -->
-    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
-      <ui:SymbolIcon Symbol="Server24" FontSize="24" Margin="0,0,10,0" />
-      <TextBlock Text="虚拟机管理" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" />
-    </StackPanel>
-    <!-- 工具栏 -->
-    <Grid Grid.Row="1" Margin="0,0,0,20">
+  <controls:PageContainer Header="虚拟机管理" HasPadding="True">
+    <controls:PageContainer.ContainerContent>
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!-- 工具栏 -->
+        <Grid Grid.Row="0" Margin="0,0,0,20">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="Auto" />
@@ -73,15 +70,14 @@
         <TextBlock Text="{Binding ViewModel.StatusMessage}" VerticalAlignment="Center" />
       </StackPanel>
     </Grid>
-    <!-- 虚拟机列表 -->
-    <Border
-      Grid.Row="2"
+        <!-- 虚拟机列表 -->
+        <Border
+          Grid.Row="1"
       Background="{DynamicResource ControlFillColorDefaultBrush}"
       CornerRadius="8"
       Padding="1"
     >
       <DataGrid
-        x:Name="VirtualMachinesDataGrid"
         ItemsSource="{Binding ViewModel.VirtualMachines}"
         SelectedItem="{Binding ViewModel.SelectedVirtualMachine, Mode=TwoWay}"
         AutoGenerateColumns="False"
@@ -218,7 +214,6 @@
             <DataGridTemplateColumn.HeaderTemplate>
               <DataTemplate>
                 <CheckBox
-                  x:Name="SelectAllCheckBox"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center"
                   ToolTip="全选/取消全选"
@@ -296,9 +291,9 @@
         </DataGrid.Columns>
       </DataGrid>
     </Border>
-    <!-- 状态栏 -->
-    <Border
-      Grid.Row="3"
+        <!-- 状态栏 -->
+        <Border
+          Grid.Row="2"
       Background="{DynamicResource ControlFillColorSecondaryBrush}"
       CornerRadius="4"
       Padding="10,5"
@@ -325,7 +320,9 @@
             </MultiBinding>
           </TextBlock.Text>
         </TextBlock>
+        </Grid>
+        </Border>
       </Grid>
-    </Border>
-  </Grid>
+    </controls:PageContainer.ContainerContent>
+  </controls:PageContainer>
 </Page>
