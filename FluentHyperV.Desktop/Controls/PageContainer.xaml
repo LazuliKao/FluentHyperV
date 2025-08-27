@@ -4,9 +4,7 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:markup="clr-namespace:WpfExtensions.Xaml.Markup;assembly=WpfExtensions.Xaml"
   xmlns:controls="clr-namespace:FluentHyperV.Desktop.Controls"
-  xmlns:converters="clr-namespace:FluentHyperV.Desktop.Converters"
   xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
   mc:Ignorable="d"
   d:DesignHeight="450"
@@ -14,9 +12,6 @@
   x:Name="Root"
 >
   <UserControl.Resources>
-    <controls:BoolToPaddingConverter x:Key="BoolToPaddingConverter" />
-    <controls:BoolToPaddingConverterForText x:Key="BoolToPaddingConverterForText" />
-    <controls:BoolToGridRowConverter x:Key="BoolToGridRowConverter" />
     <ControlTemplate
       x:Key="ContentControlWithScrollViewTemplate"
       TargetType="{x:Type ContentControl}"
@@ -51,20 +46,20 @@
           </Style.Triggers>
         </Style>
       </ContentControl.Style>
-      <Grid Margin="{Binding HasPadding, ElementName=Root, Converter={StaticResource BoolToPaddingConverter},Mode=OneWay}">
+      <Grid Margin="{Binding HasPadding, ElementName=Root, Converter={x:Static controls:PageContainer.BoolToPaddingConverterInstance},Mode=OneWay}">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
           <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock
-          Grid.Row="{Binding IsTextFloating, ElementName=Root, Converter={StaticResource BoolToGridRowConverter}}"
+          Grid.Row="{Binding IsTextFloating, ElementName=Root, Converter={x:Static controls:PageContainer.BoolToGridRowConverterInstance}}"
           FontWeight="Bold"
           FontSize="32"
           Text="{Binding Header, ElementName=Root, Mode=OneWay}"
           Foreground="{DynamicResource TextFillColorPrimaryBrush}"
           HorizontalAlignment="Left"
           VerticalAlignment="Top"
-          Margin="{Binding HasPadding, ElementName=Root, Converter={StaticResource BoolToPaddingConverterForText},Mode=OneWay}"
+          Margin="{Binding HasPadding, ElementName=Root, Converter={x:Static controls:PageContainer.BoolToPaddingConverterForTextInstance},Mode=OneWay}"
         />
         <ContentPresenter
           Grid.Row="1"

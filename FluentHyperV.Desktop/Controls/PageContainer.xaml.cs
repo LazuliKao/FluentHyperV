@@ -27,6 +27,9 @@ public partial class PageContainer : UserControl
         protected override int ConvertNonNullValue(bool value) => value ? 1 : 0;
     }
 
+    public static BoolToPaddingConverter BoolToPaddingConverterInstance => new();
+    public static BoolToPaddingConverterForText BoolToPaddingConverterForTextInstance => new();
+    public static BoolToGridRowConverter BoolToGridRowConverterInstance => new();
     public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
         "Header",
         typeof(string),
