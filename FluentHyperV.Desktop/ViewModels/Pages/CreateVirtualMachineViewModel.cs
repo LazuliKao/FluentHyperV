@@ -177,10 +177,16 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
         UpdateNavigationState();
     }
 
+    partial void OnCurrentStepChanged(int value)
+    {
+        UpdateNavigationState();
+        OnPropertyChanged(nameof(CanFinish));
+    }
+
     private void UpdateNavigationState()
     {
         var previousMaxStep = MaxCompletedStep;
-        CanGoPrevious = CurrentStep > 0;
+        CanGoPrevious = CurrentStep > 1; // 只有当前步骤大于1时才能回退
         CanGoNext = CurrentStep < 8 && ValidateCurrentStep();
 
         // 如果当前步骤验证通过，更新最大完成步骤
@@ -250,7 +256,7 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
     [RelayCommand]
     private void PreviousStep()
     {
-        if (CanGoPrevious && CurrentStep > 0)
+        if (CanGoPrevious && CurrentStep > 1) // 防止回退到欢迎页面(索引0)
         {
             CurrentStep--;
             UpdateNavigationState();
@@ -276,8 +282,50 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
         return step <= MaxCompletedStep || step == MaxCompletedStep + 1;
     }
 
+    private void ResetWizardState()
+    {
+        // 重置所有向导状态
+        CurrentStep = 1;
+        MaxCompletedStep = 1;
+        CanGoPrevious = false;
+        CanGoNext = true;
+
+        // 重置所有表单字段
+        VirtualMachineName = string.Empty;
+        Generation = 1; // 默认第1代
+        MemoryStartupMb = 2048;
+        DynamicMemoryEnabled = true;
+        MinimumMemoryMb = 512;
+        MaximumMemoryMb = 4096;
+        ProcessorCount = 2;
+        CreateVirtualHardDisk = true;
+        UseExistingVhd = false;
+        SkipVhdConfiguration = false;
+        ExistingVhdPath = string.Empty;
+        ConnectToNetwork = true;
+        UseCustomLocation = false;
+        IsoPath = string.Empty;
+        BootDevice = "VHD";
+        IsCreating = false;
+        StatusMessage = string.Empty;
+
+        // 重置路径
+        var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        var defaultVmPath = Path.Combine(userProfile, "Documents", "Virtual Machines");
+        VmPath = defaultVmPath;
+        VirtualHardDiskPath = Path.Combine(defaultVmPath, "Virtual Hard Disks");
+
+        // 清除选中的交换机
+        SelectedSwitch = AvailableSwitches.FirstOrDefault();
+
+        System.Diagnostics.Debug.WriteLine("向导状态已重置");
+    }
+
     public async Task OnNavigatedToAsync()
     {
+        // 每次导航到页面时重置所有状态
+        ResetWizardState();
+
         if (!_isInitialized)
         {
             await LoadVmSwitchesAsync();

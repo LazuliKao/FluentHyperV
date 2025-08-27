@@ -44,8 +44,38 @@ public partial class CreateVirtualMachinePage : Page, INavigableView<CreateVirtu
 
         if (tabItem != null)
         {
-            e.Handled = true;
-            return;
+            // 获取TabControl
+            var tabControl = FindParentTabControl(tabItem);
+            if (tabControl != null)
+            {
+                // 获取被点击的Tab的索引
+                int clickedIndex = tabControl.Items.IndexOf(tabItem);
+                // 获取当前选中的Tab索引
+                int currentIndex = tabControl.SelectedIndex;
+
+                // 拦截逻辑：只允许点击当前步骤及之前的步骤（基于MaxCompletedStep）
+                if (clickedIndex > ViewModel.MaxCompletedStep)
+                {
+                    e.Handled = true;
+                    System.Diagnostics.Debug.WriteLine(
+                        $"拦截了Tab点击: 点击索引 {clickedIndex}, 当前索引 {currentIndex}, MaxCompletedStep: {ViewModel.MaxCompletedStep}"
+                    );
+                    return;
+                }
+
+                // 如果允许访问，更新ViewModel的CurrentStep并重新计算导航状态
+                // 使用Dispatcher确保在UI线程中执行
+                Dispatcher.BeginInvoke(
+                    () =>
+                    {
+                        ViewModel.CurrentStep = clickedIndex;
+                        System.Diagnostics.Debug.WriteLine(
+                            $"允许Tab点击，更新CurrentStep到: {clickedIndex}"
+                        );
+                    },
+                    DispatcherPriority.Input
+                );
+            }
         }
     }
 
@@ -56,6 +86,19 @@ public partial class CreateVirtualMachinePage : Page, INavigableView<CreateVirtu
             if (element is TabItem tabItem)
             {
                 return tabItem;
+            }
+            element = VisualTreeHelper.GetParent(element);
+        }
+        return null;
+    }
+
+    private TabControl? FindParentTabControl(DependencyObject? element)
+    {
+        while (element != null)
+        {
+            if (element is TabControl tabControl)
+            {
+                return tabControl;
             }
             element = VisualTreeHelper.GetParent(element);
         }

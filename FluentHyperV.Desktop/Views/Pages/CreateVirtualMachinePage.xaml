@@ -852,20 +852,29 @@
           Content="上一步"
           Command="{Binding ViewModel.PreviousStepCommand}"
           IsEnabled="{Binding ViewModel.CanGoPrevious}"
-          Margin="0,0,10,0"
+          Margin="0,0,15,0"
+          MinWidth="100"
+          Height="40"
+          FontSize="14"
         />
         <ui:Button
           Content="下一步"
           Command="{Binding ViewModel.NextStepCommand}"
           IsEnabled="{Binding ViewModel.CanGoNext}"
-          Margin="0,0,10,0"
+          Margin="0,0,15,0"
+          MinWidth="100"
+          Height="40"
+          FontSize="14"
         />
         <ui:Button
           Content="完成"
           Command="{Binding ViewModel.CreateVirtualMachineCommand}"
           IsEnabled="{Binding ViewModel.CanFinish}"
           Appearance="Primary"
-          Margin="0,0,10,0"
+          Margin="0,0,15,0"
+          MinWidth="100"
+          Height="40"
+          FontSize="14"
         />
         <!--<ui:Button Content="取消" Command="{Binding ViewModel.CancelCommand}" />-->
       </StackPanel>
