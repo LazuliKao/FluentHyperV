@@ -7,6 +7,8 @@
   xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
   xmlns:pages="clr-namespace:FluentHyperV.Desktop.Views.Pages"
   xmlns:controls="clr-namespace:FluentHyperV.Desktop.Controls"
+  xmlns:xf="clr-namespace:XamlFlair;assembly=XamlFlair.WPF"
+  xmlns:sys="clr-namespace:System;assembly=System.Runtime"
   Title="DashboardPage"
   d:DataContext="{d:DesignInstance pages:DashboardPage,
                                      IsDesignTimeCreatable=False}"
@@ -17,26 +19,346 @@
   Foreground="{DynamicResource TextFillColorPrimaryBrush}"
   mc:Ignorable="d"
 >
-  <controls:PageContainer Header="仪表板">
+  <Page.Resources>
+    <!-- 仪表板卡片样式 -->
+    <Style x:Key="DashboardCardStyle" TargetType="Border">
+      <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeColorSecondaryBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Padding" Value="20" />
+      <Setter Property="Margin" Value="8" />
+      <Setter Property="Effect">
+        <Setter.Value>
+          <DropShadowEffect Color="{DynamicResource SystemAccentColorSecondary}" 
+                            BlurRadius="8" 
+                            ShadowDepth="2" 
+                            Opacity="0.1" />
+        </Setter.Value>
+      </Setter>
+      <Setter Property="RenderTransform">
+        <Setter.Value>
+          <ScaleTransform ScaleX="1" ScaleY="1" />
+        </Setter.Value>
+      </Setter>
+      <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+      <Style.Triggers>
+        <Trigger Property="IsMouseOver" Value="True">
+          <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+          <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColorSecondaryBrush}" />
+          <Setter Property="Effect">
+            <Setter.Value>
+              <DropShadowEffect Color="{DynamicResource SystemAccentColorSecondary}" 
+                                BlurRadius="12" 
+                                ShadowDepth="3" 
+                                Opacity="0.2" />
+            </Setter.Value>
+          </Setter>
+          <Trigger.EnterActions>
+            <BeginStoryboard>
+              <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
+                                 To="1.02" Duration="0:0:0.2">
+                  <DoubleAnimation.EasingFunction>
+                    <QuadraticEase EasingMode="EaseOut" />
+                  </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
+                                 To="1.02" Duration="0:0:0.2">
+                  <DoubleAnimation.EasingFunction>
+                    <QuadraticEase EasingMode="EaseOut" />
+                  </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+              </Storyboard>
+            </BeginStoryboard>
+          </Trigger.EnterActions>
+          <Trigger.ExitActions>
+            <BeginStoryboard>
+              <Storyboard>
+                <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
+                                 To="1.0" Duration="0:0:0.2">
+                  <DoubleAnimation.EasingFunction>
+                    <QuadraticEase EasingMode="EaseOut" />
+                  </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
+                                 To="1.0" Duration="0:0:0.2">
+                  <DoubleAnimation.EasingFunction>
+                    <QuadraticEase EasingMode="EaseOut" />
+                  </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+              </Storyboard>
+            </BeginStoryboard>
+          </Trigger.ExitActions>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+
+    <!-- 统计数字样式 -->
+    <Style x:Key="StatNumberStyle" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="32" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="Foreground" Value="{DynamicResource SystemAccentColorPrimaryBrush}" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+
+    <!-- 统计标签样式 -->
+    <Style x:Key="StatLabelStyle" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="14" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="Margin" Value="0,4,0,0" />
+    </Style>
+
+    <!-- 卡片标题样式 -->
+    <Style x:Key="CardTitleStyle" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="18" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+      <Setter Property="Margin" Value="0,0,0,16" />
+    </Style>
+
+    <!-- 快速操作按钮样式 -->
+    <Style x:Key="QuickActionStyle" TargetType="ui:Button">
+      <Setter Property="Width" Value="120" />
+      <Setter Property="Height" Value="80" />
+      <Setter Property="Margin" Value="8" />
+      <Setter Property="Appearance" Value="Secondary" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+  </Page.Resources>
+  <controls:PageContainer Header="仪表板" HasPadding="True">
     <controls:PageContainer.ContainerContent>
-      <Grid VerticalAlignment="Top">
+      <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                    xf:Animations.Primary="{StaticResource AnimationFadeInAndSlideFromBottom}">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+
+          <!-- 欢迎区域 -->
+          <Border Grid.Row="0" Style="{StaticResource DashboardCardStyle}" 
+                  xf:Animations.Primary="{StaticResource AnimationFadeInAndSlideFromLeft}">
+            <StackPanel>
+              <TextBlock Text="欢迎使用 FluentHyperV" Style="{StaticResource CardTitleStyle}" FontSize="24" />
+              <TextBlock Text="现代化的 Hyper-V 虚拟机管理工具" 
+                         Foreground="{DynamicResource TextFillColorSecondaryBrush}" 
+                         FontSize="16" 
+                         Margin="0,0,0,8" />
+              <TextBlock Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat='今天是 {0:yyyy年MM月dd日 dddd}'}" 
+                         Foreground="{DynamicResource TextFillColorTertiaryBrush}" 
+                         FontSize="14" />
+            </StackPanel>
+          </Border>
+
+          <!-- 统计概览卡片 -->
+          <UniformGrid Grid.Row="1" Columns="4" Margin="0,20,0,0"
+                       xf:Animations.Primary="{StaticResource AnimationFadeInAndSlideFromBottom}"
+                       xf:Animations.AnimateOnLoad="True"
+                       xf:Animations.InterElementDelay="100">
+            
+            <!-- 总虚拟机数 -->
+            <Border Style="{StaticResource DashboardCardStyle}">
+              <StackPanel>
+                <TextBlock Text="🖥️" FontSize="24" HorizontalAlignment="Center" />
+                <TextBlock Text="8" Style="{StaticResource StatNumberStyle}" />
+                <TextBlock Text="总虚拟机" Style="{StaticResource StatLabelStyle}" />
+              </StackPanel>
+            </Border>
+
+            <!-- 运行中的虚拟机 -->
+            <Border Style="{StaticResource DashboardCardStyle}">
+              <StackPanel>
+                <TextBlock Text="🟢" FontSize="24" HorizontalAlignment="Center" />
+                <TextBlock Text="3" Style="{StaticResource StatNumberStyle}" />
+                <TextBlock Text="运行中" Style="{StaticResource StatLabelStyle}" />
+              </StackPanel>
+            </Border>
+
+            <!-- 已停止的虚拟机 -->
+            <Border Style="{StaticResource DashboardCardStyle}">
+              <StackPanel>
+                <TextBlock Text="⚫" FontSize="24" HorizontalAlignment="Center" />
+                <TextBlock Text="4" Style="{StaticResource StatNumberStyle}" />
+                <TextBlock Text="已停止" Style="{StaticResource StatLabelStyle}" />
+              </StackPanel>
+            </Border>
+
+            <!-- 已保存的虚拟机 -->
+            <Border Style="{StaticResource DashboardCardStyle}">
+              <StackPanel>
+                <TextBlock Text="🔵" FontSize="24" HorizontalAlignment="Center" />
+                <TextBlock Text="1" Style="{StaticResource StatNumberStyle}" />
+                <TextBlock Text="已保存" Style="{StaticResource StatLabelStyle}" />
+              </StackPanel>
+            </Border>
+          </UniformGrid>
+
+          <!-- 快速操作区域 -->
+          <Grid Grid.Row="2" Margin="0,20,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="2*" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- 快速操作卡片 -->
+            <Border Grid.Column="0" Style="{StaticResource DashboardCardStyle}"
+                    xf:Animations.Primary="{StaticResource AnimationFadeInAndSlideFromLeft}">
+              <StackPanel>
+                <TextBlock Text="快速操作" Style="{StaticResource CardTitleStyle}" />
+                <UniformGrid Columns="3">
+                  <ui:Button Style="{StaticResource QuickActionStyle}"
+                             Content="➕ 创建虚拟机" />
+                  <ui:Button Style="{StaticResource QuickActionStyle}"
+                             Content="🔄 刷新状态" />
+                  <ui:Button Style="{StaticResource QuickActionStyle}"
+                             Content="⚙️ 系统设置" />
+                  <ui:Button Style="{StaticResource QuickActionStyle}"
+                             Content="🌐 虚拟交换机" />
+                  <ui:Button Style="{StaticResource QuickActionStyle}"
+                             Content="💾 创建检查点" />
+                  <ui:Button Style="{StaticResource QuickActionStyle}"
+                             Content="ℹ️ 关于" />
+                </UniformGrid>
+              </StackPanel>
+            </Border>
+
+            <!-- 系统信息卡片 -->
+            <Border Grid.Column="1" Style="{StaticResource DashboardCardStyle}"
+                    xf:Animations.Primary="{StaticResource AnimationFadeInAndSlideFromRight}">
+              <StackPanel>
+                <TextBlock Text="系统信息" Style="{StaticResource CardTitleStyle}" />
+                <StackPanel>
+                  <Grid Margin="0,0,0,8">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="🖥️ 主机：" 
+                               Foreground="{DynamicResource TextFillColorSecondaryBrush}" 
+                               FontSize="12" />
+                    <TextBlock Grid.Column="1" Text="{Binding Source={x:Static sys:Environment.MachineName}}" 
+                               FontSize="12" Margin="4,0,0,0" />
+                  </Grid>
+                  
+                  <Grid Margin="0,0,0,8">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="👤 用户：" 
+                               Foreground="{DynamicResource TextFillColorSecondaryBrush}" 
+                               FontSize="12" />
+                    <TextBlock Grid.Column="1" Text="{Binding Source={x:Static sys:Environment.UserName}}" 
+                               FontSize="12" Margin="4,0,0,0" />
+                  </Grid>
+                  
+                  <Grid Margin="0,0,0,8">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="💻 系统：" 
+                               Foreground="{DynamicResource TextFillColorSecondaryBrush}" 
+                               FontSize="12" />
+                    <TextBlock Grid.Column="1" Text="{Binding Source={x:Static sys:Environment.OSVersion}}" 
+                               FontSize="12" Margin="4,0,0,0" TextWrapping="Wrap" />
+                  </Grid>
+                  
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="⚡ 状态：" 
+                               Foreground="{DynamicResource TextFillColorSecondaryBrush}" 
+                               FontSize="12" />
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="4,0,0,0">
+                      <Ellipse Width="8" Height="8" Fill="LimeGreen" />
+                      <TextBlock Text="正常运行" FontSize="12" Margin="4,0,0,0" />
+                    </StackPanel>
+                  </Grid>
+                </StackPanel>
+              </StackPanel>
+            </Border>
+          </Grid>
+
+          <!-- 最近活动区域 -->
+          <Border Grid.Row="3" Style="{StaticResource DashboardCardStyle}" Margin="0,20,0,0"
+                  xf:Animations.Primary="{StaticResource AnimationFadeInAndSlideFromBottom}">
+            <StackPanel>
+              <TextBlock Text="最近活动" Style="{StaticResource CardTitleStyle}" />
+              <ItemsControl>
+                <ItemsControl.Items>
+                  <Border Background="{DynamicResource ControlFillColorSecondaryBrush}" 
+                          CornerRadius="4" Padding="12" Margin="0,0,0,8">
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                      </Grid.ColumnDefinitions>
+                      <TextBlock Grid.Column="0" Text="🟢" FontSize="16" VerticalAlignment="Center" />
+                      <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                        <TextBlock Text="虚拟机 'Windows 11 Dev' 已启动" FontWeight="Medium" />
+                        <TextBlock Text="CPU: 4核，内存: 8GB" FontSize="12" 
+                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                      </StackPanel>
+                      <TextBlock Grid.Column="2" Text="2分钟前" FontSize="12" 
+                                 Foreground="{DynamicResource TextFillColorTertiaryBrush}" 
+                                 VerticalAlignment="Center" />
+                    </Grid>
+                  </Border>
+                  
+                  <Border Background="{DynamicResource ControlFillColorSecondaryBrush}" 
+                          CornerRadius="4" Padding="12" Margin="0,0,0,8">
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                      </Grid.ColumnDefinitions>
+                      <TextBlock Grid.Column="0" Text="💾" FontSize="16" VerticalAlignment="Center" />
+                      <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                        <TextBlock Text="为 'Ubuntu Server' 创建了检查点" FontWeight="Medium" />
+                        <TextBlock Text="检查点名称: 'Before Update'" FontSize="12" 
+                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                      </StackPanel>
+                      <TextBlock Grid.Column="2" Text="15分钟前" FontSize="12" 
+                                 Foreground="{DynamicResource TextFillColorTertiaryBrush}" 
+                                 VerticalAlignment="Center" />
+                    </Grid>
+                  </Border>
+                  
+                  <Border Background="{DynamicResource ControlFillColorSecondaryBrush}" 
+                          CornerRadius="4" Padding="12">
+                    <Grid>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
           <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <ui:Button
-          Grid.Column="0"
-          Command="{Binding ViewModel.CounterIncrementCommand, Mode=OneWay}"
-          Content="Click me!"
-          Icon="Fluent24"
-        />
-        <TextBlock
-          Grid.Column="1"
-          Margin="12,0,0,0"
-          VerticalAlignment="Center"
-          Text="{Binding ViewModel.Counter, Mode=OneWay}"
-        />
+                      <TextBlock Grid.Column="0" Text="⚫" FontSize="16" VerticalAlignment="Center" />
+                      <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                        <TextBlock Text="虚拟机 'Test Environment' 已停止" FontWeight="Medium" />
+                        <TextBlock Text="运行时间: 2小时45分钟" FontSize="12" 
+                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                      </StackPanel>
+                      <TextBlock Grid.Column="2" Text="1小时前" FontSize="12" 
+                                 Foreground="{DynamicResource TextFillColorTertiaryBrush}" 
+                                 VerticalAlignment="Center" />
+                    </Grid>
+                  </Border>
+                </ItemsControl.Items>
+              </ItemsControl>
+            </StackPanel>
+          </Border>
       </Grid>
+      </ScrollViewer>
     </controls:PageContainer.ContainerContent>
   </controls:PageContainer>
 </Page>
