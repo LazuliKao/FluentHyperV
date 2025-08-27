@@ -28,7 +28,11 @@ public partial class CreateVirtualMachinePage : Page, INavigableView<CreateVirtu
     private void CreateVirtualMachinePage_Loaded(object sender, RoutedEventArgs e)
     {
         // 为整个页面添加鼠标点击事件处理器，拦截所有Tab点击
-        this.AddHandler(UIElement.PreviewMouseDownEvent, new MouseButtonEventHandler(Page_PreviewMouseDown), true);
+        this.AddHandler(
+            UIElement.PreviewMouseDownEvent,
+            new MouseButtonEventHandler(Page_PreviewMouseDown),
+            true
+        );
         System.Diagnostics.Debug.WriteLine("页面Tab点击限制已启用");
     }
 
@@ -40,8 +44,6 @@ public partial class CreateVirtualMachinePage : Page, INavigableView<CreateVirtu
 
         if (tabItem != null)
         {
-            System.Diagnostics.Debug.WriteLine("拦截Tab点击 - 禁止所有Tab直接点击，只允许通过按钮导航");
-            // 阻止所有Tab点击事件
             e.Handled = true;
             return;
         }
