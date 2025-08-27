@@ -117,7 +117,7 @@ public partial class CreateVirtualMachineViewModel : ObservableObject, INavigati
         VirtualHardDiskPath = Path.Combine(defaultVmPath, "Virtual Hard Disks");
 
         // 初始化步骤导航状态
-        MaxCompletedStep = 1; // 开始时只允许访问第一步(索引1)
+        MaxCompletedStep = 0; // 开始时允许访问欢迎页(索引0)和第一步(索引1)
         System.Diagnostics.Debug.WriteLine($"ViewModel初始化: CurrentStep={CurrentStep}, MaxCompletedStep={MaxCompletedStep}");
         UpdateNavigationState();
     }
