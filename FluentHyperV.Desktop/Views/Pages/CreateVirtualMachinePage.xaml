@@ -176,7 +176,7 @@
                     <ui:TextBox
                       Grid.Row="0"
                       Grid.Column="1"
-                      Text="{Binding ViewModel.VirtualMachineName}"
+                      Text="{Binding ViewModel.VirtualMachineName, UpdateSourceTrigger=PropertyChanged}"
                       Margin="0,0,0,10"
                     />
                     <CheckBox
@@ -197,7 +197,7 @@
                     <ui:TextBox
                       Grid.Row="2"
                       Grid.Column="1"
-                      Text="{Binding ViewModel.VmPath}"
+                      Text="{Binding ViewModel.VmPath, UpdateSourceTrigger=PropertyChanged}"
                       Margin="0,0,10,10"
                       Visibility="{Binding ViewModel.UseCustomLocation, Converter={StaticResource BooleanToVisibilityConverter}}"
                     />
@@ -518,7 +518,7 @@
                         <ui:TextBox
                           Grid.Row="0"
                           Grid.Column="1"
-                          Text="{Binding ViewModel.VirtualMachineName}"
+                          Text="{Binding ViewModel.VirtualMachineName, UpdateSourceTrigger=PropertyChanged}"
                           Margin="0,0,10,10"
                         />
                         <TextBlock
@@ -537,7 +537,7 @@
                         <ui:TextBox
                           Grid.Row="1"
                           Grid.Column="1"
-                          Text="{Binding ViewModel.VirtualHardDiskPath}"
+                          Text="{Binding ViewModel.VirtualHardDiskPath, UpdateSourceTrigger=PropertyChanged}"
                           Margin="0,0,10,10"
                         />
                         <!--<ui:Button
@@ -592,7 +592,7 @@
                         />
                         <ui:TextBox
                           Grid.Column="1"
-                          Text="{Binding ViewModel.ExistingVhdPath}"
+                          Text="{Binding ViewModel.ExistingVhdPath, UpdateSourceTrigger=PropertyChanged}"
                           Margin="0,0,10,0"
                         />
                         <!--<ui:Button
@@ -669,7 +669,7 @@
                           </Grid.ColumnDefinitions>
                           <ui:TextBox
                             Grid.Column="0"
-                            Text="{Binding ViewModel.IsoPath}"
+                            Text="{Binding ViewModel.IsoPath, UpdateSourceTrigger=PropertyChanged}"
                             Margin="0,0,10,0"
                           />
                           <ui:Button Grid.Column="1" Content="浏览..." />
