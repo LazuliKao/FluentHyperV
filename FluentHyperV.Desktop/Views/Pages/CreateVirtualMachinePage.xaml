@@ -40,9 +40,9 @@
           </Style>
         </TabControl.Resources>
         <!-- 默认欢迎页面 -->
-        <TabItem Height="100" IsSelected="True">
+        <TabItem Height="0" IsSelected="True">
           <TabItem.Header>
-            <Grid Width="200" Height="80">
+            <Grid>
               <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -86,7 +86,7 @@
         <!-- 步骤1: 开始之前 -->
         <TabItem>
           <TabItem.Header>
-            <Grid Width="200" Height="80">
+            <Grid>
               <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -138,7 +138,7 @@
         <!-- 步骤2: 指定名称和位置 -->
         <TabItem>
           <TabItem.Header>
-            <Grid Width="200" Height="80">
+            <Grid>
               <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -235,7 +235,7 @@
         <!-- 步骤3: 指定代数 -->
         <TabItem>
           <TabItem.Header>
-            <Grid Width="200" Height="80">
+            <Grid>
               <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -293,7 +293,7 @@
         <!-- 步骤4: 分配内存 -->
         <TabItem>
           <TabItem.Header>
-            <Grid Width="200" Height="80">
+            <Grid>
               <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -424,7 +424,7 @@
         <!-- 步骤5: 配置网络 -->
         <TabItem>
           <TabItem.Header>
-            <Grid Width="200" Height="80">
+            <Grid>
               <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -492,7 +492,7 @@
         <!-- 步骤6: 连接虚拟硬盘 -->
         <TabItem>
           <TabItem.Header>
-            <Grid Width="200" Height="80">
+            <Grid>
               <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -653,7 +653,7 @@
         <!-- 步骤7: 安装选项 -->
         <TabItem>
           <TabItem.Header>
-            <Grid Width="200" Height="80">
+            <Grid>
               <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
@@ -726,7 +726,7 @@
         <!-- 步骤8: 摘要 -->
         <TabItem>
           <TabItem.Header>
-            <Grid Width="200" Height="80">
+            <Grid>
               <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
