@@ -7,41 +7,6 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace FluentHyperV.Desktop.SourceGenerator;
 
-//[Generator(LanguageNames.CSharp)]
-//public class DependencyPropertyGenerator : IIncrementalGenerator
-//{
-//    public void Initialize(IncrementalGeneratorInitializationContext context)
-//    {
-//        var ns = "FluentHyperV.Desktop";
-//        context.RegisterPostInitializationOutput(c =>
-//            c.AddSource(
-//                "DependencyPropertyAttribute.g.cs",
-//                $$"""
-//                namespace {{ns}};
-//                [System.AttributeUsage(System.AttributeTargets.Property)]
-//                public class DependencyPropertyAttribute : System.Attribute { }
-//                """
-//            )
-//        );
-//        var d = context.SyntaxProvider.ForAttributeWithMetadataName(
-//            $"{ns}.DependencyPropertyAttribute",
-//            predicate: static (node, _) => node is PropertyDeclarationSyntax,
-//            transform: static (ctx, _) =>
-//            {
-//                var property = (IPropertySymbol)ctx.TargetSymbol;
-//                var classSymbol = property.ContainingType;
-//                return new
-//                {
-//                    Namespace = classSymbol.ContainingNamespace.ToDisplayString(),
-//                    ClassName = classSymbol.Name,
-//                    PropertyName = property.Name,
-//                    PropertyType = property.Type.ToDisplayString()
-//                };
-//            })
-//        );
-//    }
-//}
-
 [Generator(LanguageNames.CSharp)]
 public class ServiceGenerator : IIncrementalGenerator
 {

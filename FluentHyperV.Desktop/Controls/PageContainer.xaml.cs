@@ -30,77 +30,24 @@ public partial class PageContainer : UserControl
     public static BoolToPaddingConverter BoolToPaddingConverterInstance => new();
     public static BoolToPaddingConverterForText BoolToPaddingConverterForTextInstance => new();
     public static BoolToGridRowConverter BoolToGridRowConverterInstance => new();
-    public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
-        "Header",
-        typeof(string),
-        typeof(PageContainer),
-        new(string.Empty)
-    );
-
-    public static readonly DependencyProperty ContainerContentProperty =
-        DependencyProperty.Register(
-            "ContainerContent",
-            typeof(object),
-            typeof(PageContainer),
-            new(null)
-        );
-
-    public static readonly DependencyProperty HasPaddingProperty = DependencyProperty.Register(
-        "HasPadding",
-        typeof(bool),
-        typeof(PageContainer),
-        new(true)
-    );
-
-    public static readonly DependencyProperty IsDynamicScrollViewerEnabledProperty =
-        DependencyProperty.Register(
-            "IsDynamicScrollViewerEnabled",
-            typeof(bool),
-            typeof(PageContainer),
-            new(false)
-        );
-
-    public static readonly DependencyProperty IsTextFloatingProperty = DependencyProperty.Register(
-        "IsTextFloating",
-        typeof(bool),
-        typeof(PageContainer),
-        new(false)
-    );
 
     public PageContainer()
     {
         InitializeComponent();
     }
 
-    //public partial string Header1 { get; }
+    [DependencyProperty("")]
+    public partial string Header { get; set; }
 
-    public string Header
-    {
-        get => (string)GetValue(HeaderProperty);
-        set => SetValue(HeaderProperty, value);
-    }
+    [DependencyProperty]
+    public partial object ContainerContent { get; set; }
 
-    public object ContainerContent
-    {
-        get => GetValue(ContainerContentProperty);
-        set => SetValue(ContainerContentProperty, value);
-    }
+    [DependencyProperty(true)]
+    public partial bool HasPadding { get; set; }
 
-    public bool HasPadding
-    {
-        get => (bool)GetValue(HasPaddingProperty);
-        set => SetValue(HasPaddingProperty, value);
-    }
+    [DependencyProperty(false)]
+    public partial bool IsDynamicScrollViewerEnabled { get; set; }
 
-    public bool IsDynamicScrollViewerEnabled
-    {
-        get => (bool)GetValue(IsDynamicScrollViewerEnabledProperty);
-        set => SetValue(IsDynamicScrollViewerEnabledProperty, value);
-    }
-
-    public bool IsTextFloating
-    {
-        get => (bool)GetValue(IsTextFloatingProperty);
-        set => SetValue(IsTextFloatingProperty, value);
-    }
+    [DependencyProperty(false)]
+    public partial bool IsTextFloating { get; set; }
 }
