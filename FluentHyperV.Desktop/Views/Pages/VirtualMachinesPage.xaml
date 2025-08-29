@@ -24,7 +24,7 @@
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <!-- 工具栏 -->
-        <Grid Grid.Row="0" Margin="0,0,0,20">
+        <Grid Grid.Row="0" Margin="0,20,0,10">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
@@ -211,10 +211,11 @@
             </DataGrid.ContextMenu>
             <DataGrid.Columns>
               <!-- 选择框 -->
-              <DataGridTemplateColumn Header="" Width="50">
+              <DataGridTemplateColumn Header="" Width="60">
                 <DataGridTemplateColumn.HeaderTemplate>
                   <DataTemplate>
                     <CheckBox
+                      Margin="0"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
                       ToolTip="全选/取消全选"
@@ -225,9 +226,10 @@
                 <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
                     <CheckBox
+                      Margin="0"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
-                      IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                      IsChecked="{Binding IsSelected, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                     />
                   </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>

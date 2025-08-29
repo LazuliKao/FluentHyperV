@@ -186,7 +186,7 @@
                   Grid.Row="1"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center"
-                  Visibility="{Binding ViewModel.VirtualSwitches.Count, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=Invert}"
+                  Visibility="{Binding ViewModel.VirtualSwitches.Count, Converter={x:Static converters:ConverterInstance.CountToVisibility}, ConverterParameter=Invert}"
                 >
                   <ui:SymbolIcon
                     Symbol="Router24"

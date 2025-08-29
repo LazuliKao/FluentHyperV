@@ -66,12 +66,14 @@ public class ConverterInstanceGenerator : IIncrementalGenerator
                     int indent = 1
                 )
                 {
+                    var fieldName =
+                        $"_{name.Substring(0, 1).ToLowerInvariant()}{name.Substring(1)}";
                     var indentSpace = new string(' ', 4 * indent);
                     sb.AppendLine(
-                        $"{indentSpace}private static Lazy<{symbol.ToDisplayString()}> _{name} = new(() => new());"
+                        $"{indentSpace}private static Lazy<{symbol.ToDisplayString()}> {fieldName} = new(() => new());"
                     );
                     sb.AppendLine(
-                        $"{indentSpace}{accessibility} static {symbol.ToDisplayString()} {name} => _{name}.Value;"
+                        $"{indentSpace}{accessibility} static {symbol.ToDisplayString()} {name} => {fieldName}.Value;"
                     );
                     sb.AppendLine();
                 }
