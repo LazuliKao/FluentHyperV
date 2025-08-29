@@ -7,8 +7,8 @@ namespace FluentHyperV.Desktop.Controls;
 /// <summary>
 /// PageContainer.xaml 的交互逻辑
 /// </summary>
-[ContentProperty("ContainerContent")]
-public partial class PageContainer : UserControl
+[ContentProperty(nameof(ContainerContent))]
+public partial class PageContainer
 {
     public class BoolToPaddingConverter : ValueConverterBase<bool, Thickness>
     {
@@ -26,10 +26,6 @@ public partial class PageContainer : UserControl
     {
         protected override int ConvertNonNullValue(bool value) => value ? 1 : 0;
     }
-
-    public static BoolToPaddingConverter BoolToPaddingConverterInstance => new();
-    public static BoolToPaddingConverterForText BoolToPaddingConverterForTextInstance => new();
-    public static BoolToGridRowConverter BoolToGridRowConverterInstance => new();
 
     public PageContainer()
     {

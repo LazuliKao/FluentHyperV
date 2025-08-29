@@ -254,7 +254,7 @@
                   Content="移除"
                   Icon="{ui:SymbolIcon Delete24}"
                   Command="{Binding ViewModel.RemoveHardDriveCommand}"
-                  IsEnabled="{Binding ViewModel.SelectedHardDrive, Converter={StaticResource BoolToVisibilityConverter}}"
+                  IsEnabled="{Binding ViewModel.SelectedHardDrive, Converter={x:Static converters:ConverterInstance.BooleanToVisibility}}"
                 />
               </StackPanel>
             </Grid>
@@ -299,12 +299,12 @@
                   Content="移除"
                   Icon="{ui:SymbolIcon Delete24}"
                   Command="{Binding ViewModel.RemoveNetworkAdapterCommand}"
-                  IsEnabled="{Binding ViewModel.SelectedNetworkAdapter, Converter={StaticResource BoolToVisibilityConverter}}"
+                  IsEnabled="{Binding ViewModel.SelectedNetworkAdapter, Converter={x:Static converters:ConverterInstance.BooleanToVisibility}}"
                 />
               </StackPanel>
               <Grid
                 Grid.Row="2"
-                Visibility="{Binding ViewModel.SelectedNetworkAdapter, Converter={StaticResource BoolToVisibilityConverter}}"
+                Visibility="{Binding ViewModel.SelectedNetworkAdapter, Converter={x:Static converters:ConverterInstance.BooleanToVisibility}}"
               >
                 <Grid.RowDefinitions>
                   <RowDefinition Height="Auto" />
@@ -461,7 +461,7 @@
           Height="16"
           Margin="0,0,10,0"
           IsIndeterminate="{Binding ViewModel.IsLoading}"
-          Visibility="{Binding ViewModel.IsLoading, Converter={StaticResource BoolToVisibilityConverter}}"
+          Visibility="{Binding ViewModel.IsLoading, Converter={x:Static converters:ConverterInstance.BooleanToVisibility}}"
         />
         <TextBlock
           Grid.Column="1"

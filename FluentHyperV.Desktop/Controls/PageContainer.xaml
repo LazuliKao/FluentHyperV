@@ -6,6 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:controls="clr-namespace:FluentHyperV.Desktop.Controls"
   xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+  xmlns:converters="clr-namespace:FluentHyperV.Desktop.Converters"
   mc:Ignorable="d"
   d:DesignHeight="450"
   d:DesignWidth="800"
@@ -46,20 +47,20 @@
           </Style.Triggers>
         </Style>
       </ContentControl.Style>
-      <Grid Margin="{Binding HasPadding, ElementName=Root, Converter={x:Static controls:PageContainer.BoolToPaddingConverterInstance},Mode=OneWay}">
+      <Grid Margin="{Binding HasPadding, ElementName=Root, Converter={x:Static converters:ConverterInstance+PageContainer.BoolToPadding},Mode=OneWay}">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
           <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock
-          Grid.Row="{Binding IsTextFloating, ElementName=Root, Converter={x:Static controls:PageContainer.BoolToGridRowConverterInstance}}"
+          Grid.Row="{Binding IsTextFloating, ElementName=Root, Converter={x:Static converters:ConverterInstance+PageContainer.BoolToGridRow}}"
           FontWeight="Bold"
           FontSize="32"
           Text="{Binding Header, ElementName=Root, Mode=OneWay}"
           Foreground="{DynamicResource TextFillColorPrimaryBrush}"
           HorizontalAlignment="Left"
           VerticalAlignment="Top"
-          Margin="{Binding HasPadding, ElementName=Root, Converter={x:Static controls:PageContainer.BoolToPaddingConverterForTextInstance},Mode=OneWay}"
+          Margin="{Binding HasPadding, ElementName=Root, Converter={x:Static converters:ConverterInstance+PageContainer.BoolToPaddingConverterForText},Mode=OneWay}"
         />
         <ContentPresenter
           Grid.Row="1"

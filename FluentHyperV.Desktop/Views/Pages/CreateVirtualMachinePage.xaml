@@ -192,21 +192,21 @@
                       Text="位置:"
                       VerticalAlignment="Center"
                       Margin="0,0,10,10"
-                      Visibility="{Binding ViewModel.UseCustomLocation, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Visibility="{Binding ViewModel.UseCustomLocation, Converter={x:Static converters:ConverterInstance.BooleanToVisibility}}"
                     />
                     <ui:TextBox
                       Grid.Row="2"
                       Grid.Column="1"
                       Text="{Binding ViewModel.VmPath, UpdateSourceTrigger=PropertyChanged}"
                       Margin="0,0,10,10"
-                      Visibility="{Binding ViewModel.UseCustomLocation, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Visibility="{Binding ViewModel.UseCustomLocation, Converter={x:Static converters:ConverterInstance.BooleanToVisibility}}"
                     />
                     <!--<ui:Button
                     Grid.Row="2"
                     Grid.Column="2"
                     Content="浏览..."
                     Command="{Binding ViewModel.BrowseVMPathCommand}"
-                    Visibility="{Binding ViewModel.UseCustomLocation, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Visibility="{Binding ViewModel.UseCustomLocation, Converter={x:Static converters:ConverterInstance.BooleanToVisibility}}"
                   />-->
                   </Grid>
                 </StackPanel>
@@ -331,7 +331,7 @@
                       Grid.Column="0"
                       Grid.ColumnSpan="3"
                       Margin="0,10,0,0"
-                      Visibility="{Binding ViewModel.DynamicMemoryEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Visibility="{Binding ViewModel.DynamicMemoryEnabled, Converter={x:Static converters:ConverterInstance.BooleanToVisibility}}"
                     >
                       <StackPanel>
                         <TextBlock Text="动态内存设置" FontWeight="Bold" Margin="0,0,0,10" />
@@ -495,7 +495,7 @@
                     />
                     <ui:Card
                       Margin="20,0,0,20"
-                      Visibility="{Binding ViewModel.CreateVirtualHardDisk, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Visibility="{Binding ViewModel.CreateVirtualHardDisk, Converter={x:Static converters:ConverterInstance.BooleanToVisibility}}"
                     >
                       <Grid>
                         <Grid.RowDefinitions>
@@ -576,7 +576,7 @@
                     />
                     <ui:Card
                       Margin="20,0,0,20"
-                      Visibility="{Binding ViewModel.UseExistingVhd, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Visibility="{Binding ViewModel.UseExistingVhd, Converter={x:Static converters:ConverterInstance.BooleanToVisibility}}"
                     >
                       <Grid>
                         <Grid.ColumnDefinitions>
@@ -613,7 +613,7 @@
                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                       Margin="20,0,0,0"
                       TextWrapping="Wrap"
-                      Visibility="{Binding ViewModel.SkipVhdConfiguration, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      Visibility="{Binding ViewModel.SkipVhdConfiguration, Converter={x:Static converters:ConverterInstance.BooleanToVisibility}}"
                     />
                   </StackPanel>
                 </StackPanel>
@@ -791,7 +791,7 @@
                         <TextBlock
                           Grid.Row="3"
                           Grid.Column="1"
-                          Text="{Binding ViewModel.MemoryStartupMb, Converter={StaticResource MbToFormatConverter}}"
+                          Text="{Binding ViewModel.MemoryStartupMb, Converter={x:Static converters:ConverterInstance.MbToFormat}}"
                           Margin="0,0,0,8"
                         />
                         <TextBlock

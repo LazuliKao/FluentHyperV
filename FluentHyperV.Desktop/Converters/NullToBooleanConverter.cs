@@ -9,14 +9,17 @@ namespace FluentHyperV.Desktop.Converters;
 /// </summary>
 public class NullToBooleanConverter : IValueConverter
 {
-    public static readonly NullToBooleanConverter Instance = new();
-
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         return value is not null;
     }
 
-    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public object ConvertBack(
+        object? value,
+        Type targetType,
+        object? parameter,
+        CultureInfo culture
+    )
     {
         throw new NotImplementedException();
     }

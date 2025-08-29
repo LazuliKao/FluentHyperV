@@ -19,7 +19,6 @@
   <Page.Resources>
     <converters:VmStateToBrushConverter x:Key="VmStateToBrushConverter" />
     <converters:VmStateToChineseConverter x:Key="VmStateToChineseConverter" />
-    
     <!-- 卡片样式 -->
     <Style x:Key="VirtualMachineCardStyle" TargetType="Border">
       <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
@@ -30,10 +29,12 @@
       <Setter Property="Margin" Value="8" />
       <Setter Property="Effect">
         <Setter.Value>
-          <DropShadowEffect Color="{DynamicResource SystemAccentColorSecondary}" 
-                            BlurRadius="8" 
-                            ShadowDepth="2" 
-                            Opacity="0.1" />
+          <DropShadowEffect
+            Color="{DynamicResource SystemAccentColorSecondary}"
+            BlurRadius="8"
+            ShadowDepth="2"
+            Opacity="0.1"
+          />
         </Setter.Value>
       </Setter>
       <Setter Property="RenderTransform">
@@ -45,26 +46,37 @@
       <Style.Triggers>
         <Trigger Property="IsMouseOver" Value="True">
           <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
-          <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColorSecondaryBrush}" />
+          <Setter
+            Property="BorderBrush"
+            Value="{DynamicResource SystemAccentColorSecondaryBrush}"
+          />
           <Setter Property="Effect">
             <Setter.Value>
-              <DropShadowEffect Color="{DynamicResource SystemAccentColorSecondary}" 
-                                BlurRadius="12" 
-                                ShadowDepth="4" 
-                                Opacity="0.25" />
+              <DropShadowEffect
+                Color="{DynamicResource SystemAccentColorSecondary}"
+                BlurRadius="12"
+                ShadowDepth="4"
+                Opacity="0.25"
+              />
             </Setter.Value>
           </Setter>
           <Trigger.EnterActions>
             <BeginStoryboard>
               <Storyboard>
-                <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
-                                 To="1.02" Duration="0:0:0.2">
+                <DoubleAnimation
+                  Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
+                  To="1.02"
+                  Duration="0:0:0.2"
+                >
                   <DoubleAnimation.EasingFunction>
                     <QuadraticEase EasingMode="EaseOut" />
                   </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
-                                 To="1.02" Duration="0:0:0.2">
+                <DoubleAnimation
+                  Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
+                  To="1.02"
+                  Duration="0:0:0.2"
+                >
                   <DoubleAnimation.EasingFunction>
                     <QuadraticEase EasingMode="EaseOut" />
                   </DoubleAnimation.EasingFunction>
@@ -75,14 +87,20 @@
           <Trigger.ExitActions>
             <BeginStoryboard>
               <Storyboard>
-                <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
-                                 To="1.0" Duration="0:0:0.2">
+                <DoubleAnimation
+                  Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
+                  To="1.0"
+                  Duration="0:0:0.2"
+                >
                   <DoubleAnimation.EasingFunction>
                     <QuadraticEase EasingMode="EaseOut" />
                   </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
-                                 To="1.0" Duration="0:0:0.2">
+                <DoubleAnimation
+                  Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
+                  To="1.0"
+                  Duration="0:0:0.2"
+                >
                   <DoubleAnimation.EasingFunction>
                     <QuadraticEase EasingMode="EaseOut" />
                   </DoubleAnimation.EasingFunction>
@@ -93,7 +111,6 @@
         </Trigger>
       </Style.Triggers>
     </Style>
-
     <!-- 状态指示器样式 -->
     <Style x:Key="StatusIndicatorStyle" TargetType="Border">
       <Setter Property="Width" Value="12" />
@@ -133,7 +150,6 @@
         </DataTrigger>
       </Style.Triggers>
     </Style>
-
     <!-- 卡片头部样式 -->
     <Style x:Key="CardHeaderStyle" TargetType="TextBlock">
       <Setter Property="FontSize" Value="16" />
@@ -141,7 +157,6 @@
       <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
       <Setter Property="Margin" Value="0,0,0,8" />
     </Style>
-
     <!-- 卡片信息样式 -->
     <Style x:Key="CardInfoLabelStyle" TargetType="TextBlock">
       <Setter Property="FontSize" Value="12" />
@@ -149,14 +164,16 @@
       <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
       <Setter Property="Margin" Value="0,0,4,0" />
     </Style>
-
     <Style x:Key="CardInfoValueStyle" TargetType="TextBlock">
       <Setter Property="FontSize" Value="12" />
       <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
     </Style>
-
     <!-- 快速操作按钮样式 -->
-    <Style x:Key="QuickActionButtonStyle" TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+    <Style
+      x:Key="QuickActionButtonStyle"
+      TargetType="ui:Button"
+      BasedOn="{StaticResource {x:Type ui:Button}}"
+    >
       <Setter Property="RenderTransform">
         <Setter.Value>
           <ScaleTransform ScaleX="1" ScaleY="1" />
@@ -168,14 +185,20 @@
           <Trigger.EnterActions>
             <BeginStoryboard>
               <Storyboard>
-                <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
-                                 To="1.1" Duration="0:0:0.15">
+                <DoubleAnimation
+                  Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
+                  To="1.1"
+                  Duration="0:0:0.15"
+                >
                   <DoubleAnimation.EasingFunction>
                     <BackEase EasingMode="EaseOut" Amplitude="0.3" />
                   </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
-                                 To="1.1" Duration="0:0:0.15">
+                <DoubleAnimation
+                  Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
+                  To="1.1"
+                  Duration="0:0:0.15"
+                >
                   <DoubleAnimation.EasingFunction>
                     <BackEase EasingMode="EaseOut" Amplitude="0.3" />
                   </DoubleAnimation.EasingFunction>
@@ -186,14 +209,20 @@
           <Trigger.ExitActions>
             <BeginStoryboard>
               <Storyboard>
-                <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
-                                 To="1.0" Duration="0:0:0.15">
+                <DoubleAnimation
+                  Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)"
+                  To="1.0"
+                  Duration="0:0:0.15"
+                >
                   <DoubleAnimation.EasingFunction>
                     <BackEase EasingMode="EaseOut" />
                   </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
-                                 To="1.0" Duration="0:0:0.15">
+                <DoubleAnimation
+                  Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)"
+                  To="1.0"
+                  Duration="0:0:0.15"
+                >
                   <DoubleAnimation.EasingFunction>
                     <BackEase EasingMode="EaseOut" />
                   </DoubleAnimation.EasingFunction>
@@ -215,229 +244,279 @@
         </Grid.RowDefinitions>
         <!-- 工具栏 -->
         <Grid Grid.Row="0" Margin="0,0,0,20">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="Auto" />
-      </Grid.ColumnDefinitions>
-      <!-- 操作按钮组 -->
-      <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
-        <ui:Button
-          Content="刷新"
-          Icon="{ui:SymbolIcon ArrowClockwise24}"
-          Command="{Binding ViewModel.RefreshCommand}"
-          Margin="0,0,10,0"
-        />
-        <ui:Button
-          Content="全选"
-          Icon="{ui:SymbolIcon CheckboxChecked24}"
-          Command="{Binding ViewModel.ToggleSelectAllCommand}"
-          Margin="0,0,10,0"
-        />
-        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0,0,10,0" />
-        <ui:Button
-          Content="启动"
-          Icon="{ui:SymbolIcon Play24}"
-          Command="{Binding ViewModel.StartVirtualMachineCommand}"
-          IsEnabled="{Binding ViewModel.HasSelectedVirtualMachines}"
-          Margin="0,0,10,0"
-        />
-        <ui:Button
-          Content="停止"
-          Icon="{ui:SymbolIcon Stop24}"
-          Command="{Binding ViewModel.StopVirtualMachineCommand}"
-          IsEnabled="{Binding ViewModel.HasSelectedVirtualMachines}"
-          Margin="0,0,10,0"
-        />
-        <ui:Button
-          Content="重启"
-          Icon="{ui:SymbolIcon ArrowCounterclockwise24}"
-          Command="{Binding ViewModel.RestartVirtualMachineCommand}"
-          IsEnabled="{Binding ViewModel.HasSelectedVirtualMachines}"
-          Margin="0,0,10,0"
-        />
-      </StackPanel>
-      <!-- 加载状态 -->
-      <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-        <ui:ProgressRing
-          IsIndeterminate="True"
-          Visibility="{Binding ViewModel.IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
-          Width="20"
-          Height="20"
-          Margin="0,0,10,0"
-        />
-        <TextBlock Text="{Binding ViewModel.StatusMessage}" VerticalAlignment="Center" />
-      </StackPanel>
-    </Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <!-- 操作按钮组 -->
+          <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+            <ui:Button
+              Content="刷新"
+              Icon="{ui:SymbolIcon ArrowClockwise24}"
+              Command="{Binding ViewModel.RefreshCommand}"
+              Margin="0,0,10,0"
+            />
+            <ui:Button
+              Content="全选"
+              Icon="{ui:SymbolIcon CheckboxChecked24}"
+              Command="{Binding ViewModel.ToggleSelectAllCommand}"
+              Margin="0,0,10,0"
+            />
+            <Separator
+              Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"
+              Margin="0,0,10,0"
+            />
+            <ui:Button
+              Content="启动"
+              Icon="{ui:SymbolIcon Play24}"
+              Command="{Binding ViewModel.StartVirtualMachineCommand}"
+              IsEnabled="{Binding ViewModel.HasSelectedVirtualMachines}"
+              Margin="0,0,10,0"
+            />
+            <ui:Button
+              Content="停止"
+              Icon="{ui:SymbolIcon Stop24}"
+              Command="{Binding ViewModel.StopVirtualMachineCommand}"
+              IsEnabled="{Binding ViewModel.HasSelectedVirtualMachines}"
+              Margin="0,0,10,0"
+            />
+            <ui:Button
+              Content="重启"
+              Icon="{ui:SymbolIcon ArrowCounterclockwise24}"
+              Command="{Binding ViewModel.RestartVirtualMachineCommand}"
+              IsEnabled="{Binding ViewModel.HasSelectedVirtualMachines}"
+              Margin="0,0,10,0"
+            />
+          </StackPanel>
+          <!-- 加载状态 -->
+          <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+            <ui:ProgressRing
+              IsIndeterminate="True"
+              Visibility="{Binding ViewModel.IsLoading, Converter={x:Static converters:ConverterInstance.BooleanToVisibility}}"
+              Width="20"
+              Height="20"
+              Margin="0,0,10,0"
+            />
+            <TextBlock Text="{Binding ViewModel.StatusMessage}" VerticalAlignment="Center" />
+          </StackPanel>
+        </Grid>
         <!-- 虚拟机卡片列表 -->
-        <ScrollViewer 
-          Grid.Row="1" 
-          VerticalScrollBarVisibility="Auto" 
+        <ScrollViewer
+          Grid.Row="1"
+          VerticalScrollBarVisibility="Auto"
           HorizontalScrollBarVisibility="Disabled"
-          xf:Animations.Primary="{StaticResource AnimationFadeInAndSlideFromBottom}">
-          
+          xf:Animations.Primary="{StaticResource AnimationFadeInAndSlideFromBottom}"
+        >
           <ItemsControl ItemsSource="{Binding ViewModel.VirtualMachines}">
             <ItemsControl.ItemsPanel>
               <ItemsPanelTemplate>
                 <WrapPanel Orientation="Horizontal" />
               </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-            
             <ItemsControl.ItemTemplate>
               <DataTemplate>
                 <!-- 虚拟机卡片 -->
-                <Border Style="{StaticResource VirtualMachineCardStyle}"
-                        Width="320" 
-                        Height="280"
-                        Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Page}}"
-                        xf:Animations.Primary="{StaticResource AnimationFadeInAndSlideFromBottom}"
-                        xf:Animations.AnimateOnLoad="True"
-                        xf:Animations.InterElementDelay="100">
+                <Border
+                  Style="{StaticResource VirtualMachineCardStyle}"
+                  Width="320"
+                  Height="280"
+                  Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Page}}"
+                  xf:Animations.Primary="{StaticResource AnimationFadeInAndSlideFromBottom}"
+                  xf:Animations.AnimateOnLoad="True"
+                  xf:Animations.InterElementDelay="100"
+                >
                   <Border.InputBindings>
-                    <MouseBinding MouseAction="LeftDoubleClick" 
-                                  Command="{Binding DataContext.ViewModel.ConnectToVirtualMachineCommand, RelativeSource={RelativeSource AncestorType=Page}}" />
+                    <MouseBinding
+                      MouseAction="LeftDoubleClick"
+                      Command="{Binding DataContext.ViewModel.ConnectToVirtualMachineCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                    />
                   </Border.InputBindings>
-                  
                   <!-- 右键上下文菜单 -->
                   <Border.ContextMenu>
-                    <ContextMenu DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
-                                 Opened="ContextMenu_Opened">
-                      <MenuItem Header="启动虚拟机" Icon="{ui:SymbolIcon Play24}"
-                                Command="{Binding ViewModel.StartVirtualMachineCommand}" />
-                      <MenuItem Header="停止虚拟机" Icon="{ui:SymbolIcon Stop24}"
-                                Command="{Binding ViewModel.StopVirtualMachineCommand}" />
-                      <MenuItem Header="重启虚拟机" Icon="{ui:SymbolIcon ArrowCounterclockwise24}"
-                                Command="{Binding ViewModel.RestartVirtualMachineCommand}" />
+                    <ContextMenu
+                      DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
+                      Opened="ContextMenu_Opened"
+                    >
+                      <MenuItem
+                        Header="启动虚拟机"
+                        Icon="{ui:SymbolIcon Play24}"
+                        Command="{Binding ViewModel.StartVirtualMachineCommand}"
+                      />
+                      <MenuItem
+                        Header="停止虚拟机"
+                        Icon="{ui:SymbolIcon Stop24}"
+                        Command="{Binding ViewModel.StopVirtualMachineCommand}"
+                      />
+                      <MenuItem
+                        Header="重启虚拟机"
+                        Icon="{ui:SymbolIcon ArrowCounterclockwise24}"
+                        Command="{Binding ViewModel.RestartVirtualMachineCommand}"
+                      />
                       <Separator />
-                      <MenuItem Header="暂停虚拟机" Icon="{ui:SymbolIcon Pause24}"
-                                Command="{Binding ViewModel.PauseVirtualMachineCommand}" />
-                      <MenuItem Header="恢复虚拟机" Icon="{ui:SymbolIcon PlayCircle24}"
-                                Command="{Binding ViewModel.ResumeVirtualMachineCommand}" />
+                      <MenuItem
+                        Header="暂停虚拟机"
+                        Icon="{ui:SymbolIcon Pause24}"
+                        Command="{Binding ViewModel.PauseVirtualMachineCommand}"
+                      />
+                      <MenuItem
+                        Header="恢复虚拟机"
+                        Icon="{ui:SymbolIcon PlayCircle24}"
+                        Command="{Binding ViewModel.ResumeVirtualMachineCommand}"
+                      />
                       <Separator />
-                      <MenuItem Header="创建检查点" Icon="{ui:SymbolIcon Save24}"
-                                Command="{Binding ViewModel.CreateCheckpointCommand}" />
-                      <MenuItem Header="连接到虚拟机" Icon="{ui:SymbolIcon Desktop24}"
-                                Command="{Binding ViewModel.ConnectToVirtualMachineCommand}" />
+                      <MenuItem
+                        Header="创建检查点"
+                        Icon="{ui:SymbolIcon Save24}"
+                        Command="{Binding ViewModel.CreateCheckpointCommand}"
+                      />
+                      <MenuItem
+                        Header="连接到虚拟机"
+                        Icon="{ui:SymbolIcon Desktop24}"
+                        Command="{Binding ViewModel.ConnectToVirtualMachineCommand}"
+                      />
                       <Separator />
-                      <MenuItem Header="设置" Icon="{ui:SymbolIcon Settings24}"
-                                Command="{Binding ViewModel.ShowVirtualMachineSettingsCommand}" />
-                      <MenuItem Header="删除虚拟机" Icon="{ui:SymbolIcon Delete24}" Foreground="Red"
-                                Command="{Binding ViewModel.DeleteVirtualMachineCommand}" />
+                      <MenuItem
+                        Header="设置"
+                        Icon="{ui:SymbolIcon Settings24}"
+                        Command="{Binding ViewModel.ShowVirtualMachineSettingsCommand}"
+                      />
+                      <MenuItem
+                        Header="删除虚拟机"
+                        Icon="{ui:SymbolIcon Delete24}"
+                        Foreground="Red"
+                        Command="{Binding ViewModel.DeleteVirtualMachineCommand}"
+                      />
                       <Separator />
-                      <MenuItem Header="刷新列表" Icon="{ui:SymbolIcon ArrowClockwise24}"
-                                Command="{Binding ViewModel.RefreshCommand}" />
+                      <MenuItem
+                        Header="刷新列表"
+                        Icon="{ui:SymbolIcon ArrowClockwise24}"
+                        Command="{Binding ViewModel.RefreshCommand}"
+                      />
                     </ContextMenu>
                   </Border.ContextMenu>
-                  
                   <Grid>
                     <Grid.RowDefinitions>
                       <RowDefinition Height="Auto" />
                       <RowDefinition Height="*" />
                       <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    
                     <!-- 卡片头部 -->
                     <Grid Grid.Row="0">
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                       </Grid.ColumnDefinitions>
-                      
                       <!-- VM 名称 -->
-                      <TextBlock Grid.Column="0" Text="{Binding Name}" Style="{StaticResource CardHeaderStyle}" />
-                      
+                      <TextBlock
+                        Grid.Column="0"
+                        Text="{Binding Name}"
+                        Style="{StaticResource CardHeaderStyle}"
+                      />
                       <!-- 选择框 -->
-                      <CheckBox Grid.Column="1" IsChecked="{Binding IsSelected, Mode=TwoWay}" 
-                                VerticalAlignment="Top" Margin="0,2,0,0" />
+                      <CheckBox
+                        Grid.Column="1"
+                        IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                        VerticalAlignment="Top"
+                        Margin="0,2,0,0"
+                      />
                     </Grid>
-                    
                     <!-- 卡片内容 -->
                     <StackPanel Grid.Row="1">
-                      
                       <!-- 状态行 -->
                       <Grid Margin="0,0,0,12">
                         <Grid.ColumnDefinitions>
                           <ColumnDefinition Width="Auto" />
                           <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        
-                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                          <Border Style="{StaticResource StatusIndicatorStyle}"
-                                  Background="{Binding State, Converter={StaticResource VmStateToBrushConverter}}" />
+                        <StackPanel
+                          Grid.Column="0"
+                          Orientation="Horizontal"
+                          VerticalAlignment="Center"
+                        >
+                          <Border
+                            Style="{StaticResource StatusIndicatorStyle}"
+                            Background="{Binding State, Converter={StaticResource VmStateToBrushConverter}}"
+                          />
                           <TextBlock Text="状态：" Style="{StaticResource CardInfoLabelStyle}" />
                         </StackPanel>
-                        
-                        <TextBlock Grid.Column="1" 
-                                   Text="{Binding State, Converter={StaticResource VmStateToChineseConverter}}" 
-                                   Style="{StaticResource CardInfoValueStyle}" 
-                                   VerticalAlignment="Center" />
+                        <TextBlock
+                          Grid.Column="1"
+                          Text="{Binding State, Converter={StaticResource VmStateToChineseConverter}}"
+                          Style="{StaticResource CardInfoValueStyle}"
+                          VerticalAlignment="Center"
+                        />
                       </Grid>
-                      
                       <!-- 处理器信息 -->
                       <Grid Margin="0,0,0,12">
                         <Grid.ColumnDefinitions>
                           <ColumnDefinition Width="Auto" />
                           <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        
                         <StackPanel Grid.Column="0" Orientation="Horizontal">
-                          <TextBlock Text="🔧 处理器：" Style="{StaticResource CardInfoLabelStyle}" />
+                          <TextBlock
+                            Text="🔧 处理器："
+                            Style="{StaticResource CardInfoLabelStyle}"
+                          />
                         </StackPanel>
-                        
-                        <TextBlock Grid.Column="1" Text="{Binding ProcessorCount}" 
-                                   Style="{StaticResource CardInfoValueStyle}" />
+                        <TextBlock
+                          Grid.Column="1"
+                          Text="{Binding ProcessorCount}"
+                          Style="{StaticResource CardInfoValueStyle}"
+                        />
                       </Grid>
-                      
                       <!-- 内存信息 -->
                       <Grid Margin="0,0,0,12">
                         <Grid.ColumnDefinitions>
                           <ColumnDefinition Width="Auto" />
                           <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        
                         <StackPanel Grid.Column="0" Orientation="Horizontal">
                           <TextBlock Text="💾 内存：" Style="{StaticResource CardInfoLabelStyle}" />
                         </StackPanel>
-                        
-                        <TextBlock Grid.Column="1" 
-                                   Text="{Binding MemoryAssigned, Converter={StaticResource BytesToFormatConverter}}" 
-                                   Style="{StaticResource CardInfoValueStyle}" />
+                        <TextBlock
+                          Grid.Column="1"
+                          Text="{Binding MemoryAssigned, Converter={x:Static converters:ConverterInstance.BytesToFormat}}"
+                          Style="{StaticResource CardInfoValueStyle}"
+                        />
                       </Grid>
-                      
                       <!-- 动态内存 -->
                       <Grid Margin="0,0,0,12">
                         <Grid.ColumnDefinitions>
                           <ColumnDefinition Width="Auto" />
                           <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        
                         <StackPanel Grid.Column="0" Orientation="Horizontal">
-                          <TextBlock Text="⚡ 动态内存：" Style="{StaticResource CardInfoLabelStyle}" />
+                          <TextBlock
+                            Text="⚡ 动态内存："
+                            Style="{StaticResource CardInfoLabelStyle}"
+                          />
                         </StackPanel>
-                        
-                        <TextBlock Grid.Column="1" 
-                                   Text="{Binding DynamicMemoryEnabled, Converter={StaticResource BoolToStringConverter}, ConverterParameter=已启用|已禁用}" 
-                                   Style="{StaticResource CardInfoValueStyle}" />
+                        <TextBlock
+                          Grid.Column="1"
+                          Text="{Binding DynamicMemoryEnabled, Converter={x:Static converters:ConverterInstance.BoolToString}, ConverterParameter=已启用|已禁用}"
+                          Style="{StaticResource CardInfoValueStyle}"
+                        />
                       </Grid>
-                      
                       <!-- 创建时间 -->
                       <Grid>
                         <Grid.ColumnDefinitions>
                           <ColumnDefinition Width="Auto" />
                           <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        
                         <StackPanel Grid.Column="0" Orientation="Horizontal">
-                          <TextBlock Text="🕒 创建时间：" Style="{StaticResource CardInfoLabelStyle}" />
+                          <TextBlock
+                            Text="🕒 创建时间："
+                            Style="{StaticResource CardInfoLabelStyle}"
+                          />
                         </StackPanel>
-                        
-                        <TextBlock Grid.Column="1" 
-                                   Text="{Binding CreationTime, Converter={StaticResource DateTimeToStringConverter}}" 
-                                   Style="{StaticResource CardInfoValueStyle}" 
-                                   TextWrapping="Wrap" />
+                        <TextBlock
+                          Grid.Column="1"
+                          Text="{Binding CreationTime, Converter={x:Static converters:ConverterInstance.DateTimeToString}}"
+                          Style="{StaticResource CardInfoValueStyle}"
+                          TextWrapping="Wrap"
+                        />
                       </Grid>
-                      
                     </StackPanel>
-                    
                     <!-- 卡片底部操作按钮 -->
                     <Grid Grid.Row="2" Margin="0,12,0,0">
                       <Grid.ColumnDefinitions>
@@ -446,43 +525,50 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                       </Grid.ColumnDefinitions>
-                      
                       <!-- VM ID (小字体) -->
-                      <TextBlock Grid.Column="0" 
-                                 Text="{Binding Id}" 
-                                 FontSize="10" 
-                                 Foreground="{DynamicResource TextFillColorTertiaryBrush}" 
-                                 TextTrimming="CharacterEllipsis"
-                                 VerticalAlignment="Center"
-                                 ToolTip="{Binding Id}" />
-                      
+                      <TextBlock
+                        Grid.Column="0"
+                        Text="{Binding Id}"
+                        FontSize="10"
+                        Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                        TextTrimming="CharacterEllipsis"
+                        VerticalAlignment="Center"
+                        ToolTip="{Binding Id}"
+                      />
                       <!-- 快速操作按钮 -->
-                      <ui:Button Grid.Column="1" 
-                                 Icon="{ui:SymbolIcon Play24}" 
-                                 Appearance="Secondary"
-                                 Style="{StaticResource QuickActionButtonStyle}"
-                                 Width="32" Height="32"
-                                 Margin="4,0,0,0"
-                                 ToolTip="启动"
-                                 Click="StartButton_Click" />
-                      
-                      <ui:Button Grid.Column="2" 
-                                 Icon="{ui:SymbolIcon Stop24}" 
-                                 Appearance="Secondary"
-                                 Style="{StaticResource QuickActionButtonStyle}"
-                                 Width="32" Height="32"
-                                 Margin="4,0,0,0"
-                                 ToolTip="停止"
-                                 Click="StopButton_Click" />
-                      
-                      <ui:Button Grid.Column="3" 
-                                 Icon="{ui:SymbolIcon Desktop24}" 
-                                 Appearance="Secondary"
-                                 Style="{StaticResource QuickActionButtonStyle}"
-                                 Width="32" Height="32"
-                                 Margin="4,0,0,0"
-                                 ToolTip="连接"
-                                 Click="ConnectButton_Click" />
+                      <ui:Button
+                        Grid.Column="1"
+                        Icon="{ui:SymbolIcon Play24}"
+                        Appearance="Secondary"
+                        Style="{StaticResource QuickActionButtonStyle}"
+                        Width="32"
+                        Height="32"
+                        Margin="4,0,0,0"
+                        ToolTip="启动"
+                        Click="StartButton_Click"
+                      />
+                      <ui:Button
+                        Grid.Column="2"
+                        Icon="{ui:SymbolIcon Stop24}"
+                        Appearance="Secondary"
+                        Style="{StaticResource QuickActionButtonStyle}"
+                        Width="32"
+                        Height="32"
+                        Margin="4,0,0,0"
+                        ToolTip="停止"
+                        Click="StopButton_Click"
+                      />
+                      <ui:Button
+                        Grid.Column="3"
+                        Icon="{ui:SymbolIcon Desktop24}"
+                        Appearance="Secondary"
+                        Style="{StaticResource QuickActionButtonStyle}"
+                        Width="32"
+                        Height="32"
+                        Margin="4,0,0,0"
+                        ToolTip="连接"
+                        Click="ConnectButton_Click"
+                      />
                     </Grid>
                   </Grid>
                 </Border>
