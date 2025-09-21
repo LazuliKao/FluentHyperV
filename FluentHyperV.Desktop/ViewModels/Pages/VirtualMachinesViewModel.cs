@@ -5,17 +5,17 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Facet;
 using Facet.Mapping;
+using FluentHyperV.Desktop.Views.Pages;
 using FluentHyperV.HyperV;
 using Microsoft.HyperV.PowerShell;
-using Wpf.Ui.Abstractions.Controls;
-using FluentHyperV.Desktop.Views.Pages;
 using Wpf.Ui;
+using Wpf.Ui.Abstractions.Controls;
 
 namespace FluentHyperV.Desktop.ViewModels.Pages;
 
-[DependencyInjectionTransient]
+[DependencyInjectionTransientAttribute]
 [Facet(typeof(VirtualMachine))]
-public partial class VirtualMachineViewModel : ObservableObject 
+public partial class VirtualMachineViewModel : ObservableObject
 {
     [ObservableProperty]
     private bool _isSelected;
@@ -63,7 +63,7 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
     /// <summary>
     /// 获取所有选中的虚拟机
     /// </summary>
-    public IEnumerable<VirtualMachineViewModel> SelectedVirtualMachines => 
+    public IEnumerable<VirtualMachineViewModel> SelectedVirtualMachines =>
         VirtualMachines.Where(vm => vm.IsSelected);
 
     /// <summary>
@@ -135,7 +135,7 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
 
             // TODO: 实现启动虚拟机的逻辑
             await Task.Delay(1000); // 模拟操作
-            
+
             if (selectedVMs.Count == 1)
             {
                 StatusMessage = $"虚拟机 {selectedVMs[0].Name} 启动成功";
@@ -144,7 +144,7 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
             {
                 StatusMessage = $"{selectedVMs.Count} 台虚拟机启动成功";
             }
-            
+
             await LoadVirtualMachinesAsync(); // 刷新状态
         }
         catch (Exception ex)
@@ -170,10 +170,10 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
             {
                 StatusMessage = $"正在停止 {selectedVMs.Count} 台虚拟机...";
             }
-            
+
             // TODO: 实现停止虚拟机的逻辑
             await Task.Delay(1000); // 模拟操作
-            
+
             if (selectedVMs.Count == 1)
             {
                 StatusMessage = $"虚拟机 {selectedVMs[0].Name} 停止成功";
@@ -182,7 +182,7 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
             {
                 StatusMessage = $"{selectedVMs.Count} 台虚拟机停止成功";
             }
-            
+
             await LoadVirtualMachinesAsync(); // 刷新状态
         }
         catch (Exception ex)
@@ -208,10 +208,10 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
             {
                 StatusMessage = $"正在重启 {selectedVMs.Count} 台虚拟机...";
             }
-            
+
             // TODO: 实现重启虚拟机的逻辑
             await Task.Delay(1000); // 模拟操作
-            
+
             if (selectedVMs.Count == 1)
             {
                 StatusMessage = $"虚拟机 {selectedVMs[0].Name} 重启成功";
@@ -220,7 +220,7 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
             {
                 StatusMessage = $"{selectedVMs.Count} 台虚拟机重启成功";
             }
-            
+
             await LoadVirtualMachinesAsync(); // 刷新状态
         }
         catch (Exception ex)
@@ -332,10 +332,10 @@ public partial class VirtualMachinesViewModel : ObservableObject, INavigationAwa
         try
         {
             StatusMessage = $"正在打开虚拟机 {SelectedVirtualMachine.Name} 的设置...";
-            
+
             // 导航到设置页面
             _navigationService.Navigate(typeof(VirtualMachineSettingsPage));
-            
+
             StatusMessage = "已打开虚拟机设置";
         }
         catch (Exception ex)
