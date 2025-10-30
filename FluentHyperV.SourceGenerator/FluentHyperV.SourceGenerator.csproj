@@ -3,7 +3,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Nullable>enable</Nullable>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-    <LangVersion>13.0</LangVersion>
+    <LangVersion>12.0</LangVersion>
     <OutputItemType>Analyzer</OutputItemType>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <Nullable>enable</Nullable>
